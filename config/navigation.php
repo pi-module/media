@@ -61,6 +61,12 @@ return array(
                         'action'        => 'edit',
                         'visible'       => 0,
                     ),
+                    'attach'            => array(
+                        'label'         => _t('Attach new media'),
+                        'route'         => 'admin',
+                        'controller'    => 'list',
+                        'action'        => 'attach',
+                    ),
                 ),
             ),
             'application'       => array(

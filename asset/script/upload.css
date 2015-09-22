@@ -1,0 +1,87 @@
+/*carousel*/
+.upload-carousel-item,
+.upload-carousel-btn,
+.widget-module-item li {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.upload-carousel-btn {
+    height: 180px;
+
+}
+
+.fileinput-button {
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    border: 2px dashed #ccc;
+    background-color: #f2f2f2;
+    background-image: url('../image/plus.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.fileinput-button input {
+    opacity: 0;
+    filter: alpha(opacity=0);
+    top: 0;
+    right: 0;
+    height: 140px;
+    /* width: 200px; */
+    z-index: 1000;
+}
+
+.upload-carousel-item {
+    /* margin: 0 10px;
+    width: 200px; */
+    position: relative;
+}
+
+.upload-carousel-item-img {
+    text-align: center;
+    height: 64px;
+}
+
+.upload-carousel-item-img img {
+    text-align: center;
+    max-height: 64px;
+    max-width: 160px;
+}
+
+.upload-carousel-item .form-horizontal .control-label,
+.widget-tab-item.form-horizontal .control-label {
+    width: 40px;
+    font-size: 12px;
+}
+
+.upload-carousel-item .form-horizontal .controls,
+.widget-tab-item.form-horizontal .controls {
+    margin-left: 45px;
+}
+
+.upload-carousel-item .form-horizontal .control-group,
+.widget-tab-item.form-horizontal .control-group {
+    margin-bottom: 8px;
+}
+
+.upload-carousel-item .icon-remove-sign {
+    position: absolute;
+    right: 1px;
+    font-size: 16px;
+    color: #555;
+    top: -3px;
+    cursor: pointer;
+    float: none;
+}
+
+#progress {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    height: 18px;
+}
+
+.bar {
+    height: 15px;
+    background: green;
+}

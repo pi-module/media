@@ -764,4 +764,9 @@ class ListController extends ActionController
             'url'        => $url,
         ));
     }
+
+    public function attachAction()
+    {
+
+    }
 }
