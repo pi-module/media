@@ -5,6 +5,8 @@ CREATE TABLE `{doc}` (
   `url`          VARCHAR(255)        NOT NULL DEFAULT '',
   # Absolute path to access, optional; for uploaded doc only
   `path`         VARCHAR(255)        NOT NULL DEFAULT '',
+  # renamed file name
+  `name`         VARCHAR(255)        NOT NULL DEFAULT '',
   # filename, for download
   `filename`     VARCHAR(255)        NOT NULL DEFAULT '',
   # Encoded file attributes: mimetype, size, width, height, etc.

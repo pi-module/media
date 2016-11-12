@@ -23,7 +23,5 @@ return array(
         'stats'       => array(
             'title'       => _t('Statistics access'),
         ),
-        
-        //'custom'      => 'Module\Media\Api\Permission',
     ),
 );

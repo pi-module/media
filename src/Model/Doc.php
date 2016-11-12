@@ -23,11 +23,27 @@ class Doc extends Model
      * {@inheritDoc}
      */
     protected $columns = array(
-        'id', 'url', 'path', 'filename', 'attributes', 'size', 'mimetype',
-        'title', 'description',
-        'active', 'time_created', 'time_updated', 'time_deleted',
-        'appkey', 'module', 'type', 'token',
-        'uid', 'ip', 'count'
+        'id',
+        'url',
+        'path',
+        'name',
+        'filename',
+        'attributes',
+        'size',
+        'mimetype',
+        'title',
+        'description',
+        'active',
+        'time_created',
+        'time_updated',
+        'time_deleted',
+        'appkey',
+        'module',
+        'type',
+        'token',
+        'uid',
+        'ip',
+        'count',
     );
 
     /**

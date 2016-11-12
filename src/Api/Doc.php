@@ -191,8 +191,10 @@ class Doc extends AbstractApi
                 break;
         }
         if ($success) {
-            $params['url']  = $rootUri . '/' . $relativePath . '/' . $filename;
-            $params['path'] = $rootPath . '/' . $relativePath . '/' . $filename;
+            //$params['url']  = $rootUri . '/' . $relativePath . '/' . $filename;
+            //$params['path'] = $rootPath . '/' . $relativePath . '/' . $filename;
+            $params['url']  = Pi::url();
+            $params['path'] = 'upload/media' . '/' . $relativePath;
 
             $result = $this->add($params);
         } else {
@@ -400,7 +402,8 @@ class Doc extends AbstractApi
         $rowset = $model->selectWith($select);
         $result = array();
         foreach ($rowset as $row) {
-            $result[] = $row->toArray();
+            $result[$row->id] = $row->toArray();
+            $result[$row->id]['url'] = sprintf('%s/%s/%s', $row->url, $row->path , $row->name);
         }
 
         return $result;

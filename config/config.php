@@ -22,6 +22,10 @@ return array(
             'name'  => 'validator',
             'title' => _t('Validator'),
         ),
+        array(
+            'name'  => 'image',
+            'title' => _t('Image'),
+        ),
     ),
 
     'item' => array(
@@ -33,15 +37,6 @@ return array(
             'value'       => 20,
             'filter'      => 'int',
         ),
-            /*
-        'default_image'   => array(
-            'category'    => 'general',
-            'title'       => _t('Default media image'),
-            'description' => _t('Path to default media image.'),
-            'value'       => 'image/default-image.png',
-        ),
-        */
-        
         // Media
         'extension'       => array(
             'category'    => 'validator',
@@ -56,19 +51,110 @@ return array(
             'value'       => 2048,
             'filter'      => 'int',
         ),
+        // Image
         'image_width'     => array(
-            'category'    => 'validator',
+            'category'    => 'image',
             'title'       => _t('Image width'),
             'description' => _t('Maximum image width for image files allowed to upload.'),
-            'value'       => 1000,
+            'value'       => 1600,
             'filter'      => 'int',
         ),
         'image_height'    => array(
-            'category'    => 'validator',
+            'category'    => 'image',
             'title'       => _t('Image height'),
             'description' => _t('Maximum image height for image files allowed to upload.'),
-            'value'       => 1000,
+            'value'       => 1600,
             'filter'      => 'int',
+        ),
+        'image_quality'   => array(
+            'category'    => 'image',
+            'title'       => _t('Image quality'),
+            'description' => _t('Between 0 to 100 and support both of JPG and PNG, default is 75'),
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 75
+        ),
+        'image_largeh'    => array(
+            'category'    => 'image',
+            'title'       => _t('Large Image height'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 1200
+        ),
+        'image_largew'    => array(
+            'category'    => 'image',
+            'title'       => _t('Large Image width'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 1200
+        ),
+        'image_mediumh'   => array(
+            'category'    => 'image',
+            'title'       => _t('Medium Image height'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 400
+        ),
+        'image_mediumw'   => array(
+            'category'    => 'image',
+            'title'       => _t('Medium Image width'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 400
+        ),
+        'image_thumbh'    => array(
+            'category'    => 'image',
+            'title'       => _t('Thumb Image height'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 200
+        ),
+        'image_thumbw'    => array(
+            'category'    => 'image',
+            'title'       => _t('Thumb Image width'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 200
+        ),
+        'image_watermark' => array(
+            'category'    => 'image',
+            'title'       => _t('Add Watermark'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 0
+        ),
+        'image_watermark_source' => array(
+            'category'    => 'image',
+            'title'       => _t('Watermark Image'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'string',
+            'value'       => ''
+        ),
+        'image_watermark_position' => array(
+            'title'       => _t('Watermark Position'),
+            'description' => '',
+            'filter'      => 'text',
+            'value'       => 'bottom-right',
+            'category'    => 'image',
+            'edit'                     => array(
+                'type'                 => 'select',
+                'options'              => array(
+                    'options'          => array(
+                        'top-left'     => _t('Top Left'),
+                        'top-right'    => _t('Top Right'),
+                        'bottom-left'  => _t('Bottom Left'),
+                        'bottom-right' => _t('Bottom Right'),
+                    ),
+                ),
+            ),
         ),
     ),
 );

@@ -228,3 +228,5 @@ $this->Backbone();
     new carouselListView;
     page.init();
 </script>
+<?php $options    = Pi::service('media')->getOption('local', 'options'); ?>
+<pre><?php print_r($options); ?></pre>
