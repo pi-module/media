@@ -110,6 +110,15 @@ return array(
                     'resource'  => 'stats',
                 ),
             ),
+            'test'              => array(
+                'label'         => _t('Test'),
+                'route'         => 'admin',
+                'controller'    => 'test',
+                'action'        => 'index',
+                'permission'    => array(
+                    'resource'  => 'test',
+                ),
+            ),
         ),
     ),
 );
