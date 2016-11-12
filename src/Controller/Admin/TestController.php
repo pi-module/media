@@ -11,11 +11,16 @@ namespace Module\Media\Controller\Admin;
 
 use Pi;
 use Pi\Mvc\Controller\ActionController;
+use Module\Media\Form\TestForm;
+use Module\Media\Form\TestFilter;
 
 class TestController extends ActionController
 {
-
     public function indexAction()
     {
+        $form = new TestForm();
+        $this->view()->assign(array(
+            'form'  => $form,
+        ));
     }
 }

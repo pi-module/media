@@ -23,9 +23,8 @@ class Media extends ZendButton
     public function getAttributes()
     {
         $this->Attributes = array(
-            'class' => 'btn btn-success btn-lg',
-            'data-toggle' => 'modal',
-            'data-target' => '#mediaManage',
+            'class' => 'btn btn-danger btn-sm image-manager',
+            'data-toggle' => 'button',
         );
         return $this->Attributes;
     }
