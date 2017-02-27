@@ -33,6 +33,10 @@ class ManageController extends ActionController
         // Get file type
         $file = $this->request->getFiles();
 
+        var_dump($_POST);
+        var_dump($_FILES);
+        var_dump('ééééé.jpg');die();
+
         // Get main module
         $from = $this->params('from');
         if(isset($from) && !empty($from)) {
@@ -53,6 +57,8 @@ class ManageController extends ActionController
         // Upload media
         $id = Pi::api('doc', 'media')->upload($params, 'POST');
 
+        $url = Pi::api('doc', 'media')->getUrl($id);
+
         // Check
         if (!$id) {
             $response = array(
@@ -63,16 +69,48 @@ class ManageController extends ActionController
             $response = array(
                 'status' => 1,
                 'message' => __('Media attach '),
-                'id' => '',
+                'id' => $id,
                 'title' => '',
                 'time_create' => '',
                 'type' => '',
                 'hits' => '',
                 'size' => '',
-                'preview' => '',
+                'preview' => $url,
             );
         }
 
         return $response;
+    }
+
+    /**
+     * Delete media resources
+     *
+     * @return ViewModel
+     * @throws \Exception
+     */
+    public function deleteAction()
+    {
+        $id     = $this->params('id', 0);
+
+        // Mark media as deleted
+        $this->getModel('doc')->update(
+            array('time_deleted' => time()),
+            array('id' => $id)
+        );
+
+        $response = array(
+            'status' => 1,
+            'message' => __('Media deleted'),
+            'id' => $id,
+            'title' => '',
+            'time_create' => '',
+            'type' => '',
+            'hits' => '',
+            'size' => '',
+            'preview' => '',
+        );
+
+        return $response;
+
     }
 }

@@ -104,7 +104,6 @@ class Stats extends AbstractApi
                 'identity' => '',
             );
             $row = array_merge($row, $user);
-            $row['url'] = Pi::user()->getUrl('profile', $row['uid']);
         }
         
         return $result;

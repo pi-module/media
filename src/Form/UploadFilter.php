@@ -12,7 +12,7 @@ namespace Module\Media\Form;
 use Pi;
 use Zend\InputFilter\InputFilter;
 
-class TestFilter extends InputFilter
+class UploadFilter extends InputFilter
 {
     public function __construct()
     {

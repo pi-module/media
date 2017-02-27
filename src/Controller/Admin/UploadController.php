@@ -11,14 +11,14 @@ namespace Module\Media\Controller\Admin;
 
 use Pi;
 use Pi\Mvc\Controller\ActionController;
-use Module\Media\Form\TestForm;
-use Module\Media\Form\TestFilter;
+use Module\Media\Form\UploadForm;
+use Module\Media\Form\UploadFilter;
 
-class TestController extends ActionController
+class UploadController extends ActionController
 {
     public function indexAction()
     {
-        $form = new TestForm();
+        $form = new UploadForm();
         $this->view()->assign(array(
             'form'  => $form,
         ));

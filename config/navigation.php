@@ -36,24 +36,6 @@ return array(
                         'controller'    => 'list',
                         'action'        => 'index',
                     ),
-                    'list-application'  => array(
-                        'label'         => _t('By Application'),
-                        'route'         => 'admin',
-                        'controller'    => 'list',
-                        'action'        => 'application',
-                    ),
-                    'type'              => array(
-                        'label'         => _t('By Type'),
-                        'route'         => 'admin',
-                        'controller'    => 'list',
-                        'action'        => 'type',
-                    ),
-                    'user'              => array(
-                        'label'         => _t('By User'),
-                        'route'         => 'admin',
-                        'controller'    => 'list',
-                        'action'        => 'user',
-                    ),
                     'edit'              => array(
                         'label'         => _t('Edit'),
                         'route'         => 'admin',
@@ -110,13 +92,13 @@ return array(
                     'resource'  => 'stats',
                 ),
             ),
-            'test'              => array(
-                'label'         => _t('Test'),
+            'upload'              => array(
+                'label'         => _t('Upload'),
                 'route'         => 'admin',
-                'controller'    => 'test',
+                'controller'    => 'upload',
                 'action'        => 'index',
                 'permission'    => array(
-                    'resource'  => 'test',
+                    'resource'  => 'upload',
                 ),
             ),
         ),

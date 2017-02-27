@@ -23,8 +23,8 @@ return array(
         'stats'       => array(
             'title'       => _t('Statistics access'),
         ),
-        'test'        => array(
-            'test'        => _t('Test'),
+        'upload'        => array(
+            'upload'        => _t('Upload'),
         ),
     ),
 );

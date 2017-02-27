@@ -12,10 +12,21 @@ namespace Module\Media\Form;
 use Pi;
 use Pi\Form\Form as BaseForm;
 
-class TestForm extends BaseForm
+class UploadForm extends BaseForm
 {
     public function init()
     {
+        $this->add(array(
+            'name' => 'title',
+            'options' => array(
+                'label' => __('Title'),
+            ),
+            'attributes' => array(
+                'type' => 'file',
+                'description' => '',
+            )
+        ));
+
         $this->add(array(
             'name' => 'image',
             'options' => array(
@@ -27,16 +38,16 @@ class TestForm extends BaseForm
             )
         ));
 
-        $this->add(array(
-            'name' => 'imageManager',
-            'type' => 'Module\Media\Form\Element\Media',
-            'options' => array(
-                'label' => __('Image manager'),
-            ),
-            'attributes' => array(
-                'link' => '',
-            ),
-        ));
+//        $this->add(array(
+//            'name' => 'imageManager',
+//            'type' => 'Module\Media\Form\Element\Media',
+//            'options' => array(
+//                'label' => __('Image manager'),
+//            ),
+//            'attributes' => array(
+//                'link' => '',
+//            ),
+//        ));
 
         $this->add(array(
             'name'       => 'submit',

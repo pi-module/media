@@ -27,17 +27,17 @@ class MediaEditForm extends BaseForm
         $this->add(array(
             'name'       => 'title',
             'options'    => array(
-                'label'     => __('Media Title'),
+                'label'     => __('Title'),
             ),
             'attributes' => array(
                 'type'      => 'text',
             ),
         ));
-        
+
         $this->add(array(
             'name'       => 'description',
             'options'    => array(
-                'label'     => __('Media Description'),
+                'label'     => __('Description'),
             ),
             'attributes' => array(
                 'type'      => 'textarea',
@@ -47,8 +47,19 @@ class MediaEditForm extends BaseForm
         ));
 
         $this->add(array(
-            'name'       => 'security',
-            'type'       => 'csrf',
+            'name'       => 'season',
+            'type'       => 'Select',
+            'options'    => array(
+                'label'     => __('Season'),
+                'value_options' => array(
+                    '' => __('Choose a season'),
+                    1 => __('Summer'),
+                    2 => __('Winter'),
+                ),
+            ),
+            'attributes' => array(
+                'type'      => 'select',
+            ),
         ));
 
         $this->add(array(

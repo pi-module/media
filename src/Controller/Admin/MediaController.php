@@ -9,6 +9,7 @@
 
 namespace Module\Media\Controller\Admin;
 
+use Pi;
 use Pi\Mvc\Controller\ActionController;
 use Module\Media\Form\MediaEditForm;
 use Module\Media\Form\MediaEditFilter;
@@ -62,6 +63,12 @@ class MediaController extends ActionController
         $rowMedia = $modelDoc->find($id);
         if ($rowMedia) {
             $rowMedia->assign($data);
+            $rowMedia->time_updated = time();
+
+            if($uid = Pi::user()->getId()){
+                $rowMedia->updated_by = $uid;
+            }
+
             $rowMedia->save();
         } else {
             $rowMedia = $modelDoc->createRow($data);
@@ -97,8 +104,6 @@ class MediaController extends ActionController
             $post = $this->request->getPost();
             $form->setData($post);
             $form->setInputFilter(new MediaEditFilter);
-            $columns = array('id', 'title', 'description');
-            $form->setValidationGroup($columns);
             if (!$form->isValid()) {
                 return $this->renderForm(
                     $form,

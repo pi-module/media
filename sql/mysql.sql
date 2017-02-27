@@ -1,44 +1,32 @@
 # Doc table
 CREATE TABLE `{doc}` (
-  `id`           INT(10) UNSIGNED    NOT NULL AUTO_INCREMENT,
-  # URL to access, required
-  `url`          VARCHAR(255)        NOT NULL DEFAULT '',
-  # Absolute path to access, optional; for uploaded doc only
+  `id` int(10) UNSIGNED NOT NULL,
   `path`         VARCHAR(255)        NOT NULL DEFAULT '',
-  # renamed file name
-  `name`         VARCHAR(255)        NOT NULL DEFAULT '',
-  # filename, for download
-  `filename`     VARCHAR(255)        NOT NULL DEFAULT '',
-  # Encoded file attributes: mimetype, size, width, height, etc.
-  `attributes`   TEXT,
-  `size`         INT(10) UNSIGNED    NOT NULL DEFAULT 0,
-  `mimetype`     VARCHAR(255)        NOT NULL DEFAULT '',
-  # Doc attributes
-  `title`        VARCHAR(255)        NOT NULL DEFAULT '',
-  `description`  VARCHAR(255)        NOT NULL DEFAULT '',
-  `active`       TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-  `time_created` INT(10) UNSIGNED    NOT NULL DEFAULT 0,
-  `time_updated` INT(10) UNSIGNED    NOT NULL DEFAULT 0,
-  `time_deleted` INT(10) UNSIGNED    NOT NULL DEFAULT 0,
-  # Application attributes
-  `appkey`       VARCHAR(64)         NOT NULL DEFAULT '',
-  `module`       VARCHAR(64)         NOT NULL DEFAULT '',
-  # Application type for doc
-  `type`         VARCHAR(64)         NOT NULL DEFAULT '',
-  # Token to identify a group of docs just in case
-  `token`        VARCHAR(64)         NOT NULL DEFAULT '',
-  # User attributes
-  `uid`          INT(10) UNSIGNED    NOT NULL DEFAULT 0,
-  `ip`           VARCHAR(64)         NOT NULL DEFAULT '',
-  # Usage stats
-  `count`        INT(10) UNSIGNED    NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  KEY `active` (`active`),
-  KEY `uid` (`uid`),
-  KEY `module` (`module`),
-  KEY `appkey` (`appkey`),
-  KEY `application` (`appkey`, `module`, `type`)
-);
+  `filename` varchar(255) NOT NULL DEFAULT '',
+  `attributes` text,
+  `mimetype` varchar(255) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(255) NOT NULL DEFAULT '',
+  `active` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `time_created` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `time_updated` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `time_deleted` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `appkey` varchar(64) NOT NULL DEFAULT '',
+  `uid` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `count` int(10) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `{doc}` ADD `season` TINYINT NULL AFTER `count`, ADD `updated_by` INT NULL AFTER `season`, ADD `license_type` VARCHAR(255) NULL AFTER `updated_by`, ADD `copyright` VARCHAR(255) NULL AFTER `license_type`, ADD `geoloc_latitude` FLOAT NULL AFTER `copyright`, ADD `geoloc_longitude` FLOAT NULL AFTER `geoloc_latitude`, ADD `cropping` TEXT NULL AFTER `geoloc_longitude`, ADD `featured` TINYINT NOT NULL AFTER `cropping`;
+
+ALTER TABLE `{doc}`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `active` (`active`),
+  ADD KEY `uid` (`uid`),
+  ADD KEY `appkey` (`appkey`),
+  ADD KEY `application` (`appkey`);
+
+ALTER TABLE `{doc}`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 # Extended meta for docs
 CREATE TABLE `{meta}` (

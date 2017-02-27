@@ -13,6 +13,7 @@ use Closure;
 use Pi;
 use Pi\Application\Api\AbstractApi;
 use Pi\File\Transfer\Upload;
+use Pi\Filter;
 
 class Doc extends AbstractApi
 {
@@ -117,17 +118,32 @@ class Doc extends AbstractApi
         @set_time_limit(0);
 
         $options    = Pi::service('media')->getOption('local', 'options');
-        $rootUri    = $options['root_uri'];
         $rootPath   = $options['root_path'];
-        $path       = $options['locator']['path'];
-        if ($path instanceof Closure) {
-            $relativePath = $path();
-        } else {
-            $relativePath = $path;
+
+        $filter = new Filter\Urlizer;
+        $slug = $filter($params['filename'], '-', true);
+
+        $firstChars = str_split(substr($slug, 0, 3));
+
+        $relativeDestination = '/original/' . implode('/', $firstChars) . '/';
+
+        $destination = $rootPath . $relativeDestination;
+
+        $finalPath = $destination . $slug;
+        $finalSlug = $slug;
+
+        $filenameBase = pathinfo($slug, PATHINFO_FILENAME);
+        $filenameExt = pathinfo($slug, PATHINFO_EXTENSION);
+
+        $i = 1;
+        while(is_file($finalPath)){
+            $finalSlug = $filenameBase . '-'. $i++ . '.' . $filenameExt;
+            $finalPath = $destination . $finalSlug;
         }
-        $destination = $rootPath . '/' . $relativePath;
+
         Pi::service('file')->mkdir($destination);
-        $rename = $options['locator']['file'];
+
+        $params['filename'] = $finalSlug;
 
         $success = false;
         switch (strtoupper($method)) {
@@ -135,7 +151,7 @@ class Doc extends AbstractApi
             case 'POST':
                 $uploader = new Upload(array(
                     'destination'   => $destination,
-                    'rename'        => $rename($params['filename']),
+                    'rename'        => $finalSlug,
                 ));
                 $maxSize = Pi::config(
                     'max_size',
@@ -166,8 +182,8 @@ class Doc extends AbstractApi
             // For remote put
             case 'PUT':
                 $putdata = fopen('php://input', 'r');
-                $filename = $rename($params['filename']);
-                $target = $destination  . '/' . $filename;
+                $filename = $finalSlug;
+                $target = $destination  . $filename;
                 $fp = fopen($target, 'w');
                 while ($data = fread($putdata, 1024)) {
                     fwrite($fp, $data);
@@ -180,8 +196,8 @@ class Doc extends AbstractApi
 
             // For local
             case 'MOVE':
-                $filename = $rename($params['filename']);
-                $target = $destination . '/' . $filename;
+                $filename = $finalSlug;
+                $target = $destination . $filename;
                 Pi::service('file')->copy($params['file'], $target);
                 unset($params['file']);
                 $success = true;
@@ -191,11 +207,7 @@ class Doc extends AbstractApi
                 break;
         }
         if ($success) {
-            //$params['url']  = $rootUri . '/' . $relativePath . '/' . $filename;
-            //$params['path'] = $rootPath . '/' . $relativePath . '/' . $filename;
-            $params['url']  = Pi::url();
-            $params['path'] = 'upload/media' . '/' . $relativePath;
-
+            $params['path'] = $relativeDestination;
             $result = $this->add($params);
         } else {
             $result = 0;
@@ -222,7 +234,13 @@ class Doc extends AbstractApi
             if (empty($data['time_updated'])) {
                 $data['time_updated'] = time();
             }
+
             $row->assign($data);
+
+            if($uid = Pi::user()->getId()){
+                $row->updated_by = $uid;
+            }
+
             $row->save();
 
             return true;
@@ -403,7 +421,6 @@ class Doc extends AbstractApi
         $result = array();
         foreach ($rowset as $row) {
             $result[$row->id] = $row->toArray();
-            $result[$row->id]['url'] = sprintf('%s/%s/%s', $row->url, $row->path , $row->name);
         }
 
         return $result;
@@ -430,9 +447,10 @@ class Doc extends AbstractApi
      */
     public function getUrl($id)
     {
-        $url = $this->get($id, 'url');
+        $path = $this->get($id, 'path');
+        $filename = $this->get($id, 'filename');
 
-        return $url;
+        return Pi::url('/upload/media' .$path . $filename);
     }
 
     /**

@@ -11,6 +11,13 @@ $this->jQuery(array(
 $this->js($this->assetModule('script/system-msg.js', 'system'));
 $this->Backbone();
 ?>
+
+<form action="http://local.envie-de-queyras.com/admin/media/manage/add" enctype="multipart/form-data" method="post">
+    <input type="text" name="text" />
+    <input type="file" name="filename" />
+    <button type="submit">ENVOYER</button>
+</form>
+
 <div class="clearfix">
     <h3><?php _e('Attach new media'); ?></h3>
     <div class="alert alert-success"><?php _e('You can add new media here and use it on all other modules'); ?></div>
@@ -35,7 +42,6 @@ $this->Backbone();
     </div>
 </div>
 <script id="temp-carousel" type="text/template">
-    <div class="">
         <div id="file-<%= data.id %>" class="well">
             <div class="upload-carousel-item-img"><img src="<%= data.preview %>" alt="<%= data.title %>"/></div>
             <p><%= data.title %></p>
@@ -43,7 +49,7 @@ $this->Backbone();
                     data-target="#info-attach-<%= data.id %>"><i
                     class="fa fa-eye-open fa fa-white"></i> <?php _e('PerView'); ?></button>
             <button type="button" class="remove-attach btn btn-danger btn-xs" data-toggle="button"
-                    data-link="<?php echo $this->url('', array('controller' => 'attach', 'action' => 'delete')); ?>id/<%= data.id %>"><i
+                    data-link="<?php echo $this->url('', array('controller' => 'manage', 'action' => 'delete')); ?>/id/<%= data.id %>"><i
                     class="fa fa-trash fa fa-white"></i> <?php _e('Delete'); ?></button>
         </div>
         <div class="modal fade" id="info-attach-<%= data.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -95,7 +101,6 @@ $this->Backbone();
                 </div>
             </div>
         </div>
-    </div>
 </script>
 <script type="text/javascript">
     var page = {
@@ -228,5 +233,3 @@ $this->Backbone();
     new carouselListView;
     page.init();
 </script>
-<?php $options    = Pi::service('media')->getOption('local', 'options'); ?>
-<pre><?php print_r($options); ?></pre>
