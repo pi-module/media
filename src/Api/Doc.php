@@ -120,6 +120,10 @@ class Doc extends AbstractApi
         $options    = Pi::service('media')->getOption('local', 'options');
         $rootPath   = $options['root_path'];
 
+        if (extension_loaded('intl') && !normalizer_is_normalized($params['filename'])) {
+            $params['filename'] = normalizer_normalize($params['filename']);
+        }
+
         $filter = new Filter\Urlizer;
         $slug = $filter($params['filename'], '-', true);
 

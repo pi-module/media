@@ -33,10 +33,6 @@ class ManageController extends ActionController
         // Get file type
         $file = $this->request->getFiles();
 
-        var_dump($_POST);
-        var_dump($_FILES);
-        var_dump('ééééé.jpg');die();
-
         // Get main module
         $from = $this->params('from');
         if(isset($from) && !empty($from)) {
