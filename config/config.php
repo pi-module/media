@@ -37,6 +37,13 @@ return array(
             'value'       => 20,
             'filter'      => 'int',
         ),
+        'license_values'      => array(
+            'category'    => 'general',
+            'title'       => _t('License values'),
+            'description' => _t('Pipe separated'),
+            'edit'        => 'text',
+            'value'       => '',
+        ),
         // Media
         'extension'       => array(
             'category'    => 'validator',
@@ -66,14 +73,6 @@ return array(
             'value'       => 1600,
             'filter'      => 'int',
         ),
-        'image_quality'   => array(
-            'category'    => 'image',
-            'title'       => _t('Image quality'),
-            'description' => _t('Between 0 to 100 and support both of JPG and PNG, default is 75'),
-            'edit'        => 'text',
-            'filter'      => 'number_int',
-            'value'       => 75
-        ),
         'image_largeh'    => array(
             'category'    => 'image',
             'title'       => _t('Large Image height'),
@@ -90,37 +89,13 @@ return array(
             'filter'      => 'number_int',
             'value'       => 1200
         ),
-        'image_mediumh'   => array(
+        'image_quality'   => array(
             'category'    => 'image',
-            'title'       => _t('Medium Image height'),
-            'description' => '',
+            'title'       => _t('Image quality'),
+            'description' => _t('Between 0 to 100 and support both of JPG and PNG, default is 75'),
             'edit'        => 'text',
             'filter'      => 'number_int',
-            'value'       => 400
-        ),
-        'image_mediumw'   => array(
-            'category'    => 'image',
-            'title'       => _t('Medium Image width'),
-            'description' => '',
-            'edit'        => 'text',
-            'filter'      => 'number_int',
-            'value'       => 400
-        ),
-        'image_thumbh'    => array(
-            'category'    => 'image',
-            'title'       => _t('Thumb Image height'),
-            'description' => '',
-            'edit'        => 'text',
-            'filter'      => 'number_int',
-            'value'       => 200
-        ),
-        'image_thumbw'    => array(
-            'category'    => 'image',
-            'title'       => _t('Thumb Image width'),
-            'description' => '',
-            'edit'        => 'text',
-            'filter'      => 'number_int',
-            'value'       => 200
+            'value'       => 75
         ),
         'image_watermark' => array(
             'category'    => 'image',

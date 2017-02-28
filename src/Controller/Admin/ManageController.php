@@ -51,27 +51,25 @@ class ManageController extends ActionController
         $params['ip'] = Pi::user()->getIp();
 
         // Upload media
-        $id = Pi::api('doc', 'media')->upload($params, 'POST');
-
-        $url = Pi::api('doc', 'media')->getUrl($id);
+        $response = Pi::api('doc', 'media')->upload($params, 'POST');
 
         // Check
-        if (!$id) {
+        if (!isset($response['id']) || !$response['id']) {
             $response = array(
                 'status'    => 0,
-                'message'   => __('Operation failed.')
+                'message'   => implode(' - ', $response['upload_errors'])
             );
         } else {
             $response = array(
                 'status' => 1,
                 'message' => __('Media attach '),
-                'id' => $id,
+                'id' => $response['id'],
                 'title' => '',
                 'time_create' => '',
                 'type' => '',
                 'hits' => '',
                 'size' => '',
-                'preview' => $url,
+                'preview' => Pi::api('doc', 'media')->getUrl($response['id']),
             );
         }
 

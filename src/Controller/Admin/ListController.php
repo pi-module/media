@@ -190,4 +190,36 @@ class ListController extends ActionController
     {
 
     }
+
+    public function updatecropAction()
+    {
+        // Get id
+        $id = $this->params('id');
+        $cropping = $this->params('cropping');
+
+        if (empty($id)) {
+            die('ID is missing');
+        }
+
+        if (empty($cropping)) {
+            die('Cropping data is missing');
+        }
+
+        $row = $this->getModel('doc')->find($id);
+
+        if($row){
+            $imageToProcess = ($cropping != $row['cropping']) ? true : false;
+
+            $row->cropping = $cropping;
+            $row->save();
+        } else {
+            die('Entity is missing');
+        }
+
+        if(Pi::service()->hasService('log')){
+            Pi::service()->getService('log')->mute(true);
+        }
+
+        return $this->getResponse();
+    }
 }

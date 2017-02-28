@@ -150,71 +150,54 @@ class Doc extends AbstractApi
         $params['filename'] = $finalSlug;
 
         $success = false;
-        switch (strtoupper($method)) {
-            // For remote post
-            case 'POST':
-                $uploader = new Upload(array(
-                    'destination'   => $destination,
-                    'rename'        => $finalSlug,
-                ));
-                $maxSize = Pi::config(
-                    'max_size',
-                    $this->module
-                );
-                if ($maxSize) {
-                    $uploader->setSize($maxSize * 1024);
-                }
-                $result = $uploader->isValid();
-                if ($result) {
-                    $uploader->receive();
-                    $filename = $uploader->getUploaded();
-                    if (is_array($filename)) {
-                        $filename = current($filename);
-                    }
-                    // Fetch file attributes
-                    $fileinfoList = $uploader->getFileInfo();
-                    $fileinfo = current($fileinfoList);
-                    if (!isset($params['mimetype'])) {
-                        $params['mimetype'] = $fileinfo['type'];
-                    }
-                    if (!isset($params['size'])) {
-                        $params['size'] = $fileinfo['size'];
-                    }
-                    $success = true;
-                }
-                break;
-            // For remote put
-            case 'PUT':
-                $putdata = fopen('php://input', 'r');
-                $filename = $finalSlug;
-                $target = $destination  . $filename;
-                $fp = fopen($target, 'w');
-                while ($data = fread($putdata, 1024)) {
-                    fwrite($fp, $data);
-                }
-                fclose($fp);
-                fclose($putdata);
 
-                $success = true;
-                break;
-
-            // For local
-            case 'MOVE':
-                $filename = $finalSlug;
-                $target = $destination . $filename;
-                Pi::service('file')->copy($params['file'], $target);
-                unset($params['file']);
-                $success = true;
-                break;
-
-            default:
-                break;
+        $uploader = new Upload(array(
+            'destination'   => $destination,
+            'rename'        => $finalSlug,
+        ));
+        $maxSize = Pi::config(
+            'max_size',
+            $this->module
+        );
+        if ($maxSize) {
+            $uploader->setSize($maxSize * 1024);
         }
+
+        $extensions = Pi::config(
+            'extension',
+            $this->module
+        );
+
+        if($extensions && $extArray = explode(',', $extensions)){
+            $uploader->setExtension($extArray);
+        }
+
+        $result = $uploader->isValid();
+        if ($result) {
+            $uploader->receive();
+            $filename = $uploader->getUploaded();
+            if (is_array($filename)) {
+                $filename = current($filename);
+            }
+            // Fetch file attributes
+            $fileinfoList = $uploader->getFileInfo();
+            $fileinfo = current($fileinfoList);
+            if (!isset($params['mimetype'])) {
+                $params['mimetype'] = $fileinfo['type'];
+            }
+            if (!isset($params['size'])) {
+                $params['size'] = $fileinfo['size'];
+            }
+            $success = true;
+        }
+
         if ($success) {
             $params['path'] = $relativeDestination;
-            $result = $this->add($params);
+            $params['id'] = $this->add($params);
+            $result = $params;
         } else {
-            $result = 0;
+            $params['upload_errors'] = $uploader->getMessages();
+            $result = $params;
         }
 
         return $result;
@@ -237,6 +220,16 @@ class Doc extends AbstractApi
             }
             if (empty($data['time_updated'])) {
                 $data['time_updated'] = time();
+            }
+
+            if (isset($data['active']) && $data['active'] != $row->active) {
+                if($data['active'] == 2){
+                    $data['time_deleted'] = time();
+                }
+
+                if($data['active'] != 2){
+                    $data['time_deleted'] = '';
+                }
             }
 
             $row->assign($data);

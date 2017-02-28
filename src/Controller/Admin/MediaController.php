@@ -11,7 +11,7 @@ namespace Module\Media\Controller\Admin;
 
 use Pi;
 use Pi\Mvc\Controller\ActionController;
-use Module\Media\Form\MediaEditForm;
+use Module\Media\Form\MediaEditFullForm;
 use Module\Media\Form\MediaEditFilter;
 
 /**
@@ -27,15 +27,15 @@ class MediaController extends ActionController
      * @param string  $action  Action to request when submit
      * @return \Module\Media\Form\MediaEditForm 
      */
-    protected function getMediaForm($action = 'edit')
+    protected function getMediaForm($action = 'edit', $options = array())
     {
-        $form = new MediaEditForm();
+        $form = new MediaEditFullForm('media', $options);
         $form->setAttribute('action', $this->url('', array('action' => $action)));
 
         return $form;
     }
     
-    /**
+    /**e
      * Render form
      * 
      * @param Zend\Form\Form $form     Form instance
@@ -92,7 +92,7 @@ class MediaController extends ActionController
             return;
         }
         
-        $form = $this->getMediaForm('edit');
+        $form = $this->getMediaForm('edit', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($row->id)));
         $form->setData($row->toArray());
         
         $this->view()->assign(array(
@@ -153,6 +153,44 @@ class MediaController extends ActionController
             array('id' => $ids)
         );
         
+        // Go to list page or original page
+        if ($from) {
+            $from = urldecode($from);
+            return $this->redirect()->toUrl($from);
+        } else {
+            return $this->redirect()->toRoute(
+                '',
+                array(
+                    'controller' => 'list',
+                    'action'     => 'index',
+                )
+            );
+        }
+    }
+
+    /**
+     * Undelete media resources
+     *
+     * @return ViewModel
+     * @throws \Exception
+     */
+    public function undeleteAction()
+    {
+        $from   = $this->params('redirect', '');
+
+        $id     = $this->params('id', 0);
+        $ids    = array_filter(explode(',', $id));
+
+        if (empty($ids)) {
+            throw new \Exception(_a('Invalid media ID'));
+        }
+
+        // Mark media as deleted
+        $this->getModel('doc')->update(
+            array('time_deleted' => null),
+            array('id' => $ids)
+        );
+
         // Go to list page or original page
         if ($from) {
             $from = urldecode($from);

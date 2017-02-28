@@ -19,6 +19,14 @@ use Pi\Form\Form as BaseForm;
  */ 
 class MediaEditForm extends BaseForm
 {
+    public function __construct($name = null, $option = array())
+    {
+        $module = Pi::service('module')->current();
+        $this->config = Pi::service('registry')->config->read($module);
+        $this->thumbUrl = (isset($option['thumbUrl'])) ? $option['thumbUrl'] : '';
+        parent::__construct($name);
+    }
+
     /**
      * Initalizing form 
      */
@@ -45,6 +53,27 @@ class MediaEditForm extends BaseForm
                 'rows'      => 5,
             ),
         ));
+
+        if($this->thumbUrl){
+            $this->add(array(
+                'name' => 'imageview',
+                'type' => 'Module\Media\Form\Element\ImageCrop', // Zend\Form\Element\Image
+                'options' => array(
+                    'label' => __('Uploaded image'),
+                ),
+                'attributes' => array(
+                    'src' => $this->thumbUrl,
+                ),
+            ));
+
+            $this->add(array(
+                'name' => 'cropping',
+                'type' => 'text',
+                'options' => array(
+                    'label' => __('Cropping data'),
+                ),
+            ));
+        }
 
         $this->add(array(
             'name'       => 'season',

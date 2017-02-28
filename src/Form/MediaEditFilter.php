@@ -45,6 +45,11 @@ class MediaEditFilter extends InputFilter
         ));
 
         $this->add(array(
+            'name'     => 'season',
+            'required' => false,
+        ));
+
+        $this->add(array(
             'name'     => 'id',
             'required' => true,
         ));

@@ -1,3 +1,4 @@
+
 <?php
 $this->css(array(
     $this->assetModule('script/admin.css', 'media'),
@@ -11,6 +12,9 @@ $this->jQuery(array(
 $this->js($this->assetModule('script/system-msg.js', 'system'));
 $this->Backbone();
 ?>
+
+
+
 
 <div class="clearfix">
     <h3><?php _e('Attach new media'); ?></h3>
@@ -37,65 +41,18 @@ $this->Backbone();
 </div>
 <script id="temp-carousel" type="text/template">
         <div id="file-<%= data.id %>" class="well">
-            <div class="upload-carousel-item-img"><img src="<%= data.preview %>" alt="<%= data.title %>"/></div>
+            <div class="upload-carousel-item-img"><img id="imageview_<%= data.id %>" class="imageview attachement" data-rel="cropping_<%= data.id %>" src="<%= data.preview %>" alt="<%= data.title %>"/></div>
+            <input data-id="<%= data.id %>" class="cropping ajaxUpdate" type="hidden" name="cropping_<%= data.id %>" value='<%= data.cropping %>' />
             <p><%= data.title %></p>
-            <button type="button" class="info-attach btn btn-info btn-xs" data-toggle="modal"
-                    data-target="#info-attach-<%= data.id %>"><i
-                    class="fa fa-eye-open fa fa-white"></i> <?php _e('PerView'); ?></button>
             <button type="button" class="remove-attach btn btn-danger btn-xs" data-toggle="button"
                     data-link="<?php echo $this->url('', array('controller' => 'manage', 'action' => 'delete')); ?>/id/<%= data.id %>"><i
                     class="fa fa-trash fa fa-white"></i> <?php _e('Delete'); ?></button>
         </div>
-        <div class="modal fade" id="info-attach-<%= data.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 id="myModalLabel"><%= data.title %></h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="pull-right">
-                            <div class="upload-carousel-item-img">
-                                <img class="img-thumbnail" src="<%= data.preview %>" alt="<%= data.title %>"/>
-                            </div>
-                            <br/>
-                        </div>
-                        <div class="mr10">
-                            <strong><?php _e('Id'); ?> </strong>
-                            <span> <%= data.id %> </span>
-                        </div>
-                        <div class="mr10">
-                            <strong><?php _e('Create'); ?> </strong>
-                            <span> <%= data.time_create %> </span>
-                        </div>
-                        <div class="mr10">
-                            <strong><?php _e('Type'); ?> </strong>
-                            <span> <%= data.type %> </span>
-                        </div>
-                        <div class="mr10">
-                            <strong><?php _e('Status'); ?> </strong>
-                            <span> <%= data.status %> </span>
-                        </div>
-                        <div class="mr10">
-                            <strong><?php _e('Hits'); ?> </strong>
-                            <span> <%= data.hits %> </span>
-                        </div>
-                        <div class="mr10">
-                            <strong><?php _e('Size'); ?> </strong>
-                            <span> <%= data.size %> </span>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a class="btn btn-primary btn-xs" href="<%= data.downloadUrl %>"><?php _e('Download'); ?></a>
-                        <a class="btn btn-primary btn-xs" href="<%= data.editUrl %>"><?php _e('Edit'); ?></a>
-                        <button class="btn btn-primary btn-xs" data-dismiss="modal"
-                                aria-hidden="true"><?php _e('Close'); ?></button>
-                    </div>
-                </div>
-            </div>
-        </div>
 </script>
+
+
+<?php include $this->template('admin/partial/crop'); ?>
+
 <script type="text/javascript">
     var page = {
         form: $("form#block"),
@@ -138,7 +95,7 @@ $this->Backbone();
                     if (result.status == 1) {
                         systemMessage.succ(result.message);
                         $('#info-attach-' + result.id).remove();
-                        $('#file-' + result.id).remove();
+                        $('#file-' + result.id).parent().remove();
                     } else {
                         systemMessage.fail(result.message);
                     }
@@ -152,6 +109,7 @@ $this->Backbone();
             carouselCollection.on("add", this.addOne, this);
             this.btn = this.$(".upload-carousel-btn");
             this.render();
+            parseCrop();
             this.fileupload();
         },
         fileupload: function () {
@@ -182,8 +140,10 @@ $this->Backbone();
                                 status: resp.status,
                                 hits: resp.hits,
                                 size: resp.size,
-                                preview: resp.preview,
+                                preview: resp.preview
                             });
+
+                            parseCrop();
                         } else {
                             alert(resp.message);
                         }
@@ -203,8 +163,10 @@ $this->Backbone();
                                 status: resp.status,
                                 hits: resp.hits,
                                 size: resp.size,
-                                preview: resp.preview,
+                                preview: resp.preview
                             });
+
+                            parseCrop();
                         } else {
                             alert(resp.message);
                         }

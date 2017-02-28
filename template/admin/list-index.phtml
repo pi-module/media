@@ -35,7 +35,6 @@
     <?php
         }
     ?>
-        <input type="button" name="download" class="btn disabled" value="<?php echo _a('Download'); ?>">
     </div>
     
     <div class="pi-media-list">
@@ -44,9 +43,10 @@
                 <tr>
                     <th style="width: 10px"></th>
                     <th style="width: 10px"><?php echo _a('ID'); ?></th>
+                    <th style="width: 10px"><?php echo _a('Status'); ?></th>
                     <th style="width: 20%;"><?php echo _a('Title'); ?></th>
                     <th style="width: 40px;"><?php echo _a('Mimetype'); ?></th>
-                    <th style="width: 60px;"><?php echo _a('Application'); ?></th>
+                    <th style="width: 40px;"><?php echo _a('User Id'); ?></th>
                     <th style="width: 80px;"><?php echo _a('Time') ?></th>
                 </tr>
                 <?php 
@@ -57,40 +57,41 @@
                     <td>
                         <input type="checkbox" value="<?php echo _escape($media['id']); ?>" class="check-one">
                     </td>
-                    <td><?php echo $this->escape($media['id']); ?></td>
+                    <td><?php echo $media['id']; ?></td>
                     <td>
-                        <?php echo $this->escape($media['title']); ?>
+                        <?php switch ($media['active']): case 0: ?>
+                            <span class="label label-default">Disabled</span>
+                        <?php break; case 1: ?>
+                            <span class="label label-success">Enabled</span>
+                        <?php break; case 2: ?>
+                            <span class="label label-warning">Soft deleted</span>
+                        <?php break; endswitch; ?>
+                    </td>
+                    <td>
+                        <?php echo $media['title']; ?>
                         <div class="row-actions one-action">
-                            <a href="<?php echo $this->url('', array(
+                            <a class="has-js-action" href="<?php echo $this->url('', array(
                                 'controller'    => 'media',
                                 'action'        => 'edit',
                                 'id'            => $media['id'],
                             )); ?>" data-value="edit"><?php echo _a('Edit'); ?></a> |
-                            <a href="javascript:void(0)" data-value="active" data-status="<?php echo $media['active'] ? 0 : 1 ?>">
-                                <?php echo $media['active'] ? _a('Disable') : _a('Enable'); ?>
-                            </a> |
-                            <a href="javascript:void(0)" data-value="delete">
-                                <?php echo _a('Delete'); ?>
-                            </a> |
-                            <a href="javascript:void(0)" data-value="download">
+
+                            <?php if($media['time_deleted']) : ?>
+                                <a class="has-js-action" href="javascript:void(0)" data-value="Undelete">
+                                    <?php echo _a('Undelete'); ?>
+                                </a> |
+                            <?php else: ?>
+                                <a class="has-js-action" href="javascript:void(0)" data-value="delete">
+                                    <?php echo _a('Delete'); ?>
+                                </a> |
+                            <?php endif; ?>
+                            <a href="<?php echo Pi::api('doc', 'media')->getUrl($media['id']) ?>" target="_blank">
                                 <?php echo _a('Download'); ?>
                             </a>
                         </div>
                     </td>
                     <td><?php echo $this->escape($media['mimetype']); ?></td>
-                    <td>
-                    <?php 
-                        if (isset($apps[$media['appkey']])) {
-                            echo _escape($apps[$media['appkey']]);
-                        } else {
-                    ?>
-                        <a href="<?php echo $this->url('', array('controller' => 'application', 'action' => 'add', 'appkey' => $media['appkey'])); ?>" title="<?php _e('Click to change application name'); ?>">
-                            <?php echo _escape($media['appkey']); ?>
-                        </a>
-                    <?php
-                        }
-                    ?>
-                    </td>
+                    <td><?php echo $media['uid'] ? Pi::user()->get($media['uid'], 'name') . ' ('.$media['uid'].')' : ''; ?></td>
                     <td><?php echo _date($media['time_created']); ?></td>
                 </tr>   
                 <?php } ?>
@@ -128,7 +129,7 @@
             this.$("[name=disable]").click(this.batchOperation);
             this.$("[name=delete]").click(this.batchOperation);
             this.$("[name=download]").click(this.batchOperation);
-            this.$(".one-action a").click(this.oneAction);
+            this.$(".one-action a.has-js-action").click(this.oneAction);
         },
         checkAll : function() {
             var flag = this.$(".check-all").prop("checked");
@@ -167,13 +168,10 @@
                         operation = name;
                     }
                     if ('active' == operation) {
-                        location.href = url + operation + "/id/" + id.join(",") + "/status/"
+                        location.href = url + "/" + operation + "/id/" + id.join(",") + "/status/"
                                       + flag + "?redirect=" + this.encodeUrl();
-                    } else if ('download' == operation) {
-                        url = "<?php echo $this->url('default', array('controller' => 'download', 'action' => 'index')) ?>";
-                        location.href = url + "?id=" + id + "&redirect=" + this.encodeUrl();
                     } else {
-                        location.href = url + operation + "/id/" + id.join(",") + "?redirect="
+                        location.href = url + "/" + operation + "/id/" + id.join(",") + "?redirect="
                                       + this.encodeUrl();
                     }
                 };
@@ -201,10 +199,8 @@
             var enableObj = this.$("[name=enable]");
             var disableObj = this.$("[name=disable]");
             var deleteObj = this.$("[name=delete]");
-            var downloadObj = this.$("[name=download]");
             if (this.$(".check-one:checked").length) {
                 deleteObj.removeClass("disabled");
-                downloadObj.removeClass("disabled");
                 if (enableObj) {
                     enableObj.removeClass("disabled");
                 }
@@ -213,7 +209,6 @@
                 }
             } else {
                 deleteObj.addClass("disabled");
-                downloadObj.addClass("disabled");
                 if (enableObj) {
                     enableObj.addClass("disabled");
                 }
@@ -232,14 +227,13 @@
                 if (confirm("<?php echo _a('Please make sure this resource is not in use!'); ?>")) {
                     location.href = url + "/delete?id=" + id + "&redirect=" + this.encodeUrl();
                 }
+            } else if (val == "undelete") {
+                location.href = url + "/undelete?id=" + id + "&redirect=" + this.encodeUrl();
             } else if ('active' == val) {
-                location.href = url + val + "?id=" + id + "&status=" 
+                location.href = url + "/" + val + "?id=" + id + "&status="
                               + status + "&redirect=" + this.encodeUrl();
-            } else if ('download' == val) {
-                url = "<?php echo $this->url('default', array('controller' => 'download', 'action' => 'index')) ?>";
-                location.href = url + "?id=" + id + "&redirect=" + this.encodeUrl();
             } else if ('edit' != val) {
-                location.href = url + val + "?id=" + id + "&redirect=" + this.encodeUrl();
+                location.href = url + "/" + val + "?id=" + id + "&redirect=" + this.encodeUrl();
             }
         },
         encodeUrl : function() {
