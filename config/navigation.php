@@ -92,13 +92,13 @@ return array(
                     'resource'  => 'stats',
                 ),
             ),
-            'upload'              => array(
-                'label'         => _t('Upload'),
+            'test'              => array(
+                'label'         => _t('Test'),
                 'route'         => 'admin',
-                'controller'    => 'upload',
+                'controller'    => 'test',
                 'action'        => 'index',
                 'permission'    => array(
-                    'resource'  => 'upload',
+                    'resource'  => 'test',
                 ),
             ),
         ),

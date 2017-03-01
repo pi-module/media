@@ -28,6 +28,9 @@ ALTER TABLE `{doc}`
 ALTER TABLE `{doc}`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
+# Test table
+CREATE TABLE `{test}` ( `id` INT NOT NULL AUTO_INCREMENT , `title` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
 # Extended meta for docs
 CREATE TABLE `{meta}` (
   `id`    INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,

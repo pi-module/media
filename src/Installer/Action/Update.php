@@ -38,10 +38,15 @@ class Update extends BasicUpdate
     {
         $moduleVersion = $e->getParam('version');
 
-        // Set item model
+        // Set doc model
         $docModel = Pi::model('doc', $this->module);
         $docTable = $docModel->getTable();
         $docAdapter = $docModel->getAdapter();
+
+        // Set test model
+        $testModel = Pi::model('test', $this->module);
+        $testTable = $testModel->getTable();
+        $testAdapter = $testModel->getAdapter();
 
         if (version_compare($moduleVersion, '1.0.4', '<')) {
 
@@ -89,7 +94,24 @@ SQL;
             }
         }
 
+        if (version_compare($moduleVersion, '1.0.6', '<')) {
 
+            $sql =<<<SQL
+CREATE TABLE %s ( `id` INT NOT NULL AUTO_INCREMENT , `title` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+SQL;
+
+            $sql = sprintf($sql, $testTable);
+            try {
+                $testAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table create query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+        }
             
         return true;
     }
