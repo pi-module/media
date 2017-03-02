@@ -110,7 +110,7 @@ class TestController extends ActionController
                 $data = $form->getData();
 
                 if($data['id']){
-                    Pi::api('test', $this->getModule())->update($data);
+                    Pi::api('test', $this->getModule())->update($data['id'], $data);
                 } else {
                     Pi::api('test', $this->getModule())->add($data);
                 }

@@ -25,6 +25,11 @@ class TestForm extends BaseForm
     public function init()
     {
         $this->add(array(
+            'name'       => 'id',
+            'type'      => 'hidden',
+        ));
+
+        $this->add(array(
             'name'       => 'title',
             'options'    => array(
                 'label'     => __('Application Title'),
@@ -38,7 +43,16 @@ class TestForm extends BaseForm
             'name' => 'main_image',
             'type' => 'Module\Media\Form\Element\Media',
             'options' => array(
-                'label' => __('Main image'),
+                'label' => __('Choose main image'),
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'additional_images',
+            'type' => 'Module\Media\Form\Element\Media',
+            'options' => array(
+                'label' => __('Choose additional images'),
+                'media_gallery' => true,
             ),
         ));
 

@@ -112,6 +112,25 @@ SQL;
                 return false;
             }
         }
+
+        if (version_compare($moduleVersion, '1.0.7', '<')) {
+
+            $sql =<<<SQL
+ALTER TABLE %s ADD `main_image` INT NULL AFTER `title`, ADD `additional_images` VARCHAR(255) NULL AFTER `main_image`;
+SQL;
+
+            $sql = sprintf($sql, $testTable);
+            try {
+                $testAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table create query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+        }
             
         return true;
     }

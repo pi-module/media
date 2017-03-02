@@ -29,7 +29,14 @@ ALTER TABLE `{doc}`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 # Test table
-CREATE TABLE `{test}` ( `id` INT NOT NULL AUTO_INCREMENT , `title` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `{test}` (
+    `id` INT NOT NULL AUTO_INCREMENT ,
+    `title` VARCHAR(255) NOT NULL ,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+ALTER TABLE `{test}` ADD `main_image` INT NULL AFTER `title`, ADD `additional_images` VARCHAR NULL AFTER `main_image`;
+
 
 # Extended meta for docs
 CREATE TABLE `{meta}` (

@@ -1,18 +1,23 @@
 <table class="table table-striped">
     <tbody>
     <tr>
+        <th style="width: 10px"></th>
         <th style="width: 10px"><?php echo _a('ID'); ?></th>
         <th style="width: 10px"><?php echo _a('Thumbnail'); ?></th>
         <th style="width: 10px"><?php echo _a('Status'); ?></th>
         <th style="width: 20%;"><?php echo _a('Title'); ?></th>
         <th style="width: 40px;"><?php echo _a('Mimetype'); ?></th>
         <th style="width: 80px;"><?php echo _a('Date') ?></th>
+        <th style="width: 120px;"><?php echo _a('Actions') ?></th>
     </tr>
     <?php
     foreach ($medias as $media) {
         $media['active'] = (int) $media['active'];
         ?>
-        <tr>
+        <tr data-media-id="<?php echo $media['id']; ?>">
+            <td class="checked-column">
+                <span class="glyphicon glyphicon-ok"></span>
+            </td>
             <td>
                 <?php echo $media['id']; ?>
             </td>
@@ -32,37 +37,38 @@
             </td>
             <td>
                 <?php echo $media['title']; ?>
-                <div class="row-actions one-action">
-                    <a href="<?php echo $this->url($section, array(
-                        'controller'    => 'modal',
-                        'action'        => 'edit',
-                        'id'            => $media['id'],
-                    )); ?>" data-value="edit"><?php echo _a('Edit'); ?></a> |
-
-                    <?php if($media['time_deleted']) : ?>
-                        <a href="<?php echo $this->url($section, array(
-                            'controller'    => 'modal',
-                            'action'        => 'undelete',
-                            'id'            => $media['id'],
-                        )); ?>" data-value="Undelete">
-                            <?php echo _a('Undelete'); ?>
-                        </a> |
-                    <?php else: ?>
-                        <a href="<?php echo $this->url($section, array(
-                            'controller'    => 'modal',
-                            'action'        => 'delete',
-                            'id'            => $media['id'],
-                        )); ?>" data-value="delete">
-                            <?php echo _a('Delete'); ?>
-                        </a> |
-                    <?php endif; ?>
-                    <a class="no-ajax" href="<?php echo Pi::api('doc', 'media')->getUrl($media['id']) ?>" target="_blank">
-                        <?php echo _a('Download'); ?>
-                    </a>
-                </div>
             </td>
             <td><?php echo $this->escape($media['mimetype']); ?></td>
             <td><?php echo _date($media['time_created']); ?></td>
+            <td>
+                <a class="btn btn-primary btn-xs" href="<?php echo $this->url($section, array(
+                    'controller'    => 'modal',
+                    'action'        => 'edit',
+                    'id'            => $media['id'],
+                )); ?>" data-value="edit"><?php echo _a('Edit'); ?></a>
+
+                <?php if($media['time_deleted']) : ?>
+                    <a class="btn btn-warning btn-xs" href="<?php echo $this->url($section, array(
+                        'controller'    => 'modal',
+                        'action'        => 'undelete',
+                        'id'            => $media['id'],
+                    )); ?>" data-value="Undelete">
+                        <?php echo _a('Undelete'); ?>
+                    </a>
+                <?php else: ?>
+                    <a class="btn btn-danger btn-xs" href="<?php echo $this->url($section, array(
+                        'controller'    => 'modal',
+                        'action'        => 'delete',
+                        'id'            => $media['id'],
+                    )); ?>" data-value="delete">
+                        <?php echo _a('Delete'); ?>
+                    </a>
+                <?php endif; ?>
+
+                <a class="no-ajax btn btn-default btn-xs" href="<?php echo Pi::api('doc', 'media')->getUrl($media['id']) ?>" target="_blank">
+                    <span class="glyphicon glyphicon-download"></span>
+                </a>
+            </td>
         </tr>
     <?php } ?>
 

@@ -1,0 +1,24 @@
+#media_gallery [data-media-id]:hover{
+    background-color:#efefef;
+    cursor:pointer;
+}
+
+#media_gallery [data-media-id].checked{
+    background-color:#e1f7df!important;
+}
+
+#media_gallery .checked-column
+{
+    vertical-align: middle!important;
+}
+
+#media_gallery .checked-column span
+{
+    color:green;
+    visibility:hidden;
+}
+
+#media_gallery [data-media-id].checked .checked-column span{
+    visibility:visible;
+}
+
