@@ -12,6 +12,7 @@ namespace Module\Media\Controller\Front;
 use Pi;
 use Pi\Mvc\Controller\ActionController;
 use Pi\Paginator\Paginator;
+use Zend\Db\Sql\Predicate\In;
 
 /**
  * Modal controller
@@ -74,6 +75,38 @@ class ModalController extends ActionController
             'medias'     => $resultset,
             'paginator'  => $paginator,
             'section'   => Pi::engine()->section() == 'admin' ? 'admin' : 'default',
+        ));
+
+        return Pi::service('view')->render($view->getViewModel());
+    }
+
+    /**
+     * List media
+     */
+    public function formlistAction()
+    {
+        if(Pi::service()->hasService('log')){
+            Pi::service()->getService('log')->mute(true);
+        }
+
+        $ids = $this->params('ids');
+
+        $where = array(
+          new In('id', explode(',', $ids))
+        );
+
+        // Get media list
+        $module = $this->getModule();
+        $resultset = Pi::api('doc', $module)->getList($where);
+
+        /* @var Pi\Mvc\Controller\Plugin\View $view */
+        $view = $this->view();
+
+        $view->setLayout('layout-content');
+        $view->setTemplate('modal-formlist');
+        $view->assign(array(
+            'title'      => _a('Resource List'),
+            'medias'     => $resultset,
         ));
 
         return Pi::service('view')->render($view->getViewModel());

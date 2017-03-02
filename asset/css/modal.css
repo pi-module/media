@@ -22,3 +22,18 @@
     visibility:visible;
 }
 
+.media-form-list ul{
+    padding:0;
+    margin:0;
+}
+
+.media-form-list li{
+    text-align: center;
+    vertical-align: middle;
+    display:inline-block;
+    width:100px;
+    height:100px;
+    background-color:whitesmoke;
+    margin:0 10px 10px 0;
+    line-height:100px;
+}

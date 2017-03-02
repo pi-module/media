@@ -28,6 +28,9 @@ class Media extends \Zend\Form\Element\Text
         $jsHelper = Pi::service('view')->gethelper('js');
         $jsHelper($assetHelper('js/dropzone.js'));
 
+        $jQueryHelper = Pi::service('view')->gethelper('jQuery');
+        $jQueryHelper('ui/jquery-ui.min.js');
+
         $cssHelper = Pi::service('view')->gethelper('css');
         $cssHelper($assetHelper('css/dropzone.css'));
         $cssHelper($assetHelper('css/modal.css'));
@@ -42,6 +45,12 @@ class Media extends \Zend\Form\Element\Text
             'module' => 'media',
             'controller' => 'modal',
             'action' => 'list',
+        ));
+
+        $formlistUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
+            'module' => 'media',
+            'controller' => 'modal',
+            'action' => 'formlist',
         ));
 
         $modalHtml = <<<HTML
@@ -89,10 +98,9 @@ class Media extends \Zend\Form\Element\Text
                 checkedMedia.push($(this).attr('data-media-id'));
             });
             
-            
-            $('[name="'+ inputName +'"]').val(checkedMedia.join());
+            $('[name="'+ inputName +'"]').val(checkedMedia.join()).change();
         });
-    })
+    });
     
     function loadList(){
         $.ajax({
@@ -122,7 +130,7 @@ class Media extends \Zend\Form\Element\Text
         
         $(this).attr('data-input-name', inputName);
         $(this).attr('data-media-gallery', mediaGallery);
-    })
+    });
     
     $( document ).on('click', '#media_gallery a:not(.no-ajax)', function(e){
         e.preventDefault();
@@ -144,6 +152,32 @@ class Media extends \Zend\Form\Element\Text
         $(this).toggleClass('checked');
     });
     
+    $(function() {
+        $( ".media-form-list" ).each(function(){
+            refreshFormList($(this));
+        });
+        
+        $('.media-input').change(function(){
+            var formListElement = $('.media-form-list[data-input-name='+$(this).attr('name')+']')
+            refreshFormList(formListElement);
+        });
+    });
+    
+    var refreshFormList = function(formList){       
+        var inputName = formList.attr('data-input-name');
+        var inputElement = $('[name='+inputName+']');
+        var inputValues = inputElement.val();
+        
+        if(inputValues){
+            $.ajax({
+                url: "{$formlistUrl}?ids=" + inputValues,
+                cache: false
+            }).done(function( html ) {
+                formList.html( html );
+                $( ".media-list-sortable" ).sortable().disableSelection();                
+            });
+        } 
+    };
 </script>
 HTML;
 
@@ -154,6 +188,12 @@ HTML;
 
         $description = <<<HTML
 <button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-gallery="{$isMediaGallery}" data-toggle="modal" type="button" data-target="#addMediaModal"><span class="glyphicon glyphicon-picture"></span> {$label}</button>
+<br /><br />
+<div class="media-form-list media-form-list-{$name}" data-input-name="{$name}" >
+    <ul id="sortable">
+        <li class="ui-state-default">?</li>
+    </ul>
+</div>
 HTML;
 
         $this->setLabel('');
@@ -163,6 +203,7 @@ HTML;
             $GLOBALS['isMediaModalLoaded'] = true;
         }
 
+        $this->attributes['class'] = 'media-input hide';
         $this->attributes['description'] = $description;
 
         return $this->attributes;
