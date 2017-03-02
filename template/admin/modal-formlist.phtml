@@ -1,7 +1,7 @@
 <ul class="media-list-sortable">
     <?php if(count($medias)) : ?>
         <?php foreach($medias as $media) : ?>
-            <li class="ui-state-default">
+            <li class="ui-state-default" data-media-id="<?php echo $media['id'] ?>">
                 <?php if($img = Pi::api('resize','media')->resize($media)->thumbcrop(100, 100)) : ?>
                     <img class="img-thumbnail" src="<?php echo $img ?>" />
                 <?php else : ?>

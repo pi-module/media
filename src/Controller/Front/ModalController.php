@@ -12,6 +12,7 @@ namespace Module\Media\Controller\Front;
 use Pi;
 use Pi\Mvc\Controller\ActionController;
 use Pi\Paginator\Paginator;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Predicate\In;
 
 /**
@@ -31,12 +32,6 @@ class ModalController extends ActionController
         }
 
         $where = array();
-        $params = array();
-
-        $page   = (int) $this->params('p', 1);
-        $limit  = 5;
-        $offset = ($page - 1) * $limit;
-
         $where['uid'] = Pi::user()->getId();
         $where['time_deleted'] = 0;
 
@@ -44,26 +39,13 @@ class ModalController extends ActionController
         $module = $this->getModule();
         $resultset = Pi::api('doc', $module)->getList(
             $where,
-            $limit,
-            $offset,
+            0,
+            0,
             'time_created DESC'
         );
 
         // Total count
         $totalCount = $this->getModel('doc')->count($where);
-
-        // Paginator
-        $paginator = Paginator::factory($totalCount, array(
-            'page' => $page,
-            'url_options'   => array(
-                'page_param' => 'p',
-                'params'     => array_filter(array_merge(array(
-                    'module'        => $this->getModule(),
-                    'controller'    => 'modal',
-                    'action'        => 'list',
-                ), $params)),
-            ),
-        ));
 
         /* @var Pi\Mvc\Controller\Plugin\View $view */
         $view = $this->view();
@@ -73,7 +55,6 @@ class ModalController extends ActionController
         $view->assign(array(
             'title'      => _a('Resource List'),
             'medias'     => $resultset,
-            'paginator'  => $paginator,
             'section'   => Pi::engine()->section() == 'admin' ? 'admin' : 'default',
         ));
 
@@ -92,12 +73,14 @@ class ModalController extends ActionController
         $ids = $this->params('ids');
 
         $where = array(
-          new In('id', explode(',', $ids))
+          new In('id', explode(',', $ids)),
         );
+
+        $order = array(new Expression('FIELD (id, '. $ids .')'));
 
         // Get media list
         $module = $this->getModule();
-        $resultset = Pi::api('doc', $module)->getList($where);
+        $resultset = Pi::api('doc', $module)->getList($where, 0, 0, $order);
 
         /* @var Pi\Mvc\Controller\Plugin\View $view */
         $view = $this->view();
@@ -128,6 +111,10 @@ class ModalController extends ActionController
                 $params['module'] = $from;
             } else {
                 $params['module'] = $this->getModule();
+            }
+
+            if (extension_loaded('intl') && !normalizer_is_normalized($file['file']['name'])) {
+                $file['file']['name'] = normalizer_normalize($file['file']['name']);
             }
 
             // Set params

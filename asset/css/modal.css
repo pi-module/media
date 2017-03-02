@@ -37,3 +37,7 @@
     margin:0 10px 10px 0;
     line-height:100px;
 }
+
+.ui-sortable li{
+    cursor: move;
+}

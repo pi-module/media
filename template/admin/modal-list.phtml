@@ -1,15 +1,14 @@
 <table class="table table-striped">
-    <tbody>
+    <thead>
     <tr>
         <th style="width: 10px"></th>
-        <th style="width: 10px"><?php echo _a('ID'); ?></th>
         <th style="width: 10px"><?php echo _a('Thumbnail'); ?></th>
-        <th style="width: 10px"><?php echo _a('Status'); ?></th>
-        <th style="width: 20%;"><?php echo _a('Title'); ?></th>
-        <th style="width: 40px;"><?php echo _a('Mimetype'); ?></th>
-        <th style="width: 80px;"><?php echo _a('Date') ?></th>
-        <th style="width: 120px;"><?php echo _a('Actions') ?></th>
+        <th><?php echo _a('Title'); ?></th>
+        <th><?php echo _a('Date'); ?></th>
+        <th style="width: 40px;"></th>
     </tr>
+    </thead>
+    <tbody>
     <?php
     foreach ($medias as $media) {
         $media['active'] = (int) $media['active'];
@@ -19,55 +18,25 @@
                 <span class="glyphicon glyphicon-ok"></span>
             </td>
             <td>
-                <?php echo $media['id']; ?>
-            </td>
-            <td>
                 <?php if($img = Pi::api('resize','media')->resize($media)->thumbcrop(100, 100)) : ?>
                     <img src="<?php echo $img ?>" />
                 <?php endif; ?>
             </td>
             <td>
-                <?php switch ($media['active']): case 0: ?>
-                    <span class="label label-default">Disabled</span>
-                    <?php break; case 1: ?>
-                    <span class="label label-success">Enabled</span>
-                    <?php break; case 2: ?>
-                    <span class="label label-warning">Soft deleted</span>
-                    <?php break; endswitch; ?>
-            </td>
-            <td>
                 <?php echo $media['title']; ?>
+                <?php if($media['title'] == 'ééééé.jpg') echo 'OK' ?>
             </td>
-            <td><?php echo $this->escape($media['mimetype']); ?></td>
             <td><?php echo _date($media['time_created']); ?></td>
             <td>
-                <a class="btn btn-primary btn-xs" href="<?php echo $this->url($section, array(
-                    'controller'    => 'modal',
-                    'action'        => 'edit',
-                    'id'            => $media['id'],
-                )); ?>" data-value="edit"><?php echo _a('Edit'); ?></a>
-
-                <?php if($media['time_deleted']) : ?>
-                    <a class="btn btn-warning btn-xs" href="<?php echo $this->url($section, array(
-                        'controller'    => 'modal',
-                        'action'        => 'undelete',
-                        'id'            => $media['id'],
-                    )); ?>" data-value="Undelete">
-                        <?php echo _a('Undelete'); ?>
-                    </a>
-                <?php else: ?>
-                    <a class="btn btn-danger btn-xs" href="<?php echo $this->url($section, array(
+                <?php if(!$media['time_deleted']) : ?>
+                    <a class="btn btn-danger btn-xs do-ajax" href="<?php echo $this->url($section, array(
                         'controller'    => 'modal',
                         'action'        => 'delete',
                         'id'            => $media['id'],
                     )); ?>" data-value="delete">
-                        <?php echo _a('Delete'); ?>
+                        <span class="glyphicon glyphicon-remove"></span>
                     </a>
                 <?php endif; ?>
-
-                <a class="no-ajax btn btn-default btn-xs" href="<?php echo Pi::api('doc', 'media')->getUrl($media['id']) ?>" target="_blank">
-                    <span class="glyphicon glyphicon-download"></span>
-                </a>
             </td>
         </tr>
     <?php } ?>
@@ -81,9 +50,3 @@
     <?php endif; ?>
     </tbody>
 </table>
-
-<?php
-if (count($medias) && $paginator) {
-    echo $this->paginationControl($paginator, 'Sliding', 'paginator.phtml');
-}
-?>

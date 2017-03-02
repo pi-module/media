@@ -43,7 +43,7 @@ class TestForm extends BaseForm
             'name' => 'main_image',
             'type' => 'Module\Media\Form\Element\Media',
             'options' => array(
-                'label' => __('Choose main image'),
+                'label' => __('Main image'),
             ),
         ));
 
@@ -51,7 +51,7 @@ class TestForm extends BaseForm
             'name' => 'additional_images',
             'type' => 'Module\Media\Form\Element\Media',
             'options' => array(
-                'label' => __('Choose additional images'),
+                'label' => __('Additional images'),
                 'media_gallery' => true,
             ),
         ));
@@ -59,7 +59,8 @@ class TestForm extends BaseForm
         $this->add(array(
             'name'       => 'submit',
             'attributes' => array(               
-                'value'     => __('Submit'),
+                'value'     => __('Save this test'),
+                'class'     => 'btn btn-primary',
             ),
             'type'       => 'submit',
         ));

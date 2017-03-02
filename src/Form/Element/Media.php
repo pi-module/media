@@ -24,15 +24,22 @@ class Media extends \Zend\Form\Element\Text
         $modalTitle = __("Media gallery");
         $saveBtnTitle = __("Add selected media");
 
+        $jQueryHelper = Pi::service('view')->gethelper('jQuery');
+        $jQueryHelper();
+        $jQueryHelper('ui/jquery-ui.min.js');
+
         $assetHelper = Pi::service('view')->gethelper('assetModule');
         $jsHelper = Pi::service('view')->gethelper('js');
         $jsHelper($assetHelper('js/dropzone.js'));
+        $jsHelper($assetHelper('js/jquery.dataTables.min.js'));
+        $jsHelper($assetHelper('js/dataTables.bootstrap.min.js'));
 
-        $jQueryHelper = Pi::service('view')->gethelper('jQuery');
-        $jQueryHelper('ui/jquery-ui.min.js');
+        $jsHelper($assetHelper('js/modal.js'));
 
         $cssHelper = Pi::service('view')->gethelper('css');
         $cssHelper($assetHelper('css/dropzone.css'));
+//        $cssHelper($assetHelper('css/jquery.dataTables.min.css'));
+        $cssHelper($assetHelper('css/dataTables.bootstrap.css'));
         $cssHelper($assetHelper('css/modal.css'));
 
         $uploadUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
@@ -77,126 +84,30 @@ class Media extends \Zend\Form\Element\Text
 </div>
 
 <script>
-    
-    Dropzone.autoDiscover = false;
-    
-    $(function() {
-        // Dropzone class:
-        var myDropzone = new Dropzone("#dropzone-media-form", { url: "{$uploadUrl}"});
-        
-        myDropzone.on("complete", function(file) {
-            loadList();
-        });
-        
-        $('#mediaModalSaveBtn').click(function(){
-            
-            var inputName = $('#addMediaModal').attr('data-input-name');
-            
-            var checkedMedia = [];
-            
-            $('[data-media-id].checked').each(function(){
-                checkedMedia.push($(this).attr('data-media-id'));
-            });
-            
-            $('[name="'+ inputName +'"]').val(checkedMedia.join()).change();
-        });
-    });
-    
-    function loadList(){
-        $.ajax({
-            url: "{$listUrl}",
-            cache: false
-        }).done(function( html ) {
-            $( "#media_gallery" ).html( html );  
-            
-            var inputName = $('#addMediaModal').attr('data-input-name');
-            var inputCurrentArray = $('[name="'+ inputName +'"]').val().split(",");
-        
-            inputCurrentArray.forEach(function(value){
-                $('[data-media-id="'+value+'"]').addClass('checked');
-            });
-        });
-    }
-    
-    $('#addMediaModal').on('show.bs.modal', function (event) {
-        $( "#media_gallery" ).html('');
-    }).on('shown.bs.modal', function (event) {
-        
-        loadList();
-        
-        var button = $(event.relatedTarget);
-        var inputName = button.attr('data-input-name');
-        var mediaGallery = button.attr('data-media-gallery');
-        
-        $(this).attr('data-input-name', inputName);
-        $(this).attr('data-media-gallery', mediaGallery);
-    });
-    
-    $( document ).on('click', '#media_gallery a:not(.no-ajax)', function(e){
-        e.preventDefault();
-        $.ajax({
-              url: $(this).attr('href'),
-              cache: false
-        }).done(function( html ) {
-            $( "#media_gallery" ).html( html );                                
-        });
-    });
-    
-    $( document ).on('click', '[data-media-id]', function(e){
-        e.preventDefault();
-        
-        if($("#addMediaModal").attr('data-media-gallery') == 0){
-            $('[data-media-id]').removeClass('checked');            
-        }
-        
-        $(this).toggleClass('checked');
-    });
-    
-    $(function() {
-        $( ".media-form-list" ).each(function(){
-            refreshFormList($(this));
-        });
-        
-        $('.media-input').change(function(){
-            var formListElement = $('.media-form-list[data-input-name='+$(this).attr('name')+']')
-            refreshFormList(formListElement);
-        });
-    });
-    
-    var refreshFormList = function(formList){       
-        var inputName = formList.attr('data-input-name');
-        var inputElement = $('[name='+inputName+']');
-        var inputValues = inputElement.val();
-        
-        if(inputValues){
-            $.ajax({
-                url: "{$formlistUrl}?ids=" + inputValues,
-                cache: false
-            }).done(function( html ) {
-                formList.html( html );
-                $( ".media-list-sortable" ).sortable().disableSelection();                
-            });
-        } 
-    };
+    var uploadUrl = "{$uploadUrl}";
+    var listUrl = "{$listUrl}";
+    var formlistUrl = "{$formlistUrl}";
 </script>
 HTML;
 
         $name = $this->getName();
         $label = $this->getLabel();
-
         $isMediaGallery = $this->getOption('media_gallery') ? 1 : 0;
 
         $description = <<<HTML
-<button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-gallery="{$isMediaGallery}" data-toggle="modal" type="button" data-target="#addMediaModal"><span class="glyphicon glyphicon-picture"></span> {$label}</button>
-<br /><br />
-<div class="media-form-list media-form-list-{$name}" data-input-name="{$name}" >
-    <ul id="sortable">
-        <li class="ui-state-default">?</li>
-    </ul>
+        
+<div class="panel panel-default">
+  <div class="panel-heading"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-gallery="{$isMediaGallery}" data-toggle="modal" type="button" data-target="#addMediaModal"><span class="glyphicon glyphicon-picture"></span> {$label}</button></div>
+  <div class="panel-body">
+    <div class="media-form-list media-form-list-{$name}" data-input-name="{$name}" >
+        <ul id="sortable">
+            <li class="ui-state-default">?</li>
+        </ul>
+    </div>
+    <p class="text-center small">fezfzfefez</p>
+  </div>
 </div>
 HTML;
-
-        $this->setLabel('');
 
         if(!isset($GLOBALS['isMediaModalLoaded'])){
             $description .= $modalHtml;

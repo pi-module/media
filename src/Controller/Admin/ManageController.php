@@ -41,6 +41,10 @@ class ManageController extends ActionController
             $params['module'] = $this->getModule();
         }
 
+        if (extension_loaded('intl') && !normalizer_is_normalized($file['file']['name'])) {
+            $file['file']['name'] = normalizer_normalize($file['file']['name']);
+        }
+
         // Set params
         $params['filename'] = $file['file']['name'];
         $params['title'] = $file['file']['name'];
