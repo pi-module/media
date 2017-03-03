@@ -37,6 +37,16 @@ CREATE TABLE `{test}` (
 
 ALTER TABLE `{test}` ADD `main_image` INT NULL AFTER `title`, ADD `additional_images` VARCHAR NULL AFTER `main_image`;
 
+# Link table
+CREATE TABLE `{link}` (
+    `id` INT NOT NULL AUTO_INCREMENT ,
+    `module` VARCHAR(20) NOT NULL ,
+    `object_name` VARCHAR(50) NOT NULL ,
+    `object_id` INT NOT NULL ,
+    `field` VARCHAR(50) NOT NULL ,
+    `media_id` INT NOT NULL ,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
 
 # Extended meta for docs
 CREATE TABLE `{meta}` (

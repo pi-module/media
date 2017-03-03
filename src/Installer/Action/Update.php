@@ -43,6 +43,11 @@ class Update extends BasicUpdate
         $docTable = $docModel->getTable();
         $docAdapter = $docModel->getAdapter();
 
+        // Set link model
+        $linkModel = Pi::model('link', $this->module);
+        $linkTable = $linkModel->getTable();
+        $linkAdapter = $linkModel->getAdapter();
+
         // Set test model
         $testModel = Pi::model('test', $this->module);
         $testTable = $testModel->getTable();
@@ -122,6 +127,33 @@ SQL;
             $sql = sprintf($sql, $testTable);
             try {
                 $testAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table create query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+        }
+
+        if (version_compare($moduleVersion, '1.0.8', '<')) {
+
+            $sql =<<<SQL
+CREATE TABLE %s (
+    `id` INT NOT NULL AUTO_INCREMENT ,
+    `module` VARCHAR(20) NOT NULL ,
+    `object_name` VARCHAR(50) NOT NULL ,
+    `object_id` INT NOT NULL ,
+    `field` VARCHAR(50) NOT NULL ,
+    `media_id` INT NOT NULL ,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+SQL;
+
+            $sql = sprintf($sql, $linkTable);
+            try {
+                $linkAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
                 $this->setResult('db', array(
                     'status' => false,

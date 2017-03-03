@@ -64,6 +64,7 @@ class Test extends AbstractApi
     public function update($id, array $data)
     {
         $row = $this->model()->find($id);
+
         if ($row) {
             if (array_key_exists('id', $data)) {
                 unset($data['id']);
