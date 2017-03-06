@@ -9,6 +9,7 @@
 
 namespace Module\Media\Controller\Front;
 
+use Module\Media\Form\MediaEditForm;
 use Pi\Mvc\Controller\ActionController;
 use Pi\Paginator\Paginator;
 use Pi;
@@ -491,7 +492,11 @@ class ListController extends ActionController
      */
     protected function getMediaForm($action = 'edit', $options = array())
     {
-        $form = new MediaEditFullForm('media', $options);
+        if(Pi::engine()->section() == 'admin'){
+            $form = new MediaEditFullForm('media', $options);
+        } else {
+            $form = new MediaEditForm('media', $options);
+        }
         $form->setAttribute('action', $this->url('', array('action' => $action)));
 
         return $form;

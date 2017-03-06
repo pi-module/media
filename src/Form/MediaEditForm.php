@@ -81,7 +81,7 @@ class MediaEditForm extends BaseForm
 
             $this->add(array(
                 'name' => 'cropping',
-                'type' => 'text',
+                'type' => 'hidden',
                 'options' => array(
                     'label' => __('Cropping data'),
                 ),
