@@ -1,0 +1,4 @@
+<?php if (!isset($sideActive) || empty($sideActive)) {
+    $sideActive = 'dashboard';
+} ?>
+<?php include $this->templateModule('front/user-profile-sidebar.phtml', 'user'); ?>

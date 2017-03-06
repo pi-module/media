@@ -173,6 +173,8 @@ class ListController extends ActionController
                 )),
             ),
         );
+
+        $this->view()->setTemplate('../front/list-index');
         
         $this->view()->assign(array(
             'title'      => _a('Resource List'),
@@ -190,7 +192,7 @@ class ListController extends ActionController
 
     public function attachAction()
     {
-
+        $this->view()->setTemplate('../front/list-attach');
     }
 
     public function updatecropAction()
@@ -335,6 +337,8 @@ class ListController extends ActionController
      */
     public function editAction()
     {
+        $this->view()->setTemplate('../front/list-edit');
+
         $id   = $this->params('id', 0);
         $row  = $this->getModel('doc')->find($id);
         if (!$row) {
