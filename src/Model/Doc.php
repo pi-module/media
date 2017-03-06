@@ -22,6 +22,11 @@ class Doc extends Model
     /**
      * {@inheritDoc}
      */
+    protected $rowClass = 'Module\Media\Model\Doc\RowGateway';
+
+    /**
+     * {@inheritDoc}
+     */
     protected $columns = array(
         'id',
         'path',

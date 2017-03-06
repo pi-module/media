@@ -570,4 +570,19 @@ class Doc extends AbstractApi
 
         return false;
     }
+
+    /**
+     * @param \Pi\Db\RowGateway\RowGateway $media
+     */
+    public function removeImageCache($media){
+        if(!empty($media->id)){
+            $path = 'upload/media' . $media->path . $media->filename;
+            $path = str_replace('upload/media/original', '', $path);
+
+            $pattern = 'upload/media/processed/*' . $path;
+            foreach (glob($pattern) as $filename) {
+                unlink($filename);
+            }
+        }
+    }
 }
