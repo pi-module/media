@@ -113,7 +113,7 @@ class Doc extends AbstractApi
      *
      * @return int doc id
      */
-    public function upload(array $params, $method = 'POST')
+    public function upload(array $params, $currentId = null)
     {
         @ignore_user_abort(true);
         @set_time_limit(0);
@@ -194,7 +194,8 @@ class Doc extends AbstractApi
 
         if ($success) {
             $params['path'] = $relativeDestination;
-            $params['id'] = $this->add($params);
+            $params['filename'] = $finalSlug;
+            $params['id'] = $currentId ?: $this->add($params);
             $result = $params;
         } else {
             $params['upload_errors'] = $uploader->getMessages();

@@ -32,6 +32,9 @@ class MediaEditForm extends BaseForm
      */
     public function init()
     {
+
+        $this->setAttribute("enctype", "multipart/form-data");
+
         $this->add(array(
             'name'       => 'title',
             'options'    => array(
@@ -51,6 +54,16 @@ class MediaEditForm extends BaseForm
                 'type'      => 'textarea',
                 'cols'      => 10,
                 'rows'      => 5,
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'file',
+            'options' => array(
+                'label' => __($this->thumbUrl ? "Change file" : "File"),
+            ),
+            'attributes' => array(
+                'type' => 'file',
             ),
         ));
 

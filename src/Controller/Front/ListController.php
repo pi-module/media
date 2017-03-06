@@ -23,6 +23,8 @@ use Zend\View\Model\ViewModel;
  */
 class ListController extends ActionController
 {
+    var $currentId = null;
+
     /**
      * Get application title by appkey
      * 
@@ -255,10 +257,10 @@ class ListController extends ActionController
         $params['ip'] = Pi::user()->getIp();
 
         // Upload media
-        $response = Pi::api('doc', 'media')->upload($params, 'POST');
+        $response = Pi::api('doc', 'media')->upload($params, $this->currentId);
 
         // Check
-        if (!isset($response['id']) || !$response['id']) {
+        if (!isset($response['path']) || !$response['path']) {
             $response = array(
                 'status'    => 0,
                 'message'   => implode(' - ', $response['upload_errors'])
@@ -268,6 +270,8 @@ class ListController extends ActionController
                 'status' => 1,
                 'message' => __('Media attach '),
                 'id' => $response['id'],
+                'path' => $response['path'],
+                'filename' => $response['filename'],
                 'title' => '',
                 'time_create' => '',
                 'type' => '',
@@ -431,6 +435,9 @@ class ListController extends ActionController
 
         if ($this->request->isPost()) {
             $post = $this->request->getPost();
+            // Get file type
+            $file = $this->request->getFiles();
+
             $form->setData($post);
             $form->setInputFilter(new MediaEditFilter);
             if (!$form->isValid()) {
@@ -441,6 +448,23 @@ class ListController extends ActionController
             }
 
             $data = $form->getData();
+
+            // upload image
+            if (!empty($file['file']['name'])) {
+                $this->currentId = $id;
+                $response = $this->addAction();
+
+                if($response['status'] != 1){
+                    return $this->renderForm(
+                        $form,
+                        $response['message']
+                    );
+                }
+
+                $data['path'] = $response['path'];
+                $data['filename'] = $response['filename'];
+            }
+
             $id   = $this->saveMedia($data);
             if (empty($id)) {
                 return $this->renderForm(
