@@ -14,6 +14,7 @@ use Pi;
 use Pi\Application\Api\AbstractApi;
 use Pi\File\Transfer\Upload;
 use Pi\Filter;
+use Zend\Db\Sql\Predicate\In;
 
 class Doc extends AbstractApi
 {
@@ -495,5 +496,78 @@ class Doc extends AbstractApi
     protected function transferSize($value, $direction = true)
     {
         return Pi::service('file')->transformSize($value);
+    }
+
+    /**
+     * Get Original Single link url
+     * @param $value
+     * @return bool
+     */
+    public function getOriginalSingleLinkUrl($value){
+        $ids = explode(',', $value);
+
+        if($ids){
+            /**
+             * @todo get seasonable media
+             */
+            $media = Pi::model('doc', $this->module)->find(array_shift($ids));
+            $publicPath = 'upload/media' . $media['path'] . $media['filename'];
+
+            return Pi::url($publicPath);
+        }
+
+        return false;
+    }
+
+    /**
+     * Get Original Gallery link data
+     * @param $value
+     * @return bool
+     */
+    public function getOriginalGalleryLinkData($value){
+        $ids = explode(',', $value);
+
+        if($ids){
+            /**
+             * @todo get seasonable media
+             */
+
+            $model = Pi::model('doc', $this->module);
+            $select = $model->select();
+
+            $select->where(array(
+                new In('id', $ids),
+            ));
+
+            $mediaCollection = Pi::model('doc', $this->module)->selectWith($select);
+
+            $mediaArray = array();
+            foreach($mediaCollection as $media){
+                $dataToInject = $media->toArray();
+                $dataToInject['url'] = Pi::url('upload/media' . $media->path . $media->filename);
+                $mediaArray[] = $dataToInject;
+            }
+
+            return $mediaArray;
+        }
+
+        return false;
+    }
+
+    /**
+     * Resize by media values
+     */
+    public function getResizedSingleLinkUrl($value){
+
+        $ids = explode(',', $value);
+
+        if($ids){
+            /**
+             * @todo get seasonable media
+             */
+            return Pi::api('resize', 'media')->resize(array_shift($ids));
+        }
+
+        return false;
     }
 }

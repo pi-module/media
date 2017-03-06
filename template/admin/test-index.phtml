@@ -12,6 +12,7 @@
                     <th style="width: 10px"><?php echo _a('ID'); ?></th>
                     <th><?php echo _a('Title'); ?></th>
                     <th><?php echo _a('Main image'); ?></th>
+                    <th><?php echo _a('Additional images'); ?></th>
                     <th style="width: 10px"><?php echo _a('Actions'); ?></th>
                 </tr>
                 <?php foreach ($tests as $test) : ?>
@@ -23,7 +24,20 @@
                             <?php echo $test['title']; ?>
                         </td>
                         <td>
-                            --
+                            <?php if($img = Pi::api('doc','media')->getResizedSingleLinkUrl($test['main_image'])->thumbcrop(100, 100)) : ?>
+                                <img class="img-thumbnail" src="<?php echo $img ?>" />
+                            <?php else : ?>
+                                Doc ?
+                            <?php endif; ?>
+
+                            <br />
+                            <a href="<?php echo Pi::api('doc','media')->getOriginalSingleLinkUrl($test['main_image']) ?>" target="_blank">Download media</a>
+                        </td>
+                        <td>
+                            <?php $galleryImages = Pi::api('doc','media')->getOriginalGalleryLinkData($test['additional_images']) ?>
+                            <?php foreach($galleryImages as $key => $galleryImage) : ?>
+                                <a href="<?php echo $galleryImage['url'] ?>" target="_blank">Download media #<?php echo $key ?></a><br />
+                            <?php endforeach; ?>
                         </td>
                         <td>
                             <a href="<?php echo $this->url('', array('action' => 'edit', 'id' => $test['id'])); ?>" class="btn btn-primary btn-xs"><?php echo _a('Update'); ?></a>

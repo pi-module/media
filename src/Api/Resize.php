@@ -20,6 +20,11 @@ class Resize extends AbstractApi
      */
     protected $module = 'media';
 
+    /**
+     * Resize by media object or id
+     * @param $media
+     * @return mixed
+     */
     public function resize($media){
 
         if(is_numeric($media)){
@@ -31,5 +36,4 @@ class Resize extends AbstractApi
 
         return $helper($publicPath, $media['cropping']);
     }
-
 }
