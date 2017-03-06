@@ -17,7 +17,7 @@ return array(
     'meta'         => array(
         'title'         => _a('Media'),
         'description'   => _a('Module for media resources and APIs.'),
-        'version'       => '1.0.7',
+        'version'       => '1.0.8',
         'license'       => 'New BSD',
         'logo'          => 'image/logo.png',
         'readme'        => 'README.md',

@@ -73,6 +73,14 @@ return array(
             'value'       => 1600,
             'filter'      => 'int',
         ),
+        'image_largew'    => array(
+            'category'    => 'image',
+            'title'       => _t('Large Image width'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 1200
+        ),
         'image_largeh'    => array(
             'category'    => 'image',
             'title'       => _t('Large Image height'),
@@ -81,13 +89,39 @@ return array(
             'filter'      => 'number_int',
             'value'       => 1200
         ),
-        'image_largew'    => array(
+
+        'image_maxw'    => array(
             'category'    => 'image',
-            'title'       => _t('Large Image width'),
+            'title'       => _t('Max Image width (upload)'),
             'description' => '',
             'edit'        => 'text',
             'filter'      => 'number_int',
-            'value'       => 1200
+            'value'       => 2000
+        ),
+        'image_maxh'    => array(
+            'category'    => 'image',
+            'title'       => _t('Max Image height (upload)'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 2000
+        ),
+
+        'image_minw'    => array(
+            'category'    => 'image',
+            'title'       => _t('Min Image width (upload)'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 600
+        ),
+        'image_minh'    => array(
+            'category'    => 'image',
+            'title'       => _t('Min Image height (upload)'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 600
         ),
         'image_quality'   => array(
             'category'    => 'image',

@@ -104,6 +104,35 @@ class MediaEditForm extends BaseForm
             ),
         ));
 
+
+
+        if(isset($this->config['license_values']) && $licenseValues = explode('|', $this->config['license_values'])){
+
+            $values = array(
+                '' => __('Choose a license type'),
+            );
+
+            foreach($licenseValues as $licenseValue){
+                $values[] = $licenseValue;
+            }
+
+            $this->add(array(
+                'name'       => 'license_type',
+                'type'       => 'select',
+                'options'    => array(
+                    'label'     => __('Licence type'),
+                    'value_options' => $values,
+                ),
+            ));
+        }
+
+        $this->add(array(
+            'name'       => 'copyright',
+            'options'    => array(
+                'label'     => __('Copyright'),
+            ),
+        ));
+
         $this->add(array(
             'name'       => 'id',
             'attributes' => array(

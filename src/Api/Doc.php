@@ -173,6 +173,34 @@ class Doc extends AbstractApi
             $uploader->setExtension($extArray);
         }
 
+        $imageMinW = Pi::config(
+            'image_minw',
+            $this->module
+        );
+
+        $imageMinH = Pi::config(
+            'image_minh',
+            $this->module
+        );
+
+        if($imageMinW && $imageMinH){
+            $uploader->setImageSize(array('minwidth' => $imageMinW, 'minheight' => $imageMinH));
+        }
+
+        $imageMaxW = Pi::config(
+            'image_maxw',
+            $this->module
+        );
+
+        $imageMaxH = Pi::config(
+            'image_maxh',
+            $this->module
+        );
+
+        if($imageMaxW && $imageMaxH){
+            $uploader->setImageSize(array('maxwidth' => $imageMinW, 'maxheight' => $imageMinH));
+        }
+
         $result = $uploader->isValid();
         if ($result) {
             $uploader->receive();
