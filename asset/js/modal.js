@@ -85,11 +85,12 @@ $(function() {
 
         var checkedMedia = [];
 
-        $('[data-media-id].checked').each(function(){
+        $('#media_gallery [data-media-id].checked').each(function(){
             checkedMedia.push($(this).attr('data-media-id'));
         });
 
         $('[name="'+ inputName +'"]').val(checkedMedia.join()).change();
+
     });
 
     $( ".media-form-list" ).each(function(){

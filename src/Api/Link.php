@@ -95,7 +95,7 @@ class Link extends AbstractApi
             preg_match('#^([^_]*)_(.*)#', $tableWithoutPrefix, $matches);
 
             if(isset($matches[1], $matches[2])){
-                $links = array();
+                $newLinks = array();
 
                 $module = $matches[1];
                 $object_name = $matches[2];
@@ -120,57 +120,32 @@ class Link extends AbstractApi
                             $data['field'] = $mediaLink;
                             $data['media_id'] = $value;
 
-                            $links[] = $data;
+                            $newLinks[] = $data;
                         }
                     }
                 }
 
+                $linksToDelete = $currentLinks;
+                $linksToAdd = array();
 
-                print_r($currentLinks);
-                print_r($links);
+                foreach($newLinks as $newLink){
+                    if(!in_array($newLink, $currentLinks)){
+                        $linksToAdd[] = $newLink;
+                    }else{
+                        $key = array_search($newLink, $linksToDelete);
 
-                $diff1 = $this->array_diff_assoc_recursive($currentLinks, $links);
-                $diff2 = $this->array_diff_assoc_recursive($links, $currentLinks);
-
-                foreach($diff1 as $data){
-                    $this->deleteByObject($data);
-                }
-
-                foreach($diff2 as $data){
-                    $this->add($data);
-                }
-            }
-        }
-    }
-
-    public function array_diff_assoc_recursive($array1, $array2)
-    {
-        foreach($array1 as $key => $value)
-        {
-            if(is_array($value))
-            {
-                if(!isset($array2[$key]))
-                {
-                    $difference[$key] = $value;
-                }
-                elseif(!is_array($array2[$key]))
-                {
-                    $difference[$key] = $value;
-                }
-                else
-                {
-                    $new_diff = $this->array_diff_assoc_recursive($value, $array2[$key]);
-                    if($new_diff != FALSE)
-                    {
-                        $difference[$key] = $new_diff;
+                        unset($linksToDelete[$key]);
                     }
                 }
-            }
-            elseif(!isset($array2[$key]) || $array2[$key] != $value)
-            {
-                $difference[$key] = $value;
+
+                foreach($linksToDelete as $linkToDelete){
+                    $this->deleteByObject($linkToDelete);
+                }
+
+                foreach($linksToAdd as $linkToAdd){
+                    $this->add($linkToAdd);
+                }
             }
         }
-        return !isset($difference) ? 0 : $difference;
     }
 }
