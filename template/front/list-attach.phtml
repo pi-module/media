@@ -45,13 +45,13 @@ $this->Backbone();
             <input data-id="<%= data.id %>" class="cropping ajaxUpdate" type="hidden" name="cropping_<%= data.id %>" value='<%= data.cropping %>' />
             <p><%= data.title %></p>
             <button type="button" class="remove-attach btn btn-danger btn-xs" data-toggle="button"
-                    data-link="<?php echo $this->url('', array('controller' => 'manage', 'action' => 'delete')); ?>/id/<%= data.id %>"><i
+                    data-link="<?php echo $this->url('', array('controller' => 'list', 'action' => 'delete')); ?>/id/<%= data.id %>"><i
                     class="fa fa-trash fa fa-white"></i> <?php _e('Delete'); ?></button>
         </div>
 </script>
 
 
-<?php include $this->template('admin/partial/crop'); ?>
+<?php include $this->template('front/partial/crop'); ?>
 
 <script type="text/javascript">
     var page = {
@@ -114,7 +114,7 @@ $this->Backbone();
         },
         fileupload: function () {
             var obj = {
-                url: "<?php echo $this->url('', array('controller' => 'manage', 'action' => 'add')); ?>",
+                url: "<?php echo $this->url('', array('controller' => 'list', 'action' => 'add')); ?>",
                 formData: function () {
                     return [];
                 }

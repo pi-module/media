@@ -79,7 +79,7 @@
                         <?php echo $media['title']; ?>
                         <div class="row-actions one-action">
                             <a class="has-js-action" href="<?php echo $this->url('', array(
-                                'controller'    => 'media',
+                                'controller'    => 'list',
                                 'action'        => 'edit',
                                 'id'            => $media['id'],
                             )); ?>" data-value="edit"><?php echo _a('Edit'); ?></a> |
@@ -152,7 +152,7 @@
             this.toggleBulk();
         },
         batchOperation : function(e) {
-            var url = "<?php echo $this->url('', array('controller' => 'media', 'action' => 'index')); ?>".replace(/index\/$/,"");
+            var url = "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,"");
             var el = $(e.target);
             if (el.hasClass('disabled')) {
                 return;
@@ -226,7 +226,7 @@
             }
         },
         oneAction : function(e) {
-            var url = "<?php echo $this->url('', array('controller' => 'media', 'action' => 'index')); ?>".replace(/index\/$/,"");
+            var url = "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,"");
             var el = $(e.target),
                 id = el.parents("tr:first").attr("data-id"),
                 val = el.attr("data-value"),
