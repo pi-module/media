@@ -148,4 +148,33 @@ class Link extends AbstractApi
             }
         }
     }
+
+    /**
+     * Remove links from doc to objects
+     * @param \Pi\Db\RowGateway\RowGateway $object
+     */
+    public function removeLinks($object){
+
+        $model = $object->getModel();
+
+        if(!empty($object->id) && $mediaLinks = $model->getMediaLinks()){
+            $tableWithoutPrefix = str_replace(Pi::db()->getTablePrefix(), '', $model->getTable());
+
+            preg_match('#^([^_]*)_(.*)#', $tableWithoutPrefix, $matches);
+
+            if(isset($matches[1], $matches[2])){
+                $module = $matches[1];
+                $object_name = $matches[2];
+                $object_id = $object->id;
+
+                $data = array(
+                    'module' => $module,
+                    'object_name' => $object_name,
+                    'object_id' => $object_id,
+                );
+
+                $this->deleteByObject($data);
+            }
+        }
+    }
 }
