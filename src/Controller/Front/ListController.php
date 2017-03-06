@@ -331,6 +331,81 @@ class ListController extends ActionController
     }
 
     /**
+     * Undelete media resources
+     *
+     * @return ViewModel
+     * @throws \Exception
+     */
+    public function undeleteAction()
+    {
+        $from   = $this->params('redirect', '');
+        $id     = $this->params('id', 0);
+        $ids    = array_filter(explode(',', $id));
+        if (empty($ids)) {
+            throw new \Exception(_a('Invalid media ID'));
+        }
+        // Mark media as deleted
+        $this->getModel('doc')->update(
+            array('time_deleted' => null),
+            array('id' => $ids)
+        );
+        // Go to list page or original page
+        if ($from) {
+            $from = urldecode($from);
+            return $this->redirect()->toUrl($from);
+        } else {
+            return $this->redirect()->toRoute(
+                '',
+                array(
+                    'controller' => 'list',
+                    'action'     => 'index',
+                )
+            );
+        }
+    }
+
+    /**
+     * Active or diactivate media
+     *
+     * @return ViewModel
+     * @throws \Exception
+     */
+    public function activeAction()
+    {
+        $from   = $this->params('redirect', '');
+
+        $id     = $this->params('id', 0);
+        $ids    = array_filter(explode(',', $id));
+
+        if (empty($ids)) {
+            throw new \Exception(_a('Invalid media ID'));
+        }
+
+        $status = $this->params('status', 1);
+        $status = $status ? 1 : 0;
+
+        // Mark media as deleted
+        $this->getModel('doc')->update(
+            array('active' => $status),
+            array('id' => $ids)
+        );
+
+        // Go to list page or original page
+        if ($from) {
+            $from = urldecode($from);
+            return $this->redirect()->toUrl($from);
+        } else {
+            return $this->redirect()->toRoute(
+                '',
+                array(
+                    'controller' => 'list',
+                    'action'     => 'index',
+                )
+            );
+        }
+    }
+
+    /**
      * Edit media
      *
      * @return ViewModel
