@@ -51,7 +51,7 @@ class ModalController extends ActionController
         $view = $this->view();
 
         $view->setLayout('layout-content');
-        $view->setTemplate('modal-list');
+        $view->setTemplate('../front/modal-list');
         $view->assign(array(
             'title'      => _a('Resource List'),
             'medias'     => $resultset,
@@ -86,7 +86,7 @@ class ModalController extends ActionController
         $view = $this->view();
 
         $view->setLayout('layout-content');
-        $view->setTemplate('modal-formlist');
+        $view->setTemplate('../front/modal-formlist');
         $view->assign(array(
             'title'      => _a('Resource List'),
             'medias'     => $resultset,
