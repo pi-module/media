@@ -36,7 +36,7 @@ class MediaEditFilter extends InputFilter
 
         $this->add(array(
             'name'     => 'description',
-            'required' => false,
+            'required' => true,
             'filters'  => array(
                 array(
                     'name' => 'StringTrim',

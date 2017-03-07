@@ -135,4 +135,25 @@ $(function() {
 
         $(this).toggleClass('checked');
     });
+
+
+
+    $('#editMediaModalSaveBtn').click(function(){
+        console.log("$('#editMediaModalSaveBtn').click(function(){});");
+    });
+
+    $(document).on('show.bs.modal', '#editMediaModal',  function (event) {
+        $( "#editMediaModalContent" ).html('');
+    }).on('shown.bs.modal', '#editMediaModal', function (event) {
+
+        var button = $(event.relatedTarget);
+        var mediaId = button.attr('data-media-id');
+
+        $.ajax({
+            url: mediaFormAction + '?id=' + mediaId,
+            cache: false
+        }).done(function( html ) {
+            $( "#editMediaModalContent" ).html( html );
+        });
+    });
 });

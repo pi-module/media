@@ -40,7 +40,7 @@ class Media extends \Zend\Form\Element\Text
         $cssHelper($assetHelper('css/dropzone.css'));
 //        $cssHelper($assetHelper('css/jquery.dataTables.min.css'));
         $cssHelper($assetHelper('css/dataTables.bootstrap.css'));
-        $cssHelper($assetHelper('css/modal.css'));
+        $cssHelper($assetHelper('css/media.css'));
 
         $uploadUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
             'module' => 'media',
@@ -104,7 +104,7 @@ HTML;
             <li class="ui-state-default">?</li>
         </ul>
     </div>
-    <p class="text-center small">fezfzfefez</p>
+    <!--<p class="text-center small">fezfzfefez</p>-->
   </div>
 </div>
 HTML;

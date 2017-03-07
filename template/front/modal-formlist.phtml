@@ -1,11 +1,25 @@
+<?php $haveToComplete = false ?>
+
 <ul class="media-list-sortable">
     <?php if(count($medias)) : ?>
         <?php foreach($medias as $media) : ?>
-            <li class="ui-state-default" data-media-id="<?php echo $media['id'] ?>">
-                <?php if($img = Pi::api('resize','media')->resize($media)->thumbcrop(100, 100)) : ?>
-                    <img class="img-thumbnail" src="<?php echo $img ?>" />
-                <?php else : ?>
-                    <?php echo $media['title'] ?>
+            <?php $hasInvalidFields = Pi::api('doc', 'media')->hasInvalidFields($media) ?>
+            <li class="ui-state-default <?php echo $hasInvalidFields ? 'invalid-media' : '' ?>" data-media-id="<?php echo $media['id'] ?>">
+                <div class="box">
+                    <?php if($img = Pi::api('resize','media')->resize($media)->thumbcrop(100, 100)) : ?>
+                        <img class="img-thumbnail" src="<?php echo $img ?>" />
+                    <?php else : ?>
+                            <?php echo $media['title'] ?>
+                    <?php endif; ?>
+                </div>
+
+                <hr />
+
+                <?php if($hasInvalidFields) : ?>
+                    <?php $haveToComplete = true ?>
+                    <button type="button" class="btn btn-warning btn-xs" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Complete') ?></button>
+                <?php else: ?>
+                    <button type="button" class="btn btn-default btn-xs" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Edit') ?></button>
                 <?php endif; ?>
             </li>
         <?php endforeach; ?>
@@ -13,3 +27,41 @@
         <li class="ui-state-default">?</li>
     <?php endif; ?>
 </ul>
+
+<?php if($haveToComplete) : ?>
+    <div class="clearfix text-center">
+        <span class="label label-danger"><?php echo __('You have to complete file informations before submit') ?></span>
+    </div>
+<?php endif; ?>
+
+<script type="application/javascript">
+    $(".media-list-sortable").parents('form').find('input[type=submit]').prop('disabled', <?php echo $haveToComplete ? 'true' : 'false' ?>);
+    var mediaFormAction = "<?php
+
+        echo Pi::url($this->url('', array(
+            'controller' => 'modal',
+            'action' => 'mediaform',
+        )))
+
+        ?>";
+</script>
+
+<div class="modal fade" id="editMediaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><?php echo __('Edit') ?></h4>
+            </div>
+            <div class="modal-body" id="editMediaModalContent">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="editMediaModalSaveBtn" type="button" class="btn btn-primary"><?php echo __('Save') ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

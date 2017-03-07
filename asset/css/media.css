@@ -29,15 +29,30 @@
 
 .media-form-list li{
     text-align: center;
+    vertical-align: top;
+    display:inline-block;
+    margin:0 10px 10px 0;
+}
+
+.media-form-list li .box{
+    text-align: center;
     vertical-align: middle;
     display:inline-block;
     width:100px;
-    height:100px;
+    min-height:100px;
     background-color:whitesmoke;
-    margin:0 10px 10px 0;
-    line-height:100px;
+}
+
+.media-form-list li hr{
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .ui-sortable li{
     cursor: move;
+}
+
+.invalid-media .img-thumbnail
+{
+    background-color:#eea236!important;
 }

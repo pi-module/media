@@ -9,6 +9,8 @@
 
 namespace Module\Media\Controller\Front;
 
+use Module\Media\Form\MediaEditFilter;
+use Module\Media\Form\MediaEditForm;
 use Pi;
 use Pi\Mvc\Controller\ActionController;
 use Pi\Paginator\Paginator;
@@ -93,6 +95,44 @@ class ModalController extends ActionController
         ));
 
         return Pi::service('view')->render($view->getViewModel());
+    }
+
+    /**
+     * Media form
+     */
+    public function mediaformAction()
+    {
+        if(Pi::service()->hasService('log')){
+            Pi::service()->getService('log')->mute(true);
+        }
+
+        $id = $this->params('id');
+
+        if($id){
+            // Get media list
+            $module = $this->getModule();
+            $media = Pi::model('doc', $module)->find($id);
+
+            $form = new MediaEditForm('media');
+            $form->setAttribute('action', $this->url('', array('action' => 'mediaform')));
+
+            $form->setData($media->toArray());
+            $form->setInputFilter(new MediaEditFilter());
+
+            /* @var Pi\Mvc\Controller\Plugin\View $view */
+            $view = $this->view();
+
+            $view->setLayout('layout-content');
+            $view->setTemplate('../front/partial/modal-media-form');
+            $view->assign(array(
+                'form'     => $form,
+            ));
+
+            return Pi::service('view')->render($view->getViewModel());
+        }
+
+        return false;
+
     }
 
     /**

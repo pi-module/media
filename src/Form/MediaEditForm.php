@@ -42,6 +42,7 @@ class MediaEditForm extends BaseForm
             ),
             'attributes' => array(
                 'type'      => 'text',
+                'required' => true,
             ),
         ));
 
@@ -54,6 +55,7 @@ class MediaEditForm extends BaseForm
                 'type'      => 'textarea',
                 'cols'      => 10,
                 'rows'      => 5,
+                'required' => true,
             ),
         ));
 

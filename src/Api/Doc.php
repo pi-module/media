@@ -10,6 +10,9 @@
 namespace Module\Media\Api;
 
 use Closure;
+use Module\Media\Form\MediaEditFilter;
+use Module\Media\Form\MediaEditForm;
+use Module\Media\Form\MediaEditFullForm;
 use Pi;
 use Pi\Application\Api\AbstractApi;
 use Pi\File\Transfer\Upload;
@@ -613,5 +616,41 @@ class Doc extends AbstractApi
                 unlink($filename);
             }
         }
+    }
+
+    /**
+     * Get invalid fields from media object
+     * @param $media
+     * @return array
+     */
+    public function getInvalidFields($media){
+        $form = new MediaEditForm('media');
+        $form->setInputFilter(new MediaEditFilter());
+
+        $form->setData($media);
+        $form->isValid();
+
+        $invalidFields = array();
+
+        foreach($form->getElements() as $element){
+            /* @var $element \Zend\Form\Element */
+
+            if($element->getName() == 'id') continue;
+
+            $filter = $form->getInputFilter()->get($element->getName());
+
+
+            if(!$filter->isValid()){
+                $invalidFields[] = $element->getName();
+            }
+        }
+
+
+        return $invalidFields;
+    }
+
+    public function hasInvalidFields($media){
+
+        return (bool) $this->getInvalidFields($media);
     }
 }
