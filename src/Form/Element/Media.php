@@ -142,16 +142,16 @@ HTML;
         if(!isset($GLOBALS['isMediaModalLoaded'])){
             $GLOBALS['isMediaModalLoaded'] = true;
 
-            $description .= $modalHtml;
-
             $cropView = new \Zend\View\Model\ViewModel;
             $cropView->setTemplate('front/partial/crop');
             $cropView->setVariable('module', 'media');
             $cropView->setVariable('controller', 'list');
-
             $cropHtml = Pi::service('view')->render($cropView);
 
-            $description .= $cropHtml;
+            /* @var \Pi\Application\Service\View $view */
+            $view = Pi::service('view');
+            $view->getHelper('footScript')->addHtml($modalHtml);
+            $view->getHelper('footScript')->addHtml($cropHtml);
         }
 
         $this->attributes['class'] = 'media-input hide';

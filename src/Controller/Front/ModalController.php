@@ -124,16 +124,59 @@ class ModalController extends ActionController
             $media = Pi::model('doc', $module)->find($id);
 
             $form = new MediaEditForm('media', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)));
-            $form->setAttribute('action', $this->url('', array('action' => 'mediaform')));
+            $form->setAttribute('action', $this->url('', array('action' => 'mediaform')) . '?id=' . $id);
 
             $form->setData($media->toArray());
             $form->setInputFilter(new MediaEditFilter());
-            $form->remove('submit');
+            $form->get('submit')->setAttribute('class', 'hide');
+
+
+            if ($this->request->isPost()) {
+                $post = $this->request->getPost();
+                // Get file type
+                $file = $this->request->getFiles();
+
+                $form->setData($post);
+                if ($form->isValid()) {
+                    $media->assign($post);
+                    $media->time_updated = time();
+
+                    if ($uid = Pi::user()->getId()) {
+                        $media->updated_by = $uid;
+                    }
+
+                    $media->save();
+
+                    return array(
+                        'status' => 1,
+                        'content' => null,
+                    );
+                }
+
+//                $data = $form->getData();
+
+                // upload image
+//                if (!empty($file['file']['name'])) {
+//                    $this->currentId = $id;
+//                    $response = $this->addAction();
+//
+//                    if($response['status'] != 1){
+//                        return $this->renderForm(
+//                            $form,
+//                            $response['message']
+//                        );
+//                    }
+//
+//                    $data['path'] = $response['path'];
+//                    $data['filename'] = $response['filename'];
+//                }
+            }
+
+
+
 
             /* @var Pi\Mvc\Controller\Plugin\View $view */
             $view = $this->view();
-
-//            echo get_class($view->getViewModel()); die();
 
             $view->setLayout('layout-content');
             $view->setTemplate('../front/partial/modal-media-form');
@@ -141,11 +184,13 @@ class ModalController extends ActionController
                 'form'     => $form,
             ));
 
-            return Pi::service('view')->render($view->getViewModel());
+            return array(
+                'status' => 0,
+                'content' => Pi::service('view')->render($view->getViewModel()),
+            );
         }
 
         return false;
-
     }
 
     /**
