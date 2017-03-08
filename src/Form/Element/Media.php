@@ -60,6 +60,17 @@ class Media extends \Zend\Form\Element\Text
             'action' => 'formlist',
         ));
 
+        $mediaFormAction = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
+            'module' => 'media',
+            'controller' => 'modal',
+            'action' => 'mediaform',
+        ));
+
+
+        $formModalTitle = __("Edit");
+        $formModalSaveBtn = __("Save");
+        $formModalCancelBtn = __("Cancel");
+
         $modalHtml = <<<HTML
         
 <div id="addMediaModal" class="modal fade" tabindex="-1" role="dialog">
@@ -76,8 +87,26 @@ class Media extends \Zend\Form\Element\Text
                 <div id="media_gallery"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{$formModalCancelBtn}</button>
                 <button id="mediaModalSaveBtn" type="button" class="btn btn-primary" data-dismiss="modal">{$saveBtnTitle}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editMediaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{$formModalTitle}</h4>
+            </div>
+            <div class="modal-body" id="editMediaModalContent">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="editMediaModalSaveBtn" type="button" class="btn btn-primary">{$formModalSaveBtn}</button>
             </div>
         </div>
     </div>
@@ -87,6 +116,7 @@ class Media extends \Zend\Form\Element\Text
     var uploadUrl = "{$uploadUrl}";
     var listUrl = "{$listUrl}";
     var formlistUrl = "{$formlistUrl}";
+    var mediaFormAction = "{$mediaFormAction}";
 </script>
 HTML;
 
@@ -110,8 +140,18 @@ HTML;
 HTML;
 
         if(!isset($GLOBALS['isMediaModalLoaded'])){
-            $description .= $modalHtml;
             $GLOBALS['isMediaModalLoaded'] = true;
+
+            $description .= $modalHtml;
+
+            $cropView = new \Zend\View\Model\ViewModel;
+            $cropView->setTemplate('front/partial/crop');
+            $cropView->setVariable('module', 'media');
+            $cropView->setVariable('controller', 'list');
+
+            $cropHtml = Pi::service('view')->render($cropView);
+
+            $description .= $cropHtml;
         }
 
         $this->attributes['class'] = 'media-input hide';

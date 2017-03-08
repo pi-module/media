@@ -82,7 +82,16 @@ class ModalController extends ActionController
 
         // Get media list
         $module = $this->getModule();
-        $resultset = Pi::api('doc', $module)->getList($where, 0, 0, $order);
+        $medias = Pi::api('doc', $module)->getList($where, 0, 0, $order);
+
+        $haveToComplete = false;
+        foreach($medias as $media){
+            $hasInvalidFields = Pi::api('doc', 'media')->hasInvalidFields($media);
+
+            if($hasInvalidFields){
+                $haveToComplete = true;
+            }
+        }
 
         /* @var Pi\Mvc\Controller\Plugin\View $view */
         $view = $this->view();
@@ -91,7 +100,8 @@ class ModalController extends ActionController
         $view->setTemplate('../front/modal-formlist');
         $view->assign(array(
             'title'      => _a('Resource List'),
-            'medias'     => $resultset,
+            'medias'     => $medias,
+            'haveToComplete'   => $haveToComplete,
         ));
 
         return Pi::service('view')->render($view->getViewModel());
@@ -113,14 +123,17 @@ class ModalController extends ActionController
             $module = $this->getModule();
             $media = Pi::model('doc', $module)->find($id);
 
-            $form = new MediaEditForm('media');
+            $form = new MediaEditForm('media', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)));
             $form->setAttribute('action', $this->url('', array('action' => 'mediaform')));
 
             $form->setData($media->toArray());
             $form->setInputFilter(new MediaEditFilter());
+            $form->remove('submit');
 
             /* @var Pi\Mvc\Controller\Plugin\View $view */
             $view = $this->view();
+
+//            echo get_class($view->getViewModel()); die();
 
             $view->setLayout('layout-content');
             $view->setTemplate('../front/partial/modal-media-form');

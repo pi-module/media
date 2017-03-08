@@ -12,6 +12,10 @@ var refreshFormList = function(formList){
         }).done(function( html ) {
             formList.html( html );
 
+            var incompleteListCount = $( '.media-form-list[data-input-name='+inputName+'] .media-list-incomplete').length;
+
+            $( '.media-form-list[data-input-name='+inputName+']').parents('form').find('input[type=submit]').prop('disabled', incompleteListCount ? true : false);
+
             if(inputValues.split(',').length > 1){
                 $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).sortable({
                     update: function( event, ui ) {
@@ -144,6 +148,8 @@ $(function() {
 
     $(document).on('show.bs.modal', '#editMediaModal',  function (event) {
         $( "#editMediaModalContent" ).html('');
+    }).on('hidden.bs.modal', '#editMediaModal',  function (event) {
+        $( "#editMediaModalContent" ).html('');
     }).on('shown.bs.modal', '#editMediaModal', function (event) {
 
         var button = $(event.relatedTarget);
@@ -154,6 +160,8 @@ $(function() {
             cache: false
         }).done(function( html ) {
             $( "#editMediaModalContent" ).html( html );
+
+            parseCrop();
         });
     });
 });
