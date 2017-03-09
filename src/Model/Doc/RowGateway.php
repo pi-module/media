@@ -17,6 +17,10 @@ class RowGateway extends \Pi\Db\RowGateway\RowGateway
     {
         Pi::api('doc', 'media')->removeImageCache($this);
 
+        if($this->season == 0){
+            $this->season = null;
+        }
+
         return parent::save($rePopulate, $filter);
     }
 

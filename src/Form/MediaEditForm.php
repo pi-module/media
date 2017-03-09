@@ -92,7 +92,7 @@ class MediaEditForm extends BaseForm
 
         $this->add(array(
             'name'       => 'season',
-            'type'       => 'Select',
+            'type'       => 'select',
             'options'    => array(
                 'label'     => __('Season'),
                 'value_options' => array(
@@ -100,9 +100,6 @@ class MediaEditForm extends BaseForm
                     1 => __('Summer'),
                     2 => __('Winter'),
                 ),
-            ),
-            'attributes' => array(
-                'type'      => 'select',
             ),
         ));
 

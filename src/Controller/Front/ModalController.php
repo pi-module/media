@@ -72,7 +72,7 @@ class ModalController extends ActionController
             Pi::service()->getService('log')->mute(true);
         }
 
-        $ids = $this->params('ids');
+        $ids = $this->params('ids') ?: $this->ids;
 
         $where = array(
           new In('id', explode(',', $ids)),
@@ -130,63 +130,74 @@ class ModalController extends ActionController
             $form->setInputFilter(new MediaEditFilter());
             $form->get('submit')->setAttribute('class', 'hide');
 
+            $view = new \Zend\View\Model\ViewModel;
 
             if ($this->request->isPost()) {
                 $post = $this->request->getPost();
                 // Get file type
-                $file = $this->request->getFiles();
 
                 $form->setData($post);
                 if ($form->isValid()) {
-                    $media->assign($post);
-                    $media->time_updated = time();
 
-                    if ($uid = Pi::user()->getId()) {
-                        $media->updated_by = $uid;
+                    $formIsValid = true;
+                    // upload image
+                    $file = $this->request->getFiles();
+                    if (!empty($file['file']['name'])) {
+                        $this->currentId = $id;
+
+                        if (extension_loaded('intl') && !normalizer_is_normalized($file['file']['name'])) {
+                            $file['file']['name'] = normalizer_normalize($file['file']['name']);
+                        }
+
+                        // Set params
+                        $params['filename'] = $file['file']['name'];
+                        $params['title'] = $file['file']['name'];
+                        $params['type'] = 'image';
+                        $params['active'] = 1;
+                        $params['module'] = 'media';
+                        $params['uid'] = Pi::user()->getId();
+                        $params['ip'] = Pi::user()->getIp();
+
+                        // Upload media
+                        $response = Pi::api('doc', 'media')->upload($params, $id);
+
+
+                        if(!isset($response['path']) || !$response['path']){
+                            $formIsValid = false;
+
+                            $view->setVariable('message', implode('<br />', $response['upload_errors']));
+                        } else {
+                            $post['path'] = $response['path'];
+                            $post['filename'] = $response['filename'];
+                        }
                     }
 
-                    $media->save();
+                    if($formIsValid){
+                        $media->assign($post);
+                        $media->time_updated = time();
 
-                    return array(
-                        'status' => 1,
-                        'content' => null,
-                    );
+                        if ($uid = Pi::user()->getId()) {
+                            $media->updated_by = $uid;
+                        }
+
+                        $media->save();
+
+                        return array(
+                            'status' => 1,
+                            'content' => null,
+                            'url' => (string) Pi::api('resize','media')->resizeFormList($media),
+                        );
+                    }
                 }
-
-//                $data = $form->getData();
-
-                // upload image
-//                if (!empty($file['file']['name'])) {
-//                    $this->currentId = $id;
-//                    $response = $this->addAction();
-//
-//                    if($response['status'] != 1){
-//                        return $this->renderForm(
-//                            $form,
-//                            $response['message']
-//                        );
-//                    }
-//
-//                    $data['path'] = $response['path'];
-//                    $data['filename'] = $response['filename'];
-//                }
             }
 
 
-
-
-            /* @var Pi\Mvc\Controller\Plugin\View $view */
-            $view = $this->view();
-
-            $view->setLayout('layout-content');
-            $view->setTemplate('../front/partial/modal-media-form');
-            $view->assign(array(
-                'form'     => $form,
-            ));
+            $view->setTemplate('front/partial/modal-media-form');
+            $view->setVariable('form', $form);
 
             return array(
                 'status' => 0,
-                'content' => Pi::service('view')->render($view->getViewModel()),
+                'content' => Pi::service('view')->render($view),
             );
         }
 

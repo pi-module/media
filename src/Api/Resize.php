@@ -36,4 +36,8 @@ class Resize extends AbstractApi
 
         return $helper($publicPath, $media['cropping']);
     }
+
+    public function resizeFormList($media){
+        return $this->resize($media)->thumbcrop(100, 100);
+    }
 }

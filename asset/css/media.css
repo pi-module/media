@@ -56,3 +56,19 @@
 {
     background-color:#eea236!important;
 }
+
+.btn-complete-action{
+    display:none;
+}
+
+.invalid-media .btn-complete-action{
+    display: inline-block;
+}
+
+.invalid-media .btn-edit-action{
+    display: none;
+}
+
+.media-list-incomplete + .media-alert{
+    display:block!important;
+}

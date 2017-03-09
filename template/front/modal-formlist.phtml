@@ -4,7 +4,7 @@
             <?php $hasInvalidFields = Pi::api('doc', 'media')->hasInvalidFields($media) ?>
             <li class="ui-state-default <?php echo $hasInvalidFields ? 'invalid-media' : '' ?>" data-media-id="<?php echo $media['id'] ?>">
                 <div class="box">
-                    <?php if($img = Pi::api('resize','media')->resize($media)->thumbcrop(100, 100)) : ?>
+                    <?php if($img = Pi::api('resize','media')->resizeFormList($media)) : ?>
                         <img class="img-thumbnail" src="<?php echo $img ?>" />
                     <?php else : ?>
                             <?php echo $media['title'] ?>
@@ -12,12 +12,8 @@
                 </div>
 
                 <hr />
-
-                <?php if($hasInvalidFields) : ?>
-                    <button type="button" class="btn btn-warning btn-xs" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Complete') ?></button>
-                <?php else: ?>
-                    <button type="button" class="btn btn-default btn-xs" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Edit') ?></button>
-                <?php endif; ?>
+                <button type="button" class="btn btn-warning btn-xs btn-complete-action" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Complete') ?></button>
+                <button type="button" class="btn btn-default btn-xs btn-edit-action" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Edit') ?></button>
             </li>
         <?php endforeach; ?>
     <?php else : ?>
@@ -25,8 +21,6 @@
     <?php endif; ?>
 </ul>
 
-<?php if($haveToComplete) : ?>
-    <div class="clearfix text-center">
-        <span class="label label-danger"><?php echo __('You have to complete file informations before submit') ?></span>
-    </div>
-<?php endif; ?>
+<div class="media-alert clearfix text-center hide">
+    <span class="label label-danger"><?php echo __('You have to complete file informations before submit') ?></span>
+</div>

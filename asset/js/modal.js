@@ -1,5 +1,21 @@
 Dropzone.autoDiscover = false;
 
+
+var checkFormCanBeSubmit = function(){
+    var incompleteListCount = $( '.media-form-list .invalid-media').length;
+    $( '.media-form-list').parents('form').find('input[type=submit]').prop('disabled', incompleteListCount ? true : false);
+
+    $('.media-form-list').each(function(){
+        var invalidMedia = $(this).find('.invalid-media');
+
+        if(invalidMedia.length == 0){
+            $(this).find('.media-list-incomplete').removeClass('media-list-incomplete');
+        } else {
+            $(this).find('.media-list-incomplete').addClass('media-list-incomplete');
+        }
+    });
+};
+
 var refreshFormList = function(formList){
     var inputName = formList.attr('data-input-name');
     var inputElement = $('[name='+inputName+']');
@@ -12,9 +28,7 @@ var refreshFormList = function(formList){
         }).done(function( html ) {
             formList.html( html );
 
-            var incompleteListCount = $( '.media-form-list[data-input-name='+inputName+'] .media-list-incomplete').length;
-
-            $( '.media-form-list[data-input-name='+inputName+']').parents('form').find('input[type=submit]').prop('disabled', incompleteListCount ? true : false);
+            checkFormCanBeSubmit();
 
             if(inputValues.split(',').length > 1){
                 $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).sortable({
@@ -143,22 +157,36 @@ $(function() {
     $(document).on('submit', '#editMediaModalContent form',  function (event) {
         event.preventDefault();
 
+        var form = $(this);
+
+        // Create an FormData object
+        var data = new FormData(form[0]);
+
         $.ajax({
             url: $(this).attr('action'),
             type: $(this).attr('method'),
+            enctype: 'multipart/form-data',
             dataType: "json",
-            data: $(this).serialize(),
+            data: data,
+            processData: false,
+            contentType: false,
             success: function(data) {
-                console.log(data.content);
                 if(data.status == 0){
+                    console.log(data);
+
+
                     $('#editMediaModalContent').html(data.content);
                     parseCrop();
                 } else {
                     $('#editMediaModal').modal('hide');
-                    console.log('TO FINALIZE');
 
-                    // var formListElement = $('.media-form-list[data-input-name='+$(this).attr('name')+']');
-                    // refreshFormList(formListElement);
+                    var mediaId = form.find('[name=id]').val();
+                    var d = new Date();
+
+                    $('[data-media-id='+ mediaId +'] img').attr('src', data.url + '?' + d.getTime());
+                    $('.invalid-media[data-media-id='+ mediaId +']').removeClass('invalid-media');
+
+                    checkFormCanBeSubmit();
                 }
             }
         });
@@ -181,9 +209,10 @@ $(function() {
 
         $.ajax({
             url: mediaFormAction + '?id=' + mediaId,
-            cache: false
-        }).done(function( html ) {
-            $( "#editMediaModalContent" ).html( html );
+            cache: false,
+            dataType: "json",
+        }).done(function( data ) {
+            $( "#editMediaModalContent" ).html( data.content );
             parseCrop();
         });
     });

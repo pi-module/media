@@ -201,7 +201,7 @@ class Doc extends AbstractApi
         );
 
         if($imageMaxW && $imageMaxH){
-            $uploader->setImageSize(array('maxwidth' => $imageMinW, 'maxheight' => $imageMinH));
+            $uploader->setImageSize(array('maxwidth' => $imageMaxW, 'maxheight' => $imageMaxH));
         }
 
         $result = $uploader->isValid();
@@ -644,7 +644,6 @@ class Doc extends AbstractApi
                 $invalidFields[] = $element->getName();
             }
         }
-
 
         return $invalidFields;
     }
