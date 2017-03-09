@@ -531,21 +531,31 @@ class Doc extends AbstractApi
     }
 
     /**
-     * Get Original Single link url
+     * Get Original Single link data
      * @param $value
-     * @return bool
+     * @return array|bool
      */
-    public function getOriginalSingleLinkUrl($value){
+    public function getSingleLinkData($value, $width = null, $height = null, $quality = null){
         $ids = explode(',', $value);
 
         if($ids){
+
+            $id = array_shift($ids);
+
             /**
              * @todo get seasonable media
              */
-            $media = Pi::model('doc', $this->module)->find(array_shift($ids));
-            $publicPath = 'upload/media' . $media['path'] . $media['filename'];
 
-            return Pi::url($publicPath);
+            $media = Pi::model('doc', $this->module)->find($id);
+
+            $data = $media->toArray();
+            $data['url'] = (string) Pi::api('resize', 'media')->resize($media);
+
+            if($width && $height){
+                $data['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->thumbcrop($width, $height)->quality($quality);
+            }
+
+            return $data;
         }
 
         return false;
@@ -554,9 +564,9 @@ class Doc extends AbstractApi
     /**
      * Get Original Gallery link data
      * @param $value
-     * @return bool
+     * @return array|bool
      */
-    public function getOriginalGalleryLinkData($value){
+    public function getGalleryLinkData($value, $width = null, $height = null, $quality = null){
         $ids = explode(',', $value);
 
         if($ids){
@@ -576,7 +586,12 @@ class Doc extends AbstractApi
             $mediaArray = array();
             foreach($mediaCollection as $media){
                 $dataToInject = $media->toArray();
-                $dataToInject['url'] = Pi::url('upload/media' . $media->path . $media->filename);
+                $dataToInject['url'] = (string) Pi::api('resize', 'media')->resize($media);
+
+                if($width && $height){
+                    $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->thumbcrop($width, $height)->quality($quality);
+                }
+
                 $mediaArray[] = $dataToInject;
             }
 
@@ -589,7 +604,7 @@ class Doc extends AbstractApi
     /**
      * Resize by media values
      */
-    public function getResizedSingleLinkUrl($value){
+    public function getSingleLinkUrl($value){
 
         $ids = explode(',', $value);
 
