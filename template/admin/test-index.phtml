@@ -46,8 +46,7 @@
                             <?php endforeach; ?>
                         </td>
                         <td>
-                            <?php $sizes = array(320,768,900,1200); ?>
-                            <?php echo Pi::api('doc','media')->getSingleLinkPictureTag($test['main_image'], $sizes, 90) ?>
+                            <?php echo Pi::api('doc','media')->getSingleLinkPictureTag($test['main_image'], array(320,768,900,1200), 90) ?>
                         </td>
                         <td>
                             <a href="<?php echo $this->url('', array('action' => 'edit', 'id' => $test['id'])); ?>" class="btn btn-primary btn-xs"><?php echo _a('Update'); ?></a>
