@@ -618,6 +618,41 @@ class Doc extends AbstractApi
         return false;
     }
 
+    public function getSingleLinkPictureTag($value, $sizes = array(320,768,1200,2000), $quality = null){
+
+        $ids = explode(',', $value);
+
+        if($ids){
+
+            $id = array_shift($ids);
+
+            /**
+             * @todo get seasonable media
+             */
+
+            $media = Pi::model('doc', $this->module)->find($id);
+
+            $data = $media->toArray();
+            $data['urls'] = array();
+
+            $data['urls']['original'] = (string) Pi::api('resize', 'media')->resize($media);
+
+            foreach($sizes as $size){
+                $size = (int) $size;
+                $data['urls'][$size] = (string) Pi::api('resize', 'media')->resize($media)->thumb($size, floor($size * 1.5))->quality($quality);
+            }
+
+            $pictureView = new \Zend\View\Model\ViewModel;
+            $pictureView->setTemplate('front/partial/picture-tag');
+            $pictureView->setVariable('data', $data);
+            $pictureHtml = Pi::service('view')->render($pictureView);
+
+            return $pictureHtml;
+        }
+
+        return false;
+    }
+
     /**
      * @param \Pi\Db\RowGateway\RowGateway $media
      */
