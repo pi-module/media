@@ -447,6 +447,12 @@ class Doc extends AbstractApi
         if ($attr) {
             $select->columns($attr);
         }
+
+        $linkModel = Pi::model('link', $this->module);
+
+        $select->join(array('link' => $linkModel->getTable()), $model->getTable() . '.id = link.media_id', array('using_count' => new \Zend\Db\Sql\Expression('COUNT(DISTINCT object_id)')));
+        $select->group('id');
+
         $rowset = $model->selectWith($select);
         $result = array();
         foreach ($rowset as $row) {

@@ -101,6 +101,11 @@ class ListController extends ActionController
         $params['delete'] = $delete;
 
         $user = $this->params('user', null);
+
+        if(Pi::engine()->section() != 'admin'){
+            $user = Pi::user()->getId();
+        }
+
         if (is_numeric($user)) {
             $userModel = Pi::service('user')->getUser($user);
         } elseif ($user) {
