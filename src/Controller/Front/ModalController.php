@@ -73,12 +73,14 @@ class ModalController extends ActionController
         }
 
         $ids = $this->params('ids') ?: $this->ids;
+        $mediaModel = Pi::model('doc', 'media');
 
         $where = array(
-          new In('id', explode(',', $ids)),
+          new In($mediaModel->getTable().'.id', explode(',', $ids)),
         );
 
-        $order = array(new Expression('FIELD (id, '. $ids .')'));
+
+        $order = array(new Expression('FIELD ('.$mediaModel->getTable().'.id, '. $ids .')'));
 
         // Get media list
         $module = $this->getModule();
@@ -236,7 +238,7 @@ class ModalController extends ActionController
             $params['ip'] = Pi::user()->getIp();
 
             // Upload media
-            $response = Pi::api('doc', 'media')->upload($params, 'POST');
+            $response = Pi::api('doc', 'media')->upload($params);
 
 
             // Check

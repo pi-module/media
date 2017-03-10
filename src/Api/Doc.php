@@ -101,7 +101,12 @@ class Doc extends AbstractApi
             $data['time_created'] = time();
         }
         $row = $this->model()->createRow($data);
-        $row->save();
+
+        try{
+            $row->save();
+        }catch(\Exception $e){
+//            echo $e->getMessage();
+        }
 
         return (int) $row->id;
     }
@@ -450,8 +455,8 @@ class Doc extends AbstractApi
 
         $linkModel = Pi::model('link', $this->module);
 
-        $select->join(array('link' => $linkModel->getTable()), $model->getTable() . '.id = link.media_id', array('using_count' => new \Zend\Db\Sql\Expression('COUNT(DISTINCT object_id)')));
-        $select->group('id');
+        $select->join(array('link' => $linkModel->getTable()), $model->getTable() . '.id = link.media_id', array('using_count' => new \Zend\Db\Sql\Expression('COUNT(DISTINCT object_id)')), \Zend\Db\Sql\Select::JOIN_LEFT);
+        $select->group($model->getTable() . '.id');
 
         $rowset = $model->selectWith($select);
         $result = array();
@@ -649,7 +654,7 @@ class Doc extends AbstractApi
             }
 
             $pictureView = new \Zend\View\Model\ViewModel;
-            $pictureView->setTemplate('front/partial/picture-tag');
+            $pictureView->setTemplate('media:front/partial/picture-tag');
             $pictureView->setVariable('data', $data);
             $pictureHtml = Pi::service('view')->render($pictureView);
 

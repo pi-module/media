@@ -1,6 +1,6 @@
 <?php
-    $this->css($this->assetModule('css/cropper.min.css'));
-    $this->js($this->assetModule('js/cropper.min.js'));
+    $this->css($this->assetModule('css/cropper.min.css', 'media'));
+    $this->js($this->assetModule('js/cropper.min.js', 'media'));
 
     $config = Pi::service('registry')->config->read($module);
 

@@ -30,17 +30,16 @@ class Media extends \Zend\Form\Element\Text
 
         $assetHelper = Pi::service('view')->gethelper('assetModule');
         $jsHelper = Pi::service('view')->gethelper('js');
-        $jsHelper($assetHelper('js/dropzone.js'));
-        $jsHelper($assetHelper('js/jquery.dataTables.min.js'));
-        $jsHelper($assetHelper('js/dataTables.bootstrap.min.js'));
+        $jsHelper($assetHelper('js/dropzone.js', 'media'));
+        $jsHelper($assetHelper('js/jquery.dataTables.min.js', 'media'));
+        $jsHelper($assetHelper('js/dataTables.bootstrap.min.js', 'media'));
 
-        $jsHelper($assetHelper('js/modal.js'));
+        $jsHelper($assetHelper('js/modal.js', 'media'));
 
         $cssHelper = Pi::service('view')->gethelper('css');
-        $cssHelper($assetHelper('css/dropzone.css'));
-//        $cssHelper($assetHelper('css/jquery.dataTables.min.css'));
-        $cssHelper($assetHelper('css/dataTables.bootstrap.css'));
-        $cssHelper($assetHelper('css/media.css'));
+        $cssHelper($assetHelper('css/dropzone.css', 'media'));
+        $cssHelper($assetHelper('css/dataTables.bootstrap.css', 'media'));
+        $cssHelper($assetHelper('css/media.css', 'media'));
 
         $uploadUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
             'module' => 'media',
@@ -120,18 +119,21 @@ class Media extends \Zend\Form\Element\Text
 </script>
 HTML;
 
+        $addLabel = __("Choose or add new media file");
         $name = $this->getName();
         $label = $this->getLabel();
         $isMediaGallery = $this->getOption('media_gallery') ? 1 : 0;
+        $noMediaLabel = __('No media for now...');
+
 
         $description = <<<HTML
         
 <div class="panel panel-default">
-  <div class="panel-heading"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-gallery="{$isMediaGallery}" data-toggle="modal" type="button" data-target="#addMediaModal"><span class="glyphicon glyphicon-picture"></span> {$label}</button></div>
+  <div class="panel-heading"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-gallery="{$isMediaGallery}" data-toggle="modal" type="button" data-target="#addMediaModal"><span class="glyphicon glyphicon-picture"></span> {$addLabel}</button></div>
   <div class="panel-body">
     <div class="media-form-list media-form-list-{$name}" data-input-name="{$name}" >
         <ul id="sortable">
-            <li class="ui-state-default">?</li>
+            <li class="ui-state-default">{$noMediaLabel}</li>
         </ul>
     </div>
     <!--<p class="text-center small">fezfzfefez</p>-->
@@ -143,7 +145,7 @@ HTML;
             $GLOBALS['isMediaModalLoaded'] = true;
 
             $cropView = new \Zend\View\Model\ViewModel;
-            $cropView->setTemplate('front/partial/crop');
+            $cropView->setTemplate('media:front/partial/crop');
             $cropView->setVariable('module', 'media');
             $cropView->setVariable('controller', 'list');
             $cropHtml = Pi::service('view')->render($cropView);
