@@ -25,21 +25,25 @@
 .media-form-list ul{
     padding:0;
     margin:0;
+    margin-left:-10px;
 }
 
 .media-form-list li{
     text-align: center;
     vertical-align: top;
     display:inline-block;
-    margin:0 10px 10px 0;
+    margin:0 0 10px 0;
+    padding-left:10px;
+    min-width:120px;
+    width:25%;
+    float:left;
 }
 
 .media-form-list li .box{
     text-align: center;
     vertical-align: middle;
-    display:inline-block;
-    width:100px;
-    min-height:100px;
+    /*display:inline-block;*/
+
     background-color:whitesmoke;
 }
 
@@ -71,6 +75,7 @@
 
 .media-list-incomplete + .media-alert{
     display:block!important;
+    clear:both;
 }
 
 #pi-media.userSection .container {

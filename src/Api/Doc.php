@@ -713,4 +713,21 @@ class Doc extends AbstractApi
 
         return (bool) $this->getInvalidFields($media);
     }
+
+    public function getSlugFilename($filename){
+        $filter = new Filter\Urlizer;
+        $slug = $filter($filename, '-', true);
+
+        return $slug;
+    }
+
+    public function getMediaPath($filename){
+        $slug = $this->getSlugFilename($filename);
+
+        $firstChars = str_split(substr($slug, 0, 3));
+
+        $relativeDestination = '/original/' . implode('/', $firstChars) . '/';
+
+        return $relativeDestination;
+    }
 }
