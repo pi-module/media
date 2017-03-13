@@ -72,3 +72,8 @@
 .media-list-incomplete + .media-alert{
     display:block!important;
 }
+
+#pi-media.userSection .container {
+    max-width: none;
+    width: auto;
+}

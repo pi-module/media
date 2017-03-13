@@ -1,24 +1,44 @@
-<h2 class="page-header"><?php echo _a('Edit Media'); ?></h2>
 <?php
-    if (empty($id)) {
-        $error = _a('No media select, please try again!');
-        include $this->template('./message-box.phtml');
-    } else {
+$this->css($this->assetModule('css/media.css'));
+$isUserSection = Pi::engine()->section() != 'admin';
 ?>
 
-<?php include $this->template('./message-box.phtml'); ?>
 
-<div>
-    <?php include $this->templateComponent('form'); ?>
+<div class="clearfix row">
+    <?php if($isUserSection) : ?>
+        <div class="col-md-3">
+            <?php include $this->template('front/partial/list-side.phtml'); ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="<?php echo $isUserSection ? 'col-md-9' : 'col-md-12' ?>">
+        <h2 class="page-header"><?php echo _a('Edit Media'); ?></h2>
+        <?php
+        if (empty($id)) {
+            $error = _a('No media select, please try again!');
+            include $this->template('./message-box.phtml');
+        } else {
+            ?>
+
+            <?php include $this->template('./message-box.phtml'); ?>
+
+            <div>
+                <?php include $this->templateComponent('form'); ?>
+            </div>
+
+            <?php
+        }
+        ?>
+
+        <?php include $this->template('front/partial/crop'); ?>
+        <script>
+            jQuery(document).ready(function(){
+                parseCrop();
+            });
+        </script>
+
+    </div>
 </div>
 
-<?php
-    }
-?>
 
-<?php include $this->template('front/partial/crop'); ?>
-<script>
-    jQuery(document).ready(function(){
-        parseCrop();
-    });
-</script>
+
