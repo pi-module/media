@@ -730,4 +730,48 @@ class Doc extends AbstractApi
 
         return $relativeDestination;
     }
+
+
+    /**
+     * Insert media item
+     * @param $mediaData
+     * @param $originalImagePath
+     * @return mixed
+     */
+    public function insertMedia($mediaData, $originalImagePath){
+        $options    = Pi::service('media')->getOption('local', 'options');
+        $rootPath   = $options['root_path'];
+
+        if(is_file($originalImagePath)){
+            $baseFilename = basename($originalImagePath);
+
+            $path = Pi::api('doc', 'media')->getMediaPath($baseFilename);
+            $slug = Pi::api('doc', 'media')->getSlugFilename($baseFilename);
+
+            $mediaData['mimetype'] = mime_content_type($originalImagePath);
+            $mediaData['path'] = $path;
+            $mediaData['filename'] = $slug;
+
+            $destination = $rootPath . $path . $slug;
+
+            Pi::service('file')->mkdir($rootPath . $path);
+
+            if(!is_file($destination)){
+                @copy($originalImagePath, $destination);
+            }
+
+            $mediaEntity = Pi::model('doc', 'media')->select(array('filename' => $slug))->current();
+
+            if(!$mediaEntity || !$mediaEntity->id){
+                $mediaEntity = Pi::model('doc', 'media')->createRow($mediaData);
+                $mediaEntity->save();
+            }
+
+            return $mediaEntity->id;
+
+        } else {
+            Pi::service('audit')->log("migrate_media", "Media can't be created - original file does not exist");
+            Pi::service('audit')->log("migrate_media", json_encode($mediaData));
+        }
+    }
 }
