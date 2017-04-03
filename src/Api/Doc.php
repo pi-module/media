@@ -771,6 +771,7 @@ class Doc extends AbstractApi
 
         } else {
             Pi::service('audit')->log("migrate_media", "Media can't be created - original file does not exist");
+            Pi::service('audit')->log("migrate_media", $originalImagePath);
             Pi::service('audit')->log("migrate_media", json_encode($mediaData));
         }
     }
