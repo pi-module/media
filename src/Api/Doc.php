@@ -559,6 +559,10 @@ class Doc extends AbstractApi
 
             $media = Pi::model('doc', $this->module)->find($id);
 
+            if(!$media){
+                return null;
+            }
+
             $data = $media->toArray();
             $data['url'] = (string) Pi::api('resize', 'media')->resize($media);
 
