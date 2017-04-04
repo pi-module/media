@@ -31,10 +31,16 @@ class Resize extends AbstractApi
             $media = Pi::model('doc', $this->module)->find($media);
         }
 
-        $publicPath = 'upload/media' . $media['path'] . $media['filename'];
+        $publicPath = !empty($media['path']) ? 'upload/media' . $media['path'] . $media['filename'] : '';
         $helper = Pi::service('view')->getHelper('resize');
 
-        return $helper($publicPath, $media['cropping']);
+        $helper = $helper($publicPath, !empty($media['cropping']) ? $media['cropping'] : '');
+
+        if(getenv('TEST_MEDIA')){
+            $helper->gamma(0.00001);
+        }
+
+        return $helper;
     }
 
     public function resizeFormList($media){
