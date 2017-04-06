@@ -35,7 +35,7 @@ CREATE TABLE `{test}` (
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
 
-ALTER TABLE `{test}` ADD `main_image` INT NULL AFTER `title`, ADD `additional_images` VARCHAR NULL AFTER `main_image`;
+ALTER TABLE `{test}` ADD `main_image` INT NULL AFTER `title`, ADD `additional_images` VARCHAR(255) NULL AFTER `main_image`;
 
 # Link table
 CREATE TABLE `{link}` (
