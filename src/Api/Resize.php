@@ -36,7 +36,7 @@ class Resize extends AbstractApi
 
         $helper = $helper($publicPath, !empty($media['cropping']) ? $media['cropping'] : '');
 
-        if(getenv('TEST_MEDIA')){
+        if(getenv('TEST_MEDIA') || is_file('MEDIA_TEST_FLAG')){
             $helper->grayscale();
         }
 
