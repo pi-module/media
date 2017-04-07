@@ -491,7 +491,7 @@ class Doc extends AbstractApi
         $path = $this->get($id, 'path');
         $filename = $this->get($id, 'filename');
 
-        return Pi::url('/upload/media' .$path . $filename);
+        return Pi::url('upload/media' .$path . $filename);
     }
 
     /**
