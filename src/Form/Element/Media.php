@@ -70,6 +70,8 @@ class Media extends \Zend\Form\Element\Text
         $formModalSaveBtn = __("Save");
         $formModalCancelBtn = __("Cancel");
 
+        $loader = $assetHelper('image/spinner.gif', 'media');
+
         $modalHtml = <<<HTML
         
 <div id="addMediaModal" class="modal fade" tabindex="-1" role="dialog">
@@ -83,6 +85,9 @@ class Media extends \Zend\Form\Element\Text
             
                 <div id="dropzone-media-form" class="dropzone"></div>
                 <br />
+                <div class="ajax-spinner">
+                    <img src="{$loader}" class="ajax-spinner-loader" alt="" />
+                </div>
                 <div id="media_gallery"></div>
             </div>
             <div class="modal-footer">

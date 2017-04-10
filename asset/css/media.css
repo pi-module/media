@@ -82,3 +82,10 @@
     max-width: none;
     width: auto;
 }
+
+.ajax-spinner-loader {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    width: 70px;
+}

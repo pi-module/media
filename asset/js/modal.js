@@ -53,6 +53,7 @@ var loadList  = function(){
         url: listUrl,
         cache: false
     }).done(function( html ) {
+        $('.ajax-spinner').hide();
         $( "#media_gallery" ).html( html );
 
         var inputName = $('#addMediaModal').attr('data-input-name');
@@ -93,6 +94,10 @@ $(function() {
     // Dropzone class:
     var myDropzone = new Dropzone("#dropzone-media-form", { url: uploadUrl});
 
+    myDropzone.on("processing", function(file) {
+        $('.ajax-spinner').show();
+    });
+
     myDropzone.on("complete", function(file) {
         loadList();
     });
@@ -122,6 +127,7 @@ $(function() {
 
     $('#addMediaModal').on('show.bs.modal', function (event) {
         $( "#media_gallery" ).html('');
+        $('.ajax-spinner').show();
     }).on('shown.bs.modal', function (event) {
 
         loadList();
@@ -140,6 +146,7 @@ $(function() {
             url: $(this).attr('href'),
             cache: false
         }).done(function( html ) {
+            $('.ajax-spinner').hide();
             $( "#media_gallery" ).html( html );
         });
     });

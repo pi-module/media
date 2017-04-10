@@ -48,6 +48,9 @@ CREATE TABLE `{link}` (
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
 
+ALTER TABLE `{link}` ADD INDEX( `media_id`);
+
+
 # Extended meta for docs
 CREATE TABLE `{meta}` (
   `id`    INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,

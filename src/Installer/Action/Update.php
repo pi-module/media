@@ -163,6 +163,28 @@ SQL;
                 return false;
             }
         }
+
+        if (version_compare($moduleVersion, '1.0.9', '<')) {
+
+            $sql =<<<SQL
+ALTER TABLE %s ADD INDEX( `media_id`);
+SQL;
+
+            $sql = sprintf($sql, $linkTable);
+            try {
+                $linkAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+        }
+
+
+
             
         return true;
     }
