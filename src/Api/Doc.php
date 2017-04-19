@@ -583,37 +583,39 @@ class Doc extends AbstractApi
      * @return array|bool
      */
     public function getGalleryLinkData($value, $width = null, $height = null, $quality = null){
-        $ids = explode(',', $value);
+        if($value){
+            $ids = explode(',', $value);
 
-        if($ids){
-            /**
-             * @todo get seasonable media
-             */
+            if($ids){
+                /**
+                 * @todo get seasonable media
+                 */
 
-            $model = Pi::model('doc', $this->module);
-            $select = $model->select();
+                $model = Pi::model('doc', $this->module);
+                $select = $model->select();
 
-            $select->where(array(
-                new In('id', $ids),
-            ));
+                $select->where(array(
+                    new In('id', $ids),
+                ));
 
-            $select->order(array(new Expression('FIELD (id, '.implode(',', $ids).')')));
+                $select->order(array(new Expression('FIELD (id, '.implode(',', $ids).')')));
 
-            $mediaCollection = Pi::model('doc', $this->module)->selectWith($select);
+                $mediaCollection = Pi::model('doc', $this->module)->selectWith($select);
 
-            $mediaArray = array();
-            foreach($mediaCollection as $media){
-                $dataToInject = $media->toArray();
-                $dataToInject['url'] = (string) Pi::api('resize', 'media')->resize($media);
+                $mediaArray = array();
+                foreach($mediaCollection as $media){
+                    $dataToInject = $media->toArray();
+                    $dataToInject['url'] = (string) Pi::api('resize', 'media')->resize($media);
 
-                if($width && $height){
-                    $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->thumb($width, $height)->quality($quality);
+                    if($width && $height){
+                        $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->thumb($width, $height)->quality($quality);
+                    }
+
+                    $mediaArray[] = $dataToInject;
                 }
 
-                $mediaArray[] = $dataToInject;
+                return $mediaArray;
             }
-
-            return $mediaArray;
         }
 
         return false;
