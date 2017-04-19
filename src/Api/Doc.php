@@ -17,6 +17,7 @@ use Pi;
 use Pi\Application\Api\AbstractApi;
 use Pi\File\Transfer\Upload;
 use Pi\Filter;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Predicate\In;
 
 class Doc extends AbstractApi
@@ -595,6 +596,8 @@ class Doc extends AbstractApi
             $select->where(array(
                 new In('id', $ids),
             ));
+
+            $select->order(array(new Expression('FIELD (id, '.implode(',', $ids).')')));
 
             $mediaCollection = Pi::model('doc', $this->module)->selectWith($select);
 
