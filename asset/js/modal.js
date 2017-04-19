@@ -58,7 +58,7 @@ var loadList  = function(){
         url: listUrl,
         cache: false
     }).done(function( html ) {
-        $('.ajax-https://github.com/pi-engine/guide/issues/1013spinner').hide();
+        $('.ajax-spinner').hide();
         $( "#media_gallery" ).html( html );
 
         var inputName = $('#addMediaModal').attr('data-input-name');
