@@ -1,0 +1,16 @@
+<?php
+    $this->css($this->assetModule('script/admin.css'));
+    $this->jquery();
+    $this->js(Pi::url('public/vendor/bootstrap/js/bootstrap.js'));
+?>
+
+<div id="message-box">
+    <?php if (isset($message)) { ?>
+        <div class="alert alert-danger">
+            <button class="close" data-dismiss="alert" type="button">×</button>
+            <?php echo $message; ?>
+        </div>
+    <?php } ?>
+</div>
+
+<a href="<?php echo $this->url('', array('action' => 'fillDescription')); ?>" class="btn btn-primary"><?php echo _a('Fill Descriptions'); ?></a>

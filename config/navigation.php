@@ -101,6 +101,15 @@ return array(
                     'resource'  => 'test',
                 ),
             ),
+            'tools'              => array(
+                'label'         => _t('Tools'),
+                'route'         => 'admin',
+                'controller'    => 'tools',
+                'action'        => 'index',
+                'permission'    => array(
+                    'resource'  => 'tools',
+                ),
+            ),
         ),
     ),
 );
