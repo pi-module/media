@@ -64,6 +64,7 @@ var loadList  = function(){
         });
 
         $('#media_gallery .table').DataTable({
+            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
             "language" : {
                 "sProcessing":     "Traitement en cours...",
                 "sSearch":         "Rechercher&nbsp;:",
