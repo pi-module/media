@@ -126,10 +126,9 @@ HTML;
 
         $addLabel = __("Choose or add new media file");
         $name = $this->getName();
-        $label = $this->getLabel();
         $isMediaGallery = $this->getOption('media_gallery') ? 1 : 0;
         $noMediaLabel = __('No media for now...');
-
+        $loader = $assetHelper('image/spinner.gif', 'media');
 
         $description = <<<HTML
         
@@ -137,7 +136,10 @@ HTML;
   <div class="panel-heading"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-gallery="{$isMediaGallery}" data-toggle="modal" type="button" data-target="#addMediaModal"><span class="glyphicon glyphicon-picture"></span> {$addLabel}</button></div>
   <div class="panel-body">
     <div class="media-form-list media-form-list-{$name}" data-input-name="{$name}" >
-        <ul id="sortable">
+        <div class="ajax-spinner hide">
+            <img src="{$loader}" class="ajax-spinner-loader" alt="" />
+        </div>
+        <ul id="sortable" class="sortable-list">
             <li class="ui-state-default">{$noMediaLabel}</li>
         </ul>
     </div>

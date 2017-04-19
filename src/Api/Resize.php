@@ -44,6 +44,6 @@ class Resize extends AbstractApi
     }
 
     public function resizeFormList($media){
-        return $this->resize($media)->thumb(200, 300);
+        return $this->resize($media)->thumbCrop(300, 200);
     }
 }

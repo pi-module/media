@@ -22,11 +22,16 @@ var refreshFormList = function(formList){
     var inputValues = inputElement.val();
 
     if(inputValues){
+        formList.find('.ajax-spinner').removeClass('hide');
+        formList.find('.sortable-list').remove();
+
         $.ajax({
             url: formlistUrl + "?ids=" + inputValues,
             cache: false
         }).done(function( html ) {
             formList.html( html );
+
+            formList.parents('.col-sm-5.js-form-element').removeClass('col-sm-5').addClass('col-sm-9');
 
             checkFormCanBeSubmit();
 
@@ -53,7 +58,7 @@ var loadList  = function(){
         url: listUrl,
         cache: false
     }).done(function( html ) {
-        $('.ajax-spinner').hide();
+        $('.ajax-https://github.com/pi-engine/guide/issues/1013spinner').hide();
         $( "#media_gallery" ).html( html );
 
         var inputName = $('#addMediaModal').attr('data-input-name');
