@@ -47,9 +47,15 @@ class ToolsController extends ActionController
 
         if($mediaCollection->count()){
             foreach($mediaCollection as $mediaEntity){
-                preg_match('#(.*)\.(.*)$#', $mediaEntity->filename, $matches);
 
-                $mediaEntity->description = ucfirst(str_replace('-', ' ', $matches[1]));
+                if($mediaEntity->title){
+                    $mediaEntity->description = ucfirst($mediaEntity->title);
+                } else {
+                    preg_match('#(.*)\.(.*)$#', $mediaEntity->filename, $matches);
+
+                    $mediaEntity->description = ucfirst(str_replace('-', ' ', $matches[1]));
+                }
+
                 $mediaEntity->save();
             }
 
