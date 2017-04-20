@@ -53,6 +53,12 @@ class Media extends \Zend\Form\Element\Text
             'action' => 'list',
         ));
 
+        $currentSelectedMediaUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
+            'module' => 'media',
+            'controller' => 'modal',
+            'action' => 'currentSelectedMedia',
+        ));
+
         $formlistUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
             'module' => 'media',
             'controller' => 'modal',
@@ -66,11 +72,10 @@ class Media extends \Zend\Form\Element\Text
         ));
 
 
+        $checkedMediaTitle = __("Your selection");
         $formModalTitle = __("Edit");
         $formModalSaveBtn = __("Save");
         $formModalCancelBtn = __("Cancel");
-
-        $loader = $assetHelper('image/spinner.gif', 'media');
 
         $modalHtml = <<<HTML
         
@@ -85,10 +90,27 @@ class Media extends \Zend\Form\Element\Text
             
                 <div id="dropzone-media-form" class="dropzone"></div>
                 <br />
-                <div class="ajax-spinner">
-                    <img src="{$loader}" class="ajax-spinner-loader" alt="" />
+                
+                <div id="media_gallery">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px"></th>
+                            <th style="width: 10px">Thumbnail</th>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th style="width: 40px;"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
-                <div id="media_gallery"></div>
+                <hr />
+                <div id="selectedMediaListModal">
+                    <h4>{$checkedMediaTitle} :</h4>
+                    <ul class="list"></ul>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{$formModalCancelBtn}</button>
@@ -119,6 +141,7 @@ class Media extends \Zend\Form\Element\Text
 <script>
     var uploadUrl = "{$uploadUrl}";
     var listUrl = "{$listUrl}";
+    var currentSelectedMediaUrl = "{$currentSelectedMediaUrl}";
     var formlistUrl = "{$formlistUrl}";
     var mediaFormAction = "{$mediaFormAction}";
 </script>

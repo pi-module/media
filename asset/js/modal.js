@@ -53,47 +53,80 @@ var refreshFormList = function(formList){
     }
 };
 
-var loadList  = function(){
-    $.ajax({
-        url: listUrl,
-        cache: false
-    }).done(function( html ) {
-        $('.ajax-spinner').hide();
-        $( "#media_gallery" ).html( html );
+var addMediaToModal = function(media){
+    var container = $('#selectedMediaListModal .list');
+    var html = container.html();
+    var mediaTmpl = '<li><img data-selected-media-id="'+media.id+'" class="thumbnail" src="' + media.img + '" /></li>';
+    container.html(html + mediaTmpl);
+};
 
+var loadList  = function(){
+
+    var inputName = $('#addMediaModal').attr('data-input-name');
+    var inputCurrent = $('[name="'+ inputName +'"]').val();
+
+    if(inputCurrent){
+        $.ajax({
+            url: currentSelectedMediaUrl + "?ids=" + inputCurrent,
+            cache: false,
+            dataType: 'json'
+        }).done(function( data ) {
+            data.forEach(function(media){
+                addMediaToModal(media);
+            });
+        });
+    }
+
+    $('#media_gallery .table').DataTable({
+        "lengthMenu": [[5, 10, 20], [5, 10, 20]],
+        "bDestroy": true,
+        "ordering": false,
+        "processing": true,
+        "serverSide": true,
+        "ajax": listUrl,
+        "columns": [
+            {
+                "data": "checked",
+                "className": "checked-column"
+            },
+            { "data": "img" },
+            { "data": "title" },
+            { "data": "date" },
+            { "data": "removeBtn" }
+        ],
+        "language" : {
+            "sProcessing":     "Traitement en cours...",
+            "sSearch":         "Rechercher&nbsp;:",
+            "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+            "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+            "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sInfoPostFix":    "",
+            "sLoadingRecords": "Chargement en cours...",
+            "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+            "oPaginate": {
+                "sFirst":      "Premier",
+                "sPrevious":   "Pr&eacute;c&eacute;dent",
+                "sNext":       "Suivant",
+                "sLast":       "Dernier"
+            },
+            "oAria": {
+                "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+            }
+        },
+        "initComplete": function(settings, json) {
+
+        }
+    }).on( 'draw.dt', function () {
         var inputName = $('#addMediaModal').attr('data-input-name');
         var inputCurrentArray = $('[name="'+ inputName +'"]').val().split(",");
 
         inputCurrentArray.forEach(function(value){
             $('[data-media-id="'+value+'"]').addClass('checked');
         });
-
-        $('#media_gallery .table').DataTable({
-            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
-            "language" : {
-                "sProcessing":     "Traitement en cours...",
-                "sSearch":         "Rechercher&nbsp;:",
-                "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
-                "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-                "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-                "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-                "sInfoPostFix":    "",
-                "sLoadingRecords": "Chargement en cours...",
-                "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
-                "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
-                "oPaginate": {
-                    "sFirst":      "Premier",
-                    "sPrevious":   "Pr&eacute;c&eacute;dent",
-                    "sNext":       "Suivant",
-                    "sLast":       "Dernier"
-                },
-                "oAria": {
-                    "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
-                    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
-                }
-            }
-        });
-    });
+    } );
 };
 
 $(function() {
@@ -132,11 +165,6 @@ $(function() {
     });
 
     $('#addMediaModal').on('show.bs.modal', function (event) {
-        $( "#media_gallery" ).html('');
-        $('.ajax-spinner').show();
-    }).on('shown.bs.modal', function (event) {
-
-        loadList();
 
         var button = $(event.relatedTarget);
         var inputName = button.attr('data-input-name');
@@ -144,17 +172,10 @@ $(function() {
 
         $(this).attr('data-input-name', inputName);
         $(this).attr('data-media-gallery', mediaGallery);
-    });
 
-    $( document ).on('click', '#media_gallery a.do-ajax', function(e){
-        e.preventDefault();
-        $.ajax({
-            url: $(this).attr('href'),
-            cache: false
-        }).done(function( html ) {
-            $('.ajax-spinner').hide();
-            $( "#media_gallery" ).html( html );
-        });
+        $('#selectedMediaListModal .list').html('');
+
+        loadList();
     });
 
     $( document ).on('click', '[data-media-id]', function(e){
@@ -162,9 +183,17 @@ $(function() {
 
         if($("#addMediaModal").attr('data-media-gallery') == 0){
             $('[data-media-id]').removeClass('checked');
+            $('#selectedMediaListModal .list').html('');
         }
 
         $(this).toggleClass('checked');
+
+        var media = {
+            id: $(this).attr('data-media-id'),
+            img: $(this).attr('data-media-img')
+        };
+
+        addMediaToModal(media);
     });
 
     $(document).on('submit', '#editMediaModalContent form',  function (event) {

@@ -29,6 +29,10 @@ class ModalController extends ActionController
      */
     public function listAction()
     {
+        $draw = $this->params('draw');
+        $length = $this->params('length');
+        $start = $this->params('start');
+
         if(Pi::service()->hasService('log')){
             Pi::service()->getService('log')->mute(true);
         }
@@ -37,30 +41,99 @@ class ModalController extends ActionController
         $where['uid'] = Pi::user()->getId();
         $where['time_deleted'] = 0;
 
-        // Get media list
-        $module = $this->getModule();
-        $resultset = Pi::api('doc', $module)->getList(
-            $where,
-            0,
-            0,
-            'time_created DESC'
+        $mediaModel = Pi::model('doc', $this->getModule());
+
+        $select = $mediaModel->select();
+        $select->where($where);
+        $select->order('time_created DESC');
+        $resultsetFull = $mediaModel->selectWith($select);
+
+        $select = $mediaModel->select();
+        $select->where($where);
+        $select->order('time_created DESC');
+        $select->limit($length);
+        $select->offset($start);
+        $resultset = $mediaModel->selectWith($select);
+
+        $section = Pi::engine()->section() == 'admin' ? 'admin' : 'default';
+
+        $data = array();
+        foreach($resultset as $media) {
+
+            $removeBtn = '';
+
+            if (!$media->time_deleted) {
+                $removeUrl = $this->url($section, array(
+                    'controller'    => 'modal',
+                    'action'        => 'delete',
+                    'id'            => $media->id,
+                ));
+
+                $removeBtn = <<<PHP
+<a class="btn btn-danger btn-xs do-ajax" href = "$removeUrl" data-value="delete" >
+        <span class="glyphicon glyphicon-remove" ></span >
+    </a >
+PHP;
+            }
+
+            $img = (string) Pi::api('resize','media')->resize($media)->thumbcrop(50, 50);
+
+            $data[] = array(
+                'DT_RowAttr' => array(
+                    'data-media-id' => $media['id'],
+                    'data-media-img' => $img,
+                ),
+                'checked' => '<span class="glyphicon glyphicon-ok"></span>',
+                'img' => "<img src='" . $img . "' class='media-modal-thumb' />",
+                'title' => $media->title,
+                'date' => _date($media->time_created),
+                'removeBtn' => $removeBtn,
+            );
+        }
+
+        $output = array(
+            "draw" => (int) $draw,
+            "recordsTotal" => (int) $resultsetFull->count(),
+            "recordsFiltered" => (int) $resultsetFull->count(),
+            "data" => $data,
         );
 
-        // Total count
-        $totalCount = $this->getModel('doc')->count($where);
+        return $output;
+    }
 
-        /* @var Pi\Mvc\Controller\Plugin\View $view */
-        $view = $this->view();
+    /**
+     * List media
+     */
+    public function currentSelectedMediaAction()
+    {
+        $ids = $this->params('ids');
 
-        $view->setLayout('layout-content');
-        $view->setTemplate('../front/modal-list');
-        $view->assign(array(
-            'title'      => _a('Resource List'),
-            'medias'     => $resultset,
-            'section'   => Pi::engine()->section() == 'admin' ? 'admin' : 'default',
-        ));
+        if(Pi::service()->hasService('log')){
+            Pi::service()->getService('log')->mute(true);
+        }
 
-        return Pi::service('view')->render($view->getViewModel());
+        $where = array();
+        $where['uid'] = Pi::user()->getId();
+        $where['time_deleted'] = 0;
+        $where['id'] = explode(',', $ids);
+
+        $mediaModel = Pi::model('doc', $this->getModule());
+
+        $select = $mediaModel->select();
+        $select->where($where);
+        $select->order('time_created DESC');
+        $resultset= $mediaModel->selectWith($select);
+
+
+        $data = array();
+        foreach($resultset as $media) {
+            $data[] = array(
+                'id' => $media->id,
+                'img' => (string) Pi::api('resize','media')->resize($media)->thumbcrop(50, 50),
+            );
+        }
+
+        return $data;
     }
 
     /**

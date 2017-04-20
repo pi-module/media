@@ -89,3 +89,28 @@
     margin: 0 auto;
     width: 70px;
 }
+
+.media-modal-thumb {
+    max-height:none!important;
+}
+
+.dataTable{
+    width:100%!important;
+}
+
+#selectedMediaListModal ul{
+    margin:0;
+    padding:0;
+}
+
+#selectedMediaListModal ul li{
+    display:inline-block;
+    margin:0;
+    padding:0;
+    list-style: none;
+}
+
+#selectedMediaListModal ul li img{
+    display:inline-block;
+    margin:0 5px 5px 0;
+}
