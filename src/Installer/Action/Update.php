@@ -183,6 +183,46 @@ SQL;
             }
         }
 
+        if (version_compare($moduleVersion, '1.0.10', '<')) {
+            $sql = sprintf("ALTER TABLE %s ADD FULLTEXT `search_idx` (`title`, `description`);", $docTable);
+            try {
+                $docAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+
+            $sql = sprintf("ALTER TABLE %s ADD FULLTEXT `search_title_idx` (`title`);", $docTable);
+
+            try {
+                $docAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+
+            $sql = sprintf("ALTER TABLE %s ADD FULLTEXT `search_description_idx` (`description`);", $docTable);
+
+            try {
+                $docAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+        }
+
 
 
             

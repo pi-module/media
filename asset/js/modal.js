@@ -60,23 +60,12 @@ var addMediaToModal = function(media){
     container.html(html + mediaTmpl);
 };
 
-var loadList  = function(){
+var removeMediaToModal = function(media){
+    var container = $('#selectedMediaListModal .list');
+    container.find('[data-selected-media-id='+media.id+']').remove();
+};
 
-    var inputName = $('#addMediaModal').attr('data-input-name');
-    var inputCurrent = $('[name="'+ inputName +'"]').val();
-
-    if(inputCurrent){
-        $.ajax({
-            url: currentSelectedMediaUrl + "?ids=" + inputCurrent,
-            cache: false,
-            dataType: 'json'
-        }).done(function( data ) {
-            data.forEach(function(media){
-                addMediaToModal(media);
-            });
-        });
-    }
-
+var initDataTable = function(){
     $('#media_gallery .table').DataTable({
         "lengthMenu": [[5, 10, 20], [5, 10, 20]],
         "bDestroy": true,
@@ -120,13 +109,36 @@ var loadList  = function(){
 
         }
     }).on( 'draw.dt', function () {
-        var inputName = $('#addMediaModal').attr('data-input-name');
-        var inputCurrentArray = $('[name="'+ inputName +'"]').val().split(",");
 
-        inputCurrentArray.forEach(function(value){
-            $('[data-media-id="'+value+'"]').addClass('checked');
+        var container = $('#selectedMediaListModal .list');
+        var selectedMedia = container.find('[data-selected-media-id]');
+
+        selectedMedia.each(function(){
+            var id = $(this).attr('data-selected-media-id');
+            $('[data-media-id="'+id+'"]').addClass('checked');
         });
     } );
+};
+
+var loadList  = function(){
+    var inputName = $('#addMediaModal').attr('data-input-name');
+    var inputCurrent = $('[name="'+ inputName +'"]').val();
+
+    if(inputCurrent){
+        $.ajax({
+            url: currentSelectedMediaUrl + "?ids=" + inputCurrent,
+            cache: false,
+            dataType: 'json'
+        }).done(function( data ) {
+            data.forEach(function(media){
+                addMediaToModal(media);
+            });
+
+            initDataTable();
+        });
+    } else {
+        initDataTable();
+    }
 };
 
 $(function() {
@@ -138,17 +150,18 @@ $(function() {
     });
 
     myDropzone.on("complete", function(file) {
-        loadList();
+        $('#media_gallery .table').DataTable().ajax.reload();
     });
 
     $('#mediaModalSaveBtn').click(function(){
-
         var inputName = $('#addMediaModal').attr('data-input-name');
-
         var checkedMedia = [];
+        var container = $('#selectedMediaListModal .list');
+        var selectedMedia = container.find('[data-selected-media-id]');
 
-        $('#media_gallery [data-media-id].checked').each(function(){
-            checkedMedia.push($(this).attr('data-media-id'));
+        selectedMedia.each(function(){
+            var id = $(this).attr('data-selected-media-id');
+            checkedMedia.push(id);
         });
 
         $('[name="'+ inputName +'"]').val(checkedMedia.join()).change();
@@ -179,8 +192,6 @@ $(function() {
     });
 
     $( document ).on('click', '[data-media-id]', function(e){
-        e.preventDefault();
-
         if($("#addMediaModal").attr('data-media-gallery') == 0){
             $('[data-media-id]').removeClass('checked');
             $('#selectedMediaListModal .list').html('');
@@ -193,7 +204,34 @@ $(function() {
             img: $(this).attr('data-media-img')
         };
 
-        addMediaToModal(media);
+        if($(this).hasClass('checked')){
+            addMediaToModal(media);
+        } else {
+            removeMediaToModal(media);
+        }
+    });
+
+    $( document ).on('click', '#media_gallery a.remove-media-ajax', function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        if(!$(this).is('[disabled]')){
+            var mediaTr = $(this).parents('tr[data-media-id]');
+
+            var mediaId = mediaTr.attr('data-media-id');
+
+            var media = {
+                id: mediaId
+            };
+
+            $.ajax({
+                url: $(this).attr('href'),
+                cache: false
+            }).done(function( html ) {
+                $('#media_gallery .table').DataTable().ajax.reload(null, false);
+                removeMediaToModal(media);
+            });
+        }
     });
 
     $(document).on('submit', '#editMediaModalContent form',  function (event) {

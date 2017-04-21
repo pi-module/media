@@ -29,7 +29,10 @@ ALTER TABLE `{doc}`
   ADD KEY `active` (`active`),
   ADD KEY `uid` (`uid`),
   ADD KEY `appkey` (`appkey`),
-  ADD KEY `application` (`appkey`);
+  ADD KEY `application` (`appkey`),
+  ADD FULLTEXT KEY `search_idx` (`title`,`description`),
+  ADD FULLTEXT KEY `search_title_idx` (`title`),
+  ADD FULLTEXT KEY `search_description_idx` (`description`);
 
 
 # Test table

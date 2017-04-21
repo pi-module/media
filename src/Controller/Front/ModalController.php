@@ -32,6 +32,13 @@ class ModalController extends ActionController
         $draw = $this->params('draw');
         $length = $this->params('length');
         $start = $this->params('start');
+        $keyword = $this->params('search');
+
+        if(isset($keyword['value'])){
+            $keyword = $keyword['value'];
+        } else {
+            $keyword = null;
+        }
 
         if(Pi::service()->hasService('log')){
             Pi::service()->getService('log')->mute(true);
@@ -42,17 +49,43 @@ class ModalController extends ActionController
         $where['time_deleted'] = 0;
 
         $mediaModel = Pi::model('doc', $this->getModule());
+        $linkModel = Pi::model('link', $this->getModule());
 
         $select = $mediaModel->select();
         $select->where($where);
         $select->order('time_created DESC');
         $resultsetFull = $mediaModel->selectWith($select);
 
+
         $select = $mediaModel->select();
         $select->where($where);
-        $select->order('time_created DESC');
+
         $select->limit($length);
         $select->offset($start);
+        $select->join(array('link' => $linkModel->getTable()), $mediaModel->getTable() . ".id = link.media_id", array(), \Zend\Db\Sql\Select::JOIN_LEFT);
+        $select->group($mediaModel->getTable() . ".id");
+
+        $select->columns(array_merge($select->getRawState($select::COLUMNS), array(
+            new \Zend\Db\Sql\Expression('COUNT(DISTINCT link.id) as nb_links'),
+        )));
+
+        if($keyword && trim($keyword)){
+
+            $keyword = trim($keyword);
+            $keywordArray = explode(' ', $keyword);
+            $keywordBoolean = '+' . trim(implode(' +', $keywordArray));
+
+            $select->where(
+                new \Zend\Db\Sql\Predicate\Expression("MATCH(".$mediaModel->getTable() . ".title, ".$mediaModel->getTable() . ".description) AGAINST (? IN BOOLEAN MODE) OR ".$mediaModel->getTable() . ".title LIKE ? OR ".$mediaModel->getTable() . ".description LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%')
+            );
+            $select->columns(array_merge($select->getRawState($select::COLUMNS), array(
+                new \Zend\Db\Sql\Expression("((MATCH(".$mediaModel->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$mediaModel->getTable() . ".description) AGAINST (?) * 1)) AS score", array($keyword, $keyword)),
+            )));
+            $select->order('score DESC, time_created DESC');
+        } else {
+            $select->order('time_created DESC');
+        }
+
         $resultset = $mediaModel->selectWith($select);
 
         $section = Pi::engine()->section() == 'admin' ? 'admin' : 'default';
@@ -69,8 +102,14 @@ class ModalController extends ActionController
                     'id'            => $media->id,
                 ));
 
+                $disabled = '';
+
+                if($media->nb_links > 0){
+                    $disabled = 'disabled="disabled"';
+                }
+
                 $removeBtn = <<<PHP
-<a class="btn btn-danger btn-xs do-ajax" href = "$removeUrl" data-value="delete" >
+<a $disabled class="btn btn-danger btn-xs do-ajax remove-media-ajax" href = "$removeUrl" data-value="delete" >
         <span class="glyphicon glyphicon-remove" ></span >
     </a >
 PHP;
