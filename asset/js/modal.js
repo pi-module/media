@@ -70,7 +70,6 @@ var addMediaToModal = function(media){
         $(this).parents('li').remove();
         $('[data-media-id='+mediaId+']').removeClass('checked');
     });
-
 };
 
 var removeMediaToModal = function(media){
@@ -232,22 +231,36 @@ $(function() {
         e.stopImmediatePropagation();
 
         if(!$(this).is('[disabled]')){
-            var mediaTr = $(this).parents('tr[data-media-id]');
 
+            $('#removeMediaModal').modal();
+
+            var mediaTr = $(this).parents('tr[data-media-id]');
             var mediaId = mediaTr.attr('data-media-id');
 
-            var media = {
-                id: mediaId
-            };
-
-            $.ajax({
-                url: $(this).attr('href'),
-                cache: false
-            }).done(function( html ) {
-                $('#media_gallery .table').DataTable().ajax.reload(null, false);
-                removeMediaToModal(media);
-            });
+            $('#removeMediaModalBtn').attr('href', $(this).attr('data-href')).attr('data-media-id-to-remove', mediaId);
+        } else {
+            return false;
         }
+    });
+
+    $( document ).on('click', '#removeMediaModalBtn', function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        $('#removeMediaModal').modal('hide');
+
+        var mediaId = $(this).attr('data-media-id-to-remove');
+        var media = {
+            id: mediaId
+        };
+
+        $.ajax({
+            url: $(this).attr('href'),
+            cache: false
+        }).done(function( html ) {
+            $('#media_gallery .table').DataTable().ajax.reload(null, false);
+            removeMediaToModal(media);
+        });
     });
 
     $(document).on('submit', '#editMediaModalContent form',  function (event) {

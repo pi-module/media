@@ -72,6 +72,11 @@ class Media extends \Zend\Form\Element\Text
         ));
 
 
+        $closeTitle = __("Close");
+        $confirmTitle = __("Confirm");
+        $confirmDeleteHeaderTitle = __("Delete media");
+        $confirmDeleteActionTitle = __("Do you confirm you want to delete this media definitively ?");
+
         $checkedMediaTitle = __("Your selection");
         $formModalTitle = __("Edit");
         $formModalSaveBtn = __("Save");
@@ -115,6 +120,24 @@ class Media extends \Zend\Form\Element\Text
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{$formModalCancelBtn}</button>
                 <button id="mediaModalSaveBtn" type="button" class="btn btn-primary" data-dismiss="modal">{$saveBtnTitle}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="removeMediaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">$confirmDeleteHeaderTitle</h4>
+            </div>
+            <div class="modal-body">
+                $confirmDeleteActionTitle
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">$closeTitle</button>
+                <a id="removeMediaModalBtn" type="button" class="btn btn-primary">$confirmTitle</a>
             </div>
         </div>
     </div>
