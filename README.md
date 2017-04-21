@@ -10,3 +10,7 @@ usr/module/media/template/admin/test-index.phtml
 
 More resize commands here :
 https://github.com/tck/zf2-imageresizer#command-list
+
+For testing / find usages of old media system into template :
+- Add SetEnv TEST_MEDIA 1 into your www htaccess
+- Or create (empty) file at www directory name "MEDIA_TEST_FLAG" without extension
