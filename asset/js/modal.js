@@ -56,13 +56,26 @@ var refreshFormList = function(formList){
 var addMediaToModal = function(media){
     var container = $('#selectedMediaListModal .list');
     var html = container.html();
-    var mediaTmpl = '<li><img data-selected-media-id="'+media.id+'" class="thumbnail" src="' + media.img + '" /></li>';
+    var mediaTmpl = '<li>' +
+        '<button class="btn btn-default btn-xs unlink-media-btn">' +
+        '<span class="glyphicon glyphicon-remove"></span>' +
+        '</button>' +
+        '<img data-selected-media-id="'+media.id+'" class="thumbnail" src="' + media.img + '" />' +
+        '</li>';
     container.html(html + mediaTmpl);
+
+    container.find('.unlink-media-btn').on('click', function(){
+        var img = $(this).parents('li').find('img[data-selected-media-id]');
+        var mediaId = img.attr('data-selected-media-id');
+        $(this).parents('li').remove();
+        $('[data-media-id='+mediaId+']').removeClass('checked');
+    });
+
 };
 
 var removeMediaToModal = function(media){
     var container = $('#selectedMediaListModal .list');
-    container.find('[data-selected-media-id='+media.id+']').remove();
+    container.find('[data-selected-media-id='+media.id+']').parents('li').remove();
 };
 
 var initDataTable = function(){

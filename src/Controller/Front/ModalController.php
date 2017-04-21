@@ -110,8 +110,8 @@ class ModalController extends ActionController
 
                 $removeBtn = <<<PHP
 <a $disabled class="btn btn-danger btn-xs do-ajax remove-media-ajax" href = "$removeUrl" data-value="delete" >
-        <span class="glyphicon glyphicon-remove" ></span >
-    </a >
+    <span class="glyphicon glyphicon-remove" ></span >
+</a>
 PHP;
             }
 

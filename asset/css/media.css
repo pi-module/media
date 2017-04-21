@@ -108,9 +108,19 @@
     margin:0;
     padding:0;
     list-style: none;
+    position:relative;
 }
 
 #selectedMediaListModal ul li img{
     display:inline-block;
     margin:0 5px 5px 0;
+}
+
+#selectedMediaListModal ul li .unlink-media-btn{
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    color: white;
+    border: 0;
 }
