@@ -143,7 +143,10 @@ var loadList  = function(){
 
 $(function() {
     // Dropzone class:
-    var myDropzone = new Dropzone("#dropzone-media-form", { url: uploadUrl});
+    var myDropzone = new Dropzone("#dropzone-media-form", {
+        url: uploadUrl,
+        dictDefaultMessage: "Drop files here to upload new files<br />(or select existing files below)"
+    });
 
     myDropzone.on("processing", function(file) {
         $('.ajax-spinner').show();
