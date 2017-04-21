@@ -11,6 +11,8 @@ usr/module/media/template/admin/test-index.phtml
 More resize commands here :
 https://github.com/tck/zf2-imageresizer#command-list
 
-For testing / find usages of old media system into template :
+Activate grayscaling - For testing / find usages of old media system into templates : 
+Your non migrated images - e.g.e using old method instead of new media helpers - will be White&Black
+You can use for that purpose one of these 2 methods : 
 - Add SetEnv TEST_MEDIA 1 into your www htaccess
 - Or create (empty) file at www directory name "MEDIA_TEST_FLAG" without extension
