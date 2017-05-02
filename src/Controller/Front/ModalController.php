@@ -186,7 +186,7 @@ PHP;
             Pi::service()->getService('log')->mute(true);
         }
 
-        $ids = is_numeric($this->params('ids')) ? $this->params('ids') : $this->ids;
+        $ids = (is_numeric($this->params('ids')) || $this->params('ids')) ? $this->params('ids') : $this->ids;
 
         $mediaModel = Pi::model('doc', 'media');
 
