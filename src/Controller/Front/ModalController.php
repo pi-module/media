@@ -24,6 +24,8 @@ use Zend\Db\Sql\Predicate\In;
  */
 class ModalController extends ActionController
 {
+    var $ids = -1;
+
     /**
      * List media
      */
@@ -184,7 +186,8 @@ PHP;
             Pi::service()->getService('log')->mute(true);
         }
 
-        $ids = $this->params('ids') ?: $this->ids;
+        $ids = is_numeric($this->params('ids')) ? $this->params('ids') : $this->ids;
+
         $mediaModel = Pi::model('doc', 'media');
 
         $where = array(

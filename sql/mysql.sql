@@ -29,11 +29,12 @@ ALTER TABLE `{doc}`
   ADD KEY `active` (`active`),
   ADD KEY `uid` (`uid`),
   ADD KEY `appkey` (`appkey`),
-  ADD KEY `application` (`appkey`),
-  ADD FULLTEXT KEY `search_idx` (`title`,`description`),
-  ADD FULLTEXT KEY `search_title_idx` (`title`),
-  ADD FULLTEXT KEY `search_description_idx` (`description`);
+  ADD KEY `application` (`appkey`);
 
+ALTER TABLE `{doc}` ADD FULLTEXT KEY `search_idx` (`title`,`description`);
+ALTER TABLE `{doc}` ADD FULLTEXT KEY `search_title_idx` (`title`);
+ALTER TABLE `{doc}` ADD FULLTEXT KEY `search_description_idx` (`description`);
+ALTER TABLE `{doc}` MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 # Test table
 CREATE TABLE `{test}` (
