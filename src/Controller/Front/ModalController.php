@@ -154,8 +154,6 @@ PHP;
         }
 
         $where = array();
-        $where['uid'] = Pi::user()->getId();
-        $where['time_deleted'] = 0;
         $where['id'] = explode(',', $ids);
 
         $mediaModel = Pi::model('doc', $this->getModule());
@@ -164,7 +162,6 @@ PHP;
         $select->where($where);
         $select->order('time_created DESC');
         $resultset= $mediaModel->selectWith($select);
-
 
         $data = array();
         foreach($resultset as $media) {
@@ -239,6 +236,11 @@ PHP;
             // Get media list
             $module = $this->getModule();
             $media = Pi::model('doc', $module)->find($id);
+
+            // Front user can't delete media from others
+            if(Pi::engine()->section() != 'admin' && $media->uid != Pi::user()->getId()){
+                die('Not allowed');
+            }
 
             $form = new MediaEditForm('media', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)));
             $form->setAttribute('action', $this->url('', array('action' => 'mediaform')) . '?id=' . $id);
@@ -388,10 +390,17 @@ PHP;
             throw new \Exception(_a('Invalid media ID'));
         }
 
+        $where = array('id' => $ids);
+
+        // Front user can't delete media from others
+        if(Pi::engine()->section() != 'admin'){
+            $where['uid'] = Pi::user()->getId();
+        }
+
         // Mark media as deleted
         $this->getModel('doc')->update(
             array('time_deleted' => time()),
-            array('id' => $ids)
+            $where
         );
 
         return $this->redirect()->toRoute(

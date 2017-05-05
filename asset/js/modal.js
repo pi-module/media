@@ -21,36 +21,34 @@ var refreshFormList = function(formList){
     var inputElement = $('[name='+inputName+']');
     var inputValues = inputElement.val();
 
-    if(inputValues){
-        formList.find('.ajax-spinner').removeClass('hide');
-        formList.find('.sortable-list').remove();
+    formList.find('.ajax-spinner').removeClass('hide');
+    formList.find('.sortable-list').remove();
 
-        $.ajax({
-            url: formlistUrl + "?ids=" + inputValues,
-            cache: false
-        }).done(function( html ) {
-            formList.html( html );
+    $.ajax({
+        url: formlistUrl + "?ids=" + inputValues,
+        cache: false
+    }).done(function( html ) {
+        formList.html( html );
 
-            formList.parents('.col-sm-5.js-form-element').removeClass('col-sm-5').addClass('col-sm-9');
+        formList.parents('.col-sm-5.js-form-element').removeClass('col-sm-5').addClass('col-sm-9');
 
-            checkFormCanBeSubmit();
+        checkFormCanBeSubmit();
 
-            if(inputValues.split(',').length > 1){
-                $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).sortable({
-                    update: function( event, ui ) {
-                        var mediaElements = $(this).children('[data-media-id]');
+        if(inputValues.split(',').length > 1){
+            $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).sortable({
+                update: function( event, ui ) {
+                    var mediaElements = $(this).children('[data-media-id]');
 
-                        var newIds = [];
-                        mediaElements.each(function(){
-                            newIds.push($(this).attr('data-media-id'));
-                        });
+                    var newIds = [];
+                    mediaElements.each(function(){
+                        newIds.push($(this).attr('data-media-id'));
+                    });
 
-                        inputElement.val(newIds.join());
-                    }
-                }).disableSelection();
-            }
-        });
-    }
+                    inputElement.val(newIds.join());
+                }
+            }).disableSelection();
+        }
+    });
 };
 
 var addMediaToModal = function(media){
@@ -153,19 +151,51 @@ var loadList  = function(){
     }
 };
 
+var myDropzone;
+
 $(function() {
+
+    $(document).on('click', '.btn-unlink-action', function(){
+        var mediaId = $(this).data('media-id');
+
+        var input = $(this).parents('.js-form-element').find('.media-input');
+
+        var currentInputValue = input.val();
+        var currentInputValueArray = currentInputValue.split(',');
+
+        var newInputValueArray = currentInputValueArray.filter(function(item) {
+            return item != mediaId
+        });
+
+        input.val(newInputValueArray.join()).change();
+    });
+
     // Dropzone class:
-    var myDropzone = new Dropzone("#dropzone-media-form", {
+    myDropzone = new Dropzone("#dropzone-media-form", {
         url: uploadUrl,
-        dictDefaultMessage: "Drop files here to upload new files<br />(or select existing files below)"
+        dictDefaultMessage: "Drop files here to upload new files<br />(or select existing files below)",
+        init: function(){
+            this.on('resetFiles', function() {
+                if(this.files.length != 0){
+                    for(i=0; i<this.files.length; i++){
+                        this.files[i].previewElement.remove();
+                    }
+                    this.files.length = 0;
+                }
+
+                $('#dropzone-media-form').removeClass('dz-started');
+            });
+        }
     });
 
     myDropzone.on("processing", function(file) {
         $('.ajax-spinner').show();
     });
 
-    myDropzone.on("complete", function(file) {
-        $('#media_gallery .table').DataTable().ajax.reload();
+    myDropzone.on("success", function(file) {
+        $('#media_gallery .table').DataTable().ajax.reload(function(){
+            $('#media_gallery .table tbody tr:first-child').click();
+        });
     });
 
     $('#mediaModalSaveBtn').click(function(){
@@ -202,6 +232,8 @@ $(function() {
         $(this).attr('data-media-gallery', mediaGallery);
 
         $('#selectedMediaListModal .list').html('');
+
+        myDropzone.emit("resetFiles");
 
         loadList();
     });

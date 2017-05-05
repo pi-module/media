@@ -20,5 +20,4 @@ use Pi\File\Transfer\Download;
  */
 class ModalController extends \Module\Media\Controller\Front\ModalController
 {
-
 }

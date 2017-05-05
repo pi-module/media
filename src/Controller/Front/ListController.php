@@ -301,10 +301,17 @@ class ListController extends ActionController
         $id     = $this->params('id', 0);
         $from   = $this->params('redirect', '');
 
+        $where = array('id' => $id);
+
+        // Front user can't delete media from others
+        if(Pi::engine()->section() != 'admin'){
+            $where['uid'] = Pi::user()->getId();
+        }
+
         // Mark media as deleted
         $this->getModel('doc')->update(
             array('time_deleted' => time()),
-            array('id' => $id)
+            $where
         );
 
         $request = $this->getRequest();
@@ -429,6 +436,11 @@ class ListController extends ActionController
         if (!$row) {
             $this->view()->assign('id', $row->id);
             return;
+        }
+
+        // Front user can't delete media from others
+        if(Pi::engine()->section() != 'admin' && $row->uid != Pi::user()->getId()){
+            die('Not allowed');
         }
 
         $form = $this->getMediaForm('edit', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($row->id)));

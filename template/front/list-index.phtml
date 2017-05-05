@@ -253,15 +253,15 @@
                 status = el.attr("data-status");
             if (val == "delete") {
                 if (confirm("<?php echo _a('Please make sure this resource is not in use!'); ?>")) {
-                    location.href = url + "/delete?id=" + id + "&redirect=" + this.encodeUrl();
+                    location.href = url + "delete?id=" + id + "&redirect=" + this.encodeUrl();
                 }
             } else if (val == "undelete") {
-                location.href = url + "/undelete?id=" + id + "&redirect=" + this.encodeUrl();
+                location.href = url + "undelete?id=" + id + "&redirect=" + this.encodeUrl();
             } else if ('active' == val) {
-                location.href = url + "/" + val + "?id=" + id + "&status="
+                location.href = url + val + "?id=" + id + "&status="
                               + status + "&redirect=" + this.encodeUrl();
             } else if ('edit' != val) {
-                location.href = url + "/" + val + "?id=" + id + "&redirect=" + this.encodeUrl();
+                location.href = url + val + "?id=" + id + "&redirect=" + this.encodeUrl();
             }
         },
         encodeUrl : function() {
