@@ -618,7 +618,7 @@ class Doc extends AbstractApi
             }
         }
 
-        return false;
+        return array();
     }
 
     /**
