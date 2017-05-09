@@ -16,3 +16,6 @@ Your non migrated images - e.g.e using old method instead of new media helpers -
 You can use for that purpose one of these 2 methods : 
 - Add SetEnv TEST_MEDIA 1 into your www htaccess
 - Or create (empty) file at www directory name "MEDIA_TEST_FLAG" without extension
+
+If Jquery Ui from Pi Core is updated, custom jquery ui from this module must be also updated with only sortable component and dependencies :
+()widget.js, data.js, scroll-parent.js, widgets/sortable.js, widgets/mouse.js)
