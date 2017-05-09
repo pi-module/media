@@ -26,11 +26,11 @@ class Media extends \Zend\Form\Element\Text
 
         $jQueryHelper = Pi::service('view')->gethelper('jQuery');
         $jQueryHelper();
-        $jQueryHelper('ui/jquery-ui.min.js');
 
         $assetHelper = Pi::service('view')->gethelper('assetModule');
         $jsHelper = Pi::service('view')->gethelper('js');
         $jsHelper($assetHelper('js/dropzone.js', 'media'));
+        $jsHelper($assetHelper('js/jquery-ui.custom.min.js', 'media'));
         $jsHelper($assetHelper('js/jquery.dataTables.min.js', 'media'));
         $jsHelper($assetHelper('js/dataTables.bootstrap.min.js', 'media'));
 
