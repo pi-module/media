@@ -624,7 +624,7 @@ class Doc extends AbstractApi
     /**
      * Resize by media values
      */
-    public function getSingleLinkUrl($value){
+    public function getSingleLinkUrl($value, $quality = null){
 
         $ids = explode(',', $value);
 
@@ -632,7 +632,7 @@ class Doc extends AbstractApi
             /**
              * @todo get seasonable media
              */
-            return Pi::api('resize', 'media')->resize(array_shift($ids));
+            return Pi::api('resize', 'media')->resize(array_shift($ids))->quality($quality);
         }
 
         return false;
