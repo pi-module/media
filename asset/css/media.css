@@ -124,3 +124,14 @@
     color: white;
     border: 0;
 }
+
+.media-form-list ul{
+    display:block;
+}
+
+
+.media-form-list ul:after{
+    content:'';
+    display:block;
+    clear:both;
+}

@@ -209,6 +209,7 @@ HTML;
             $view->getHelper('footScript')->addHtml($cropHtml);
         }
 
+        $this->attributes['id'] = 'media_input_' . $this->getName();
         $this->attributes['class'] = 'media-input hide';
         $this->attributes['description'] = $description;
 
