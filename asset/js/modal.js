@@ -34,7 +34,6 @@ var refreshFormList = function(formList){
 
         checkFormCanBeSubmit();
 
-        // if(inputValues.split(',').length > 1){
             $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).sortable({
                 connectWith: '.media-list-sortable',
                 update: function( event, ui ) {
@@ -49,14 +48,8 @@ var refreshFormList = function(formList){
                 }
             });
 
-            // $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).disableSelection();
-        // }
+        // $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).disableSelection();
     });
-
-
-
-    // $('#media_input_additional_images').sortable( "option", "connectWith", '#media_input_main_image' );
-
 };
 
 var addMediaToModal = function(media){
