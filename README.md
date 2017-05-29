@@ -19,3 +19,7 @@ You can use for that purpose one of these 2 methods :
 
 If Jquery Ui from Pi Core is updated, custom jquery ui from this module must be also updated with only sortable component and dependencies :
 ()widget.js, data.js, scroll-parent.js, widgets/sortable.js, widgets/mouse.js)
+
+Media Helper, we have to cast the output to String, with echo function or caster as follow :
+<?php $shareImage = (string) Pi::api('doc','media')->getSingleLinkUrl($story['main_image'])->thumb(800, 600); ?>
+<?php Pi::api('doc','media')->getSingleLinkUrl($story['main_image'])->thumb(800, 600); ?>
