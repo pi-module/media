@@ -26,7 +26,9 @@ return array(
     ),
     // Author information
     'author'        => array(
-        'Name'          => 'Zongshu Lin',
+        'Dev'          => 'Zongshu Lin; Frederic Tissot',
+		'Design'     => '@marc-pi, @esprit-dev',
+        'QA'        => '@marc-pi',
         'Email'         => 'zongshu@eefocus.com',
         'Website'       => 'http://www.github.com/linzongshu',
         'Credits'       => 'Pi Engine Team.'
