@@ -24,6 +24,5 @@ Media Helper, we have to cast the output to String, with echo function or caster
 <?php $shareImage = (string) Pi::api('doc','media')->getSingleLinkUrl($story['main_image'])->thumb(800, 600); ?>
 <?php Pi::api('doc','media')->getSingleLinkUrl($story['main_image'])->thumb(800, 600); ?>
 
-If not casted, some problems may occur as :
-- Performances
-- Duplciate instance of the same helper / sames parameters (with, height, quality...)
+If not casted : duplicated instance of the same helper / sames parameters (with, height, quality...) :
+Clone the helper is not a good solution for performance
