@@ -23,3 +23,7 @@ If Jquery Ui from Pi Core is updated, custom jquery ui from this module must be 
 Media Helper, we have to cast the output to String, with echo function or caster as follow :
 <?php $shareImage = (string) Pi::api('doc','media')->getSingleLinkUrl($story['main_image'])->thumb(800, 600); ?>
 <?php Pi::api('doc','media')->getSingleLinkUrl($story['main_image'])->thumb(800, 600); ?>
+
+If not casted, some problems may occur as :
+- Performances
+- Duplciate instance of the same helper / sames parameters (with, height, quality...)
