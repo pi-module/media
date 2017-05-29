@@ -586,6 +586,8 @@ class Doc extends AbstractApi
         if($value){
             $ids = explode(',', $value);
 
+            $ids = array_filter($ids);
+
             if($ids){
                 /**
                  * @todo get seasonable media
