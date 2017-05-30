@@ -34,21 +34,43 @@ var refreshFormList = function(formList){
 
         checkFormCanBeSubmit();
 
-            $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).sortable({
-                connectWith: '.media-list-sortable',
-                update: function( event, ui ) {
-                    var mediaElements = $(this).children('[data-media-id]');
+        $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).sortable({
+            connectWith: '.media-list-sortable',
+            update: function( event, ui ) {
+                var mediaElements = $(this).children('[data-media-id]');
 
-                    var newIds = [];
-                    mediaElements.each(function(){
-                        newIds.push($(this).attr('data-media-id'));
-                    });
+                var newIds = [];
+                mediaElements.each(function(){
+                    newIds.push($(this).attr('data-media-id'));
+                });
 
-                    inputElement.val(newIds.join());
-                }
-            });
+                inputElement.val(newIds.join());
+            }
+        });
 
-        // $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).disableSelection();
+        var max = formList.data('max-gallery-images');
+        var freemium = formList.data('freemium');
+
+        formList.find('.btn-edit-action').click(function(e){
+
+            if(freemium == '1' && $('input[name=id]').length){
+                $('#freemiumAlert').modal('show');
+
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        $('button[data-input-name="'+inputName+'"]').click(function(e){
+            var currentSelectionLength = formList.find('li[data-media-id]').length;
+
+            if(freemium == '1' && currentSelectionLength >= max){
+                $('#freemiumAlert').modal('show');
+
+                e.preventDefault();
+                return false;
+            }
+        });
     });
 };
 
@@ -171,9 +193,11 @@ $(function() {
         input.val(newInputValueArray.join()).change();
     });
 
+
     // Dropzone class:
     myDropzone = new Dropzone("#dropzone-media-form", {
         url: uploadUrl,
+        // autoQueue: false,
         dictDefaultMessage: "Drop files here to upload new files<br />(or select existing files below)",
         init: function(){
             this.on('resetFiles', function() {
@@ -186,7 +210,23 @@ $(function() {
 
                 $('#dropzone-media-form').removeClass('dz-started');
             });
+
+            var dropzone = this;
+
+            this.on("addedfile", function(file) {
+                var max = $("#addMediaModal").attr('data-max-gallery-images');
+                var currentSelectionLength = $('#selectedMediaListModal .list > li').length;
+
+                if (max && currentSelectionLength >= max) {
+                    dropzone.removeFile(file);
+                    $('#freemiumAlert').modal('show');
+                }
+            })
         }
+    });
+
+    myDropzone.on("drop", function() {
+        return false;
     });
 
     myDropzone.on("processing", function(file) {
@@ -228,9 +268,14 @@ $(function() {
         var button = $(event.relatedTarget);
         var inputName = button.attr('data-input-name');
         var mediaGallery = button.attr('data-media-gallery');
+        var maxGalleryImages = button.attr('data-max-gallery-images');
+        var maxMsg = button.attr('data-max-msg');
 
         $(this).attr('data-input-name', inputName);
         $(this).attr('data-media-gallery', mediaGallery);
+        $(this).attr('data-max-gallery-images', maxGalleryImages);
+
+        $(this).find('.modal-title .max').html('&nbsp;&nbsp;&nbsp;<strong>' + maxMsg + '</strong>');
 
         $('#selectedMediaListModal .list').html('');
 
@@ -239,7 +284,18 @@ $(function() {
         loadList();
     });
 
-    $( document ).on('click', '[data-media-id]', function(e){
+    $( document ).on('click', 'tr[data-media-id]', function(e){
+
+        var max = $("#addMediaModal").attr('data-max-gallery-images');
+        var currentSelectionLength = $('#selectedMediaListModal .list > li').length;
+
+        if(currentSelectionLength >= max){
+            $('#freemiumAlert').modal('show');
+
+            e.preventDefault();
+            return false;
+        }
+
         if($("#addMediaModal").attr('data-media-gallery') == 0){
             $('[data-media-id]').removeClass('checked');
             $('#selectedMediaListModal .list').html('');
@@ -256,6 +312,15 @@ $(function() {
             addMediaToModal(media);
         } else {
             removeMediaToModal(media);
+        }
+
+        // max gallery
+        if(max > 0){
+            var currentSelectionLength = $('#selectedMediaListModal .list > li').length;
+
+            if(currentSelectionLength > max){
+                selectionCollection.first().find(".glyphicon-remove").click();
+            }
         }
     });
 

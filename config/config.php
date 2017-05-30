@@ -165,5 +165,12 @@ return array(
                 ),
             ),
         ),
+        'freemium_max_gallery_images'   => array(
+            'category'    => 'image',
+            'title'       => _t('Max gallery images for freemium related items'),
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 2
+        ),
     ),
 );
