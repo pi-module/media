@@ -114,6 +114,7 @@ var initDataTable = function(){
             { "data": "img" },
             { "data": "title" },
             { "data": "date" },
+            { "data": "season" },
             { "data": "removeBtn" }
         ],
         "language" : {
@@ -422,5 +423,19 @@ $(function() {
             $( "#editMediaModalContent" ).html( data.content );
             parseCrop();
         });
+    });
+
+    $( document ).on('click', '.season-switch button', function(e){
+        e.stopImmediatePropagation();
+        var switchElement = $(this).parent();
+        switchElement.find('button').removeClass('btn-primary').addClass('btn-default');
+        $(this).removeClass('btn-default').addClass('btn-primary');
+
+        var url = switchElement.data('url');
+        var id = switchElement.data('id');
+        var season = $(this).data('id');
+
+        console.log(url);
+        $.post(url, {id: id, season: season });
     });
 });

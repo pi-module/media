@@ -96,9 +96,11 @@ class MediaEditForm extends BaseForm
             'options'    => array(
                 'label'     => __('Season'),
                 'value_options' => array(
-                    '' => __('Choose a season'),
+                    '' => __('No season'),
                     1 => __('Summer'),
+                    3 => __('Autumn'),
                     2 => __('Winter'),
+                    4 => __('Spring'),
                 ),
             ),
         ));

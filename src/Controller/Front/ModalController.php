@@ -115,6 +115,27 @@ class ModalController extends ActionController
     <span class="glyphicon glyphicon-remove" ></span >
 </a>
 PHP;
+
+                $mediaEditForm = new MediaEditForm();
+                $seasonOptions = $mediaEditForm->get('season')->getOptions();
+
+                $buttons = '';
+                foreach ($seasonOptions['value_options'] as $value => $label){
+                    $class = $media->season == $value ? 'btn-primary' : 'btn-default';
+                    $buttons .= '<button type="button" data-id="'.$value.'" class="btn btn-primary ' . $class . '">'.$label.'</button>';
+                }
+
+                $mediaFormActionUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
+                    'module' => 'media',
+                    'controller' => 'modal',
+                    'action' => 'mediaformSeason',
+                ));
+
+                $seasonBtn = <<<PHP
+<div class="btn-group btn-group-xs season-switch" role="group" aria-label="Extra-small button group" data-url="{$mediaFormActionUrl}" data-id="{$media->id}">
+    {$buttons}
+</div>
+PHP;
             }
 
             $img = (string) Pi::api('resize','media')->resize($media)->thumbcrop(50, 50);
@@ -128,6 +149,7 @@ PHP;
                 'img' => "<img src='" . $img . "' class='media-modal-thumb' />",
                 'title' => $media->title,
                 'date' => _date($media->time_created),
+                'season' => $seasonBtn,
                 'removeBtn' => $removeBtn,
             );
         }
@@ -318,6 +340,43 @@ PHP;
                 'status' => 0,
                 'content' => Pi::service('view')->render($view),
             );
+        }
+
+        return false;
+    }
+
+    /**
+     * Media form
+     */
+    public function mediaformSeasonAction()
+    {
+        if(Pi::service()->hasService('log')){
+            Pi::service()->getService('log')->mute(true);
+        }
+
+        $id = $this->params('id');
+        $season = $this->params('season');
+
+        if($id){
+            // Get media list
+            $module = $this->getModule();
+            $media = Pi::model('doc', $module)->find($id);
+
+            // Front user can't delete media from others
+            if(Pi::engine()->section() != 'admin' && $media->uid != Pi::user()->getId()){
+                die('Not allowed');
+            }
+
+            if ($media && $media->id) {
+                $media->season = $season;
+                $media->time_updated = time();
+
+                if ($uid = Pi::user()->getId()) {
+                    $media->updated_by = $uid;
+                }
+
+                $media->save();
+            }
         }
 
         return false;

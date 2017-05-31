@@ -109,6 +109,7 @@ class Media extends \Zend\Form\Element\Text
                             <th style="width: 10px">Thumbnail</th>
                             <th>Title</th>
                             <th>Date</th>
+                            <th>Season</th>
                             <th style="width: 40px;"></th>
                         </tr>
                         </thead>
