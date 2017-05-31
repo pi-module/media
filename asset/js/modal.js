@@ -34,8 +34,12 @@ var refreshFormList = function(formList){
 
         checkFormCanBeSubmit();
 
+        var freemium = formList.data('freemium');
+        var canConnectLists = formList.data('can-connect-lists');
+        console.log(canConnectLists);
+
         $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).sortable({
-            connectWith: '.media-list-sortable',
+            connectWith: canConnectLists ? '.media-list-sortable' : '',
             receive: function( event, ui ) {
                 var target = $(event.target);
                 var maxReceiverLength = target.parent('.media-form-list').data('max-gallery-images');
@@ -59,7 +63,7 @@ var refreshFormList = function(formList){
         });
 
         var max = formList.data('max-gallery-images');
-        var freemium = formList.data('freemium');
+
 
         formList.find('.btn-edit-action').click(function(e){
             if(freemium == '1' && $('input[name=id]').length){
@@ -80,6 +84,34 @@ var refreshFormList = function(formList){
                 return false;
             }
         });
+
+
+        var mediaSeasonRecommended = formList.data('media-season-recommended');
+        if(mediaSeasonRecommended){
+
+            var selectedLiMedia = formList.find('li[data-media-id]');
+            var seasons = [];
+
+            selectedLiMedia.each(function(){
+                var season = $(this).attr('data-media-season');
+                seasons.push(season);
+            });
+
+            var uniqueSeasons = seasons.filter(function(elem, pos) {
+                return seasons.indexOf(elem) == pos;
+            });
+
+            var info = formList.parents('.panel').find('.additional_info');
+
+
+            if(uniqueSeasons.length < 4){
+                info.removeClass('hide');
+            } else {
+                info.addClass('hide');
+            }
+
+        }
+
     });
 };
 

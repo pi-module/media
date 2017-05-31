@@ -236,8 +236,11 @@ HTML;
         $name = $this->getName();
         $isMediaGallery = $this->getOption('media_gallery') ? 1 : 0;
         $isMediaSeason = $this->getOption('media_season') ? 1 : 0;
+        $isMediaSeasonRecommended = $this->getOption('media_season_recommended') ? 1 : 0;
         $isFreemium = $this->getOption('is_freemium') ? 1 : 0;
+        $canConnectLists = $this->getOption('can_connect_lists') ? 1 : 0;
 
+        $isMediaSeasonRecommendedMsg = $isMediaSeason ? __("We recommend you to fill 4 pictures for all seasons") : '';
 
         if($isMediaSeason){
             $isMediaGallery = 1;
@@ -263,10 +266,10 @@ HTML;
 <div class="panel panel-default">
   <div class="panel-heading"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-season="{$isMediaSeason}" data-media-gallery="{$isMediaGallery}" data-max-gallery-images="{$maxGalleryImagesConstrain}" data-max-msg="{$maxGalleryImagesMsg}" data-toggle="modal" type="button" data-target="#addMediaModal">
     <span class="glyphicon glyphicon-picture"></span> {$addLabel}</button>
-    &nbsp;&nbsp;&nbsp;<strong>{$maxGalleryImagesMsg}</strong>
+    &nbsp;&nbsp;&nbsp;<strong>{$maxGalleryImagesMsg}</strong> &nbsp;&nbsp;&nbsp; <span class="label label-warning label-lg additional_info hide">{$isMediaSeasonRecommendedMsg}</span>
   </div>
   <div class="panel-body">
-    <div class="media-form-list media-form-list-{$name}" data-input-name="{$name}" data-freemium="{$isFreemium}" data-max-gallery-images="{$maxGalleryImagesConstrain}">
+    <div class="media-form-list media-form-list-{$name}" data-can-connect-lists="{$canConnectLists}" data-media-season="{$isMediaSeason}" data-media-season-recommended="{$isMediaSeasonRecommended}" data-input-name="{$name}" data-freemium="{$isFreemium}" data-max-gallery-images="{$maxGalleryImagesConstrain}">
         <div class="ajax-spinner hide">
             <img src="{$loader}" class="ajax-spinner-loader" alt="" />
         </div>
