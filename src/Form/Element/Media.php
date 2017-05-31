@@ -71,6 +71,10 @@ class Media extends \Zend\Form\Element\Text
             'action' => 'mediaform',
         ));
 
+        $fromModule = $this->getOption('module') ?: 'media';
+        $maxGalleryImages = Pi::service('module')->config('freemium_max_gallery_images', $fromModule);
+        $freemiumMsg = Pi::service('module')->config('freemium_alert_msg', $fromModule);
+
 
         $closeTitle = __("Close");
         $confirmTitle = __("Confirm");
@@ -170,7 +174,7 @@ class Media extends \Zend\Form\Element\Text
                 <h4 class="modal-title" id="myModalLabel">{$freemiumAlertTitle}</h4>
             </div>
             <div class="modal-body" id="editMediaModalContent">
-                DYNAMIC TEXT TODO....
+                {$freemiumMsg}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -192,9 +196,8 @@ HTML;
         $name = $this->getName();
         $isMediaGallery = $this->getOption('media_gallery') ? 1 : 0;
         $isFreemium = $this->getOption('is_freemium') ? 1 : 0;
-        $maxModuleValue = $this->getOption('module') ?: 'media';
 
-        $maxGalleryImages = Pi::service('module')->config('freemium_max_gallery_images', $maxModuleValue);
+
 
         $noMediaLabel = __('No media for now...');
         $loader = $assetHelper('image/spinner.gif', 'media');

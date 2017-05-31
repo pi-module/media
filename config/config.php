@@ -172,5 +172,11 @@ return array(
             'filter'      => 'number_int',
             'value'       => 2
         ),
+        'freemium_alert_msg'      => array(
+            'category'    => 'image',
+            'title'       => _t('Alert message for freemium item'),
+            'edit'        => 'text',
+            'value'       => "Freemium item limitations... You can't do this action",
+        ),
     ),
 );
