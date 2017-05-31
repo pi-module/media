@@ -2,7 +2,7 @@
     <?php if(count($medias)) : ?>
         <?php foreach($medias as $media) : ?>
             <?php $hasInvalidFields = Pi::api('doc', 'media')->hasInvalidFields($media) ?>
-            <li class=" ui-state-default <?php echo $hasInvalidFields ? 'invalid-media' : '' ?>" data-media-id="<?php echo $media['id'] ?>">
+            <li class=" ui-state-default <?php echo $hasInvalidFields ? 'invalid-media' : '' ?>" data-media-id="<?php echo $media['id'] ?>" data-media-season="<?php echo $media['season'] ?>">
                 <div class="box">
                     <?php if($img = Pi::api('resize','media')->resizeFormList($media)) : ?>
                         <img class="img-thumbnail" src="<?php echo $img ?>" />

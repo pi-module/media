@@ -79,8 +79,13 @@ class Media extends \Zend\Form\Element\Text
         $closeTitle = __("Close");
         $confirmTitle = __("Confirm");
         $freemiumAlertTitle = __("Alert Freemium account limitations");
+        $seasonAlertTitle = __("Alert season duplicates");
+        $seasonAlertMsg = __("Alert season duplicates : you must have online one picture of each season only");
         $confirmDeleteHeaderTitle = __("Delete media");
         $confirmDeleteActionTitle = __("Do you confirm you want to delete this media definitively ?");
+
+        $maxAlertTitle = __("Max media alert");
+        $maxAlertMsg = __("Max media alert : you have reach maximum of picture for this field");
 
         $checkedMediaTitle = __("Your selection");
         $formModalTitle = __("Edit");
@@ -184,6 +189,40 @@ class Media extends \Zend\Form\Element\Text
     </div>
 </div>
 
+<div class="modal fade" id="seasonAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{$seasonAlertTitle}</h4>
+            </div>
+            <div class="modal-body" id="editMediaModalContent">
+                {$seasonAlertMsg}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="maxAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{$maxAlertTitle}</h4>
+            </div>
+            <div class="modal-body" id="editMediaModalContent">
+                {$maxAlertMsg}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     var uploadUrl = "{$uploadUrl}";
     var listUrl = "{$listUrl}";
@@ -196,9 +235,13 @@ HTML;
         $addLabel = __("Choose or add new media file");
         $name = $this->getName();
         $isMediaGallery = $this->getOption('media_gallery') ? 1 : 0;
+        $isMediaSeason = $this->getOption('media_season') ? 1 : 0;
         $isFreemium = $this->getOption('is_freemium') ? 1 : 0;
 
 
+        if($isMediaSeason){
+            $isMediaGallery = 1;
+        }
 
         $noMediaLabel = __('No media for now...');
         $loader = $assetHelper('image/spinner.gif', 'media');
@@ -207,6 +250,9 @@ HTML;
         if(!$isMediaGallery){
             $maxGalleryImagesConstrain = '';
             $maxGalleryImagesMsg = __('1 picture only');
+        } elseif($isMediaSeason){
+            $maxGalleryImagesConstrain = 4;
+            $maxGalleryImagesMsg = __('1 picture per season only = 4 pictures');
         } else if($isFreemium && $maxGalleryImages > 0){
             $maxGalleryImagesConstrain = $maxGalleryImages;
             $maxGalleryImagesMsg = ($isFreemium && $maxGalleryImages > 0) ? sprintf(__('Max %s pictures'), $maxGalleryImages) : '';
@@ -215,7 +261,7 @@ HTML;
         $description = <<<HTML
         
 <div class="panel panel-default">
-  <div class="panel-heading"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-gallery="{$isMediaGallery}" data-max-gallery-images="{$maxGalleryImagesConstrain}" data-max-msg="{$maxGalleryImagesMsg}" data-toggle="modal" type="button" data-target="#addMediaModal">
+  <div class="panel-heading"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-season="{$isMediaSeason}" data-media-gallery="{$isMediaGallery}" data-max-gallery-images="{$maxGalleryImagesConstrain}" data-max-msg="{$maxGalleryImagesMsg}" data-toggle="modal" type="button" data-target="#addMediaModal">
     <span class="glyphicon glyphicon-picture"></span> {$addLabel}</button>
     &nbsp;&nbsp;&nbsp;<strong>{$maxGalleryImagesMsg}</strong>
   </div>

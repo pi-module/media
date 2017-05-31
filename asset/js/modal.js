@@ -36,6 +36,16 @@ var refreshFormList = function(formList){
 
         $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).sortable({
             connectWith: '.media-list-sortable',
+            receive: function( event, ui ) {
+                var target = $(event.target);
+                var maxReceiverLength = target.parent('.media-form-list').data('max-gallery-images');
+                var finalReceiverLength = target.find('li[data-media-id]').length;
+
+                if(maxReceiverLength && finalReceiverLength > maxReceiverLength){
+                    $('#maxAlert').modal('show');
+                    ui.sender.sortable("cancel");
+                }
+            },
             update: function( event, ui ) {
                 var mediaElements = $(this).children('[data-media-id]');
 
@@ -52,7 +62,6 @@ var refreshFormList = function(formList){
         var freemium = formList.data('freemium');
 
         formList.find('.btn-edit-action').click(function(e){
-
             if(freemium == '1' && $('input[name=id]').length){
                 $('#freemiumAlert').modal('show');
 
@@ -77,7 +86,7 @@ var refreshFormList = function(formList){
 var addMediaToModal = function(media){
     var container = $('#selectedMediaListModal .list');
     var html = container.html();
-    var mediaTmpl = '<li>' +
+    var mediaTmpl = '<li data-id="'+media.id+'" data-media-season="'+media.season+'">' +
         '<button class="btn btn-default btn-xs unlink-media-btn">' +
         '<span class="glyphicon glyphicon-remove"></span>' +
         '</button>' +
@@ -240,19 +249,37 @@ $(function() {
         });
     });
 
-    $('#mediaModalSaveBtn').click(function(){
+    $('#mediaModalSaveBtn').click(function(e){
+
         var inputName = $('#addMediaModal').attr('data-input-name');
+        var mediaSeason = $('#addMediaModal').attr('data-media-season');
         var checkedMedia = [];
+        var seasons = [];
         var container = $('#selectedMediaListModal .list');
         var selectedMedia = container.find('[data-selected-media-id]');
+        var selectedLiMedia = container.find('li[data-id]');
 
-        selectedMedia.each(function(){
-            var id = $(this).attr('data-selected-media-id');
-            checkedMedia.push(id);
+        selectedLiMedia.each(function(){
+            var season = $(this).attr('data-media-season');
+            seasons.push(season);
         });
 
-        $('[name="'+ inputName +'"]').val(checkedMedia.join()).change();
+        var uniqueSeasons = seasons.filter(function(elem, pos) {
+            return seasons.indexOf(elem) == pos;
+        });
 
+        if(mediaSeason && seasons.length != uniqueSeasons.length){
+            e.stopImmediatePropagation();
+            $('#seasonAlert').modal('show');
+
+        } else {
+            selectedMedia.each(function(){
+                var id = $(this).attr('data-selected-media-id');
+                checkedMedia.push(id);
+            });
+
+            $('[name="'+ inputName +'"]').val(checkedMedia.join()).change();
+        }
     });
 
     $( ".media-form-list" ).each(function(){
@@ -269,11 +296,13 @@ $(function() {
         var button = $(event.relatedTarget);
         var inputName = button.attr('data-input-name');
         var mediaGallery = button.attr('data-media-gallery');
+        var mediaSeason = button.attr('data-media-season');
         var maxGalleryImages = button.attr('data-max-gallery-images');
         var maxMsg = button.attr('data-max-msg');
 
         $(this).attr('data-input-name', inputName);
         $(this).attr('data-media-gallery', mediaGallery);
+        $(this).attr('data-media-season', mediaSeason);
         $(this).attr('data-max-gallery-images', maxGalleryImages);
 
         $(this).find('.modal-title .max').html('&nbsp;&nbsp;&nbsp;<strong>' + maxMsg + '</strong>');
@@ -306,7 +335,8 @@ $(function() {
 
         var media = {
             id: $(this).attr('data-media-id'),
-            img: $(this).attr('data-media-img')
+            img: $(this).attr('data-media-img'),
+            season: $(this).attr('data-media-season')
         };
 
         if($(this).hasClass('checked')){
@@ -394,6 +424,8 @@ $(function() {
                     $('[data-media-id='+ mediaId +'] img').attr('src', data.url + '?' + d.getTime());
                     $('.invalid-media[data-media-id='+ mediaId +']').removeClass('invalid-media');
 
+                    $('[data-media-id='+ mediaId +']').attr('data-media-season', data.season);
+
                     checkFormCanBeSubmit();
                 }
             }
@@ -435,7 +467,8 @@ $(function() {
         var id = switchElement.data('id');
         var season = $(this).data('id');
 
-        console.log(url);
+        $('#selectedMediaListModal .list > li[data-id='+id+']').attr('data-media-season', season);
+
         $.post(url, {id: id, season: season });
     });
 });

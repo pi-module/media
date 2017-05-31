@@ -138,12 +138,13 @@ PHP;
 PHP;
             }
 
-            $img = (string) Pi::api('resize','media')->resize($media)->thumbcrop(50, 50);
+            $img = (string) Pi::api('resize','media')->resize($media)->thumbcrop(100, 100);
 
             $data[] = array(
                 'DT_RowAttr' => array(
                     'data-media-id' => $media['id'],
                     'data-media-img' => $img,
+                    'data-media-season' => $media['season'],
                 ),
                 'checked' => '<span class="glyphicon glyphicon-ok"></span>',
                 'img' => "<img src='" . $img . "' class='media-modal-thumb' />",
@@ -189,7 +190,8 @@ PHP;
         foreach($resultset as $media) {
             $data[] = array(
                 'id' => $media->id,
-                'img' => (string) Pi::api('resize','media')->resize($media)->thumbcrop(50, 50),
+                'img' => (string) Pi::api('resize','media')->resize($media)->thumbcrop(100, 100),
+                'season' => $media->season,
             );
         }
 
@@ -327,6 +329,7 @@ PHP;
                             'status' => 1,
                             'content' => null,
                             'url' => (string) Pi::api('resize','media')->resizeFormList($media),
+                            'season' => $media->season,
                         );
                     }
                 }

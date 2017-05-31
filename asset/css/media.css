@@ -109,11 +109,12 @@
     padding:0;
     list-style: none;
     position:relative;
+    margin:0 5px 5px 0;
 }
 
 #selectedMediaListModal ul li img{
     display:inline-block;
-    margin:0 5px 5px 0;
+
 }
 
 #selectedMediaListModal ul li .unlink-media-btn{
@@ -127,8 +128,8 @@
 
 .media-form-list ul{
     display:block;
+    min-height: 185px;
 }
-
 
 .media-form-list ul:after{
     content:'';
@@ -136,8 +137,71 @@
     clear:both;
 }
 
+#selectedMediaListModal .list li,
+.media-form-list li{
+    position:relative;
+    overflow: hidden;
+}
+
+.media-form-list li img{
+    margin:0;
+}
+
+#selectedMediaListModal .list li[data-media-season]:after,
+.media-form-list li[data-media-season]:after {
+    content: none;
+    display: block;
+    top: 20px;
+    right: -20px;
+    width: 100px;
+    position: absolute;
+    transform: rotate(45deg);
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 1px 1px 0px black;
+    text-align: center;
+}
+
+#selectedMediaListModal .list li[data-media-season]:after{
+    transform: rotate(-45deg);
+    top: 20px;
+    left: -20px;
+    width: 100px;
+}
+
+#selectedMediaListModal .list li[data-media-season="1"]:after,
+.media-form-list li[data-media-season="1"]:after {
+    content: 'Eté';
+    background: #ffa01f;
+}
+
+#selectedMediaListModal .list li[data-media-season="2"]:after,
+.media-form-list li[data-media-season="2"]:after {
+    content: 'Hiver';
+    background: #00bfff;
+}
+
+#selectedMediaListModal .list li[data-media-season="3"]:after,
+.media-form-list li[data-media-season="3"]:after {
+    content: 'Automne';
+    background: #a76914;
+}
+
+#selectedMediaListModal .list li[data-media-season="4"]:after,
+.media-form-list li[data-media-season="4"]:after {
+    content: 'Printemps';
+    background: #6fbb12;
+}
+
+
 .season-switch .btn-default{
     color: #333!important;
     background-color: #fff!important;
     border-color: #ccc!important;
+}
+
+tr[data-media-id] img{
+    width:50px;
+    height:50px;
 }
