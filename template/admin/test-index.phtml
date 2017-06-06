@@ -28,7 +28,7 @@
                             <?php echo $test['title']; ?>
                         </td>
                         <td>
-                            <?php if($img = Pi::api('doc','media')->getSingleLinkUrl($test['main_image'])->thumbcrop(100, 100)) : ?>
+                            <?php if($img = Pi::api('doc','media')->getSingleLinkUrl($test['main_image'])->setConfigModule('guide')->thumbcrop('medium')) : ?>
                                 <img class="img-thumbnail" src="<?php echo $img ?>" />
                             <?php else : ?>
                                 Not a picture...

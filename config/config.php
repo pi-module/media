@@ -59,37 +59,6 @@ return array(
             'filter'      => 'int',
         ),
         // Image
-        'image_width'     => array(
-            'category'    => 'image',
-            'title'       => _t('Image width'),
-            'description' => _t('Maximum image width for image files allowed to upload.'),
-            'value'       => 1600,
-            'filter'      => 'int',
-        ),
-        'image_height'    => array(
-            'category'    => 'image',
-            'title'       => _t('Image height'),
-            'description' => _t('Maximum image height for image files allowed to upload.'),
-            'value'       => 1600,
-            'filter'      => 'int',
-        ),
-        'image_largew'    => array(
-            'category'    => 'image',
-            'title'       => _t('Large Image width'),
-            'description' => '',
-            'edit'        => 'text',
-            'filter'      => 'number_int',
-            'value'       => 1200
-        ),
-        'image_largeh'    => array(
-            'category'    => 'image',
-            'title'       => _t('Large Image height'),
-            'description' => '',
-            'edit'        => 'text',
-            'filter'      => 'number_int',
-            'value'       => 1200
-        ),
-
         'image_maxw'    => array(
             'category'    => 'image',
             'title'       => _t('Max Image width (upload)'),
@@ -177,6 +146,72 @@ return array(
             'title'       => _t('Alert message for freemium item'),
             'edit'        => 'text',
             'value'       => "Freemium item limitations... You can't do this action",
+        ),
+
+
+        'image_largew'    => array(
+            'category'    => 'image',
+            'title'       => _t('Large Image width'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 1200
+        ),
+        'image_largeh'    => array(
+            'category'    => 'image',
+            'title'       => _t('Large Image height'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 1200
+        ),
+        'image_itemw' => array(
+            'category' => 'image',
+            'title' => _a('Item Image width'),
+            'description' => '',
+            'edit' => 'text',
+            'filter' => 'number_int',
+            'value' => 800
+        ),
+        'image_itemh' => array(
+            'category' => 'image',
+            'title' => _a('Item Image height'),
+            'description' => '',
+            'edit' => 'text',
+            'filter' => 'number_int',
+            'value' => 800
+        ),
+        'image_mediumw' => array(
+            'category' => 'image',
+            'title' => _a('Medium Image width'),
+            'description' => '',
+            'edit' => 'text',
+            'filter' => 'number_int',
+            'value' => 500
+        ),
+        'image_mediumh' => array(
+            'category' => 'image',
+            'title' => _a('Medium Image height'),
+            'description' => '',
+            'edit' => 'text',
+            'filter' => 'number_int',
+            'value' => 500
+        ),
+        'image_thumbw' => array(
+            'category' => 'image',
+            'title' => _a('Thumb Image width'),
+            'description' => '',
+            'edit' => 'text',
+            'filter' => 'number_int',
+            'value' => 250
+        ),
+        'image_thumbh' => array(
+            'category' => 'image',
+            'title' => _a('Thumb Image height'),
+            'description' => '',
+            'edit' => 'text',
+            'filter' => 'number_int',
+            'value' => 250
         ),
     ),
 );
