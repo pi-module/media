@@ -102,8 +102,8 @@
                                             <a class="has-js-action" href="javascript:void(0)" data-value="Undelete">
                                                 <?php echo _a('Undelete'); ?>
                                             </a> |
-                                        <?php elseif($media['using_count'] == 0) : ?>
-                                            <a class="has-js-action" href="javascript:void(0)" data-value="delete">
+                                        <?php else : ?>
+                                            <a class="has-js-action <?php echo $media['using_count'] == 0 ? '' : 'disabled'; ?>" href="javascript:void(0)" data-value="delete">
                                                 <?php echo _a('Delete'); ?>
                                             </a> |
                                         <?php endif; ?>
@@ -250,9 +250,12 @@
             var el = $(e.target),
                 id = el.parents("tr:first").attr("data-id"),
                 val = el.attr("data-value"),
+                isDisabled = el.hasClass("disabled"),
                 status = el.attr("data-status");
             if (val == "delete") {
-                if (confirm("<?php echo _a('Please make sure this resource is not in use!'); ?>")) {
+                if(isDisabled){
+                    alert("<?php echo _a('This media is already in used !'); ?>");
+                } else if (confirm("<?php echo _a('Do you confirm delete action ?'); ?>")) {
                     location.href = url + "delete?id=" + id + "&redirect=" + this.encodeUrl();
                 }
             } else if (val == "undelete") {
