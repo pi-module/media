@@ -264,6 +264,10 @@ $(function() {
                     $('#freemiumAlert').modal('show');
                 }
             })
+
+            this.on('error', function(file, response) {
+                $(file.previewElement).find('.dz-error-message').html(response);
+            });
         }
     });
 

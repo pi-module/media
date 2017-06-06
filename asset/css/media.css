@@ -209,3 +209,7 @@ tr[data-media-id] img{
 .has-js-action.disabled{
     cursor: not-allowed;
 }
+
+.dz-error-mark g{
+    fill:red;
+}
