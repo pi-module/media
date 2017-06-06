@@ -254,8 +254,12 @@ class ListController extends ActionController
         }
 
         // Set params
+        $title = preg_replace('#(.*)\.(.*)#', '$1', $file['file']['name']);
+        $title = str_replace(array('-','_','.'), ' ', $title);
+
+
         $params['filename'] = $file['file']['name'];
-        $params['title'] = $file['file']['name'];
+        $params['title'] = $title;
         $params['type'] = 'image';
         $params['active'] = 1;
         $params['module'] = $this->getModule();
