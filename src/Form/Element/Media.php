@@ -249,6 +249,7 @@ HTML;
         $noMediaLabel = __('No media for now...');
         $loader = $assetHelper('image/spinner.gif', 'media');
         $maxGalleryImagesMsg = '';
+        $maxGalleryImagesConstrain = '';
 
         if(!$isMediaGallery){
             $maxGalleryImagesConstrain = '';

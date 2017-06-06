@@ -351,7 +351,7 @@ $(function() {
         var max = $("#addMediaModal").attr('data-max-gallery-images');
         var currentSelectionLength = $('#selectedMediaListModal .list > li').length;
 
-        if(currentSelectionLength >= max){
+        if(max != '' && currentSelectionLength >= max){
             $('#freemiumAlert').modal('show');
 
             e.preventDefault();
