@@ -1,0 +1,415 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Pi-media\n"
+"POT-Creation-Date: 2017-06-05 22:04+0200\n"
+"PO-Revision-Date: 2017-06-05 22:04+0200\n"
+"Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.2\n"
+"X-Poedit-KeywordsList: _a;_t\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: config/config.php:19
+msgid "General"
+msgstr ""
+
+#: config/config.php:23
+msgid "Validator"
+msgstr ""
+
+#: config/config.php:27
+msgid "Image"
+msgstr ""
+
+#: config/config.php:35
+msgid "List page limit"
+msgstr ""
+
+#: config/config.php:36
+msgid "Maximum count of media resources on a list page."
+msgstr ""
+
+#: config/config.php:42
+msgid "License values"
+msgstr ""
+
+#: config/config.php:43
+msgid "Pipe separated"
+msgstr ""
+
+#: config/config.php:50
+msgid "File extension"
+msgstr ""
+
+#: config/config.php:51
+msgid "Extensions for files allowed to upload."
+msgstr ""
+
+#: config/config.php:56
+msgid "Max file size"
+msgstr ""
+
+#: config/config.php:57
+msgid "Maximum size for files allowed to upload (in KB)."
+msgstr ""
+
+#: config/config.php:64
+msgid "Image width"
+msgstr ""
+
+#: config/config.php:65
+msgid "Maximum image width for image files allowed to upload."
+msgstr ""
+
+#: config/config.php:71
+msgid "Image height"
+msgstr ""
+
+#: config/config.php:72
+msgid "Maximum image height for image files allowed to upload."
+msgstr ""
+
+#: config/config.php:78
+msgid "Large Image width"
+msgstr ""
+
+#: config/config.php:86
+msgid "Large Image height"
+msgstr ""
+
+#: config/config.php:95
+msgid "Max Image width (upload)"
+msgstr ""
+
+#: config/config.php:103
+msgid "Max Image height (upload)"
+msgstr ""
+
+#: config/config.php:112
+msgid "Min Image width (upload)"
+msgstr ""
+
+#: config/config.php:120
+msgid "Min Image height (upload)"
+msgstr ""
+
+#: config/config.php:128
+msgid "Image quality"
+msgstr ""
+
+#: config/config.php:129
+msgid "Between 0 to 100 and support both of JPG and PNG, default is 75"
+msgstr ""
+
+#: config/config.php:136
+msgid "Add Watermark"
+msgstr ""
+
+#: config/config.php:144
+msgid "Watermark Image"
+msgstr ""
+
+#: config/config.php:151
+msgid "Watermark Position"
+msgstr ""
+
+#: config/config.php:160
+msgid "Top Left"
+msgstr ""
+
+#: config/config.php:161
+msgid "Top Right"
+msgstr ""
+
+#: config/config.php:162
+msgid "Bottom Left"
+msgstr ""
+
+#: config/config.php:163
+msgid "Bottom Right"
+msgstr ""
+
+#: config/module.php:18
+msgid "Media"
+msgstr ""
+
+#: config/module.php:19
+msgid "Module for media resources and APIs."
+msgstr ""
+
+#: config/navigation.php:24
+msgid "Resource list"
+msgstr ""
+
+#: config/navigation.php:34
+msgid "All"
+msgstr ""
+
+#: config/navigation.php:40 config/navigation.php:78
+#: template/admin/application-list.phtml:36 template/front/list-index.phtml:99
+msgid "Edit"
+msgstr ""
+
+#: config/navigation.php:47
+msgid "Attach new media"
+msgstr ""
+
+#: config/navigation.php:55
+msgid "Application list"
+msgstr ""
+
+#: config/navigation.php:65
+msgid "List"
+msgstr ""
+
+#: config/navigation.php:71
+msgid "Add"
+msgstr ""
+
+#: config/navigation.php:87
+msgid "Statistics"
+msgstr ""
+
+#: config/navigation.php:96 config/permission.php:27
+msgid "Test"
+msgstr ""
+
+#: config/navigation.php:105 src/Controller/Admin/ToolsController.php:32
+msgid "Tools"
+msgstr ""
+
+#: config/permission.php:18
+msgid "Application management"
+msgstr ""
+
+#: config/permission.php:21
+msgid "Resource management"
+msgstr ""
+
+#: config/permission.php:24
+msgid "Statistics access"
+msgstr ""
+
+#: src/Controller/Admin/ApplicationController.php:104
+msgid "Application List"
+msgstr ""
+
+#: src/Controller/Admin/ApplicationController.php:123
+#: src/Controller/Admin/ApplicationController.php:178
+msgid "There are some error occurred."
+msgstr ""
+
+#: src/Controller/Admin/ApplicationController.php:130
+#: src/Controller/Admin/ApplicationController.php:192
+msgid "Cannot save data."
+msgstr ""
+
+#: src/Controller/Admin/ApplicationController.php:138
+msgid "Invalid application key."
+msgstr ""
+
+#: src/Controller/Admin/ApplicationController.php:214
+msgid "Invalid application."
+msgstr ""
+
+#: src/Controller/Admin/ApplicationController.php:221
+msgid "Application already in use."
+msgstr ""
+
+#: src/Controller/Admin/StatsController.php:41
+msgid "Statistic"
+msgstr ""
+
+#: src/Controller/Admin/TestController.php:68
+#: src/Controller/Admin/TestController.php:125
+msgid "All tests"
+msgstr ""
+
+#: src/Controller/Admin/TestController.php:75
+#: src/Controller/Admin/TestController.php:132
+msgid "Add test"
+msgstr ""
+
+#: src/Controller/Admin/TestController.php:83
+#: src/Controller/Front/ListController.php:188
+#: src/Controller/Front/ModalController.php:216
+msgid "Resource List"
+msgstr ""
+
+#: src/Controller/Front/ListController.php:170
+msgid "All resources"
+msgstr ""
+
+#: src/Controller/Front/ListController.php:177
+msgid "Deleted resources"
+msgstr ""
+
+#: src/Controller/Front/ListController.php:362
+#: src/Controller/Front/ListController.php:398
+#: src/Controller/Front/ModalController.php:390
+#: src/Controller/Front/ModalController.php:427
+msgid "Invalid media ID"
+msgstr ""
+
+#: src/Controller/Front/ListController.php:464
+msgid "There are some error occur"
+msgstr ""
+
+#: src/Controller/Front/ListController.php:490
+msgid "Cannot save media data"
+msgstr ""
+
+#: template/admin/application-list.phtml:13
+msgid "Name"
+msgstr ""
+
+#: template/admin/application-list.phtml:17
+msgid "Search"
+msgstr ""
+
+#: template/admin/application-list.phtml:23 template/admin/test-index.phtml:14
+#: template/front/list-index.phtml:55
+msgid "ID"
+msgstr ""
+
+#: template/admin/application-list.phtml:24
+msgid "Appkey"
+msgstr ""
+
+#: template/admin/application-list.phtml:25 template/admin/test-index.phtml:15
+#: template/front/list-index.phtml:58
+msgid "Title"
+msgstr ""
+
+#: template/admin/application-list.phtml:40 template/admin/test-index.phtml:54
+#: template/front/list-index.phtml:44 template/front/list-index.phtml:107
+msgid "Delete"
+msgstr ""
+
+#: template/admin/stats-index.phtml:11
+msgid "Top 10 resources"
+msgstr ""
+
+#: template/admin/stats-index.phtml:21
+msgid "Top 10 submitters"
+msgstr ""
+
+#: template/admin/stats-index.phtml:24
+msgid "Today"
+msgstr ""
+
+#: template/admin/stats-index.phtml:27
+msgid "In 7 days"
+msgstr ""
+
+#: template/admin/stats-index.phtml:30
+msgid "In 30 days"
+msgstr ""
+
+#: template/admin/stats-index.phtml:33
+msgid "history"
+msgstr ""
+
+#: template/admin/test-index.phtml:16
+msgid "Main image"
+msgstr ""
+
+#: template/admin/test-index.phtml:17
+msgid "Main image data"
+msgstr ""
+
+#: template/admin/test-index.phtml:18
+msgid "Additional images data"
+msgstr ""
+
+#: template/admin/test-index.phtml:19
+msgid "Picture tag"
+msgstr ""
+
+#: template/admin/test-index.phtml:20
+msgid "Actions"
+msgstr ""
+
+#: template/admin/test-index.phtml:52
+msgid "Update"
+msgstr ""
+
+#: template/admin/tools-index.phtml:16
+msgid "Fill empty descriptions from media title"
+msgstr ""
+
+#: template/front/list-edit.phtml:15
+msgid "Edit Media"
+msgstr ""
+
+#: template/front/list-edit.phtml:18
+msgid "No media select, please try again!"
+msgstr ""
+
+#: template/front/list-index.phtml:20
+msgid "Type user id or identity"
+msgstr ""
+
+#: template/front/list-index.phtml:22
+msgid "Submit"
+msgstr ""
+
+#: template/front/list-index.phtml:34
+msgid "Enable"
+msgstr ""
+
+#: template/front/list-index.phtml:39
+msgid "Disable"
+msgstr ""
+
+#: template/front/list-index.phtml:56
+msgid "Thumbnail"
+msgstr ""
+
+#: template/front/list-index.phtml:57
+msgid "Status"
+msgstr ""
+
+#: template/front/list-index.phtml:61
+msgid "Mimetype"
+msgstr ""
+
+#: template/front/list-index.phtml:62
+msgid "User Id"
+msgstr ""
+
+#: template/front/list-index.phtml:64
+msgid "Using count"
+msgstr ""
+
+#: template/front/list-index.phtml:65
+msgid "Time"
+msgstr ""
+
+#: template/front/list-index.phtml:103
+msgid "Undelete"
+msgstr ""
+
+#: template/front/list-index.phtml:111
+msgid "Download"
+msgstr ""
+
+#: template/front/list-index.phtml:130
+msgid "No resource available yet."
+msgstr ""
+
+#: template/front/list-index.phtml:208
+msgid "Please make sure these resources are no in use!"
+msgstr ""
+
+#: template/front/list-index.phtml:255
+msgid "Please make sure this resource is not in use!"
+msgstr ""
+
+#~ msgid "Checked all"
+#~ msgstr "All Categories"
