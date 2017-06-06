@@ -41,6 +41,9 @@ class Media extends \Zend\Form\Element\Text
         $cssHelper($assetHelper('css/dataTables.bootstrap.css', 'media'));
         $cssHelper($assetHelper('css/media.css', 'media'));
 
+        $uploadMaxSize = Pi::service('module')->config('max_size', 'media') . ' ko';
+        $uploadMaxDimensions = Pi::service('module')->config('image_maxw', 'media') . ' x ' . Pi::service('module')->config('image_maxh', 'media') . " px";
+
         $uploadUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
             'module' => 'media',
             'controller' => 'modal',
@@ -225,6 +228,8 @@ class Media extends \Zend\Form\Element\Text
 
 <script>
     var uploadUrl = "{$uploadUrl}";
+    var uploadMaxSize = "{$uploadMaxSize}";
+    var uploadMaxDimensions = "{$uploadMaxDimensions}";
     var listUrl = "{$listUrl}";
     var currentSelectedMediaUrl = "{$currentSelectedMediaUrl}";
     var formlistUrl = "{$formlistUrl}";
