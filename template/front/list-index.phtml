@@ -70,7 +70,7 @@
                             ?>
                             <tr data-id="<?php echo _escape($media['id']); ?>" class="<?php echo 0 === $media['active'] && 0 !== $active ? ' text-muted' : ''; ?>">
                                 <td>
-                                    <input type="checkbox" value="<?php echo _escape($media['id']); ?>" class="check-one">
+                                    <input type="checkbox" value="<?php echo _escape($media['id']); ?>" class="check-one <?php echo $media['using_count'] == 0 ? '' : 'no-delete'; ?>">
                                 </td>
                                 <td>
                                     <?php echo $media['id']; ?>
@@ -173,6 +173,7 @@
         },
         batchOperation : function(e) {
             var url = "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,"");
+
             var el = $(e.target);
             if (el.hasClass('disabled')) {
                 return;
@@ -183,7 +184,7 @@
             var id = [],
                 fn = function() {
                     this.$(".check-one:checked").each(function() {
-                        id.push($(this).val()); 
+                        id.push($(this).val());
                     });
                     if ('enable' == name || 'disable' == name) {
                         operation = 'active';
@@ -196,16 +197,25 @@
                         operation = name;
                     }
                     if ('active' == operation) {
-                        location.href = url + "/" + operation + "/id/" + id.join(",") + "/status/"
+                        location.href = url + operation + "/id/" + id.join(",") + "/status/"
                                       + flag + "?redirect=" + this.encodeUrl();
                     } else {
-                        location.href = url + "/" + operation + "/id/" + id.join(",") + "?redirect="
+                        location.href = url + operation + "/id/" + id.join(",") + "?redirect="
                                       + this.encodeUrl();
                     }
                 };
             if (name) {
                 if (name == "delete") {
-                    if (confirm("<?php echo _a('Please make sure these resources are no in use!'); ?>")) {
+                    var freeDelete = true;
+
+                    $(".check-one:checked").each(function() {
+                        if($(this).hasClass('no-delete')){
+                            freeDelete = false;
+                            alert('Your selection contains at least one media already used. You must recheck your selection !');
+                        }
+                    });
+
+                    if (freeDelete && confirm("<?php echo _a('Do you confirm delete action ?'); ?>")) {
                         fn.call(this);
                     }
                 } else {
@@ -247,6 +257,7 @@
         },
         oneAction : function(e) {
             var url = "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,"");
+
             var el = $(e.target),
                 id = el.parents("tr:first").attr("data-id"),
                 val = el.attr("data-value"),
