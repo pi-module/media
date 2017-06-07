@@ -67,10 +67,10 @@ Thumb method parameters can be dimensions (w / h) or size code : large / item (i
 Where array(320,768,900,1200) is all needed sizes.
 
 ### Manage Season
-
+to come
 
 ### Manage Fremium item
-
+to come
 
 ### More resize commands here :
 https://github.com/tck/zf2-imageresizer#command-list
