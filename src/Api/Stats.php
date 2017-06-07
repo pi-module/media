@@ -92,9 +92,12 @@ class Stats extends AbstractApi
         if (!empty($uids)) {
             $resultSet = Pi::user()->get($uids, array('id', 'identity'));
             foreach ($resultSet as $user) {
-                $users[$user['id']] = array(
-                    'identity' => $user['identity'],
-                );
+
+                if(isset($user['id'])){
+                    $users[$user['id']] = array(
+                        'identity' => $user['identity'],
+                    );
+                }
             }
             unset($resultSet);
         }
