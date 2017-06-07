@@ -95,6 +95,25 @@ class Media extends \Zend\Form\Element\Text
         $formModalSaveBtn = __("Save");
         $formModalCancelBtn = __("Cancel");
 
+        $colThumbnail = __("Thumbnail");
+        $colTitle = __("Title");
+        $colDate = __("Date");
+        $colSeason = __("Season");
+        $sProcessing = __("Loading in progress");
+        $sSearch = __("Search&nbsp;:");
+
+        $sLengthMenu = __("Show _MENU_ elements");
+        $sInfo = __("Show elements _START_ to _END_ on _TOTAL_ elements");
+        $sInfoEmpty = __("Show elements 0 to 0 on 0 element");
+        $sInfoFiltered = __("(filtered from _MAX_ elements)");
+        $sLoadingRecords = __("Loading in progress...");
+        $sZeroRecords = __("No element to display");
+        $sEmptyTable = __("No data available in the table");
+        $sFirst = __("First");
+        $sPrevious = __("Previous");
+        $sNext = __("Next");
+        $sLast = __("Last");
+
         $modalHtml = <<<HTML
         
 <div id="addMediaModal" class="modal fade" tabindex="-1" role="dialog">
@@ -110,15 +129,15 @@ class Media extends \Zend\Form\Element\Text
                 <br />
                 
                 <div id="media_gallery">
-                    <table class="table table-striped">
+                    <table class="table table-striped" data-sProcessing="{$sProcessing}" data-sSearch="{$sSearch}" data-sLengthMenu="{$sLengthMenu}" data-sInfo="{$sInfo}" data-sInfoEmpty="{$sInfoEmpty}" data-sInfoFiltered="{$sInfoFiltered}" data-sLoadingRecords="{$sLoadingRecords}" data-sZeroRecords="{$sZeroRecords}" data-sEmptyTable="{$sEmptyTable}" data-sFirst="{$sFirst}" data-sPrevious="{$sPrevious}" data-sNext="{$sNext}" data-sLast="{$sLast}">
                         <thead>
                         <tr>
-                            <th style="width: 10px"></th>
-                            <th style="width: 10px">Thumbnail</th>
-                            <th>Title</th>
-                            <th>Date</th>
-                            <th>Season</th>
-                            <th style="width: 40px;"></th>
+                            <th></th>
+                            <th>{$colThumbnail}</th>
+                            <th class="media-th-title">$colTitle</th>
+                            <th>{$colDate}</th>
+                            <th>{$colSeason}</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>

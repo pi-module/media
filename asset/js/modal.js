@@ -140,45 +140,51 @@ var removeMediaToModal = function(media){
 };
 
 var initDataTable = function(){
-    $('#media_gallery .table').DataTable({
+    var table = $('#media_gallery .table');
+    table.DataTable({
         "lengthMenu": [[5, 10, 20], [5, 10, 20]],
         "bDestroy": true,
         "ordering": false,
         "processing": true,
         "serverSide": true,
+        "autoWidth": false,
         "ajax": listUrl,
         "columns": [
             {
+                "width": "10px",
                 "data": "checked",
                 "className": "checked-column"
             },
-            { "data": "img" },
+            {
+                "width": "10px",
+                "data": "img"
+            },
             { "data": "title" },
-            { "data": "date" },
-            { "data": "season" },
-            { "data": "removeBtn" }
+            { "width": "80px", "data": "date" },
+            { "width": "285px", "data": "season" },
+            { "width": "10px", "data": "removeBtn" }
         ],
         "language" : {
-            "sProcessing":     "Traitement en cours...",
-            "sSearch":         "Rechercher&nbsp;:",
-            "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
-            "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-            "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-            "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sProcessing":     table.data('sProcessing'),
+            "sSearch":         table.data('sSearch'),
+            "sLengthMenu":     table.data('sLengthMenu'), //"Afficher _MENU_ &eacute;l&eacute;ments",
+            "sInfo":           table.data('sInfo'), //"Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty":      table.data('sInfoEmpty'), //"Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+            "sInfoFiltered":   table.data('sInfoFiltered'), //"(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
             "sInfoPostFix":    "",
-            "sLoadingRecords": "Chargement en cours...",
-            "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
-            "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+            "sLoadingRecords": table.data('sLoadingRecords'), //"Chargement en cours...",
+            "sZeroRecords":    table.data('sZeroRecords'), //"Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sEmptyTable":     table.data('sEmptyTable'), //"Aucune donn&eacute;e disponible dans le tableau",
             "oPaginate": {
-                "sFirst":      "Premier",
-                "sPrevious":   "Pr&eacute;c&eacute;dent",
-                "sNext":       "Suivant",
-                "sLast":       "Dernier"
-            },
-            "oAria": {
-                "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
-                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                "sFirst":      table.data('sFirst'), //"Premier",
+                "sPrevious":   table.data('sPrevious'), //"Pr&eacute;c&eacute;dent",
+                "sNext":       table.data('sNext'), //"Suivant",
+                "sLast":       table.data('sLast') //"Dernier"
             }
+            // "oAria": {
+            //     "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+            //     "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+            // }
         },
         "initComplete": function(settings, json) {
 
