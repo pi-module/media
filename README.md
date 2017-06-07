@@ -38,29 +38,39 @@ $this->add(array(
 7. For migrate current media files, please take example from News module : <code>usr/module/news/src/Api/Story.php::migrateMedia();</code> and adapt code for your needs
 
 ### Samples
+
 * Samples of using media helpers into templates here :
 usr/module/media/template/admin/test-index.phtml
 
 * Media Helper, we have to cast the output to String, with echo function or caster as follow :
-<?php $shareImage = (string) Pi::api('doc','media')->getSingleLinkUrl($fieldValue)->thumb(800, 600); ?>
-<?php echo Pi::api('doc','media')->getSingleLinkUrl($fieldValue)->thumb(800, 600); ?>
+	* If not casted : duplicated instance of the same helper / sames parameters (width, height, quality...) : clone the helper is not a good solution for performance
 
-* If not casted : duplicated instance of the same helper / sames parameters (with, height, quality...) :
-Clone the helper is not a good solution for performance
+<code><?php $shareImage = (string) Pi::api('doc','media')->getSingleLinkUrl($fieldValue)->thumb(800, 600); ?></code>
+<code><?php echo Pi::api('doc','media')->getSingleLinkUrl($fieldValue)->thumb(800, 600); ?></code>
 
 * In order to use custom config sizes (current module), we have to use :
-<?php $shareImage = (string) Pi::api('doc','media')->getSingleLinkUrl($fieldValue)->thumb(800, 600); ?>
-<?php Pi::api('doc','media')->getSingleLinkUrl($story['main_image'])->setConfigModule('news')->thumb('medium'); ?>
+
+<code><?php $shareImage = (string) Pi::api('doc','media')->getSingleLinkUrl($fieldValue)->thumb(800, 600); ?></code>
+<code><?php Pi::api('doc','media')->getSingleLinkUrl($story['main_image'])->setConfigModule('news')->thumb('medium'); ?></code>
+
 Thumb method parameters can be dimensions (w / h) or size code : large / item (if module support that) / medium / thumbnail
-Where setConfigModule() method set config module to use.
-If module has no custom parameters, media module will provide default sizes for each size code.
+   * Where setConfigModule() method sets the module config to use.
+   * If module has no custom parameters, media module will provide default sizes for each size code.
 
 * For getting gallery media (multiple selection), you can use :
+
 <code>$galleryImages = Pi::api('doc','media')->getGalleryLinkData($fieldValue, 320, 200)</code>
 
 * For getting picture media tag (multiple sizes for multiple devices), you can use :
+
 <code>Pi::api('doc','media')->getSingleLinkPictureTag($fieldValue, array(320,768,900,1200), 90)</code>
 Where array(320,768,900,1200) is all needed sizes.
+
+### Manage Season
+to come
+
+### Manage Fremium item
+to come
 
 ### More resize commands here :
 https://github.com/tck/zf2-imageresizer#command-list
