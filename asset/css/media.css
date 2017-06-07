@@ -4,7 +4,7 @@
 }
 
 #media_gallery [data-media-id].checked{
-    background-color:#e1f7df!important;
+    background-color:#92ce8d!important;
 }
 
 #media_gallery .checked-column
@@ -214,6 +214,28 @@ tr[data-media-id] img{
     fill:red;
 }
 
+.dz-success-mark path,
+.dz-success-mark g{
+    fill:#92ce8d;
+}
+
 .btn-group.season-switch{
     white-space: nowrap;
+}
+
+.dropzone .dz-preview .dz-error-message{
+    width: 270px;
+}
+
+.dropzone .dz-preview .dz-error-message ul{
+    padding:0 0 0 10px;
+    margin:0;
+}
+
+.dropzone .dz-preview .dz-error-message ul li{
+    margin-bottom:5px;
+}
+
+.dropzone .dz-preview .dz-error-message ul li:last-child{
+    margin-bottom:0px;
 }

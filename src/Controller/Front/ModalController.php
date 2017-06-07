@@ -446,7 +446,10 @@ PHP;
             if (!isset($response['id']) || !$response['id']) {
                 http_response_code(500);
 
-                $response = implode('<br />', $response['upload_errors']);
+                foreach($response['upload_errors'] as &$value){
+                    $value = '<li>' . $value . '</li>';
+                }
+                $response = '<ul>' . implode('', $response['upload_errors']) . '</ul>';
             } else {
                 $response = __('Media uploaded successfully');
             }
