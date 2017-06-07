@@ -42,11 +42,10 @@ $this->add(array(
 usr/module/media/template/admin/test-index.phtml
 
 * Media Helper, we have to cast the output to String, with echo function or caster as follow :
+	* If not casted : duplicated instance of the same helper / sames parameters (with, height, quality...) : clone the helper is not a good solution for performance
+
 <?php $shareImage = (string) Pi::api('doc','media')->getSingleLinkUrl($fieldValue)->thumb(800, 600); ?>
 <?php echo Pi::api('doc','media')->getSingleLinkUrl($fieldValue)->thumb(800, 600); ?>
-
-* If not casted : duplicated instance of the same helper / sames parameters (with, height, quality...) :
-Clone the helper is not a good solution for performance
 
 * In order to use custom config sizes (current module), we have to use :
 <?php $shareImage = (string) Pi::api('doc','media')->getSingleLinkUrl($fieldValue)->thumb(800, 600); ?>
