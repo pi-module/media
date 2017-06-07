@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-media\n"
-"POT-Creation-Date: 2017-06-05 22:28+0200\n"
-"PO-Revision-Date: 2017-06-05 22:28+0200\n"
+"POT-Creation-Date: 2017-06-07 19:14+0200\n"
+"PO-Revision-Date: 2017-06-07 19:14+0200\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -59,87 +59,95 @@ msgid "Maximum size for files allowed to upload (in KB)."
 msgstr ""
 
 #: config/config.php:64
-msgid "Image width"
-msgstr ""
-
-#: config/config.php:65
-msgid "Maximum image width for image files allowed to upload."
-msgstr ""
-
-#: config/config.php:71
-msgid "Image height"
-msgstr ""
-
-#: config/config.php:72
-msgid "Maximum image height for image files allowed to upload."
-msgstr ""
-
-#: config/config.php:78
-msgid "Large Image width"
-msgstr ""
-
-#: config/config.php:86
-msgid "Large Image height"
-msgstr ""
-
-#: config/config.php:95
 msgid "Max Image width (upload)"
 msgstr ""
 
-#: config/config.php:103
+#: config/config.php:72
 msgid "Max Image height (upload)"
 msgstr ""
 
-#: config/config.php:112
+#: config/config.php:81
 msgid "Min Image width (upload)"
 msgstr ""
 
-#: config/config.php:120
+#: config/config.php:89
 msgid "Min Image height (upload)"
 msgstr ""
 
-#: config/config.php:128
+#: config/config.php:97
 msgid "Image quality"
 msgstr ""
 
-#: config/config.php:129
+#: config/config.php:98
 msgid "Between 0 to 100 and support both of JPG and PNG, default is 75"
 msgstr ""
 
-#: config/config.php:136
+#: config/config.php:105
 msgid "Add Watermark"
 msgstr ""
 
-#: config/config.php:144
+#: config/config.php:113
 msgid "Watermark Image"
 msgstr ""
 
-#: config/config.php:151
+#: config/config.php:120
 msgid "Watermark Position"
 msgstr ""
 
-#: config/config.php:160
+#: config/config.php:129
 msgid "Top Left"
 msgstr ""
 
-#: config/config.php:161
+#: config/config.php:130
 msgid "Top Right"
 msgstr ""
 
-#: config/config.php:162
+#: config/config.php:131
 msgid "Bottom Left"
 msgstr ""
 
-#: config/config.php:163
+#: config/config.php:132
 msgid "Bottom Right"
 msgstr ""
 
-#: config/config.php:170
+#: config/config.php:139
 msgid "Max gallery images for freemium related items"
 msgstr ""
 
-#: config/config.php:177
+#: config/config.php:146
 msgid "Alert message for freemium item"
+msgstr ""
+
+#: config/config.php:154
+msgid "Large Image width"
+msgstr ""
+
+#: config/config.php:162
+msgid "Large Image height"
+msgstr ""
+
+#: config/config.php:170
+msgid "Item Image width"
+msgstr ""
+
+#: config/config.php:178
+msgid "Item Image height"
+msgstr ""
+
+#: config/config.php:186
+msgid "Medium Image width"
+msgstr ""
+
+#: config/config.php:194
+msgid "Medium Image height"
+msgstr ""
+
+#: config/config.php:202
+msgid "Thumb Image width"
+msgstr ""
+
+#: config/config.php:210
+msgid "Thumb Image height"
 msgstr ""
 
 #: config/module.php:18
@@ -245,7 +253,7 @@ msgstr ""
 
 #: src/Controller/Admin/TestController.php:83
 #: src/Controller/Front/ListController.php:188
-#: src/Controller/Front/ModalController.php:240
+#: src/Controller/Front/ModalController.php:256
 msgid "Resource List"
 msgstr ""
 
@@ -257,18 +265,18 @@ msgstr ""
 msgid "Deleted resources"
 msgstr ""
 
-#: src/Controller/Front/ListController.php:362
-#: src/Controller/Front/ListController.php:398
-#: src/Controller/Front/ModalController.php:452
-#: src/Controller/Front/ModalController.php:489
+#: src/Controller/Front/ListController.php:366
+#: src/Controller/Front/ListController.php:402
+#: src/Controller/Front/ModalController.php:474
+#: src/Controller/Front/ModalController.php:511
 msgid "Invalid media ID"
 msgstr ""
 
-#: src/Controller/Front/ListController.php:464
+#: src/Controller/Front/ListController.php:468
 msgid "There are some error occur"
 msgstr ""
 
-#: src/Controller/Front/ListController.php:490
+#: src/Controller/Front/ListController.php:494
 msgid "Cannot save media data"
 msgstr ""
 
@@ -411,12 +419,12 @@ msgstr ""
 msgid "No resource available yet."
 msgstr ""
 
-#: template/front/list-index.phtml:208
-msgid "Please make sure these resources are no in use!"
+#: template/front/list-index.phtml:218 template/front/list-index.phtml:269
+msgid "Do you confirm delete action ?"
 msgstr ""
 
-#: template/front/list-index.phtml:255
-msgid "Please make sure this resource is not in use!"
+#: template/front/list-index.phtml:268
+msgid "This media is already in used !"
 msgstr ""
 
 #~ msgid "Checked all"
