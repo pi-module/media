@@ -47,7 +47,23 @@ class ModalController extends ActionController
         }
 
         $where = array();
-        $where['uid'] = Pi::user()->getId();
+
+        if(Pi::engine()->section() == 'admin'){
+            $roleModel = Pi::model('user_role');
+            $select = $roleModel->select();
+            $select->where(array('role' => 'admin'));
+            $roleRowset = $roleModel->selectWith($select);
+
+            $adminRoles = array();
+            foreach($roleRowset as $role){
+                $adminRoles[] = $role->uid;
+            }
+
+            $where['uid'] = $adminRoles;
+        } else {
+            $where['uid'] = Pi::user()->getId();
+        }
+
         $where['time_deleted'] = 0;
 
         $mediaModel = Pi::model('doc', $this->getModule());
