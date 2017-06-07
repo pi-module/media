@@ -77,7 +77,7 @@ $this->Backbone();
             });
         }
     }
-    var carouselCollection = new Backbone.Collection(<?php echo $content ?: '[]'; ?>);
+    var carouselCollection = new Backbone.Collection([]);
     var carouselItemView = Backbone.View.extend({
         className: "upload-carousel-item col-md-3",
         events: {
