@@ -32,8 +32,6 @@
             if(currentCropValue){
                 currentCrop = JSON.parse(currentCropValue);
                 this.cropper.setData(currentCrop);
-                console.log('set crop to ');
-                console.log(currentCrop);
             }
             else {
                 updateCropValue(this.cropper, croppingInputElement, true);
@@ -46,8 +44,6 @@
 
         var minCropWidth = minCropRealWidth * targetElementWidth / targetElement.naturalWidth;
         var minCropHeight = minCropRealHeight * targetElementHeight / targetElement.naturalHeight;
-
-        console.log('MIN CROP : ' + minCropWidth + '*' + minCropHeight);
 
         cropper = new Cropper(targetElement, {
             minContainerWidth: 180,
@@ -69,7 +65,6 @@
     function updateCropValue(cropper, croppingInputElement, triggerchange){
         var cropData = JSON.stringify(cropper.getData(true));
         croppingInputElement.val(cropData);
-        console.log('CROP VALUE : ' + cropData);
 
         if(triggerchange){
             croppingInputElement.change();
@@ -144,7 +139,6 @@
                         urlUpdate = urlUpdate.replace('CROPPING_VALUE', encodeURI(croppingValue));
 
                         $.get(urlUpdate, function( data ) {
-                            console.log(urlUpdate)
                         });
                     });
                 }

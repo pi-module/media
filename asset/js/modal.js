@@ -36,7 +36,6 @@ var refreshFormList = function(formList){
 
         var freemium = formList.data('freemium');
         var canConnectLists = formList.data('can-connect-lists');
-        console.log(canConnectLists);
 
         $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).sortable({
             connectWith: canConnectLists ? '.media-list-sortable' : '',
@@ -452,9 +451,6 @@ $(function() {
             contentType: false,
             success: function(data) {
                 if(data.status == 0){
-                    console.log(data);
-
-
                     $('#editMediaModalContent').html(data.content);
                     parseCrop();
                 } else {
