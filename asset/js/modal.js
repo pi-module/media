@@ -160,7 +160,7 @@ var initDataTable = function(){
             },
             { "data": "title" },
             { "width": "80px", "data": "date" },
-            { "width": "285px", "data": "season" },
+            { "width": "310px", "data": "season" },
             { "width": "10px", "data": "removeBtn" }
         ],
         "language" : {
