@@ -123,7 +123,8 @@ class ModalController extends ActionController
                 $disabled = '';
 
                 if($media->nb_links > 0){
-                    $disabled = 'disabled="disabled"';
+                    $alertMsg = __("This media can't be deleted as it is already used by current or another item.");
+                    $disabled = 'disabled="disabled" data-toggle="tooltip" title="'.$alertMsg.'"';
                 }
 
                 $removeBtn = <<<PHP

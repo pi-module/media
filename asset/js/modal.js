@@ -76,8 +76,13 @@ var refreshFormList = function(formList){
         $('button[data-input-name="'+inputName+'"]').click(function(e){
             var currentSelectionLength = formList.find('li[data-media-id]').length;
 
-            if(freemium == '1' && currentSelectionLength >= max){
+            if(freemium == '1' && max && currentSelectionLength >= max){
                 $('#freemiumAlert').modal('show');
+
+                e.preventDefault();
+                return false;
+            } else if(max && currentSelectionLength >= max){
+                $('#maxAlert').modal('show');
 
                 e.preventDefault();
                 return false;
@@ -110,7 +115,6 @@ var refreshFormList = function(formList){
             }
 
         }
-
     });
 };
 
@@ -197,6 +201,8 @@ var initDataTable = function(){
             var id = $(this).attr('data-selected-media-id');
             $('[data-media-id="'+id+'"]').addClass('checked');
         });
+
+        $('[data-toggle="tooltip"]').tooltip();
     } );
 };
 
@@ -266,7 +272,7 @@ $(function() {
 
                 if (max && currentSelectionLength >= max) {
                     dropzone.removeFile(file);
-                    $('#freemiumAlert').modal('show');
+                    $('#maxAlert').modal('show');
                 }
             })
 
@@ -361,7 +367,7 @@ $(function() {
         var currentSelectionLength = $('#selectedMediaListModal .list > li').length;
 
         if(max != '' && currentSelectionLength >= max){
-            $('#freemiumAlert').modal('show');
+            $('#maxAlert').modal('show');
 
             e.preventDefault();
             return false;
