@@ -103,7 +103,7 @@
                                                 <?php echo _a('Undelete'); ?>
                                             </a> |
                                         <?php else : ?>
-                                            <a class="has-js-action <?php echo $media['using_count'] == 0 ? '' : 'disabled'; ?>" href="javascript:void(0)" data-value="delete" data-toggle="tooltip" data-html="true" title="Media is in used currently.<br />You can't delete it !">
+                                            <a class="has-js-action <?php echo $media['using_count'] > 0 ? 'disabled' : ''; ?>" href="javascript:void(0)" data-value="delete" <?php if($media['using_count']) : ?>data-toggle="tooltip" data-html="true" title="Media is in used currently.<br />You can't delete it !" <?php endif; ?>>
                                                 <?php echo _a('Delete'); ?>
                                             </a> |
                                         <?php endif; ?>
