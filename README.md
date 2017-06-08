@@ -23,8 +23,9 @@ $this->add(array(
         'media_gallery' => true, // OPTIONAL : specify if field is multiple media or not
         'media_season' => true, // OPTIONAL : add season feature
         'media_season_recommended' => true, // OPTIONAL : add warning message
-        'can_connect_lists' => true, // OPTIONAL : multiple field can be connected for drag and drop media on each field
+        'can_connect_lists' => true, // OPTIONAL : if multiple form element (in other words : multiple media field) this option allow to connect them each other : for example a user can drag and drop a media item from addition_images to main_image field, and vice versa
         'module' => 'guide', // OPTIONAL : Specify module for custom config (freemium, max media on field, etc...)
+        'is_freemium' => true, // OPTIONAL : If Freemium is enabled, media field will allow a max media items, specified from "freemium_max_gallery_images" config (media by default, or specified module / previous parameter)
     ),
 ));
 ```
@@ -67,10 +68,10 @@ Thumb method parameters can be dimensions (w / h) or size code : large / item (i
 Where array(320,768,900,1200) is all needed sizes.
 
 ### Manage Season
-to come
+If media_season is enabled, media field will allow 4 media items max. Some controls are activated for keeping user to choose same season twice or more in the selection
 
 ### Manage Fremium item
-to come
+If Freemium is enabled, media field will allow a max media items, specified from "freemium_max_gallery_images" config (media by default, or specified module / previous parameter)
 
 ### More resize commands here :
 https://github.com/tck/zf2-imageresizer#command-list
