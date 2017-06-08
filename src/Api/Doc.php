@@ -551,13 +551,10 @@ class Doc extends AbstractApi
         $ids = explode(',', $value);
 
         if($ids){
-
-            $id = array_shift($ids);
-
             /**
-             * @todo get seasonable media
+             * helper get first entry (if field is seasonable, then first entry would be the current season (on submit item action, or manual trigger from BO does an automatic sort)
              */
-
+            $id = array_shift($ids);
             $media = Pi::model('doc', $this->module)->find($id);
 
             if(!$media){
@@ -632,7 +629,7 @@ class Doc extends AbstractApi
 
         if($ids){
             /**
-             * @todo get seasonable media
+             * helper get first entry (if field is seasonable, then first entry would be the current season (on submit item action, or manual trigger from BO does an automatic sort)
              */
             return Pi::api('resize', 'media')->resize(array_shift($ids))->quality($quality);
         }
@@ -646,14 +643,12 @@ class Doc extends AbstractApi
 
         if($ids){
 
+            /**
+             * helper get first entry (if field is seasonable, then first entry would be the current season (on submit item action, or manual trigger from BO does an automatic sort)
+             */
             $id = array_shift($ids);
 
-            /**
-             * @todo get seasonable media
-             */
-
             $media = Pi::model('doc', $this->module)->find($id);
-
             $data = $media->toArray();
             $data['urls'] = array();
 
