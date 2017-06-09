@@ -579,17 +579,20 @@ class Doc extends AbstractApi
      * @param $value
      * @return array|bool
      */
-    public function getGalleryLinkData($value, $width = null, $height = null, $quality = null){
+    public function getGalleryLinkData($value, $width = null, $height = null, $quality = null, $sortBySeason = false, $additionalImagesToAdd = array()){
         if($value){
             $ids = explode(',', $value);
 
+            if($additionalImagesToAdd){
+                $additionalIds = explode(',', $additionalImagesToAdd);
+
+                $ids = array_merge($ids, $additionalIds);
+            }
+
             $ids = array_filter($ids);
+            $ids = array_unique($ids);
 
             if($ids){
-                /**
-                 * @todo get seasonable media
-                 */
-
                 $model = Pi::model('doc', $this->module);
                 $select = $model->select();
 
@@ -597,7 +600,12 @@ class Doc extends AbstractApi
                     new In('id', $ids),
                 ));
 
-                $select->order(array(new Expression('FIELD (id, '.implode(',', $ids).')')));
+                if($sortBySeason){
+                    $orderSeason = $this->getOrderSeason();
+                    $select->order(array(new Expression('FIELD (season, '.$orderSeason.')')));
+                } else {
+                    $select->order(array(new Expression('FIELD (id, '.implode(',', $ids).')')));
+                }
 
                 $mediaCollection = Pi::model('doc', $this->module)->selectWith($select);
 
@@ -780,5 +788,48 @@ class Doc extends AbstractApi
             Pi::service('audit')->log("migrate_media", $originalImagePath);
             Pi::service('audit')->log("migrate_media", json_encode($mediaData));
         }
+    }
+
+    public function getOrderSeason(){
+        $currentDate = date('m/d');
+
+        $seasonDates = array(
+            1 => Pi::config('season_summer_at', 'guide'),
+            2 => Pi::config('season_winter_at', 'guide'),
+            3 => Pi::config('season_autumn_at', 'guide'),
+            4 => Pi::config('season_spring_at', 'guide'),
+        );
+
+        asort($seasonDates);
+        end($seasonDates);
+        $currentSeason = key($seasonDates);
+        reset($seasonDates);
+
+        foreach($seasonDates as $season => $seasonDate){
+            if($currentDate >= $seasonDate){
+                $currentSeason = $season;
+            }
+        }
+
+        $orderSeason = null;
+
+        switch($currentSeason){
+            case 1:
+                $orderSeason = '1,4,3,2';
+                break;
+            case 2:
+                $orderSeason = '2,3,4,1';
+                break;
+            case 3:
+                $orderSeason = '3,1,4,2';
+                break;
+            case 4:
+                $orderSeason = '4,1,3,2';
+                break;
+            default:
+                break;
+        }
+
+        return $orderSeason;
     }
 }
