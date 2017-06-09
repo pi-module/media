@@ -68,7 +68,7 @@ Thumb method parameters can be dimensions (w / h) or size code : large / item (i
 Where array(320,768,900,1200) is all needed sizes.
 
 ### Manage Season
-If media_season is enabled, media field will allow 4 media items max. Some controls are activated for keeping user to choose same season twice or more in the selection
+If media_season is enabled, media field will allow 4 media items max (1 per season). Some controls are activated for keeping user from choosing same season twice or more in the selection
 
 ### Manage Fremium item
 If Freemium is enabled, media field will allow a max media items, specified from "freemium_max_gallery_images" config (media by default, or specified module / previous parameter)
