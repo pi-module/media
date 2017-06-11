@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-media\n"
-"POT-Creation-Date: 2017-06-07 19:07+0200\n"
-"PO-Revision-Date: 2017-06-07 19:14+0200\n"
+"POT-Creation-Date: 2017-06-11 22:09+0200\n"
+"PO-Revision-Date: 2017-06-11 22:09+0200\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -30,11 +30,18 @@ msgstr "Attacher un média "
 msgid "Media deleted"
 msgstr "Média supprimé"
 
-#: src/Controller/Front/ModalController.php:451
+#: src/Controller/Front/ModalController.php:126
+msgid ""
+"This media can't be deleted as it is already used by current or another item."
+msgstr ""
+"Ce media ne peut être supprimé, il est déjà utilisé soit par l'élément "
+"courant, soit par un autre élément"
+
+#: src/Controller/Front/ModalController.php:455
 msgid "Media uploaded successfully"
 msgstr "Média uploadé avec succès"
 
-#: src/Controller/Front/ModalController.php:455
+#: src/Controller/Front/ModalController.php:459
 msgid "Missing user id"
 msgstr "User ID manquant"
 
@@ -139,19 +146,19 @@ msgstr "Recherche&nbsp;:"
 
 #: src/Form/Element/Media.php:105
 msgid "Show _MENU_ elements"
-msgstr ""
+msgstr "Afficher  _MENU_ éléments"
 
 #: src/Form/Element/Media.php:106
 msgid "Show elements _START_ to _END_ on _TOTAL_ elements"
-msgstr ""
+msgstr "Afficher les éléments _START_ à _END_ sur _TOTAL_ éléments"
 
 #: src/Form/Element/Media.php:107
 msgid "Show elements 0 to 0 on 0 element"
-msgstr ""
+msgstr "Afficher les éléments 0 à 0 sur 0 élément"
 
 #: src/Form/Element/Media.php:108
 msgid "(filtered from _MAX_ elements)"
-msgstr ""
+msgstr "(filtré sur _MAX_ éléments)"
 
 #: src/Form/Element/Media.php:109
 msgid "Loading in progress..."
@@ -227,20 +234,20 @@ msgid "No season"
 msgstr "Aucune"
 
 #: src/Form/MediaEditForm.php:100
+msgid "Spring"
+msgstr "Printemps"
+
+#: src/Form/MediaEditForm.php:101
 msgid "Summer"
 msgstr "Eté"
 
-#: src/Form/MediaEditForm.php:101
+#: src/Form/MediaEditForm.php:102
 msgid "Autumn"
 msgstr "Automne"
 
-#: src/Form/MediaEditForm.php:102
+#: src/Form/MediaEditForm.php:103
 msgid "Winter"
 msgstr "Hiver"
-
-#: src/Form/MediaEditForm.php:103
-msgid "Spring"
-msgstr "Printemps"
 
 #: src/Form/MediaEditForm.php:113
 msgid "Choose a license type"
