@@ -12,7 +12,7 @@ $isUserSection = Pi::engine()->section() != 'admin';
     <?php endif; ?>
 
     <div class="<?php echo $isUserSection ? 'col-md-9' : 'col-md-12' ?>">
-        <h2 class="page-header"><?php echo _a('Edit Media'); ?></h2>
+        <h2 class="page-header"><?php _e('Edit Media'); ?></h2>
         <?php
         if (empty($id)) {
             $error = _a('No media select, please try again!');
