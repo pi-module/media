@@ -145,9 +145,8 @@ return array(
             'category'    => 'image',
             'title'       => _t('Alert message for freemium item'),
             'edit'        => 'text',
-            'value'       => "Freemium item limitations... You can't do this action",
+            'value'       => _t("Freemium item limitations... You can't do this action"),
         ),
-
 
         'image_largew'    => array(
             'category'    => 'image',
