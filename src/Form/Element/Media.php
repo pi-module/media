@@ -93,7 +93,7 @@ class Media extends \Zend\Form\Element\Text
         $maxAlertTitle = __("Max media alert");
         $maxAlertMsg = __("Max media alert : you have reach maximum of picture for this field");
 
-        $checkedMediaTitle = __("Your selection");
+        $checkedMediaTitle = __("Your selection (you can unlink each media)");
         $formModalTitle = __("Edit");
         $formModalSaveBtn = __("Save");
         $formModalCancelBtn = __("Cancel");

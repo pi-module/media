@@ -123,7 +123,7 @@ var addMediaToModal = function(media){
     var html = container.html();
     var mediaTmpl = '<li data-id="'+media.id+'" data-media-season="'+media.season+'">' +
         '<button class="btn btn-default btn-xs unlink-media-btn">' +
-        '<span class="glyphicon glyphicon-remove"></span>' +
+        '<i class="fa fa-chain-broken"></i>' +
         '</button>' +
         '<img data-selected-media-id="'+media.id+'" class="thumbnail" src="' + media.img + '" />' +
         '</li>';
