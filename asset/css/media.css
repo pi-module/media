@@ -219,9 +219,14 @@ tr[data-media-id] img{
     fill:red;
 }
 
+
+
+
+
 .dz-success-mark path,
 .dz-success-mark g{
-    fill:#92ce8d;
+    fill:#3ca233;
+    fill-opacity: 1;
 }
 
 .btn-group.season-switch{
