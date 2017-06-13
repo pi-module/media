@@ -585,6 +585,7 @@ class Doc extends AbstractApi
 
             if($additionalImagesToAdd){
                 $additionalIds = explode(',', $additionalImagesToAdd);
+                array_shift($additionalIds);
 
                 $ids = array_merge($ids, $additionalIds);
             }
