@@ -167,14 +167,14 @@ class ListController extends ActionController
         $navTabs = array(
             array(
                 'active'    => null === $active && !$delete,
-                'label'     => _a('All resources'),
+                'label'     => __('All resources'),
                 'href'      => $this->url('', array(
                     'action'    => 'index',
                 )),
             ),
             array(
                 'active'    => $delete,
-                'label'     => _a('Deleted resources'),
+                'label'     => __('Deleted resources'),
                 'href'      => $this->url('', array(
                     'action'    => 'index',
                     'delete'    => 1,
@@ -185,7 +185,7 @@ class ListController extends ActionController
         $this->view()->setTemplate('../front/list-index');
         
         $this->view()->assign(array(
-            'title'      => _a('Resource List'),
+            'title'      => __('Resource List'),
             'apps'       => $apps,
             'medias'     => $resultset,
             'paginator'  => $paginator,
@@ -363,7 +363,7 @@ class ListController extends ActionController
         $id     = $this->params('id', 0);
         $ids    = array_filter(explode(',', $id));
         if (empty($ids)) {
-            throw new \Exception(_a('Invalid media ID'));
+            throw new \Exception(__('Invalid media ID'));
         }
         // Mark media as deleted
         $this->getModel('doc')->update(
@@ -399,7 +399,7 @@ class ListController extends ActionController
         $ids    = array_filter(explode(',', $id));
 
         if (empty($ids)) {
-            throw new \Exception(_a('Invalid media ID'));
+            throw new \Exception(__('Invalid media ID'));
         }
 
         $status = $this->params('status', 1);
@@ -465,7 +465,7 @@ class ListController extends ActionController
             if (!$form->isValid()) {
                 return $this->renderForm(
                     $form,
-                    _a('There are some error occur')
+                    __('There are some error occur')
                 );
             }
 
@@ -491,7 +491,7 @@ class ListController extends ActionController
             if (empty($id)) {
                 return $this->renderForm(
                     $form,
-                    _a('Cannot save media data')
+                    __('Cannot save media data')
                 );
             }
 

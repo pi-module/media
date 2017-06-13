@@ -17,9 +17,9 @@
 
         <form name="user" method="GET" action="" style="margin-top: 10px" class="form-inline">
             <div class="form-group">
-                <input type="text" class="form-control" name="user" value="<?php echo $user; ?>" placeholder="<?php echo _a('Type user id or identity'); ?>">
+                <input type="text" class="form-control" name="user" value="<?php echo $user; ?>" placeholder="<?php _e('Type user id or identity'); ?>">
             </div>
-            <button type="submit" class="btn"><?php echo _a('Submit'); ?></button>
+            <button type="submit" class="btn"><?php _e('Submit'); ?></button>
         </form>
 
         <div id="pi-js-media">
@@ -31,17 +31,17 @@
                     <?php
                     if (0 === $active || null === $active) {
                         ?>
-                        <input type="button" name="enable" class="btn disabled" value="<?php echo _a('Enable'); ?>">
+                        <input type="button" name="enable" class="btn disabled" value="<?php _e('Enable'); ?>">
                         <?php
                     }
                     if (1 === $active || null === $active) {
                         ?>
-                        <input type="button" name="disable" class="btn disabled" value="<?php echo _a('Disable'); ?>">
+                        <input type="button" name="disable" class="btn disabled" value="<?php _e('Disable'); ?>">
                         <?php
                     }
                     if (!$delete) {
                         ?>
-                        <input type="button" name="delete" class="btn disabled" value="<?php echo _a('Delete'); ?>">
+                        <input type="button" name="delete" class="btn disabled" value="<?php _e('Delete'); ?>">
                         <?php
                     }
                     ?>
@@ -52,17 +52,17 @@
                         <tbody>
                         <tr>
                             <th style="width: 10px"></th>
-                            <th style="width: 10px"><?php echo _a('ID'); ?></th>
-                            <th style="width: 10px"><?php echo _a('Thumbnail'); ?></th>
-                            <th style="width: 10px"><?php echo _a('Status'); ?></th>
-                            <th style="width: 20%;"><?php echo _a('Title'); ?></th>
+                            <th style="width: 10px"><?php _e('ID'); ?></th>
+                            <th style="width: 10px"><?php _e('Thumbnail'); ?></th>
+                            <th style="width: 10px"><?php _e('Status'); ?></th>
+                            <th style="width: 20%;"><?php _e('Title'); ?></th>
 
                             <?php if(Pi::engine()->section() == 'admin') : ?>
-                                <th style="width: 40px;"><?php echo _a('Mimetype'); ?></th>
-                                <th style="width: 40px;"><?php echo _a('User Id'); ?></th>
+                                <th style="width: 40px;"><?php _e('Mimetype'); ?></th>
+                                <th style="width: 40px;"><?php _e('User Id'); ?></th>
                             <?php endif; ?>
-                            <th style="width: 40px;"><?php echo _a('Using count'); ?></th>
-                            <th style="width: 80px;"><?php echo _a('Time') ?></th>
+                            <th style="width: 40px;"><?php _e('Using count'); ?></th>
+                            <th style="width: 80px;"><?php _e('Time') ?></th>
                         </tr>
                         <?php
                         foreach ($medias as $media) {
@@ -96,19 +96,19 @@
                                             'controller'    => 'list',
                                             'action'        => 'edit',
                                             'id'            => $media['id'],
-                                        )); ?>" data-value="edit"><?php echo _a('Edit'); ?></a> |
+                                        )); ?>" data-value="edit"><?php _e('Edit'); ?></a> |
 
                                         <?php if($media['time_deleted']) : ?>
                                             <a class="has-js-action" href="javascript:void(0)" data-value="Undelete">
-                                                <?php echo _a('Undelete'); ?>
+                                                <?php _e('Undelete'); ?>
                                             </a> |
                                         <?php else : ?>
                                             <a class="has-js-action <?php echo $media['using_count'] > 0 ? 'disabled' : ''; ?>" href="javascript:void(0)" data-value="delete" <?php if($media['using_count']) : ?>data-toggle="tooltip" data-html="true" title="Media is in used currently.<br />You can't delete it !" <?php endif; ?>>
-                                                <?php echo _a('Delete'); ?>
+                                                <?php _e('Delete'); ?>
                                             </a> |
                                         <?php endif; ?>
                                         <a href="<?php echo Pi::api('doc', 'media')->getUrl($media['id']) ?>" target="_blank">
-                                            <?php echo _a('Download'); ?>
+                                            <?php _e('Download'); ?>
                                         </a>
                                     </div>
                                 </td>
@@ -127,7 +127,7 @@
                 <?php
             } else {
                 ?>
-                <div class="pi-media-none"><?php echo _a('No resource available yet.'); ?></div>
+                <div class="pi-media-none"><?php _e('No resource available yet.'); ?></div>
                 <?php
             }
             ?>
@@ -215,7 +215,7 @@
                         }
                     });
 
-                    if (freeDelete && confirm("<?php echo _a('Do you confirm delete action ?'); ?>")) {
+                    if (freeDelete && confirm("<?php _e('Do you confirm delete action ?'); ?>")) {
                         fn.call(this);
                     }
                 } else {
@@ -265,8 +265,8 @@
                 status = el.attr("data-status");
             if (val == "delete") {
                 if(isDisabled){
-                    alert("<?php echo _a('This media is already in used !'); ?>");
-                } else if (confirm("<?php echo _a('Do you confirm delete action ?'); ?>")) {
+                    alert("<?php _e('This media is already in used !'); ?>");
+                } else if (confirm("<?php _e('Do you confirm delete action ?'); ?>")) {
                     location.href = url + "delete?id=" + id + "&redirect=" + this.encodeUrl();
                 }
             } else if (val == "undelete") {
