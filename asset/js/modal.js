@@ -315,9 +315,9 @@ $(function() {
             return seasons.indexOf(elem) == pos;
         });
 
-        if(mediaSeason && seasons.length != uniqueSeasons.length){
+        if(mediaSeason && mediaSeason == "1" && seasons.length != uniqueSeasons.length){
             e.stopImmediatePropagation();
-            $('#seasonAlert').modal('show');
+            // $('#seasonAlert').modal('show');
 
         } else {
             selectedMedia.each(function(){

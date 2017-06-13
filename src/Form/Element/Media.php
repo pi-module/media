@@ -259,9 +259,12 @@ HTML;
         $addLabel = __("Choose or add new media file");
         $name = $this->getName();
         $isMediaGallery = $this->getOption('media_gallery') ? 1 : 0;
-        $isMediaSeason = $this->getOption('media_season') ? 1 : 0;
-        $isMediaSeasonRecommended = $this->getOption('media_season_recommended') ? 1 : 0;
         $isFreemium = $this->getOption('is_freemium') ? 1 : 0;
+
+//        echo $isFreemium; die();
+
+        $isMediaSeason = ($this->getOption('media_season') && !$isFreemium) ? 1 : 0;
+        $isMediaSeasonRecommended = $this->getOption('media_season_recommended') ? 1 : 0;
         $canConnectLists = $this->getOption('can_connect_lists') ? 1 : 0;
 
         $isMediaSeasonRecommendedMsg = $isMediaSeason ? __("We recommend you to fill 4 pictures for all seasons") : '';
