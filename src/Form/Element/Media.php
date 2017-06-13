@@ -21,6 +21,9 @@ class Media extends \Zend\Form\Element\Text
      */
     public function getAttributes()
     {
+        // Load language
+        Pi::service('i18n')->load(array('module/media', 'default'));
+
         $modalTitle = __("Media gallery");
         $saveBtnTitle = __("Add selected media");
 
