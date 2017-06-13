@@ -134,7 +134,7 @@ class Media extends \Zend\Form\Element\Text
                 <br />
                 
                 <div id="media_gallery">
-                    <table class="table table-striped" data-sProcessing="{$sProcessing}" data-sSearch="{$sSearch}" data-sLengthMenu="{$sLengthMenu}" data-sInfo="{$sInfo}" data-sInfoEmpty="{$sInfoEmpty}" data-sInfoFiltered="{$sInfoFiltered}" data-sLoadingRecords="{$sLoadingRecords}" data-sZeroRecords="{$sZeroRecords}" data-sEmptyTable="{$sEmptyTable}" data-sFirst="{$sFirst}" data-sPrevious="{$sPrevious}" data-sNext="{$sNext}" data-sLast="{$sLast}">
+                    <table class="table table-striped" data-sprocessing="{$sProcessing}" data-ssearch="{$sSearch}" data-slengthmenu="{$sLengthMenu}" data-sinfo="{$sInfo}" data-sinfoempty="{$sInfoEmpty}" data-sinfofiltered="{$sInfoFiltered}" data-sloadingrecords="{$sLoadingRecords}" data-szerorecords="{$sZeroRecords}" data-semptytable="{$sEmptyTable}" data-sfirst="{$sFirst}" data-sprevious="{$sPrevious}" data-snext="{$sNext}" data-slast="{$sLast}">
                         <thead>
                         <tr>
                             <th></th>

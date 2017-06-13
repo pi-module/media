@@ -144,6 +144,7 @@ var removeMediaToModal = function(media){
 
 var initDataTable = function(){
     var table = $('#media_gallery .table');
+
     table.DataTable({
         "lengthMenu": [[5, 10, 20], [5, 10, 20]],
         "bDestroy": true,
@@ -168,26 +169,22 @@ var initDataTable = function(){
             { "width": "10px", "data": "removeBtn" }
         ],
         "language" : {
-            "sProcessing":     table.data('sProcessing'),
-            "sSearch":         table.data('sSearch'),
-            "sLengthMenu":     table.data('sLengthMenu'), //"Afficher _MENU_ &eacute;l&eacute;ments",
-            "sInfo":           table.data('sInfo'), //"Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-            "sInfoEmpty":      table.data('sInfoEmpty'), //"Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-            "sInfoFiltered":   table.data('sInfoFiltered'), //"(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sProcessing":     table.data('sprocessing'),
+            "sSearch":         table.data('ssearch'),
+            "sLengthMenu":     table.data('slengthmenu'), //"Afficher _MENU_ &eacute;l&eacute;ments",
+            "sInfo":           table.data('sinfo'), //"Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty":      table.data('sinfoempty'), //"Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+            "sInfoFiltered":   table.data('sinfofiltered'), //"(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
             "sInfoPostFix":    "",
-            "sLoadingRecords": table.data('sLoadingRecords'), //"Chargement en cours...",
-            "sZeroRecords":    table.data('sZeroRecords'), //"Aucun &eacute;l&eacute;ment &agrave; afficher",
-            "sEmptyTable":     table.data('sEmptyTable'), //"Aucune donn&eacute;e disponible dans le tableau",
+            "sLoadingRecords": table.data('sloadingrecords'), //"Chargement en cours...",
+            "sZeroRecords":    table.data('szerorecords'), //"Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sEmptyTable":     table.data('semptytable'), //"Aucune donn&eacute;e disponible dans le tableau",
             "oPaginate": {
-                "sFirst":      table.data('sFirst'), //"Premier",
-                "sPrevious":   table.data('sPrevious'), //"Pr&eacute;c&eacute;dent",
-                "sNext":       table.data('sNext'), //"Suivant",
-                "sLast":       table.data('sLast') //"Dernier"
+                "sFirst":      table.data('sfirst'), //"Premier",
+                "sPrevious":   table.data('sprevious'), //"Pr&eacute;c&eacute;dent",
+                "sNext":       table.data('snext'), //"Suivant",
+                "sLast":       table.data('slast') //"Dernier"
             }
-            // "oAria": {
-            //     "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
-            //     "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
-            // }
         },
         "initComplete": function(settings, json) {
 
