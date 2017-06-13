@@ -8,6 +8,7 @@
 <div class="clearfix row">
     <?php if($isUserSection) : ?>
         <div class="col-md-3">
+            <?php $sideActive = 'media'; ?>
             <?php include $this->template('front/partial/list-side.phtml'); ?>
         </div>
     <?php endif; ?>
@@ -15,12 +16,14 @@
     <div class="<?php echo $isUserSection ? 'col-md-9' : 'col-md-12' ?>">
         <?php echo $this->tab($tabs); ?>
 
-        <form name="user" method="GET" action="" style="margin-top: 10px" class="form-inline">
-            <div class="form-group">
-                <input type="text" class="form-control" name="user" value="<?php echo $user; ?>" placeholder="<?php _e('Type user id or identity'); ?>">
-            </div>
-            <button type="submit" class="btn"><?php _e('Submit'); ?></button>
-        </form>
+        <?php if(Pi::engine()->section() == 'admin') : ?>
+            <form name="user" method="GET" action="" style="margin-top: 10px" class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="user" value="<?php echo $user; ?>" placeholder="<?php _e('Type user id or identity'); ?>">
+                </div>
+                <button type="submit" class="btn"><?php _e('Submit'); ?></button>
+            </form>
+        <?php endif; ?>
 
         <div id="pi-js-media">
             <?php

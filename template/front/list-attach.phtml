@@ -1,4 +1,3 @@
-
 <?php
 $this->css(array(
     $this->assetModule('script/admin.css', 'media'),
@@ -13,9 +12,6 @@ $this->jQuery(array(
 $this->js($this->assetModule('script/system-msg.js', 'system'));
 $this->Backbone();
 ?>
-
-
-
 
 <div class="clearfix">
     <h3><?php _e('Attach new media'); ?></h3>
@@ -41,14 +37,14 @@ $this->Backbone();
     </div>
 </div>
 <script id="temp-carousel" type="text/template">
-        <div id="file-<%= data.id %>" class="well">
-            <div class="upload-carousel-item-img"><img id="imageview_<%= data.id %>" class="imageview attachement" data-rel="cropping_<%= data.id %>" src="<%= data.preview %>" alt="<%= data.title %>"/></div>
-            <input data-id="<%= data.id %>" class="cropping ajaxUpdate" type="hidden" name="cropping_<%= data.id %>" value='<%= data.cropping %>' />
-            <p><%= data.title %></p>
-            <button type="button" class="remove-attach btn btn-danger btn-xs" data-toggle="button"
-                    data-link="<?php echo $this->url('', array('controller' => 'list', 'action' => 'delete')); ?>/id/<%= data.id %>"><i
-                    class="fa fa-trash fa fa-white"></i> <?php _e('Delete'); ?></button>
-        </div>
+    <div id="file-<%= data.id %>" class="well">
+        <div class="upload-carousel-item-img"><img id="imageview_<%= data.id %>" class="imageview attachement" data-rel="cropping_<%= data.id %>" src="<%= data.preview %>" alt="<%= data.title %>"/></div>
+        <input data-id="<%= data.id %>" class="cropping ajaxUpdate" type="hidden" name="cropping_<%= data.id %>" value='<%= data.cropping %>' />
+        <p><%= data.title %></p>
+        <button type="button" class="remove-attach btn btn-danger btn-xs" data-toggle="button"
+                data-link="<?php echo $this->url('', array('controller' => 'list', 'action' => 'delete')); ?>/id/<%= data.id %>"><i
+                class="fa fa-trash fa fa-white"></i> <?php _e('Delete'); ?></button>
+    </div>
 </script>
 
 

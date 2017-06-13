@@ -7,6 +7,7 @@ $isUserSection = Pi::engine()->section() != 'admin';
 <div class="clearfix row">
     <?php if($isUserSection) : ?>
         <div class="col-md-3">
+            <?php $sideActive = 'media'; ?>
             <?php include $this->template('front/partial/list-side.phtml'); ?>
         </div>
     <?php endif; ?>
