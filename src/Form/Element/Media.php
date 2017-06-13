@@ -117,6 +117,8 @@ class Media extends \Zend\Form\Element\Text
         $sNext = __("Next");
         $sLast = __("Last");
 
+        $uploadMsg = __("Drop files here to upload new files<br /><span class='label label-warning'>Max Size = ".$uploadMaxSize." and max dimensions = ".$uploadMaxDimensions."</span><br />(or select existing files below)");
+
         $modalHtml = <<<HTML
         
 <div id="addMediaModal" class="modal fade" tabindex="-1" role="dialog">
@@ -252,6 +254,7 @@ class Media extends \Zend\Form\Element\Text
     var uploadUrl = "{$uploadUrl}";
     var uploadMaxSize = "{$uploadMaxSize}";
     var uploadMaxDimensions = "{$uploadMaxDimensions}";
+    var uploadMsg = "{$uploadMsg}"
     var listUrl = "{$listUrl}";
     var currentSelectedMediaUrl = "{$currentSelectedMediaUrl}";
     var formlistUrl = "{$formlistUrl}";

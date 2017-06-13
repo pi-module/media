@@ -251,7 +251,7 @@ $(function() {
     myDropzone = new Dropzone("#dropzone-media-form", {
         url: uploadUrl,
         // autoQueue: false,
-        dictDefaultMessage: "Drop files here to upload new files<br /><span class='label label-warning'>Max Size = "+uploadMaxSize+" and max dimensions = "+uploadMaxDimensions+"</span><br />(or select existing files below)",
+        dictDefaultMessage: uploadMsg,
         init: function(){
             this.on('resetFiles', function() {
                 if(this.files.length != 0){
@@ -317,8 +317,7 @@ $(function() {
 
         if(mediaSeason && mediaSeason == "1" && seasons.length != uniqueSeasons.length){
             e.stopImmediatePropagation();
-            // $('#seasonAlert').modal('show');
-
+            $('#seasonAlert').modal('show');
         } else {
             selectedMedia.each(function(){
                 var id = $(this).attr('data-selected-media-id');
