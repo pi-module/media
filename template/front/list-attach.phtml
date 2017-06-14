@@ -16,7 +16,6 @@ $this->Backbone();
 <div class="clearfix">
     <h3><?php _e('Attach new media'); ?></h3>
     <div class="alert alert-success"><?php _e('You can add new media here and use it on all other modules'); ?></div>
-
     <div class="container-fluid">
         <div class="row">
             <div id="attach-form">
@@ -46,10 +45,7 @@ $this->Backbone();
                 class="fa fa-trash fa fa-white"></i> <?php _e('Delete'); ?></button>
     </div>
 </script>
-
-
 <?php include $this->template('front/partial/crop'); ?>
-
 <script type="text/javascript">
     var page = {
         form: $("form#block"),
