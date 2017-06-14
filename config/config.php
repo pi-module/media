@@ -19,6 +19,10 @@ return array(
             'title' => _t('General'),
         ),
         array(
+            'name'  => 'form',
+            'title' => _t('Form'),
+        ),
+        array(
             'name'  => 'validator',
             'title' => _t('Validator'),
         ),
@@ -43,6 +47,39 @@ return array(
             'description' => _t('Pipe separated'),
             'edit'        => 'text',
             'value'       => '',
+        ),
+        // Form
+        'form_description' => array(
+            'category'    => 'form',
+            'title'       => _t('Show description on form'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 1
+        ),
+        'form_season' => array(
+            'category'    => 'form',
+            'title'       => _t('Show season on form'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 1
+        ),
+        'form_license_type' => array(
+            'category'    => 'form',
+            'title'       => _t('Show license on form'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 1
+        ),
+        'form_copyright' => array(
+            'category'    => 'form',
+            'title'       => _t('Show copyright on form'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 1
         ),
         // Media
         'extension'       => array(
