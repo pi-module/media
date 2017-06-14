@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: media\n"
-"POT-Creation-Date: 2017-06-13 15:11+0430\n"
-"PO-Revision-Date: 2017-06-13 15:16+0430\n"
+"POT-Creation-Date: 2017-06-14 12:06+0430\n"
+"PO-Revision-Date: 2017-06-14 12:07+0430\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -341,7 +341,7 @@ msgstr "ویرایش"
 msgid "Fill empty descriptions from media title"
 msgstr "پر کردن توضیحات خالی تصاویر از عنوان"
 
-#: template/front/list-edit.phtml:18
+#: template/front/list-edit.phtml:19
 msgid "No media select, please try again!"
 msgstr "هیچ تصویری انتخاب نشده است لطفا مجددا تلاش کنید"
 
