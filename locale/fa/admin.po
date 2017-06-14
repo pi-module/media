@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: media\n"
-"POT-Creation-Date: 2017-06-14 12:06+0430\n"
-"PO-Revision-Date: 2017-06-14 12:07+0430\n"
+"POT-Creation-Date: 2017-06-14 13:04+0430\n"
+"PO-Revision-Date: 2017-06-14 13:09+0430\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -19,138 +19,158 @@ msgid "General"
 msgstr "عمومی"
 
 #: config/config.php:23
+msgid "Form"
+msgstr "فرم"
+
+#: config/config.php:27
 msgid "Validator"
 msgstr "تایید"
 
-#: config/config.php:27
+#: config/config.php:31
 msgid "Image"
 msgstr "تصویر"
 
-#: config/config.php:35
+#: config/config.php:39
 msgid "List page limit"
 msgstr "تعداد در صفحه"
 
-#: config/config.php:36
+#: config/config.php:40
 msgid "Maximum count of media resources on a list page."
 msgstr "حداکثر تعداد تصاویر نمایش داده شده در هر صفحه"
 
-#: config/config.php:42
+#: config/config.php:46
 msgid "License values"
 msgstr "انواع مجوز ها"
 
-#: config/config.php:43
+#: config/config.php:47
 msgid "Pipe separated"
-msgstr "Pipe separated"
+msgstr "با استفاده از | جدا کنید"
 
-#: config/config.php:50
+#: config/config.php:54
+msgid "Show description on form"
+msgstr "نمایش توضیحات در فرم"
+
+#: config/config.php:62
+msgid "Show season on form"
+msgstr "نمایش فصل در فرم"
+
+#: config/config.php:70
+msgid "Show license on form"
+msgstr "نمایش مجوز در فرم"
+
+#: config/config.php:78
+msgid "Show copyright on form"
+msgstr "نمایش کپی رایت در فرم"
+
+#: config/config.php:87
 msgid "File extension"
 msgstr "پسوند فایل"
 
-#: config/config.php:51
+#: config/config.php:88
 msgid "Extensions for files allowed to upload."
 msgstr "پسوند فایل های مجاز برای بارگزاری"
 
-#: config/config.php:56
+#: config/config.php:93
 msgid "Max file size"
 msgstr "حداکثر حجم فایل"
 
-#: config/config.php:57
+#: config/config.php:94
 msgid "Maximum size for files allowed to upload (in KB)."
 msgstr "حداکثر حجم فایل مجاز برای بارگزاری ( به KB )"
 
-#: config/config.php:64
+#: config/config.php:101
 msgid "Max Image width (upload)"
 msgstr "حداکثر عضر تصویر ( برای آپلود )"
 
-#: config/config.php:72
+#: config/config.php:109
 msgid "Max Image height (upload)"
 msgstr "حداکثر ارتفاع تصویر ( برای آپلود )"
 
-#: config/config.php:81
+#: config/config.php:118
 msgid "Min Image width (upload)"
 msgstr "حداقل عرض تصویر ( برای آپلود )"
 
-#: config/config.php:89
+#: config/config.php:126
 msgid "Min Image height (upload)"
 msgstr "حداقل ارتفاع تصویر ( برای آپلود )"
 
-#: config/config.php:97
+#: config/config.php:134
 msgid "Image quality"
 msgstr "کیفیت تصویر"
 
-#: config/config.php:98
+#: config/config.php:135
 msgid "Between 0 to 100 and support both of JPG and PNG, default is 75"
 msgstr "یک عدد بین 0 تا 100 ، هر دو فرمت JPG و PNG را پشتیبانی می کند، پیش فرض 75"
 
-#: config/config.php:105
+#: config/config.php:142
 msgid "Add Watermark"
 msgstr "درج واترمارک"
 
-#: config/config.php:113
+#: config/config.php:150
 msgid "Watermark Image"
 msgstr "تصویر واترمارک"
 
-#: config/config.php:120
+#: config/config.php:157
 msgid "Watermark Position"
 msgstr "محل واترمارک"
 
-#: config/config.php:129
+#: config/config.php:166
 msgid "Top Left"
 msgstr "بالا چپ"
 
-#: config/config.php:130
+#: config/config.php:167
 msgid "Top Right"
 msgstr "بالا راست"
 
-#: config/config.php:131
+#: config/config.php:168
 msgid "Bottom Left"
 msgstr "پایین چپ"
 
-#: config/config.php:132
+#: config/config.php:169
 msgid "Bottom Right"
 msgstr "پایین راست"
 
-#: config/config.php:139
+#: config/config.php:176
 msgid "Max gallery images for freemium related items"
 msgstr "حداکثر تعداد تصاویر برای موارد رایگان"
 
-#: config/config.php:146
+#: config/config.php:183
 msgid "Alert message for freemium item"
 msgstr "متن پیام اخطار برای موارد رایگان"
 
-#: config/config.php:148
+#: config/config.php:185
 msgid "Freemium item limitations... You can't do this action"
 msgstr "محدود موارد رایگان... شما نمی توانید این فعالیت را انجام دهید"
 
-#: config/config.php:153
+#: config/config.php:190
 msgid "Large Image width"
 msgstr "عرض تصویر بزرگ"
 
-#: config/config.php:161
+#: config/config.php:198
 msgid "Large Image height"
 msgstr "ارتفاع تصویر بزرگ"
 
-#: config/config.php:169
+#: config/config.php:206
 msgid "Item Image width"
 msgstr "عرض تصویر میانه"
 
-#: config/config.php:177
+#: config/config.php:214
 msgid "Item Image height"
 msgstr "ارتفاع تصویر میانه"
 
-#: config/config.php:185
+#: config/config.php:222
 msgid "Medium Image width"
 msgstr "عرض تصویر متوسط"
 
-#: config/config.php:193
+#: config/config.php:230
 msgid "Medium Image height"
 msgstr "ارتفاع تصویر متوسط"
 
-#: config/config.php:201
+#: config/config.php:238
 msgid "Thumb Image width"
 msgstr "عرض تصویر بندانگشتی"
 
-#: config/config.php:209
+#: config/config.php:246
 msgid "Thumb Image height"
 msgstr "ارتفاع تصویر بندانگشتی"
 
@@ -171,7 +191,7 @@ msgid "All"
 msgstr "همه"
 
 #: config/navigation.php:40 config/navigation.php:78
-#: template/admin/application-list.phtml:36
+#: template/admin/application-list.phtml:33
 msgid "Edit"
 msgstr "ویرایش"
 
@@ -256,36 +276,36 @@ msgid "Add test"
 msgstr "تست جدید"
 
 #: src/Controller/Admin/TestController.php:83
-#: src/Controller/Front/ModalController.php:257
+#: src/Controller/Front/ModalController.php:259
 msgid "Resource List"
 msgstr "فهرست تصاویر"
 
-#: src/Controller/Front/ModalController.php:478
-#: src/Controller/Front/ModalController.php:515
+#: src/Controller/Front/ModalController.php:480
+#: src/Controller/Front/ModalController.php:517
 msgid "Invalid media ID"
 msgstr "شناسه تصویر اشتباه است"
 
-#: template/admin/application-list.phtml:13
+#: template/admin/application-list.phtml:10
 msgid "Name"
 msgstr "نام"
 
-#: template/admin/application-list.phtml:17
+#: template/admin/application-list.phtml:14
 msgid "Search"
 msgstr "جستجو"
 
-#: template/admin/application-list.phtml:23 template/admin/test-index.phtml:14
+#: template/admin/application-list.phtml:20 template/admin/test-index.phtml:12
 msgid "ID"
 msgstr "شناسه"
 
-#: template/admin/application-list.phtml:24
+#: template/admin/application-list.phtml:21
 msgid "Appkey"
 msgstr "کلید برنامه"
 
-#: template/admin/application-list.phtml:25 template/admin/test-index.phtml:15
+#: template/admin/application-list.phtml:22 template/admin/test-index.phtml:13
 msgid "Title"
 msgstr "عنوان"
 
-#: template/admin/application-list.phtml:40 template/admin/test-index.phtml:54
+#: template/admin/application-list.phtml:37 template/admin/test-index.phtml:52
 msgid "Delete"
 msgstr "حذف"
 
@@ -313,35 +333,35 @@ msgstr "در ۳۰ روز"
 msgid "history"
 msgstr "تاریخچه"
 
-#: template/admin/test-index.phtml:16
+#: template/admin/test-index.phtml:14
 msgid "Main image"
 msgstr "تصویر اصلی"
 
-#: template/admin/test-index.phtml:17
+#: template/admin/test-index.phtml:15
 msgid "Main image data"
 msgstr "اطلاعات تصویر اصلی"
 
-#: template/admin/test-index.phtml:18
+#: template/admin/test-index.phtml:16
 msgid "Additional images data"
 msgstr "اطلاعات تصاویر اضافی"
 
-#: template/admin/test-index.phtml:19
+#: template/admin/test-index.phtml:17
 msgid "Picture tag"
 msgstr "تگ تصویر"
 
-#: template/admin/test-index.phtml:20
+#: template/admin/test-index.phtml:18
 msgid "Actions"
 msgstr "عملکرد"
 
-#: template/admin/test-index.phtml:52
+#: template/admin/test-index.phtml:50
 msgid "Update"
 msgstr "ویرایش"
 
-#: template/admin/tools-index.phtml:16
+#: template/admin/tools-index.phtml:15
 msgid "Fill empty descriptions from media title"
 msgstr "پر کردن توضیحات خالی تصاویر از عنوان"
 
-#: template/front/list-edit.phtml:19
+#: template/front/list-edit.phtml:15
 msgid "No media select, please try again!"
 msgstr "هیچ تصویری انتخاب نشده است لطفا مجددا تلاش کنید"
 
