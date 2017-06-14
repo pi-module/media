@@ -49,7 +49,7 @@ return array(
             'category'    => 'validator',
             'title'       => _t('File extension'),
             'description' => _t('Extensions for files allowed to upload.'),
-            'value'       => 'pdf,rar,zip,doc,txt,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,gif',
+            'value'       => 'jpg,jpeg,png,gif', //'pdf,rar,zip,doc,txt,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,gif',
         ),
         'max_size'        => array(
             'category'    => 'validator',
