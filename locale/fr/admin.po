@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-media\n"
-"POT-Creation-Date: 2017-06-07 19:14+0200\n"
-"PO-Revision-Date: 2017-06-07 19:14+0200\n"
+"POT-Creation-Date: 2017-06-14 11:31+0200\n"
+"PO-Revision-Date: 2017-06-14 11:34+0200\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -118,35 +118,39 @@ msgstr ""
 msgid "Alert message for freemium item"
 msgstr ""
 
-#: config/config.php:154
+#: config/config.php:148
+msgid "Freemium item limitations... You can't do this action"
+msgstr "Limitation éléments liée à votre élément Fremium : vous n'avez pas accès à cette fonctionnalité"
+
+#: config/config.php:153
 msgid "Large Image width"
 msgstr ""
 
-#: config/config.php:162
+#: config/config.php:161
 msgid "Large Image height"
 msgstr ""
 
-#: config/config.php:170
+#: config/config.php:169
 msgid "Item Image width"
 msgstr ""
 
-#: config/config.php:178
+#: config/config.php:177
 msgid "Item Image height"
 msgstr ""
 
-#: config/config.php:186
+#: config/config.php:185
 msgid "Medium Image width"
 msgstr ""
 
-#: config/config.php:194
+#: config/config.php:193
 msgid "Medium Image height"
 msgstr ""
 
-#: config/config.php:202
+#: config/config.php:201
 msgid "Thumb Image width"
 msgstr ""
 
-#: config/config.php:210
+#: config/config.php:209
 msgid "Thumb Image height"
 msgstr ""
 
@@ -167,7 +171,7 @@ msgid "All"
 msgstr ""
 
 #: config/navigation.php:40 config/navigation.php:78
-#: template/admin/application-list.phtml:36 template/front/list-index.phtml:99
+#: template/admin/application-list.phtml:36
 msgid "Edit"
 msgstr ""
 
@@ -252,32 +256,13 @@ msgid "Add test"
 msgstr ""
 
 #: src/Controller/Admin/TestController.php:83
-#: src/Controller/Front/ListController.php:188
-#: src/Controller/Front/ModalController.php:256
+#: src/Controller/Front/ModalController.php:257
 msgid "Resource List"
 msgstr ""
 
-#: src/Controller/Front/ListController.php:170
-msgid "All resources"
-msgstr ""
-
-#: src/Controller/Front/ListController.php:177
-msgid "Deleted resources"
-msgstr ""
-
-#: src/Controller/Front/ListController.php:366
-#: src/Controller/Front/ListController.php:402
-#: src/Controller/Front/ModalController.php:474
-#: src/Controller/Front/ModalController.php:511
+#: src/Controller/Front/ModalController.php:478
+#: src/Controller/Front/ModalController.php:515
 msgid "Invalid media ID"
-msgstr ""
-
-#: src/Controller/Front/ListController.php:468
-msgid "There are some error occur"
-msgstr ""
-
-#: src/Controller/Front/ListController.php:494
-msgid "Cannot save media data"
 msgstr ""
 
 #: template/admin/application-list.phtml:13
@@ -289,7 +274,6 @@ msgid "Search"
 msgstr ""
 
 #: template/admin/application-list.phtml:23 template/admin/test-index.phtml:14
-#: template/front/list-index.phtml:55
 msgid "ID"
 msgstr ""
 
@@ -298,12 +282,10 @@ msgid "Appkey"
 msgstr ""
 
 #: template/admin/application-list.phtml:25 template/admin/test-index.phtml:15
-#: template/front/list-index.phtml:58
 msgid "Title"
 msgstr ""
 
 #: template/admin/application-list.phtml:40 template/admin/test-index.phtml:54
-#: template/front/list-index.phtml:44 template/front/list-index.phtml:107
 msgid "Delete"
 msgstr ""
 
@@ -359,72 +341,8 @@ msgstr ""
 msgid "Fill empty descriptions from media title"
 msgstr ""
 
-#: template/front/list-edit.phtml:15
-msgid "Edit Media"
-msgstr ""
-
-#: template/front/list-edit.phtml:18
+#: template/front/list-edit.phtml:19
 msgid "No media select, please try again!"
-msgstr ""
-
-#: template/front/list-index.phtml:20
-msgid "Type user id or identity"
-msgstr ""
-
-#: template/front/list-index.phtml:22
-msgid "Submit"
-msgstr ""
-
-#: template/front/list-index.phtml:34
-msgid "Enable"
-msgstr ""
-
-#: template/front/list-index.phtml:39
-msgid "Disable"
-msgstr ""
-
-#: template/front/list-index.phtml:56
-msgid "Thumbnail"
-msgstr ""
-
-#: template/front/list-index.phtml:57
-msgid "Status"
-msgstr ""
-
-#: template/front/list-index.phtml:61
-msgid "Mimetype"
-msgstr ""
-
-#: template/front/list-index.phtml:62
-msgid "User Id"
-msgstr ""
-
-#: template/front/list-index.phtml:64
-msgid "Using count"
-msgstr ""
-
-#: template/front/list-index.phtml:65
-msgid "Time"
-msgstr ""
-
-#: template/front/list-index.phtml:103
-msgid "Undelete"
-msgstr ""
-
-#: template/front/list-index.phtml:111
-msgid "Download"
-msgstr ""
-
-#: template/front/list-index.phtml:130
-msgid "No resource available yet."
-msgstr ""
-
-#: template/front/list-index.phtml:218 template/front/list-index.phtml:269
-msgid "Do you confirm delete action ?"
-msgstr ""
-
-#: template/front/list-index.phtml:268
-msgid "This media is already in used !"
 msgstr ""
 
 #~ msgid "Checked all"
