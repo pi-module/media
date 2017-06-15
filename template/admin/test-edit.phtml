@@ -1,11 +1,6 @@
-<?php
-$this->css($this->assetModule('script/admin.css'));
-?>
-
+<?php $this->css($this->assetModule('script/admin.css')); ?>
 <?php echo $this->tab($tabs); ?>
-
 <?php include $this->template('./message-box.phtml'); ?>
-
 <div id="jsUpload">
     <?php include $this->templateComponent('form'); ?>
 </div>

@@ -1,10 +1,9 @@
 <?php
-    $this->backbone();
-    $this->css($this->assetModule('script/admin.css'));
-    $this->css($this->assetModule('css/media.css'));
-    $isUserSection = Pi::engine()->section() != 'admin';
+$this->backbone();
+$this->css($this->assetModule('script/admin.css'));
+$this->css($this->assetModule('css/media.css'));
+$isUserSection = Pi::engine()->section() != 'admin';
 ?>
-
 <div class="clearfix row">
     <?php if($isUserSection) : ?>
         <div class="col-md-3">
@@ -12,10 +11,8 @@
             <?php include $this->template('front/partial/list-side.phtml'); ?>
         </div>
     <?php endif; ?>
-
     <div class="<?php echo $isUserSection ? 'col-md-9' : 'col-md-12' ?>">
         <?php echo $this->tab($tabs); ?>
-
         <?php if(Pi::engine()->section() == 'admin') : ?>
             <form name="user" method="GET" action="" style="margin-top: 10px" class="form-inline">
                 <div class="form-group">
@@ -24,33 +21,19 @@
                 <button type="submit" class="btn"><?php _e('Submit'); ?></button>
             </form>
         <?php endif; ?>
-
         <br />
         <div id="pi-js-media">
-            <?php
-            if (!empty($medias)) {
-                ?>
+            <?php if (!empty($medias)) { ?>
                 <div class="pi-media-batch-operation">
                     <input type="checkbox" class="check-all" style="margin-right: 20px">
-                    <?php
-                    if (0 === $active || null === $active) {
-                        ?>
+                    <?php if (0 === $active || null === $active) { ?>
                         <input type="button" name="enable" class="btn disabled" value="<?php _e('Enable'); ?>">
-                        <?php
-                    }
-                    if (1 === $active || null === $active) {
-                        ?>
+                    <?php } if (1 === $active || null === $active) {  ?>
                         <input type="button" name="disable" class="btn disabled" value="<?php _e('Disable'); ?>">
-                        <?php
-                    }
-                    if (!$delete) {
-                        ?>
+                    <?php }  if (!$delete) { ?>
                         <input type="button" name="delete" class="btn disabled" value="<?php _e('Delete'); ?>">
-                        <?php
-                    }
-                    ?>
+                    <?php   } ?>
                 </div>
-
                 <div class="pi-media-list">
                     <table class="table table-striped">
                         <tbody>
@@ -60,7 +43,6 @@
                             <th style="width: 10px"><?php _e('Thumbnail'); ?></th>
                             <th style="width: 10px"><?php _e('Status'); ?></th>
                             <th style="width: 20%;"><?php _e('Title'); ?></th>
-
                             <?php if(Pi::engine()->section() == 'admin') : ?>
                                 <th style="width: 40px;"><?php _e('Mimetype'); ?></th>
                                 <th style="width: 40px;"><?php _e('User Id'); ?></th>
@@ -116,7 +98,6 @@
                                         </a>
                                     </div>
                                 </td>
-
                                 <?php if(Pi::engine()->section() == 'admin') : ?>
                                     <td><?php echo $this->escape($media['mimetype']); ?></td>
                                     <td><?php echo $media['uid'] ? Pi::user()->get($media['uid'], 'name') . ' ('.$media['uid'].')' : ''; ?></td>
@@ -129,166 +110,159 @@
                     </table>
                 </div>
                 <?php
-            } else {
-                ?>
+            } else { ?>
                 <div class="pi-media-none"><?php _e('No resource available yet.'); ?></div>
-                <?php
-            }
-            ?>
-
-            <?php
-            if (!empty($medias) && $paginator) {
+            <?php  } ?>
+            <?php if (!empty($medias) && $paginator) {
                 echo $this->paginationControl($paginator, 'Sliding', 'paginator.phtml');
-            }
-            ?>
+            } ?>
         </div>
     </div>
 </div>
-
 <script>
-(function($) {
-    var page = {
-        url : "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,""),
-        el  : $("#pi-js-media"),
-        $   : function(selector) {
-            return this.el.find(selector);
-        },
-        init : function() {
-            _.bindAll(this);
-            this.$(".check-all").click(this.checkAll);
-            this.$(".check-one").click(this.clickOne);
-            this.$("[name=enable]").click(this.batchOperation);
-            this.$("[name=disable]").click(this.batchOperation);
-            this.$("[name=delete]").click(this.batchOperation);
-            this.$("[name=download]").click(this.batchOperation);
-            this.$(".one-action a.has-js-action").click(this.oneAction);
-        },
-        checkAll : function() {
-            var flag = this.$(".check-all").prop("checked");
-            this.$(".check-one").prop("checked", flag).each(function() {
-                var tr = $(this).parents("tr:first");
-                if (flag) {
+    (function($) {
+        var page = {
+            url : "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,""),
+            el  : $("#pi-js-media"),
+            $   : function(selector) {
+                return this.el.find(selector);
+            },
+            init : function() {
+                _.bindAll(this);
+                this.$(".check-all").click(this.checkAll);
+                this.$(".check-one").click(this.clickOne);
+                this.$("[name=enable]").click(this.batchOperation);
+                this.$("[name=disable]").click(this.batchOperation);
+                this.$("[name=delete]").click(this.batchOperation);
+                this.$("[name=download]").click(this.batchOperation);
+                this.$(".one-action a.has-js-action").click(this.oneAction);
+            },
+            checkAll : function() {
+                var flag = this.$(".check-all").prop("checked");
+                this.$(".check-one").prop("checked", flag).each(function() {
+                    var tr = $(this).parents("tr:first");
+                    if (flag) {
+                        tr.addClass("info");
+                    } else {
+                        tr.removeClass("info");
+                    }
+                });
+                this.toggleBulk();
+            },
+            batchOperation : function(e) {
+                var url = "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,"");
+
+                var el = $(e.target);
+                if (el.hasClass('disabled')) {
+                    return;
+                }
+
+                var name = el.attr('name');
+                var operation, flag;
+                var id = [],
+                    fn = function() {
+                        this.$(".check-one:checked").each(function() {
+                            id.push($(this).val());
+                        });
+                        if ('enable' == name || 'disable' == name) {
+                            operation = 'active';
+                            if ('enable' == name) {
+                                flag = 1;
+                            } else {
+                                flag = 0;
+                            }
+                        } else {
+                            operation = name;
+                        }
+                        if ('active' == operation) {
+                            location.href = url + operation + "/id/" + id.join(",") + "/status/"
+                                + flag + "?redirect=" + this.encodeUrl();
+                        } else {
+                            location.href = url + operation + "/id/" + id.join(",") + "?redirect="
+                                + this.encodeUrl();
+                        }
+                    };
+                if (name) {
+                    if (name == "delete") {
+                        var freeDelete = true;
+
+                        $(".check-one:checked").each(function() {
+                            if($(this).hasClass('no-delete')){
+                                freeDelete = false;
+                                alert('Your selection contains at least one media already used. You must recheck your selection !');
+                            }
+                        });
+
+                        if (freeDelete && confirm("<?php _e('Do you confirm delete action ?'); ?>")) {
+                            fn.call(this);
+                        }
+                    } else {
+                        fn.call(this);
+                    }
+                }
+            },
+            clickOne : function(e) {
+                var el = $(e.target),
+                    tr = el.parents("tr:first");
+                if (el.prop("checked")) {
                     tr.addClass("info");
                 } else {
                     tr.removeClass("info");
                 }
-            });
-            this.toggleBulk();
-        },
-        batchOperation : function(e) {
-            var url = "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,"");
-
-            var el = $(e.target);
-            if (el.hasClass('disabled')) {
-                return;
-            }
-            
-            var name = el.attr('name');
-            var operation, flag;
-            var id = [],
-                fn = function() {
-                    this.$(".check-one:checked").each(function() {
-                        id.push($(this).val());
-                    });
-                    if ('enable' == name || 'disable' == name) {
-                        operation = 'active';
-                        if ('enable' == name) {
-                            flag = 1;
-                        } else {
-                            flag = 0;
-                        }
-                    } else {
-                        operation = name;
+                this.toggleBulk();
+            },
+            toggleBulk : function() {
+                var enableObj = this.$("[name=enable]");
+                var disableObj = this.$("[name=disable]");
+                var deleteObj = this.$("[name=delete]");
+                if (this.$(".check-one:checked").length) {
+                    deleteObj.removeClass("disabled");
+                    if (enableObj) {
+                        enableObj.removeClass("disabled");
                     }
-                    if ('active' == operation) {
-                        location.href = url + operation + "/id/" + id.join(",") + "/status/"
-                                      + flag + "?redirect=" + this.encodeUrl();
-                    } else {
-                        location.href = url + operation + "/id/" + id.join(",") + "?redirect="
-                                      + this.encodeUrl();
-                    }
-                };
-            if (name) {
-                if (name == "delete") {
-                    var freeDelete = true;
-
-                    $(".check-one:checked").each(function() {
-                        if($(this).hasClass('no-delete')){
-                            freeDelete = false;
-                            alert('Your selection contains at least one media already used. You must recheck your selection !');
-                        }
-                    });
-
-                    if (freeDelete && confirm("<?php _e('Do you confirm delete action ?'); ?>")) {
-                        fn.call(this);
+                    if (disableObj) {
+                        disableObj.removeClass("disabled");
                     }
                 } else {
-                    fn.call(this);
+                    deleteObj.addClass("disabled");
+                    if (enableObj) {
+                        enableObj.addClass("disabled");
+                    }
+                    if (disableObj) {
+                        disableObj.addClass("disabled");
+                    }
                 }
-            }
-        },
-        clickOne : function(e) {
-            var el = $(e.target),
-                tr = el.parents("tr:first");
-            if (el.prop("checked")) {
-                tr.addClass("info");
-            } else {
-                tr.removeClass("info");
-            }
-            this.toggleBulk();
-        },
-        toggleBulk : function() {
-            var enableObj = this.$("[name=enable]");
-            var disableObj = this.$("[name=disable]");
-            var deleteObj = this.$("[name=delete]");
-            if (this.$(".check-one:checked").length) {
-                deleteObj.removeClass("disabled");
-                if (enableObj) {
-                    enableObj.removeClass("disabled");
-                }
-                if (disableObj) {
-                    disableObj.removeClass("disabled");
-                }
-            } else {
-                deleteObj.addClass("disabled");
-                if (enableObj) {
-                    enableObj.addClass("disabled");
-                }
-                if (disableObj) {
-                    disableObj.addClass("disabled");
-                }
-            }
-        },
-        oneAction : function(e) {
-            var url = "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,"");
+            },
+            oneAction : function(e) {
+                var url = "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,"");
 
-            var el = $(e.target),
-                id = el.parents("tr:first").attr("data-id"),
-                val = el.attr("data-value"),
-                isDisabled = el.hasClass("disabled"),
-                status = el.attr("data-status");
-            if (val == "delete") {
-                if(isDisabled){
-                    alert("<?php _e('This media is already in used !'); ?>");
-                } else if (confirm("<?php _e('Do you confirm delete action ?'); ?>")) {
-                    location.href = url + "delete?id=" + id + "&redirect=" + this.encodeUrl();
+                var el = $(e.target),
+                    id = el.parents("tr:first").attr("data-id"),
+                    val = el.attr("data-value"),
+                    isDisabled = el.hasClass("disabled"),
+                    status = el.attr("data-status");
+                if (val == "delete") {
+                    if(isDisabled){
+                        alert("<?php _e('This media is already in used !'); ?>");
+                    } else if (confirm("<?php _e('Do you confirm delete action ?'); ?>")) {
+                        location.href = url + "delete?id=" + id + "&redirect=" + this.encodeUrl();
+                    }
+                } else if (val == "undelete") {
+                    location.href = url + "undelete?id=" + id + "&redirect=" + this.encodeUrl();
+                } else if ('active' == val) {
+                    location.href = url + val + "?id=" + id + "&status="
+                        + status + "&redirect=" + this.encodeUrl();
+                } else if ('edit' != val) {
+                    location.href = url + val + "?id=" + id + "&redirect=" + this.encodeUrl();
                 }
-            } else if (val == "undelete") {
-                location.href = url + "undelete?id=" + id + "&redirect=" + this.encodeUrl();
-            } else if ('active' == val) {
-                location.href = url + val + "?id=" + id + "&status="
-                              + status + "&redirect=" + this.encodeUrl();
-            } else if ('edit' != val) {
-                location.href = url + val + "?id=" + id + "&redirect=" + this.encodeUrl();
+            },
+            encodeUrl : function() {
+                return encodeURIComponent(location.href);
             }
-        },
-        encodeUrl : function() {
-            return encodeURIComponent(location.href);
         }
-    }
-    page.init();
+        page.init();
 
-    $('.disabled[data-toggle="tooltip"][data-value="delete"]').tooltip();
-})(jQuery)
+        $('.disabled[data-toggle="tooltip"][data-value="delete"]').tooltip();
+    })(jQuery)
 </script>
 
