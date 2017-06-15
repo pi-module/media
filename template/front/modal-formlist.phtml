@@ -10,11 +10,14 @@
                             <?php echo $media['title'] ?>
                     <?php endif; ?>
                 </div>
+
                 <hr />
+
                 <?php if(\Pi::engine()->section() == 'admin' || $media['uid'] == \Pi::user()->getId()) : ?>
                     <button type="button" class="btn btn-danger btn-xs btn-complete-action" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Complete') ?></button>
                     <button type="button" class="btn btn-default btn-xs btn-edit-action" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Edit') ?></button>
                 <?php endif; ?>
+
                 <button type="button" class="btn btn-warning btn-xs btn-unlink-action" href="#" data-media-id="<?php echo $media['id'] ?>">
                     <span class="glyphicon glyphicon-remove"></span>
                     <?php echo __('Unlink') ?>
@@ -25,6 +28,7 @@
         <li class="ui-state-default"><?php echo __('No media for now...') ?></li>
     <?php endif; ?>
 </ul>
+
 <div class="media-alert clearfix text-center hide">
     <span class="label label-danger"><?php echo __('You have to complete file informations before submit') ?></span>
 </div>

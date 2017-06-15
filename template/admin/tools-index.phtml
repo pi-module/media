@@ -3,6 +3,7 @@
     $this->jquery();
     $this->js(Pi::url('public/vendor/bootstrap/js/bootstrap.js'));
 ?>
+
 <div id="message-box">
     <?php if (isset($message)) { ?>
         <div class="alert alert-danger">
@@ -11,6 +12,5 @@
         </div>
     <?php } ?>
 </div>
-<a href="<?php echo $this->url('', array('action' => 'fillDescription')); ?>" class="btn btn-primary">
-    <?php echo _a('Fill empty descriptions from media title'); ?>
-</a>
+
+<a href="<?php echo $this->url('', array('action' => 'fillDescription')); ?>" class="btn btn-primary"><?php echo _a('Fill empty descriptions from media title'); ?></a>
