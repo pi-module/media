@@ -14,9 +14,9 @@ use Pi\Form\Form as BaseForm;
 
 /**
  * Class for initializing form of edit media page
- *
+ * 
  * @author Zongshu Lin <lin40553024@163.com>
- */
+ */ 
 class MediaEditForm extends BaseForm
 {
     public function __construct($name = null, $option = array())
@@ -28,7 +28,7 @@ class MediaEditForm extends BaseForm
     }
 
     /**
-     * Initalizing form
+     * Initalizing form 
      */
     public function init()
     {
@@ -46,20 +46,18 @@ class MediaEditForm extends BaseForm
             ),
         ));
 
-        if ($this->config['form_description']) {
-            $this->add(array(
-                'name' => 'description',
-                'options' => array(
-                    'label' => __('Description'),
-                ),
-                'attributes' => array(
-                    'type' => 'textarea',
-                    'cols' => 10,
-                    'rows' => 5,
-                    'required' => true,
-                ),
-            ));
-        }
+        $this->add(array(
+            'name'       => 'description',
+            'options'    => array(
+                'label'     => __('Description'),
+            ),
+            'attributes' => array(
+                'type'      => 'textarea',
+                'cols'      => 10,
+                'rows'      => 5,
+                'required' => true,
+            ),
+        ));
 
         $this->add(array(
             'name' => 'file',
@@ -71,7 +69,7 @@ class MediaEditForm extends BaseForm
             ),
         ));
 
-        if ($this->thumbUrl){
+        if($this->thumbUrl){
             $this->add(array(
                 'name' => 'imageview',
                 'type' => 'Module\Media\Form\Element\ImageCrop', // Zend\Form\Element\Image
@@ -92,26 +90,24 @@ class MediaEditForm extends BaseForm
             ));
         }
 
-        if ($this->config['form_season']) {
-            $this->add(array(
-                'name' => 'season',
-                'type' => 'select',
-                'options' => array(
-                    'label' => __('Season'),
-                    'value_options' => array(
-                        '' => __('No season'),
-                        4 => __('Spring'),
-                        1 => __('Summer'),
-                        3 => __('Autumn'),
-                        2 => __('Winter'),
-                    ),
+        $this->add(array(
+            'name'       => 'season',
+            'type'       => 'select',
+            'options'    => array(
+                'label'     => __('Season'),
+                'value_options' => array(
+                    '' => __('No season'),
+                    4 => __('Spring'),
+                    1 => __('Summer'),
+                    3 => __('Autumn'),
+                    2 => __('Winter'),
                 ),
-            ));
-        }
+            ),
+        ));
 
-        if ($this->config['form_license_type'] && isset($this->config['license_values']) && !empty($this->config['license_values'])) {
 
-            $licenseValues = explode('|', $this->config['license_values']);
+
+        if(isset($this->config['license_values']) && $licenseValues = explode('|', $this->config['license_values'])){
 
             $values = array(
                 '' => __('Choose a license type'),
@@ -131,14 +127,12 @@ class MediaEditForm extends BaseForm
             ));
         }
 
-        if ($this->config['form_copyright']) {
-            $this->add(array(
-                'name' => 'copyright',
-                'options' => array(
-                    'label' => __('Copyright'),
-                ),
-            ));
-        }
+        $this->add(array(
+            'name'       => 'copyright',
+            'options'    => array(
+                'label'     => __('Copyright'),
+            ),
+        ));
 
         $this->add(array(
             'name'       => 'id',
@@ -150,7 +144,7 @@ class MediaEditForm extends BaseForm
 
         $this->add(array(
             'name'       => 'submit',
-            'attributes' => array(
+            'attributes' => array(               
                 'value'     => __('Submit'),
             ),
             'type'       => 'submit',
