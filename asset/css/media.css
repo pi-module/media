@@ -98,6 +98,11 @@
     width:100%!important;
 }
 
+.dataTable th{
+    text-align: center;
+}
+
+
 #selectedMediaListModal ul{
     margin:0;
     padding:0;
