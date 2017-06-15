@@ -134,14 +134,12 @@ class ModalController extends ActionController
 PHP;
 
                 $mediaEditForm = new MediaEditForm();
+                $seasonOptions = $mediaEditForm->get('season')->getOptions();
 
-                if ($this->config['form_season']) {
-                    $seasonOptions = $mediaEditForm->get('season')->getOptions();
-                    $buttons = '';
-                    foreach ($seasonOptions['value_options'] as $value => $label) {
-                        $class = $media->season == $value ? 'btn-primary' : 'btn-default';
-                        $buttons .= '<button type="button" data-id="' . $value . '" class="btn btn-primary ' . $class . '">' . $label . '</button>';
-                    }
+                $buttons = '';
+                foreach ($seasonOptions['value_options'] as $value => $label){
+                    $class = $media->season == $value ? 'btn-primary' : 'btn-default';
+                    $buttons .= '<button type="button" data-id="'.$value.'" class="btn btn-primary ' . $class . '">'.$label.'</button>';
                 }
 
                 $mediaFormActionUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(

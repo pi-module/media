@@ -1,28 +1,28 @@
 # Doc table
 CREATE TABLE `{doc}` (
-  `id`               INT(10) UNSIGNED    NOT NULL,
-  `path`             VARCHAR(255)        NOT NULL DEFAULT '',
-  `filename`         VARCHAR(255)        NOT NULL DEFAULT '',
-  `attributes`       TEXT,
-  `mimetype`         VARCHAR(255)        NOT NULL DEFAULT '',
-  `title`            VARCHAR(255)        NOT NULL DEFAULT '',
-  `description`      VARCHAR(255)        NOT NULL DEFAULT '',
-  `active`           TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
-  `time_created`     INT(10) UNSIGNED    NOT NULL DEFAULT '0',
-  `time_updated`     INT(10) UNSIGNED    NOT NULL DEFAULT '0',
-  `time_deleted`     INT(10) UNSIGNED    NOT NULL DEFAULT '0',
-  `appkey`           VARCHAR(64)         NOT NULL DEFAULT '',
-  `uid`              INT(10) UNSIGNED    NOT NULL DEFAULT '0',
-  `count`            INT(10)             NOT NULL DEFAULT '0',
-  `season`           TINYINT(4)                   DEFAULT NULL,
-  `updated_by`       INT(11)                      DEFAULT NULL,
-  `license_type`     VARCHAR(255)                 DEFAULT NULL,
-  `copyright`        VARCHAR(255)                 DEFAULT NULL,
-  `geoloc_latitude`  FLOAT                        DEFAULT NULL,
-  `geoloc_longitude` FLOAT                        DEFAULT NULL,
-  `cropping`         TEXT,
-  `featured`         TINYINT(4)          NOT NULL
-);
+    `id` int(10) UNSIGNED NOT NULL,
+    `path` varchar(255) NOT NULL DEFAULT '',
+    `filename` varchar(255) NOT NULL DEFAULT '',
+    `attributes` text,
+    `mimetype` varchar(255) NOT NULL DEFAULT '',
+    `title` varchar(255) NOT NULL DEFAULT '',
+    `description` varchar(255) NOT NULL DEFAULT '',
+    `active` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+    `time_created` int(10) UNSIGNED NOT NULL DEFAULT '0',
+    `time_updated` int(10) UNSIGNED NOT NULL DEFAULT '0',
+    `time_deleted` int(10) UNSIGNED NOT NULL DEFAULT '0',
+    `appkey` varchar(64) NOT NULL DEFAULT '',
+    `uid` int(10) UNSIGNED NOT NULL DEFAULT '0',
+    `count` int(10) NOT NULL DEFAULT '0',
+    `season` tinyint(4) DEFAULT NULL,
+    `updated_by` int(11) DEFAULT NULL,
+    `license_type` varchar(255) DEFAULT NULL,
+    `copyright` varchar(255) DEFAULT NULL,
+    `geoloc_latitude` float DEFAULT NULL,
+    `geoloc_longitude` float DEFAULT NULL,
+    `cropping` text,
+    `featured` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `{doc}`
   ADD PRIMARY KEY (`id`),
@@ -31,32 +31,33 @@ ALTER TABLE `{doc}`
   ADD KEY `appkey` (`appkey`),
   ADD KEY `application` (`appkey`);
 
-ALTER TABLE `{doc}`  ADD FULLTEXT KEY `search_idx` (`title`, `description`);
-ALTER TABLE `{doc}`  ADD FULLTEXT KEY `search_title_idx` (`title`);
-ALTER TABLE `{doc}`  ADD FULLTEXT KEY `search_description_idx` (`description`);
-ALTER TABLE `{doc}`  MODIFY `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `{doc}` ADD FULLTEXT KEY `search_idx` (`title`,`description`);
+ALTER TABLE `{doc}` ADD FULLTEXT KEY `search_title_idx` (`title`);
+ALTER TABLE `{doc}` ADD FULLTEXT KEY `search_description_idx` (`description`);
+ALTER TABLE `{doc}` MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 # Test table
 CREATE TABLE `{test}` (
-  `id`                INT          NOT NULL AUTO_INCREMENT,
-  `title`             VARCHAR(255) NOT NULL,
-  `main_image`        INT          NULL,
-  `additional_images` VARCHAR(255) NULL,
-  PRIMARY KEY (`id`)
-);
+    `id` INT NOT NULL AUTO_INCREMENT ,
+    `title` VARCHAR(255) NOT NULL ,
+    `main_image` INT NULL,
+    `additional_images` VARCHAR(255) NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
 
 # Link table
 CREATE TABLE `{link}` (
-  `id`          INT         NOT NULL AUTO_INCREMENT,
-  `module`      VARCHAR(20) NOT NULL,
-  `object_name` VARCHAR(50) NOT NULL,
-  `object_id`   INT         NOT NULL,
-  `field`       VARCHAR(50) NOT NULL,
-  `media_id`    INT         NOT NULL,
-  PRIMARY KEY (`id`)
-);
+    `id` INT NOT NULL AUTO_INCREMENT ,
+    `module` VARCHAR(20) NOT NULL ,
+    `object_name` VARCHAR(50) NOT NULL ,
+    `object_id` INT NOT NULL ,
+    `field` VARCHAR(50) NOT NULL ,
+    `media_id` INT NOT NULL ,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
 
-ALTER TABLE `{link}`  ADD INDEX (`media_id`);
+ALTER TABLE `{link}` ADD INDEX( `media_id`);
+
 
 # Extended meta for docs
 CREATE TABLE `{meta}` (

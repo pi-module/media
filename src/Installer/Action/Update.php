@@ -102,7 +102,7 @@ SQL;
         if (version_compare($moduleVersion, '1.0.6', '<')) {
 
             $sql =<<<SQL
-CREATE TABLE %s ( `id` INT NOT NULL AUTO_INCREMENT , `title` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`));
+CREATE TABLE %s ( `id` INT NOT NULL AUTO_INCREMENT , `title` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 SQL;
 
             $sql = sprintf($sql, $testTable);
@@ -148,7 +148,7 @@ CREATE TABLE %s (
     `field` VARCHAR(50) NOT NULL ,
     `media_id` INT NOT NULL ,
     PRIMARY KEY (`id`)
-);
+) ENGINE = InnoDB;
 SQL;
 
             $sql = sprintf($sql, $linkTable);

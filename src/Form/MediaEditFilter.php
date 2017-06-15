@@ -24,9 +24,6 @@ class MediaEditFilter extends InputFilter
      */
     public function __construct()
     {
-        $module = Pi::service('module')->current();
-        $config = Pi::service('registry')->config->read($module);
-
         $this->add(array(
             'name'     => 'title',
             'required' => true,
@@ -37,38 +34,25 @@ class MediaEditFilter extends InputFilter
             ),
         ));
 
-        if($config['form_description']) {
-            $this->add(array(
-                'name' => 'description',
-                'required' => true,
-                'filters' => array(
-                    array(
-                        'name' => 'StringTrim',
-                    ),
+        $this->add(array(
+            'name'     => 'description',
+            'required' => true,
+            'filters'  => array(
+                array(
+                    'name' => 'StringTrim',
                 ),
-            ));
-        }
+            ),
+        ));
 
-        if ($config['form_license_type'] && isset($config['license_values']) && !empty($config['license_values'])) {
-            $this->add(array(
-                'name' => 'license_type',
-                'required' => false,
-            ));
-        }
+        $this->add(array(
+            'name'     => 'license_type',
+            'required' => false,
+        ));
 
-        if($config['form_season']) {
-            $this->add(array(
-                'name' => 'season',
-                'required' => false,
-            ));
-        }
-
-        if($config['form_copyright']) {
-            $this->add(array(
-                'name' => 'copyright',
-                'required' => false,
-            ));
-        }
+        $this->add(array(
+            'name'     => 'season',
+            'required' => false,
+        ));
 
         $this->add(array(
             'name'     => 'id',

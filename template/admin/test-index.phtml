@@ -3,7 +3,9 @@
     $this->jquery();
     $this->js(Pi::url('public/vendor/bootstrap/js/bootstrap.js'));
 ?>
+
 <?php echo $this->tab($tabs); ?>
+
 <div id="pi-js-media">
     <div class="pi-media-list">
         <table class="table table-striped">
@@ -56,10 +58,14 @@
             </tbody>
         </table>
     </div>
-    <?php if (!empty($medias) && $paginator) {
-        echo $this->paginationControl($paginator, 'Sliding', 'paginator.phtml');
-    } ?>
+    
+    <?php
+        if (!empty($medias) && $paginator) {
+            echo $this->paginationControl($paginator, 'Sliding', 'paginator.phtml');
+        }
+    ?>
 </div>
+
 <script>
     $(document).ready(function(){
         $('[data-toggle="popover"]').popover();
