@@ -617,6 +617,8 @@ class Doc extends AbstractApi
 
                     if($width && $height){
                         $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->thumb($width, $height)->quality($quality);
+                    } else if($width){
+                        $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->thumb($width)->quality($quality);
                     }
 
                     $mediaArray[] = $dataToInject;
