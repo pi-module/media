@@ -107,7 +107,9 @@ class MediaEditForm extends BaseForm
 
 
 
-        if(isset($this->config['license_values']) && $licenseValues = explode('|', $this->config['license_values'])){
+        if(isset($this->config['license_values']) && !empty($this->config['license_values'])){
+
+            $licenseValues = explode('|', $this->config['license_values']);
 
             $values = array(
                 '' => __('Choose a license type'),
