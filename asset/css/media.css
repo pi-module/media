@@ -254,3 +254,7 @@ tr[data-media-id] img{
 .dropzone .dz-preview .dz-error-message ul li:last-child{
     margin-bottom:0px;
 }
+
+.media .page-header h1{
+    margin-top:0;
+}

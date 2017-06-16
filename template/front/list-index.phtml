@@ -14,6 +14,11 @@
     <?php endif; ?>
 
     <div class="<?php echo $isUserSection ? 'col-md-9' : 'col-md-12' ?>">
+
+        <div class="page-header clearfix">
+            <h1><?php _e('All your media'); ?></h1>
+        </div>
+
         <?php echo $this->tab($tabs); ?>
 
         <?php if(Pi::engine()->section() == 'admin') : ?>
