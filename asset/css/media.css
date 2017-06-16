@@ -125,10 +125,11 @@
     position: absolute;
     top: 6px;
     right: 8px;
-    background: none;
+    background: white;
     border: 0;
     color: red;
     font-size: 16px;
+	border-radius: 4px;
 }
 
 .media-form-list ul{
