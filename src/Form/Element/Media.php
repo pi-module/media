@@ -88,7 +88,7 @@ class Media extends \Zend\Form\Element\Text
         $seasonAlertTitle = __("Alert season duplicates");
         $seasonAlertMsg = __("Alert season duplicates : you must have online one picture of each season only");
         $confirmDeleteHeaderTitle = __("Delete media");
-        $confirmDeleteActionTitle = __("Do you confirm you want to delete this media ?");
+        $confirmDeleteActionTitle = __("Do you confirm you want to delete this media ? In case you delete it inadvertently, you can active it back in your My Media submenu");
 
         $maxAlertTitle = __("Max media alert");
         $maxAlertMsg = __("Max media alert : you have reach maximum of picture for this field");
