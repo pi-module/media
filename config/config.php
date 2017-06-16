@@ -9,7 +9,7 @@
 
 /**
  * Module config
- * 
+ *
  * @author Zongshu Lin <lin40553024@163.com>
  */
 return array(
@@ -17,6 +17,10 @@ return array(
         array(
             'name'  => 'general',
             'title' => _t('General'),
+        ),
+        array(
+            'name'  => 'form',
+            'title' => _t('Form'),
         ),
         array(
             'name'  => 'validator',
@@ -40,16 +44,49 @@ return array(
         'license_values'      => array(
             'category'    => 'general',
             'title'       => _t('License values'),
-            'description' => _t('Pipe separated'),
+            'description' => _t('Use `|` as delimiter to separate license terms'),
             'edit'        => 'text',
             'value'       => '',
+        ),
+        // Form
+        'form_description' => array(
+            'category'    => 'form',
+            'title'       => _t('Show description on form'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 1
+        ),
+        'form_season' => array(
+            'category'    => 'form',
+            'title'       => _t('Show season on form'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 1
+        ),
+        'form_license_type' => array(
+            'category'    => 'form',
+            'title'       => _t('Show license on form'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 1
+        ),
+        'form_copyright' => array(
+            'category'    => 'form',
+            'title'       => _t('Show copyright on form'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 1
         ),
         // Media
         'extension'       => array(
             'category'    => 'validator',
             'title'       => _t('File extension'),
             'description' => _t('Extensions for files allowed to upload.'),
-            'value'       => 'pdf,rar,zip,doc,txt,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,gif',
+            'value'       => 'jpg,jpeg,png,gif', //'pdf,rar,zip,doc,txt,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,gif',
         ),
         'max_size'        => array(
             'category'    => 'validator',
@@ -75,7 +112,6 @@ return array(
             'filter'      => 'number_int',
             'value'       => 2000
         ),
-
         'image_minw'    => array(
             'category'    => 'image',
             'title'       => _t('Min Image width (upload)'),
@@ -147,7 +183,6 @@ return array(
             'edit'        => 'text',
             'value'       => _t("Freemium item limitations... You can't do this action"),
         ),
-
         'image_largew'    => array(
             'category'    => 'image',
             'title'       => _t('Large Image width'),
@@ -165,52 +200,52 @@ return array(
             'value'       => 1200
         ),
         'image_itemw' => array(
-            'category' => 'image',
-            'title' => _a('Item Image width'),
+            'category'    => 'image',
+            'title'       => _a('Item Image width'),
             'description' => '',
-            'edit' => 'text',
-            'filter' => 'number_int',
-            'value' => 800
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 800
         ),
         'image_itemh' => array(
-            'category' => 'image',
-            'title' => _a('Item Image height'),
+            'category'    => 'image',
+            'title'       => _a('Item Image height'),
             'description' => '',
-            'edit' => 'text',
-            'filter' => 'number_int',
-            'value' => 800
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 800
         ),
         'image_mediumw' => array(
-            'category' => 'image',
-            'title' => _a('Medium Image width'),
+            'category'    => 'image',
+            'title'       => _a('Medium Image width'),
             'description' => '',
-            'edit' => 'text',
-            'filter' => 'number_int',
-            'value' => 500
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 500
         ),
         'image_mediumh' => array(
-            'category' => 'image',
-            'title' => _a('Medium Image height'),
+            'category'    => 'image',
+            'title'       => _a('Medium Image height'),
             'description' => '',
-            'edit' => 'text',
-            'filter' => 'number_int',
-            'value' => 500
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 500
         ),
         'image_thumbw' => array(
-            'category' => 'image',
-            'title' => _a('Thumb Image width'),
+            'category'    => 'image',
+            'title'       => _a('Thumb Image width'),
             'description' => '',
-            'edit' => 'text',
-            'filter' => 'number_int',
-            'value' => 250
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 250
         ),
         'image_thumbh' => array(
-            'category' => 'image',
-            'title' => _a('Thumb Image height'),
+            'category'    => 'image',
+            'title'       => _a('Thumb Image height'),
             'description' => '',
-            'edit' => 'text',
-            'filter' => 'number_int',
-            'value' => 250
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 250
         ),
     ),
 );
