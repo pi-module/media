@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-media\n"
-"POT-Creation-Date: 2017-06-15 16:04+0200\n"
-"PO-Revision-Date: 2017-06-15 16:05+0200\n"
+"POT-Creation-Date: 2017-06-16 12:51+0200\n"
+"PO-Revision-Date: 2017-06-16 12:51+0200\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -75,7 +75,7 @@ msgid "Application Title"
 msgstr "Nom Application"
 
 #: src/Form/AppEditForm.php:61 src/Form/MediaEditForm.php:148
-#: src/Form/MediaEditFullForm.php:76 template/front/list-index.phtml:24
+#: src/Form/MediaEditFullForm.php:76 template/front/list-index.phtml:29
 msgid "Submit"
 msgstr "Soumettre"
 
@@ -137,7 +137,7 @@ msgstr ""
 msgid "Your selection (you can unlink each media)"
 msgstr "Votre sélection (vous pouvez désassocier chaque média)"
 
-#: src/Form/Element/Media.php:97 template/front/list-index.phtml:103
+#: src/Form/Element/Media.php:97 template/front/list-index.phtml:108
 #: template/front/modal-formlist.phtml:18
 msgid "Edit"
 msgstr "Editer"
@@ -150,12 +150,12 @@ msgstr "Enregistrer"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/Form/Element/Media.php:101 template/front/list-index.phtml:60
+#: src/Form/Element/Media.php:101 template/front/list-index.phtml:65
 msgid "Thumbnail"
 msgstr "Image"
 
 #: src/Form/Element/Media.php:102 src/Form/MediaEditForm.php:41
-#: template/front/list-index.phtml:62
+#: template/front/list-index.phtml:67
 msgid "Title"
 msgstr "Titre"
 
@@ -353,8 +353,8 @@ msgstr ""
 "Vous pouvez ajouter ici un nouveau média et l'utiliser dans tous les autres "
 "modules"
 
-#: template/front/list-attach.phtml:46 template/front/list-index.phtml:48
-#: template/front/list-index.phtml:111
+#: template/front/list-attach.phtml:46 template/front/list-index.phtml:53
+#: template/front/list-index.phtml:116
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -362,63 +362,67 @@ msgstr "Supprimer"
 msgid "In process"
 msgstr "En cours"
 
-#: template/front/list-edit.phtml:16
+#: template/front/list-edit.phtml:17
 msgid "Edit Media"
 msgstr "Editer le média"
 
-#: template/front/list-index.phtml:22
+#: template/front/list-index.phtml:19
+msgid "All your medias"
+msgstr "Tous vos médias"
+
+#: template/front/list-index.phtml:27
 msgid "Type user id or identity"
 msgstr "Saisir le n° ID utilisateur ou l'identité"
 
-#: template/front/list-index.phtml:38
+#: template/front/list-index.phtml:43
 msgid "Enable"
 msgstr "Activer"
 
-#: template/front/list-index.phtml:43
+#: template/front/list-index.phtml:48
 msgid "Disable"
 msgstr "Désactiver"
 
-#: template/front/list-index.phtml:59
+#: template/front/list-index.phtml:64
 msgid "ID"
 msgstr "ID"
 
-#: template/front/list-index.phtml:61
+#: template/front/list-index.phtml:66
 msgid "Status"
 msgstr "Statut"
 
-#: template/front/list-index.phtml:65
+#: template/front/list-index.phtml:70
 msgid "Mimetype"
 msgstr "Extension Mimetype"
 
-#: template/front/list-index.phtml:66
+#: template/front/list-index.phtml:71
 msgid "User Id"
 msgstr "User ID"
 
-#: template/front/list-index.phtml:68
+#: template/front/list-index.phtml:73
 msgid "Using count"
 msgstr "Compteur Utilisateur"
 
-#: template/front/list-index.phtml:69
+#: template/front/list-index.phtml:74
 msgid "Time"
 msgstr "Date"
 
-#: template/front/list-index.phtml:107
+#: template/front/list-index.phtml:112
 msgid "Undelete"
 msgstr "Rétablir"
 
-#: template/front/list-index.phtml:115
+#: template/front/list-index.phtml:120
 msgid "Download"
 msgstr "Télécharger"
 
-#: template/front/list-index.phtml:134
+#: template/front/list-index.phtml:139
 msgid "No resource available yet."
 msgstr "Aucune ressource disponible pour l'instant."
 
-#: template/front/list-index.phtml:222 template/front/list-index.phtml:273
+#: template/front/list-index.phtml:227 template/front/list-index.phtml:278
 msgid "Do you confirm delete action ?"
 msgstr "Confirmez vous la suppression de ce média?"
 
-#: template/front/list-index.phtml:272
+#: template/front/list-index.phtml:277
 msgid "This media is already in used !"
 msgstr "Ce média est encore utilisé !"
 

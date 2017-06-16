@@ -12,6 +12,11 @@ $isUserSection = Pi::engine()->section() != 'admin';
         </div>
     <?php endif; ?>
     <div class="<?php echo $isUserSection ? 'col-md-9' : 'col-md-12' ?>">
+
+        <div class="page-header clearfix">
+            <h1><?php _e('All your medias'); ?></h1>
+        </div>
+
         <?php echo $this->tab($tabs); ?>
         <?php if(Pi::engine()->section() == 'admin') : ?>
             <form name="user" method="GET" action="" style="margin-top: 10px" class="form-inline">

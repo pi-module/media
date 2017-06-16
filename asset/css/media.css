@@ -119,16 +119,17 @@
 
 #selectedMediaListModal ul li img{
     display:inline-block;
-
 }
 
 #selectedMediaListModal ul li .unlink-media-btn{
     position: absolute;
     top: 6px;
     right: 8px;
-    background: none;
-    color: white;
+    background: white;
     border: 0;
+    color: red;
+    font-size: 16px;
+	border-radius: 4px;
 }
 
 .media-form-list ul{
@@ -253,4 +254,8 @@ tr[data-media-id] img{
 
 .dropzone .dz-preview .dz-error-message ul li:last-child{
     margin-bottom:0px;
+}
+
+.media .page-header h1{
+    margin-top:0;
 }

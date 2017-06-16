@@ -579,7 +579,7 @@ class Doc extends AbstractApi
      * @param $value
      * @return array|bool
      */
-    public function getGalleryLinkData($value, $width = null, $height = null, $quality = null, $sortBySeason = false, $additionalImagesToAdd = array()){
+    public function getGalleryLinkData($value, $width = null, $height = null, $quality = null, $sortBySeason = false, $additionalImagesToAdd = array(), $module = 'media'){
         if($value){
             $ids = explode(',', $value);
 
@@ -616,7 +616,9 @@ class Doc extends AbstractApi
                     $dataToInject['url'] = (string) Pi::api('resize', 'media')->resize($media);
 
                     if($width && $height){
-                        $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->thumb($width, $height)->quality($quality);
+                        $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width, $height)->quality($quality);
+                    } else if($width){
+                        $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
                     }
 
                     $mediaArray[] = $dataToInject;
