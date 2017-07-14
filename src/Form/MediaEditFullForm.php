@@ -30,6 +30,13 @@ class MediaEditFullForm extends MediaEditForm
         $this->remove('submit');
 
         $this->add(array(
+            'name'       => 'filename',
+            'options'    => array(
+                'label'     => __('Filename'),
+            ),
+        ));
+
+        $this->add(array(
             'name'       => 'uid',
             'options'    => array(
                 'label'     => __('User ID'),
