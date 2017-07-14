@@ -547,7 +547,7 @@ class Doc extends AbstractApi
      * @param $value
      * @return array|bool
      */
-    public function getSingleLinkData($value, $width = null, $height = null, $quality = null){
+    public function getSingleLinkData($value, $width = null, $height = null, $quality = null, $module = 'media'){
         $ids = explode(',', $value);
 
         if($ids){
@@ -566,6 +566,17 @@ class Doc extends AbstractApi
 
             if($width && $height){
                 $data['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->thumbcrop($width, $height)->quality($quality);
+            } else if($width && is_string($width)){
+                $data['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->thumbcrop($width)->quality($quality);
+            }
+
+            if(!$data['copyright']){
+                $config = Pi::service('registry')->config->read('media');
+                $data['copyright'] = $config['image_default_copyright'];
+            }
+
+            if($data['copyright'] && !preg_match('#©#', $data['copyright'])){
+                $data['copyright'] = '© ' . $data['copyright'];
             }
 
             return $data;
@@ -619,6 +630,15 @@ class Doc extends AbstractApi
                         $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width, $height)->quality($quality);
                     } else if($width){
                         $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
+                    }
+
+                    if(!$dataToInject['copyright']){
+                        $config = Pi::service('registry')->config->read('media');
+                        $dataToInject['copyright'] = $config['image_default_copyright'];
+                    }
+
+                    if($dataToInject['copyright'] && !preg_match('#©#', $dataToInject['copyright'])){
+                        $dataToInject['copyright'] = '© ' . $dataToInject['copyright'];
                     }
 
                     $mediaArray[] = $dataToInject;
