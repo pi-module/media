@@ -1,6 +1,6 @@
 # Doc table
 CREATE TABLE `{doc}` (
-  `id`               INT(10) UNSIGNED    NOT NULL,
+  `id`               INT(10) UNSIGNED    NOT NULL AUTO_INCREMENT,
   `path`             VARCHAR(255)        NOT NULL DEFAULT '',
   `filename`         VARCHAR(255)        NOT NULL DEFAULT '',
   `attributes`       TEXT,
@@ -21,20 +21,15 @@ CREATE TABLE `{doc}` (
   `geoloc_latitude`  FLOAT                        DEFAULT NULL,
   `geoloc_longitude` FLOAT                        DEFAULT NULL,
   `cropping`         TEXT,
-  `featured`         TINYINT(4)          NOT NULL
+  `featured`         TINYINT(4)          NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `active` (`active`),
+  KEY `uid` (`uid`),
+  KEY `appkey` (`appkey`),
+  FULLTEXT KEY `search_idx` (`title`, `description`),
+  FULLTEXT KEY `search_title_idx` (`title`),
+  FULLTEXT KEY `search_description_idx` (`description`)
 );
-
-ALTER TABLE `{doc}`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `active` (`active`),
-  ADD KEY `uid` (`uid`),
-  ADD KEY `appkey` (`appkey`),
-  ADD KEY `application` (`appkey`);
-
-ALTER TABLE `{doc}`  ADD FULLTEXT KEY `search_idx` (`title`, `description`);
-ALTER TABLE `{doc}`  ADD FULLTEXT KEY `search_title_idx` (`title`);
-ALTER TABLE `{doc}`  ADD FULLTEXT KEY `search_description_idx` (`description`);
-ALTER TABLE `{doc}`  MODIFY `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 # Test table
 CREATE TABLE `{test}` (
@@ -53,10 +48,9 @@ CREATE TABLE `{link}` (
   `object_id`   INT         NOT NULL,
   `field`       VARCHAR(50) NOT NULL,
   `media_id`    INT         NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY (`media_id`)
 );
-
-ALTER TABLE `{link}`  ADD INDEX (`media_id`);
 
 # Extended meta for docs
 CREATE TABLE `{meta}` (

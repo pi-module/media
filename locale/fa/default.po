@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: media\n"
-"POT-Creation-Date: 2017-06-16 10:21+0430\n"
-"PO-Revision-Date: 2017-06-16 10:24+0430\n"
+"POT-Creation-Date: 2017-07-19 13:58+0430\n"
+"PO-Revision-Date: 2017-07-19 13:58+0430\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -21,6 +21,14 @@ msgstr "توضیحات با موفقیت تکمیل شد"
 #: src/Controller/Admin/ToolsController.php:66
 msgid "Description are filled yet"
 msgstr "توضیحات هم اکنون تکمیل شده است"
+
+#: src/Controller/Admin/ToolsController.php:140
+msgid " orphaned media have been removed"
+msgstr "تصاویر فاقد استفاده حذف شد"
+
+#: src/Controller/Admin/ToolsController.php:142
+msgid "There is no orphaned media currently"
+msgstr "هم اکنون هیچ تصویر غیر ضروری و بدون استفاده ای وجود ندارد"
 
 #: src/Controller/Front/ListController.php:170
 msgid "All resources"
@@ -51,7 +59,15 @@ msgstr "شناسه تصویر صحیح نیست"
 msgid "There are some error occur"
 msgstr "چند خطا روی داده است"
 
-#: src/Controller/Front/ListController.php:494
+#: src/Controller/Front/ListController.php:529
+msgid "There are some error occur when renaming filename"
+msgstr "در هنگام تغییر نام فایل یک خطا روی داده است"
+
+#: src/Controller/Front/ListController.php:538
+msgid "Filename can not be empty"
+msgstr "نام فایل نمی تواند خالی باشد"
+
+#: src/Controller/Front/ListController.php:546
 msgid "Cannot save media data"
 msgstr "ناتوان در زخیره اطلاعات تصویر"
 
@@ -75,7 +91,7 @@ msgid "Application Title"
 msgstr "عنوان برنامه"
 
 #: src/Form/AppEditForm.php:61 src/Form/MediaEditForm.php:154
-#: src/Form/MediaEditFullForm.php:76 template/front/list-index.phtml:21
+#: src/Form/MediaEditFullForm.php:83 template/front/list-index.phtml:26
 msgid "Submit"
 msgstr "ارسال"
 
@@ -138,7 +154,7 @@ msgstr ""
 msgid "Your selection (you can unlink each media)"
 msgstr "تصویر انتخابی ( می توانید هر کدام را حذف کنید )"
 
-#: src/Form/Element/Media.php:97 template/front/list-index.phtml:98
+#: src/Form/Element/Media.php:97 template/front/list-index.phtml:103
 #: template/front/modal-formlist.phtml:16
 msgid "Edit"
 msgstr "ویرایش"
@@ -151,12 +167,12 @@ msgstr "ذخیره"
 msgid "Cancel"
 msgstr "لغو"
 
-#: src/Form/Element/Media.php:101 template/front/list-index.phtml:55
+#: src/Form/Element/Media.php:101 template/front/list-index.phtml:60
 msgid "Thumbnail"
 msgstr "تصویر بند انگشتی"
 
 #: src/Form/Element/Media.php:102 src/Form/MediaEditForm.php:41
-#: template/front/list-index.phtml:57
+#: template/front/list-index.phtml:62
 msgid "Title"
 msgstr "عنوان"
 
@@ -305,30 +321,34 @@ msgid "Copyright"
 msgstr "کپی رایت"
 
 #: src/Form/MediaEditFullForm.php:35
+msgid "Filename"
+msgstr "نام فایل"
+
+#: src/Form/MediaEditFullForm.php:42
 msgid "User ID"
 msgstr "شناسه کاربر"
 
-#: src/Form/MediaEditFullForm.php:42
+#: src/Form/MediaEditFullForm.php:49
 msgid "GPS Latitude"
 msgstr "عرض جغرافیایی(Latitude)"
 
-#: src/Form/MediaEditFullForm.php:49
+#: src/Form/MediaEditFullForm.php:56
 msgid "GPS Longitude"
 msgstr "طول جغرافیایی(Longitude)"
 
-#: src/Form/MediaEditFullForm.php:57
+#: src/Form/MediaEditFullForm.php:64
 msgid "Featured"
 msgstr "ویژگی ها"
 
-#: src/Form/MediaEditFullForm.php:65
+#: src/Form/MediaEditFullForm.php:72
 msgid "Active"
 msgstr "فعال"
 
-#: src/Form/MediaEditFullForm.php:67
+#: src/Form/MediaEditFullForm.php:74
 msgid "Disabled"
 msgstr "غیرفعال"
 
-#: src/Form/MediaEditFullForm.php:68
+#: src/Form/MediaEditFullForm.php:75
 msgid "Enabled"
 msgstr "فعال"
 
@@ -344,6 +364,11 @@ msgstr "تصاویر جانبی"
 msgid "Save this test"
 msgstr "ذخیره"
 
+#: template/admin/tools-index.phtml:14
+msgid "You can use this page tools for better manage your media"
+msgstr ""
+"شما میتوانید از ابزار این صفحه برای مدیریت بهتر تصاویر خود استفاده کنید."
+
 #: template/front/list-attach.phtml:16
 msgid "Attach new media"
 msgstr "پیوست تصویر جدید"
@@ -353,8 +378,8 @@ msgid "You can add new media here and use it on all other modules"
 msgstr ""
 "شما میتوانید یک تصویر جدید اینجا درج کنید و در تمام بخش ها از آن استفاده کنید"
 
-#: template/front/list-attach.phtml:46 template/front/list-index.phtml:44
-#: template/front/list-index.phtml:106
+#: template/front/list-attach.phtml:46 template/front/list-index.phtml:49
+#: template/front/list-index.phtml:111
 msgid "Delete"
 msgstr "حذف"
 
@@ -362,63 +387,67 @@ msgstr "حذف"
 msgid "In process"
 msgstr "در حال بررسی"
 
-#: template/front/list-edit.phtml:13
+#: template/front/list-edit.phtml:14
 msgid "Edit Media"
 msgstr "ویرایش تصویر"
 
-#: template/front/list-index.phtml:19
+#: template/front/list-index.phtml:17
+msgid "All your medias"
+msgstr "همه تصاویر شما"
+
+#: template/front/list-index.phtml:24
 msgid "Type user id or identity"
 msgstr "شناسه یا نام کاربری را وارد کنید"
 
-#: template/front/list-index.phtml:34
+#: template/front/list-index.phtml:39
 msgid "Enable"
 msgstr "فعال"
 
-#: template/front/list-index.phtml:39
+#: template/front/list-index.phtml:44
 msgid "Disable"
 msgstr "غیرفعال"
 
-#: template/front/list-index.phtml:54
+#: template/front/list-index.phtml:59
 msgid "ID"
 msgstr "شناسه"
 
-#: template/front/list-index.phtml:56
+#: template/front/list-index.phtml:61
 msgid "Status"
 msgstr "وضعیت"
 
-#: template/front/list-index.phtml:60
+#: template/front/list-index.phtml:65
 msgid "Mimetype"
 msgstr "پسوند فایل"
 
-#: template/front/list-index.phtml:61
+#: template/front/list-index.phtml:66
 msgid "User Id"
 msgstr "شناسه کاربر"
 
-#: template/front/list-index.phtml:63
+#: template/front/list-index.phtml:68
 msgid "Using count"
 msgstr "تعداد استفاده"
 
-#: template/front/list-index.phtml:64
+#: template/front/list-index.phtml:69
 msgid "Time"
 msgstr "زمان"
 
-#: template/front/list-index.phtml:102
+#: template/front/list-index.phtml:107
 msgid "Undelete"
 msgstr "حذف"
 
-#: template/front/list-index.phtml:110
+#: template/front/list-index.phtml:115
 msgid "Download"
 msgstr "دریافت"
 
-#: template/front/list-index.phtml:126
+#: template/front/list-index.phtml:131
 msgid "No resource available yet."
 msgstr "هیچ تصویری در دسترس نیست"
 
-#: template/front/list-index.phtml:208 template/front/list-index.phtml:259
+#: template/front/list-index.phtml:213 template/front/list-index.phtml:264
 msgid "Do you confirm delete action ?"
 msgstr "آیا اطمینان دارید که این مورد را حذف می کنید؟"
 
-#: template/front/list-index.phtml:258
+#: template/front/list-index.phtml:263
 msgid "This media is already in used !"
 msgstr "این تصویر قبلا استفاده شده است !"
 
