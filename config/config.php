@@ -174,7 +174,7 @@ return array(
             'category'    => 'image',
             'title'       => _t('Default copyright'),
             'edit'        => 'text',
-            'value'       => _t(""),
+            'value'       => '',
         ),
         'freemium_max_gallery_images'   => array(
             'category'    => 'image',
