@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: media\n"
-"POT-Creation-Date: 2017-06-16 10:20+0430\n"
-"PO-Revision-Date: 2017-06-16 10:21+0430\n"
+"POT-Creation-Date: 2017-07-19 13:02+0430\n"
+"PO-Revision-Date: 2017-07-19 13:04+0430\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -44,7 +44,8 @@ msgstr "انواع مجوز ها"
 
 #: config/config.php:47
 msgid "Use `|` as delimiter to separate license terms"
-msgstr "با استفاده از علامت `|`  به عنوان جدا کننده ، کلمات را از هم تفکیک کنید"
+msgstr ""
+"با استفاده از علامت `|`  به عنوان جدا کننده ، کلمات را از هم تفکیک کنید"
 
 #: config/config.php:54
 msgid "Show description on form"
@@ -100,7 +101,8 @@ msgstr "کیفیت تصویر"
 
 #: config/config.php:134
 msgid "Between 0 to 100 and support both of JPG and PNG, default is 75"
-msgstr "یک عدد بین 0 تا 100 ، هر دو فرمت JPG و PNG را پشتیبانی می کند، پیش فرض 75"
+msgstr ""
+"یک عدد بین 0 تا 100 ، هر دو فرمت JPG و PNG را پشتیبانی می کند، پیش فرض 75"
 
 #: config/config.php:141
 msgid "Add Watermark"
@@ -131,46 +133,50 @@ msgid "Bottom Right"
 msgstr "پایین راست"
 
 #: config/config.php:175
+msgid "Default copyright"
+msgstr "کپی رایت پیش فرض"
+
+#: config/config.php:181
 msgid "Max gallery images for freemium related items"
 msgstr "حداکثر تعداد تصاویر برای موارد رایگان"
 
-#: config/config.php:182
+#: config/config.php:188
 msgid "Alert message for freemium item"
 msgstr "متن پیام اخطار برای موارد رایگان"
 
-#: config/config.php:184
+#: config/config.php:190
 msgid "Freemium item limitations... You can't do this action"
 msgstr "محدود موارد رایگان... شما نمی توانید این فعالیت را انجام دهید"
 
-#: config/config.php:188
+#: config/config.php:194
 msgid "Large Image width"
 msgstr "عرض تصویر بزرگ"
 
-#: config/config.php:196
+#: config/config.php:202
 msgid "Large Image height"
 msgstr "ارتفاع تصویر بزرگ"
 
-#: config/config.php:204
+#: config/config.php:210
 msgid "Item Image width"
 msgstr "عرض تصویر میانه"
 
-#: config/config.php:212
+#: config/config.php:218
 msgid "Item Image height"
 msgstr "ارتفاع تصویر میانه"
 
-#: config/config.php:220
+#: config/config.php:226
 msgid "Medium Image width"
 msgstr "عرض تصویر متوسط"
 
-#: config/config.php:228
+#: config/config.php:234
 msgid "Medium Image height"
 msgstr "ارتفاع تصویر متوسط"
 
-#: config/config.php:236
+#: config/config.php:242
 msgid "Thumb Image width"
 msgstr "عرض تصویر بندانگشتی"
 
-#: config/config.php:244
+#: config/config.php:250
 msgid "Thumb Image height"
 msgstr "ارتفاع تصویر بندانگشتی"
 
@@ -357,11 +363,31 @@ msgstr "عملکرد"
 msgid "Update"
 msgstr "ویرایش"
 
-#: template/admin/tools-index.phtml:14
+#: template/admin/tools-index.phtml:20 template/admin/tools-index.phtml:29
 msgid "Fill empty descriptions from media title"
 msgstr "پر کردن توضیحات خالی تصاویر از عنوان"
 
-#: template/front/list-edit.phtml:15
+#: template/admin/tools-index.phtml:24
+msgid ""
+"This tool help you to put description from media title to empty description "
+"media"
+msgstr ""
+"با استفاده از این ابزار در توضیحات تصاویری که فاقد توضیحات هستند از عنوان "
+"تصویر استفاده می شود"
+
+#: template/admin/tools-index.phtml:38 template/admin/tools-index.phtml:47
+msgid "Remove orphaned media"
+msgstr "حذف تصاویر یتیم"
+
+#: template/admin/tools-index.phtml:42
+msgid ""
+"This tool can clean your server and remove medias than not used on any "
+"content"
+msgstr ""
+"این ابزار برای پاکسازی تصاویری که بر روی هیچ آیتمی استفاده نشده اند از روی "
+"سرور مفید است"
+
+#: template/front/list-edit.phtml:19
 msgid "No media select, please try again!"
 msgstr "هیچ تصویری انتخاب نشده است لطفا مجددا تلاش کنید"
 

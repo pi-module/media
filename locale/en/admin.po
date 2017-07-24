@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-media\n"
-"POT-Creation-Date: 2017-06-13 13:37+0430\n"
-"PO-Revision-Date: 2017-06-13 13:37+0430\n"
+"POT-Creation-Date: 2017-07-19 13:59+0430\n"
+"PO-Revision-Date: 2017-07-19 13:59+0430\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -19,134 +19,162 @@ msgid "General"
 msgstr ""
 
 #: config/config.php:23
-msgid "Validator"
+msgid "Form"
 msgstr ""
 
 #: config/config.php:27
+msgid "Validator"
+msgstr ""
+
+#: config/config.php:31
 msgid "Image"
 msgstr ""
 
-#: config/config.php:35
+#: config/config.php:39
 msgid "List page limit"
 msgstr ""
 
-#: config/config.php:36
+#: config/config.php:40
 msgid "Maximum count of media resources on a list page."
 msgstr ""
 
-#: config/config.php:42
+#: config/config.php:46
 msgid "License values"
 msgstr ""
 
-#: config/config.php:43
-msgid "Pipe separated"
+#: config/config.php:47
+msgid "Use `|` as delimiter to separate license terms"
 msgstr ""
 
-#: config/config.php:50
+#: config/config.php:54
+msgid "Show description on form"
+msgstr ""
+
+#: config/config.php:62
+msgid "Show season on form"
+msgstr ""
+
+#: config/config.php:70
+msgid "Show license on form"
+msgstr ""
+
+#: config/config.php:78
+msgid "Show copyright on form"
+msgstr ""
+
+#: config/config.php:87
 msgid "File extension"
 msgstr ""
 
-#: config/config.php:51
+#: config/config.php:88
 msgid "Extensions for files allowed to upload."
 msgstr ""
 
-#: config/config.php:56
+#: config/config.php:93
 msgid "Max file size"
 msgstr ""
 
-#: config/config.php:57
+#: config/config.php:94
 msgid "Maximum size for files allowed to upload (in KB)."
 msgstr ""
 
-#: config/config.php:64
+#: config/config.php:101
 msgid "Max Image width (upload)"
 msgstr ""
 
-#: config/config.php:72
+#: config/config.php:109
 msgid "Max Image height (upload)"
 msgstr ""
 
-#: config/config.php:81
+#: config/config.php:117
 msgid "Min Image width (upload)"
 msgstr ""
 
-#: config/config.php:89
+#: config/config.php:125
 msgid "Min Image height (upload)"
 msgstr ""
 
-#: config/config.php:97
+#: config/config.php:133
 msgid "Image quality"
 msgstr ""
 
-#: config/config.php:98
+#: config/config.php:134
 msgid "Between 0 to 100 and support both of JPG and PNG, default is 75"
 msgstr ""
 
-#: config/config.php:105
+#: config/config.php:141
 msgid "Add Watermark"
 msgstr ""
 
-#: config/config.php:113
+#: config/config.php:149
 msgid "Watermark Image"
 msgstr ""
 
-#: config/config.php:120
+#: config/config.php:156
 msgid "Watermark Position"
 msgstr ""
 
-#: config/config.php:129
+#: config/config.php:165
 msgid "Top Left"
 msgstr ""
 
-#: config/config.php:130
+#: config/config.php:166
 msgid "Top Right"
 msgstr ""
 
-#: config/config.php:131
+#: config/config.php:167
 msgid "Bottom Left"
 msgstr ""
 
-#: config/config.php:132
+#: config/config.php:168
 msgid "Bottom Right"
 msgstr ""
 
-#: config/config.php:139
+#: config/config.php:175
+msgid "Default copyright"
+msgstr ""
+
+#: config/config.php:181
 msgid "Max gallery images for freemium related items"
 msgstr ""
 
-#: config/config.php:146
+#: config/config.php:188
 msgid "Alert message for freemium item"
 msgstr ""
 
-#: config/config.php:154
-msgid "Large Image width"
-msgstr ""
-
-#: config/config.php:162
-msgid "Large Image height"
-msgstr ""
-
-#: config/config.php:170
-msgid "Item Image width"
-msgstr ""
-
-#: config/config.php:178
-msgid "Item Image height"
-msgstr ""
-
-#: config/config.php:186
-msgid "Medium Image width"
+#: config/config.php:190
+msgid "Freemium item limitations... You can't do this action"
 msgstr ""
 
 #: config/config.php:194
-msgid "Medium Image height"
+msgid "Large Image width"
 msgstr ""
 
 #: config/config.php:202
-msgid "Thumb Image width"
+msgid "Large Image height"
 msgstr ""
 
 #: config/config.php:210
+msgid "Item Image width"
+msgstr ""
+
+#: config/config.php:218
+msgid "Item Image height"
+msgstr ""
+
+#: config/config.php:226
+msgid "Medium Image width"
+msgstr ""
+
+#: config/config.php:234
+msgid "Medium Image height"
+msgstr ""
+
+#: config/config.php:242
+msgid "Thumb Image width"
+msgstr ""
+
+#: config/config.php:250
 msgid "Thumb Image height"
 msgstr ""
 
@@ -167,7 +195,7 @@ msgid "All"
 msgstr ""
 
 #: config/navigation.php:40 config/navigation.php:78
-#: template/admin/application-list.phtml:36 template/front/list-index.phtml:99
+#: template/admin/application-list.phtml:33
 msgid "Edit"
 msgstr ""
 
@@ -252,58 +280,36 @@ msgid "Add test"
 msgstr ""
 
 #: src/Controller/Admin/TestController.php:83
-#: src/Controller/Front/ListController.php:188
 #: src/Controller/Front/ModalController.php:257
 msgid "Resource List"
 msgstr ""
 
-#: src/Controller/Front/ListController.php:170
-msgid "All resources"
-msgstr ""
-
-#: src/Controller/Front/ListController.php:177
-msgid "Deleted resources"
-msgstr ""
-
-#: src/Controller/Front/ListController.php:366
-#: src/Controller/Front/ListController.php:402
 #: src/Controller/Front/ModalController.php:478
 #: src/Controller/Front/ModalController.php:515
 msgid "Invalid media ID"
 msgstr ""
 
-#: src/Controller/Front/ListController.php:468
-msgid "There are some error occur"
-msgstr ""
-
-#: src/Controller/Front/ListController.php:494
-msgid "Cannot save media data"
-msgstr ""
-
-#: template/admin/application-list.phtml:13
+#: template/admin/application-list.phtml:10
 msgid "Name"
 msgstr ""
 
-#: template/admin/application-list.phtml:17
+#: template/admin/application-list.phtml:14
 msgid "Search"
 msgstr ""
 
-#: template/admin/application-list.phtml:23 template/admin/test-index.phtml:14
-#: template/front/list-index.phtml:55
+#: template/admin/application-list.phtml:20 template/admin/test-index.phtml:12
 msgid "ID"
 msgstr ""
 
-#: template/admin/application-list.phtml:24
+#: template/admin/application-list.phtml:21
 msgid "Appkey"
 msgstr ""
 
-#: template/admin/application-list.phtml:25 template/admin/test-index.phtml:15
-#: template/front/list-index.phtml:58
+#: template/admin/application-list.phtml:22 template/admin/test-index.phtml:13
 msgid "Title"
 msgstr ""
 
-#: template/admin/application-list.phtml:40 template/admin/test-index.phtml:54
-#: template/front/list-index.phtml:44 template/front/list-index.phtml:107
+#: template/admin/application-list.phtml:37 template/admin/test-index.phtml:52
 msgid "Delete"
 msgstr ""
 
@@ -331,100 +337,52 @@ msgstr ""
 msgid "history"
 msgstr ""
 
-#: template/admin/test-index.phtml:16
+#: template/admin/test-index.phtml:14
 msgid "Main image"
 msgstr ""
 
-#: template/admin/test-index.phtml:17
+#: template/admin/test-index.phtml:15
 msgid "Main image data"
 msgstr ""
 
-#: template/admin/test-index.phtml:18
+#: template/admin/test-index.phtml:16
 msgid "Additional images data"
 msgstr ""
 
-#: template/admin/test-index.phtml:19
+#: template/admin/test-index.phtml:17
 msgid "Picture tag"
 msgstr ""
 
-#: template/admin/test-index.phtml:20
+#: template/admin/test-index.phtml:18
 msgid "Actions"
 msgstr ""
 
-#: template/admin/test-index.phtml:52
+#: template/admin/test-index.phtml:50
 msgid "Update"
 msgstr ""
 
-#: template/admin/tools-index.phtml:16
+#: template/admin/tools-index.phtml:20 template/admin/tools-index.phtml:29
 msgid "Fill empty descriptions from media title"
 msgstr ""
 
-#: template/front/list-edit.phtml:15
-msgid "Edit Media"
+#: template/admin/tools-index.phtml:24
+msgid ""
+"This tool help you to put description from media title to empty description "
+"media"
 msgstr ""
 
-#: template/front/list-edit.phtml:18
+#: template/admin/tools-index.phtml:38 template/admin/tools-index.phtml:47
+msgid "Remove orphaned media"
+msgstr ""
+
+#: template/admin/tools-index.phtml:42
+msgid ""
+"This tool can clean your server and remove medias than not used on any "
+"content"
+msgstr ""
+
+#: template/front/list-edit.phtml:19
 msgid "No media select, please try again!"
-msgstr ""
-
-#: template/front/list-index.phtml:20
-msgid "Type user id or identity"
-msgstr ""
-
-#: template/front/list-index.phtml:22
-msgid "Submit"
-msgstr ""
-
-#: template/front/list-index.phtml:34
-msgid "Enable"
-msgstr ""
-
-#: template/front/list-index.phtml:39
-msgid "Disable"
-msgstr ""
-
-#: template/front/list-index.phtml:56
-msgid "Thumbnail"
-msgstr ""
-
-#: template/front/list-index.phtml:57
-msgid "Status"
-msgstr ""
-
-#: template/front/list-index.phtml:61
-msgid "Mimetype"
-msgstr ""
-
-#: template/front/list-index.phtml:62
-msgid "User Id"
-msgstr ""
-
-#: template/front/list-index.phtml:64
-msgid "Using count"
-msgstr ""
-
-#: template/front/list-index.phtml:65
-msgid "Time"
-msgstr ""
-
-#: template/front/list-index.phtml:103
-msgid "Undelete"
-msgstr ""
-
-#: template/front/list-index.phtml:111
-msgid "Download"
-msgstr ""
-
-#: template/front/list-index.phtml:130
-msgid "No resource available yet."
-msgstr ""
-
-#: template/front/list-index.phtml:218 template/front/list-index.phtml:269
-msgid "Do you confirm delete action ?"
-msgstr ""
-
-#: template/front/list-index.phtml:268
-msgid "This media is already in used !"
 msgstr ""
 
 #~ msgid "Checked all"

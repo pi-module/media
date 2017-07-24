@@ -3,12 +3,52 @@
     $this->jquery();
     $this->js(Pi::url('public/vendor/bootstrap/js/bootstrap.js'));
 ?>
-<div id="message-box">
+<div class="clearfix">
     <?php if (isset($message)) { ?>
         <div class="alert alert-danger">
             <button class="close" data-dismiss="alert" type="button">×</button>
             <?php echo $message; ?>
         </div>
     <?php } ?>
+    <div class="alert alert-success" role="alert">
+        <?php _e('You can use this page tools for better manage your media'); ?>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <?php echo _a('Fill empty descriptions from media title'); ?>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        <?php echo _a('This tool help you to put description from media title to empty description media'); ?>
+                    </p>
+                    <p>
+                        <a href="<?php echo $this->url('', array('action' => 'fillDescription')); ?>" class="btn btn-primary btn-sm">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                            <?php echo _a('Fill empty descriptions from media title'); ?>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <?php echo _a('Remove orphaned media'); ?>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        <?php echo _a('This tool can clean your server and remove medias than not used on any content'); ?>
+                    </p>
+                    <p>
+                        <a href="<?php echo $this->url('', array('action' => 'removeOrphaned')); ?>" class="btn btn-primary btn-sm">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                            <?php echo _a('Remove orphaned media'); ?>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<a href="<?php echo $this->url('', array('action' => 'fillDescription')); ?>" class="btn btn-primary"><?php echo _a('Fill empty descriptions from media title'); ?></a>

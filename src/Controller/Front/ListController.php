@@ -485,6 +485,58 @@ class ListController extends ActionController
 
                 $data['path'] = $response['path'];
                 $data['filename'] = $response['filename'];
+            } else if($data['filename'] && $data['filename'] != $row->filename){
+
+                $filter = new Pi\Filter\Urlizer;
+                $options    = Pi::service('media')->getOption('local', 'options');
+
+                // get old path
+                $slug = $filter($row->filename, '-', true);
+                $firstChars = str_split(substr($slug, 0, 3));
+                $relativeDestination = '/original/' . implode('/', $firstChars) . '/';
+                $rootPath   = $options['root_path'];
+                $destination = $rootPath . $relativeDestination;
+                $oldFinalPath = $destination . $slug;
+
+
+                $slug = $filter($data['filename'], '-', true);
+                $firstChars = str_split(substr($slug, 0, 3));
+                $relativeDestination = '/original/' . implode('/', $firstChars) . '/';
+                $rootPath   = $options['root_path'];
+                $destination = $rootPath . $relativeDestination;
+                $newFinalPath = $destination . $slug;
+                $finalSlug = $slug;
+
+                $filenameBase = pathinfo($slug, PATHINFO_FILENAME);
+                $filenameExt = pathinfo($slug, PATHINFO_EXTENSION);
+
+                $i = 1;
+                while(is_file($newFinalPath)){
+                    $finalSlug = $filenameBase . '-'. $i++ . '.' . $filenameExt;
+                    $newFinalPath = $destination . $finalSlug;
+                }
+
+                $data['filename'] = $finalSlug;
+
+                $result = rename(
+                    Pi::path($oldFinalPath),
+                    Pi::path($newFinalPath)
+                );
+
+                if(!$result){
+                    return $this->renderForm(
+                        $form,
+                        __('There are some error occur when renaming filename')
+                    );
+                }
+            } elseif(!$data['filename']){
+
+                $form->get('filename')->setValue($row->filename);
+
+                return $this->renderForm(
+                    $form,
+                    __('Filename can not be empty')
+                );
             }
 
             $id   = $this->saveMedia($data);

@@ -69,6 +69,6 @@ class Resize extends AbstractApi
     }
 
     public function resizeFormList($media){
-        return $this->resize($media)->thumbCrop(300, 200);
+        return Pi::url(trim($this->resize($media)->thumbCrop(300, 200), '/'));
     }
 }

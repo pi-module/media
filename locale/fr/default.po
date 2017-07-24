@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pi-media\n"
 "POT-Creation-Date: 2017-06-16 12:51+0200\n"
-"PO-Revision-Date: 2017-06-16 12:51+0200\n"
+"PO-Revision-Date: 2017-07-15 12:22+0200\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -329,7 +329,7 @@ msgstr "Désactivé"
 
 #: src/Form/MediaEditFullForm.php:68
 msgid "Enabled"
-msgstr "Actvié"
+msgstr "Activé"
 
 #: src/Form/TestForm.php:46
 msgid "Main image"
