@@ -565,9 +565,9 @@ class Doc extends AbstractApi
             $data['url'] = (string) Pi::api('resize', 'media')->resize($media);
 
             if($width && $height){
-                $data['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->thumbcrop($width, $height)->quality($quality);
+                $data['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbcrop($width, $height)->quality($quality);
             } else if($width && is_string($width)){
-                $data['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->thumbcrop($width)->quality($quality);
+                $data['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbcrop($width)->quality($quality);
             }
 
             if(!$data['copyright']){
