@@ -56,7 +56,7 @@ class MediaEditForm extends BaseForm
                     'type' => 'textarea',
                     'cols' => 10,
                     'rows' => 5,
-                    'required' => true,
+                    'required' => false,
                 ),
             ));
         }
