@@ -146,7 +146,7 @@ var initDataTable = function(){
     var table = $('#media_gallery .table');
 
     table.DataTable({
-        "lengthMenu": [[5, 10, 20], [5, 10, 20]],
+        "lengthMenu": [[3, 5, 10, 20], [3, 5, 10, 20]],
         "bDestroy": true,
         "ordering": false,
         "processing": true,
