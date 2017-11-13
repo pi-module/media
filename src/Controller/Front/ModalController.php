@@ -72,6 +72,22 @@ class ModalController extends ActionController
         $select = $mediaModel->select();
         $select->where($where);
         $select->order('time_created DESC');
+
+        if($keyword && trim($keyword)){
+
+            $keyword = trim($keyword);
+            $keywordArray = explode(' ', $keyword);
+            $keywordBoolean = '+' . trim(implode(' +', $keywordArray));
+
+            $select->where(
+                new \Zend\Db\Sql\Predicate\Expression("MATCH(".$mediaModel->getTable() . ".title, ".$mediaModel->getTable() . ".description) AGAINST (? IN BOOLEAN MODE) OR ".$mediaModel->getTable() . ".title LIKE ? OR ".$mediaModel->getTable() . ".description LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%')
+            );
+            $select->columns(array_merge($select->getRawState($select::COLUMNS), array(
+                new \Zend\Db\Sql\Expression("((MATCH(".$mediaModel->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$mediaModel->getTable() . ".description) AGAINST (?) * 1)) AS score", array($keyword, $keyword)),
+            )));
+            $select->order('score DESC, time_created DESC');
+        }
+
         $resultsetFull = $mediaModel->selectWith($select);
 
 
