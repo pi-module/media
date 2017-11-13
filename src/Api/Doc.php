@@ -614,7 +614,11 @@ class Doc extends AbstractApi
 
                 if($sortBySeason){
                     $orderSeason = $this->getOrderSeason();
-                    $select->order(array(new Expression('FIELD (season, '.$orderSeason.')')));
+                    $select->order(array(
+                        new Expression('season IS NULL'),
+                        new Expression('FIELD (season, '.$orderSeason.')')
+                    ));
+                    echo $select->getSqlString();
                 } else {
                     $select->order(array(new Expression('FIELD (id, '.implode(',', $ids).')')));
                 }
