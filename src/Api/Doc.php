@@ -437,8 +437,13 @@ class Doc extends AbstractApi
         $limit  = 0,
         $offset = 0,
         $order  = '',
-        array $attr = array()
+        array $attr = array(),
+        $keyword = null
     ) {
+        if(isset($condition['keyword'])){
+            unset($condition['keyword']);
+        }
+
         $model  = $this->model();
         $select = $model->select()->where($condition);
         if ($limit) {
@@ -447,9 +452,7 @@ class Doc extends AbstractApi
         if ($offset) {
             $select->offset($offset);
         }
-        if ($order) {
-            $select->order($order);
-        }
+
         if ($attr) {
             $select->columns($attr);
         }
@@ -458,6 +461,25 @@ class Doc extends AbstractApi
 
         $select->join(array('link' => $linkModel->getTable()), $model->getTable() . '.id = link.media_id', array('using_count' => new \Zend\Db\Sql\Expression('COUNT(DISTINCT object_id)')), \Zend\Db\Sql\Select::JOIN_LEFT);
         $select->group($model->getTable() . '.id');
+
+        if($keyword && trim($keyword)){
+
+            $keyword = trim($keyword);
+            $keywordArray = explode(' ', $keyword);
+            $keywordBoolean = '+' . trim(implode(' +', $keywordArray));
+
+            $select->where(
+                new \Zend\Db\Sql\Predicate\Expression("MATCH(".$model->getTable() . ".title, ".$model->getTable() . ".description, ".$model->getTable() . ".filename) AGAINST (? IN BOOLEAN MODE) OR ".$model->getTable() . ".title LIKE ? OR ".$model->getTable() . ".description LIKE ? OR ".$model->getTable() . ".filename LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%', '%' . $keyword . '%')
+            );
+            $select->columns(array_merge($select->getRawState($select::COLUMNS), array(
+                new \Zend\Db\Sql\Expression("((MATCH(".$model->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$model->getTable() . ".description) AGAINST (?) * 1) + (MATCH(".$model->getTable() . ".filename) AGAINST (?) * 1)) AS score", array($keyword, $keyword, $keyword)),
+            )));
+            $select->order('score DESC, time_created DESC');
+        } else {
+            if ($order) {
+                $select->order($order);
+            }
+        }
 
         $rowset = $model->selectWith($select);
         $result = array();

@@ -101,6 +101,7 @@ class ListController extends ActionController
         $params['delete'] = $delete;
 
         $user = $this->params('user', null);
+        $keyword = $this->params('keyword', null);
 
         if(Pi::engine()->section() != 'admin'){
             $user = Pi::user()->getId();
@@ -118,8 +119,10 @@ class ListController extends ActionController
         if($uid){
             $where['uid'] = $uid;
         }
+
         $params = array(
             'user'  => $user,
+            'keyword'  => $keyword,
         );
 
         // Get media list
@@ -128,9 +131,11 @@ class ListController extends ActionController
             $where,
             $limit,
             $offset,
-            'time_created DESC'
+            'time_created DESC',
+            array(),
+            $keyword
         );
-        
+
         $uids = $appkeys = array();
         $apps = $users = $avatars = array();
         foreach ($resultset as $row) {
@@ -141,26 +146,38 @@ class ListController extends ActionController
         if (!empty($appkeys)) {
             $apps = $this->getAppTitle($appkeys);
         }
-        
+
         // Get users
         if (!empty($uids)) {
             $users = Pi::user()->get($uids);
             $avatars = Pi::avatar()->get($uids);
         }
-        
+
         // Total count
-        $totalCount = $this->getModel('doc')->count($where);
+        $totalCountQuery = Pi::api('doc', $module)->getList(
+            $where,
+            0,
+            0,
+            'time_created DESC',
+            array(),
+            $keyword
+        );
+        $totalCount = count($totalCountQuery);
 
         // Paginator
         $paginator = Paginator::factory($totalCount, array(
             'page' => $page,
+            'limit'       => $limit,
             'url_options'   => array(
                 'page_param' => 'p',
                 'params'     => array_filter(array_merge(array(
                     'module'        => $this->getModule(),
                     'controller'    => 'list',
                     'action'        => 'index',
-                ), $params)),
+                ))),
+                'options' => array(
+                    'query' => $params,
+                )
             ),
         ));
 
@@ -195,6 +212,7 @@ class ListController extends ActionController
             'active'     => $active,
             'delete'     => $delete,
             'user'       => $user,
+            'keyword'       => $keyword,
         ));
     }
 
