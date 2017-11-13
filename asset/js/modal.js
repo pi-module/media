@@ -247,8 +247,10 @@ $(function() {
     // Dropzone class:
     myDropzone = new Dropzone("#dropzone-media-form", {
         url: uploadUrl,
+        maxFilesize: uploadMaxSizeMb,
         // autoQueue: false,
         dictDefaultMessage: uploadMsg,
+        dictFileTooBig: dictFileTooBig,
         init: function(){
             this.on('resetFiles', function() {
                 if(this.files.length != 0){
@@ -275,6 +277,8 @@ $(function() {
 
             this.on('error', function(file, response) {
                 $(file.previewElement).find('.dz-error-message').html(response);
+
+                alert(response);
             });
         }
     });
