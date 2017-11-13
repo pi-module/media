@@ -618,7 +618,6 @@ class Doc extends AbstractApi
                         new Expression('season IS NULL'),
                         new Expression('FIELD (season, '.$orderSeason.')')
                     ));
-                    echo $select->getSqlString();
                 } else {
                     $select->order(array(new Expression('FIELD (id, '.implode(',', $ids).')')));
                 }
