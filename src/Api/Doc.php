@@ -192,8 +192,11 @@ class Doc extends AbstractApi
             $this->module
         );
 
+        $imageSizeControl = array();
+
         if($imageMinW && $imageMinH){
-            $uploader->setImageSize(array('minwidth' => $imageMinW, 'minheight' => $imageMinH));
+            $imageSizeControl['minwidth'] = $imageMinW;
+            $imageSizeControl['minheight'] = $imageMinH;
         }
 
         $imageMaxW = Pi::config(
@@ -207,7 +210,12 @@ class Doc extends AbstractApi
         );
 
         if($imageMaxW && $imageMaxH){
-            $uploader->setImageSize(array('maxwidth' => $imageMaxW, 'maxheight' => $imageMaxH));
+            $imageSizeControl['maxwidth'] = $imageMaxW;
+            $imageSizeControl['maxheight'] = $imageMaxH;
+        }
+
+        if($imageSizeControl){
+            $uploader->setImageSize($imageSizeControl);
         }
 
         $result = $uploader->isValid();

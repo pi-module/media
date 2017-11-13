@@ -278,7 +278,8 @@ $(function() {
             this.on('error', function(file, response) {
                 $(file.previewElement).find('.dz-error-message').html(response);
 
-                alert(response);
+                $('#errorAlertContent').html(response);
+                $('#errorAlert').modal('show');
             });
         }
     });

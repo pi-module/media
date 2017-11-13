@@ -45,8 +45,9 @@ class Media extends \Zend\Form\Element\Text
         $cssHelper($assetHelper('css/media.css', 'media'));
 
         $uploadMaxSize = Pi::service('module')->config('max_size', 'media') . ' ko';
-        $uploadMaxSizeMb = floor($uploadMaxSize / 1024);
-        $uploadMaxDimensions = Pi::service('module')->config('image_maxw', 'media') . ' x ' . Pi::service('module')->config('image_maxh', 'media') . " px";
+        $uploadMaxSizeMb = floor(Pi::service('module')->config('max_size', 'media') / 1024);
+        $uploadMinDimensions = Pi::service('module')->config('image_minw', 'media') . ' x ' . Pi::service('module')->config('image_minh', 'media') . " px";
+        $uploadMaxDimensions = Pi::service('module')->config('image_minw', 'media') . ' x ' . Pi::service('module')->config('image_minh', 'media') . " px";
 
         $uploadUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
             'module' => 'media',
@@ -92,6 +93,7 @@ class Media extends \Zend\Form\Element\Text
         $confirmDeleteActionTitle = __("Do you confirm you want to delete this media ? In case you delete it inadvertently, you can active it back in your My Media submenu");
 
         $maxAlertTitle = __("Max media alert");
+        $errorAlertTitle = __("Error during upload");
         $maxAlertMsg = __("Max media alert : you have reach maximum of picture for this field");
 
         $checkedMediaTitle = __("Your selection (you can unlink each media)");
@@ -252,10 +254,28 @@ class Media extends \Zend\Form\Element\Text
     </div>
 </div>
 
+<div class="modal fade" id="errorAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{$errorAlertTitle}</h4>
+            </div>
+            <div class="modal-body" id="errorAlertContent">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     var uploadUrl = "{$uploadUrl}";
     var uploadMaxSize = "{$uploadMaxSize}";
     var uploadMaxSizeMb = "{$uploadMaxSizeMb}";
+    var uploadMinDimensions = "{$uploadMinDimensions}";
     var uploadMaxDimensions = "{$uploadMaxDimensions}";
     var uploadMsg = "{$uploadMsg}"
     var dictFileTooBig = "{$dictFileTooBig}"
