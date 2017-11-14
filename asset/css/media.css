@@ -134,7 +134,7 @@
 
 .media-form-list ul{
     display:block;
-    min-height: 185px;
+    /*min-height: 185px;*/
 }
 
 .media-form-list ul:after{
