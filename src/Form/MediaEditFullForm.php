@@ -24,17 +24,18 @@ class MediaEditFullForm extends MediaEditForm
      */
     public function init()
     {
-
-        parent::init();
-
-        $this->remove('submit');
-
         $this->add(array(
             'name'       => 'filename',
             'options'    => array(
                 'label'     => __('Filename'),
             ),
         ));
+
+        parent::init();
+
+        $this->remove('submit');
+
+
 
         $this->add(array(
             'name'       => 'uid',
