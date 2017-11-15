@@ -149,7 +149,7 @@
                 formgroupPreview.hide();
             }
 
-            $(this).load(function() {
+            $(this).on('load', function() {
                 var imageView = $(this);
                 var cropper = imageView.data('cropper');
                 var currentSrc = imageView.attr('src').trim();
