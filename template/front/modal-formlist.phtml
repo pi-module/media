@@ -1,6 +1,6 @@
 <?php $hash = rand(); ?>
 <?php if(count($medias)) : ?>
-    <ul class="hash-<?php echo $hash ?>">
+    <ul class="hash-<?php echo $hash ?> media-list media-list-sortable <?php echo $haveToComplete ? 'media-list-incomplete' : '' ?>">
         <?php foreach($medias as $media) : ?>
             <?php $hasInvalidFields = Pi::api('doc', 'media')->hasInvalidFields($media) ?>
             <li class=" ui-state-default <?php echo $hasInvalidFields ? 'invalid-media' : '' ?>" data-media-id="<?php echo $media['id'] ?>" data-media-season="<?php echo $media['season'] ?>">
