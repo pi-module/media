@@ -94,6 +94,9 @@ class Media extends \Zend\Form\Element\Text
 
         $maxAlertTitle = __("Max media alert");
         $errorAlertTitle = __("Error during upload");
+        $errorAlertBefore = __("Oops ! You reached the limits set for files : please modify your file(s) !");
+        $errorAlertAfter = __("Unfortunately we do not have the infrastructure of the giants of the internet, and therefore we have server limitations for uploading large files. Conversely, we need files of good size so that they display correctly on all types of screens/devices.");
+
         $maxAlertMsg = __("Max media alert : you have reach maximum of picture for this field");
 
         $checkedMediaTitle = __("Your selection (you can unlink each media)");
@@ -261,8 +264,11 @@ class Media extends \Zend\Form\Element\Text
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">{$errorAlertTitle}</h4>
             </div>
-            <div class="modal-body" id="errorAlertContent">
-                
+            <div class="modal-body">
+                <p>{$errorAlertBefore}</p>
+                <div id="errorAlertContent"></div>
+                <br />
+                <p>{$errorAlertAfter}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
