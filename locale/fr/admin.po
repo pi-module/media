@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-media\n"
-"POT-Creation-Date: 2017-11-16 23:02+0100\n"
-"PO-Revision-Date: 2017-11-16 23:02+0100\n"
+"POT-Creation-Date: 2017-11-16 23:09+0100\n"
+"PO-Revision-Date: 2017-11-16 23:09+0100\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -282,12 +282,12 @@ msgid "Add test"
 msgstr ""
 
 #: src/Controller/Admin/TestController.php:83
-#: src/Controller/Front/ModalController.php:257
+#: src/Controller/Front/ModalController.php:273
 msgid "Resource List"
 msgstr ""
 
-#: src/Controller/Front/ModalController.php:478
-#: src/Controller/Front/ModalController.php:515
+#: src/Controller/Front/ModalController.php:494
+#: src/Controller/Front/ModalController.php:531
 msgid "Invalid media ID"
 msgstr ""
 
@@ -363,8 +363,24 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
-#: template/admin/tools-index.phtml:14
+#: template/admin/tools-index.phtml:20 template/admin/tools-index.phtml:29
 msgid "Fill empty descriptions from media title"
+msgstr ""
+
+#: template/admin/tools-index.phtml:24
+msgid ""
+"This tool help you to put description from media title to empty description "
+"media"
+msgstr ""
+
+#: template/admin/tools-index.phtml:38 template/admin/tools-index.phtml:47
+msgid "Remove orphaned media"
+msgstr ""
+
+#: template/admin/tools-index.phtml:42
+msgid ""
+"This tool can clean your server by removing medias that are not used on any "
+"content"
 msgstr ""
 
 #: template/front/list-edit.phtml:19
