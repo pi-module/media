@@ -36,7 +36,7 @@ var refreshFormList = function(formList){
 
         var freemium = formList.data('freemium');
         var canConnectLists = formList.data('can-connect-lists');
-console.log('.media-form-list[data-input-name='+inputName+'] .media-list-sortable');
+
         $( '.media-form-list[data-input-name='+inputName+'] .media-list-sortable' ).sortable({
             connectWith: canConnectLists ? '.media-list-sortable' : '',
             receive: function( event, ui ) {
