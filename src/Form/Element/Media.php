@@ -124,7 +124,7 @@ class Media extends \Zend\Form\Element\Text
         $sLast = __("Last");
 
         $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='label label-warning'>Max Size = %s and max dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMaxDimensions);
-        $dictFileTooBig = "Le fichier est trop lourd ({{filesize}}MB). Max : {{maxFilesize}}MB";
+        $dictFileTooBig = __("File size is to high ({{filesize}}kb). Max : {{maxFilesize}}kb");
 
         $modalHtml = <<<HTML
         
