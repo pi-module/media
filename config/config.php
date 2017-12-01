@@ -91,7 +91,7 @@ return array(
         'max_size'        => array(
             'category'    => 'validator',
             'title'       => _t('Max file size'),
-            'description' => _t('Maximum size for files allowed to upload (in KB).'),
+            'description' => _t('Maximum size for files allowed to upload (in KB). Caution : on front side, max file size messages are displayed in octets (ko). Here you set in bytes (Kb) ! Also, front limit is rounded to lower Mb integer after conversion.'),
             'value'       => 2048,
             'filter'      => 'int',
         ),
