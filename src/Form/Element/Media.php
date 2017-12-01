@@ -44,7 +44,8 @@ class Media extends \Zend\Form\Element\Text
         $cssHelper($assetHelper('css/dataTables.bootstrap.css', 'media'));
         $cssHelper($assetHelper('css/media.css', 'media'));
 
-        $uploadMaxSize = Pi::service('module')->config('max_size', 'media') . ' ko';
+        $max = Pi::service('module')->config('max_size', 'media');
+        $uploadMaxSize = floor($max / 1024) * 1024 . __(' kb');
         $uploadMaxSizeMb = floor(Pi::service('module')->config('max_size', 'media') / 1024);
         $uploadMinDimensions = Pi::service('module')->config('image_minw', 'media') . ' x ' . Pi::service('module')->config('image_minh', 'media') . " px";
         $uploadMaxDimensions = Pi::service('module')->config('image_minw', 'media') . ' x ' . Pi::service('module')->config('image_minh', 'media') . " px";
