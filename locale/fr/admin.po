@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-media\n"
-"POT-Creation-Date: 2017-11-16 23:09+0100\n"
-"PO-Revision-Date: 2017-11-16 23:09+0100\n"
+"POT-Creation-Date: 2017-12-02 12:52+0100\n"
+"PO-Revision-Date: 2017-12-02 12:52+0100\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -75,7 +75,12 @@ msgid "Max file size"
 msgstr ""
 
 #: config/config.php:94
-msgid "Maximum size for files allowed to upload (in KB)."
+msgid ""
+"Maximum size for files allowed to upload (in KB). Caution : on front side, "
+"max file size messages are displayed in octets (ko). Here you set in bytes "
+"(Kb) ! For 4Mo, you have to set 4 * 1024 = 4096 kb. Also, front limit is "
+"rounded to lower Mb integer after conversion, so 4096 Kb == 4Mo and 4095 kb "
+"== 3Mo"
 msgstr ""
 
 #: config/config.php:101
