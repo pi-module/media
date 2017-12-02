@@ -29,8 +29,7 @@ CREATE TABLE `{doc}` (
   FULLTEXT KEY `search_idx` (`title`, `description`),
   FULLTEXT KEY `search_2_idx` (`title`, `description`, `filename`),
   FULLTEXT KEY `search_title_idx` (`title`),
-  FULLTEXT KEY `search_description_idx` (`description`),
-  FULLTEXT KEY `search_description_idx` (`title`)
+  FULLTEXT KEY `search_description_idx` (`title`, `description`)
 );
 
 # Test table
