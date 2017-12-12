@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pi-media\n"
-"POT-Creation-Date: 2017-12-06 16:19+0100\n"
-"PO-Revision-Date: 2017-12-06 16:35+0100\n"
+"POT-Creation-Date: 2017-12-12 18:15+0100\n"
+"PO-Revision-Date: 2017-12-12 18:15+0100\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -286,7 +286,8 @@ msgstr "Choisir ou ajouter un nouveau fichier média"
 
 #: src/Form/Element/Media.php:307
 msgid "We recommend you to fill 4 pictures for all seasons"
-msgstr "Nous recommandons de saisir 4 images pour chacune des 4 saisons"
+msgstr ""
+"Nous vous recommandons d'ajouter 4 images pour couvrir toutes les saisons"
 
 #: src/Form/Element/Media.php:313
 msgid "No media for now..."
