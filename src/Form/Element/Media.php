@@ -176,14 +176,14 @@ class Media extends \Zend\Form\Element\Text
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">$confirmDeleteHeaderTitle</h4>
+                <h4 class="modal-title" >$confirmDeleteHeaderTitle</h4>
             </div>
             <div class="modal-body">
                 $confirmDeleteActionTitle
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">$closeTitle</button>
-                <a id="removeMediaModalBtn" type="button" class="btn btn-primary">$confirmTitle</a>
+                <button id="removeMediaModalBtn" type="button" class="btn btn-primary">$confirmTitle</button>
             </div>
         </div>
     </div>
@@ -194,9 +194,9 @@ class Media extends \Zend\Form\Element\Text
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{$formModalTitle}</h4>
+                <h4 class="modal-title" >{$formModalTitle}</h4>
             </div>
-            <div class="modal-body" id="editMediaModalContent">
+            <div class="modal-body editMediaModalContent">
 
             </div>
             <div class="modal-footer">
@@ -212,9 +212,9 @@ class Media extends \Zend\Form\Element\Text
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{$freemiumAlertTitle}</h4>
+                <h4 class="modal-title" >{$freemiumAlertTitle}</h4>
             </div>
-            <div class="modal-body" id="editMediaModalContent">
+            <div class="modal-body editMediaModalContent">
                 {$freemiumMsg}
             </div>
             <div class="modal-footer">
@@ -229,9 +229,9 @@ class Media extends \Zend\Form\Element\Text
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{$seasonAlertTitle}</h4>
+                <h4 class="modal-title" >{$seasonAlertTitle}</h4>
             </div>
-            <div class="modal-body" id="editMediaModalContent">
+            <div class="modal-body editMediaModalContent">
                 {$seasonAlertMsg}
             </div>
             <div class="modal-footer">
@@ -246,9 +246,9 @@ class Media extends \Zend\Form\Element\Text
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{$maxAlertTitle}</h4>
+                <h4 class="modal-title" >{$maxAlertTitle}</h4>
             </div>
-            <div class="modal-body" id="editMediaModalContent">
+            <div class="modal-body editMediaModalContent">
                 {$maxAlertMsg}
             </div>
             <div class="modal-footer">

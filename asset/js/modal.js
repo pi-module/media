@@ -453,7 +453,7 @@ $(function() {
         });
     });
 
-    $(document).on('submit', '#editMediaModalContent form',  function (event) {
+    $(document).on('submit', '.editMediaModalContent form',  function (event) {
         event.preventDefault();
 
         var form = $(this);
@@ -471,7 +471,7 @@ $(function() {
             contentType: false,
             success: function(data) {
                 if(data.status == 0){
-                    $('#editMediaModalContent').html(data.content);
+                    $('.editMediaModalContent').html(data.content);
                     parseCrop();
                 } else {
                     $('#editMediaModal').modal('hide');
@@ -491,15 +491,15 @@ $(function() {
     });
 
     $('#editMediaModalSaveBtn').click(function(){
-        var form = $('#editMediaModalContent form');
+        var form = $('.editMediaModalContent form');
 
         form.find(':submit').click();
     });
 
     $(document).on('show.bs.modal', '#editMediaModal',  function (event) {
-        $( "#editMediaModalContent" ).html('');
+        $( ".editMediaModalContent" ).html('');
     }).on('hidden.bs.modal', '#editMediaModal',  function (event) {
-        $( "#editMediaModalContent" ).html('');
+        $( ".editMediaModalContent" ).html('');
     }).on('shown.bs.modal', '#editMediaModal', function (event) {
 
         var button = $(event.relatedTarget);
@@ -510,7 +510,7 @@ $(function() {
             cache: false,
             dataType: "json",
         }).done(function( data ) {
-            $( "#editMediaModalContent" ).html( data.content );
+            $( ".editMediaModalContent" ).html( data.content );
             parseCrop();
         });
     });
