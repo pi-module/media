@@ -338,7 +338,7 @@ HTML;
         <div class="ajax-spinner hide">
             <img src="{$loader}" class="ajax-spinner-loader" alt="" />
         </div>
-        <ul id="sortable" class="sortable-list">
+        <ul class="sortable-list">
             <li class="ui-state-default">{$noMediaLabel}</li>
         </ul>
     </div>

@@ -40,7 +40,7 @@
                         <td>
                             <?php $galleryImages = Pi::api('doc','media')->getGalleryLinkData($test['additional_images'], 100, 100, 90) ?>
                             <?php foreach($galleryImages as $key => $galleryImage) : ?>
-                                <a href="#" data-toggle="popover" title="Gallery Link Data" data-html="true" data-trigger="hover" data-content="<pre><?php echo $this->escape(print_r($galleryImage, true)); ?></pre>">ID <?php echo $galleryImage['id'] ?> data</a><br/>
+                                <a href="#" data-toggle="popover" title="Gallery Link Data" data-html="true" data-trigger="hover" data-content="<pre><?php echo $this->escape(print_r($galleryImage, true)); ?></pre>">ID <?php echo $galleryImage['id'] ?> data</a><br>
                             <?php endforeach; ?>
                         </td>
                         <td>
