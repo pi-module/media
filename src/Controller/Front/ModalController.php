@@ -275,6 +275,8 @@ PHP;
             'haveToComplete'   => $haveToComplete,
         ));
 
+        header("X-Robots-Tag: noindex, nofollow", true);
+
         return Pi::service('view')->render($view->getViewModel());
     }
 
@@ -283,6 +285,8 @@ PHP;
      */
     public function mediaformAction()
     {
+        header("X-Robots-Tag: noindex, nofollow", true);
+
         if(Pi::service()->hasService('log')){
             Pi::service()->getService('log')->mute(true);
         }
@@ -425,6 +429,9 @@ PHP;
      * Upload media
      */
     public function uploadAction(){
+
+        header("X-Robots-Tag: noindex, nofollow", true);
+
         $uid = Pi::user()->getId();
 
         if($uid){
