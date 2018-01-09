@@ -214,7 +214,7 @@ class Media extends \Zend\Form\Element\Text
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" >{$freemiumAlertTitle}</h4>
             </div>
-            <div class="modal-body editMediaModalContent">
+            <div class="modal-body">
                 {$freemiumMsg}
             </div>
             <div class="modal-footer">
@@ -231,7 +231,7 @@ class Media extends \Zend\Form\Element\Text
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" >{$seasonAlertTitle}</h4>
             </div>
-            <div class="modal-body editMediaModalContent">
+            <div class="modal-body">
                 {$seasonAlertMsg}
             </div>
             <div class="modal-footer">
@@ -248,7 +248,7 @@ class Media extends \Zend\Form\Element\Text
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" >{$maxAlertTitle}</h4>
             </div>
-            <div class="modal-body editMediaModalContent">
+            <div class="modal-body">
                 {$maxAlertMsg}
             </div>
             <div class="modal-footer">

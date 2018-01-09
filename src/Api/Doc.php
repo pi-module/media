@@ -643,6 +643,7 @@ class Doc extends AbstractApi
                 ));
 
                 if($sortBySeason){
+                    // no tags, then season, then manual order
                     $orderSeason = $this->getOrderSeason();
                     $select->order(array(
                         new Expression('season IS NULL'),
