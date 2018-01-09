@@ -642,15 +642,18 @@ class Doc extends AbstractApi
                     new In('id', $ids),
                 ));
 
+                $manualSortExpression = new Expression('FIELD (id, '.implode(',', $ids).')');
+
                 if($sortBySeason){
                     // no tags, then season, then manual order
                     $orderSeason = $this->getOrderSeason();
                     $select->order(array(
-                        new Expression('season IS NULL'),
-                        new Expression('FIELD (season, '.$orderSeason.')')
+                        new Expression('season IS NOT NULL'),
+                        new Expression('FIELD (season, '.$orderSeason.')'),
+                        $manualSortExpression
                     ));
                 } else {
-                    $select->order(array(new Expression('FIELD (id, '.implode(',', $ids).')')));
+                    $select->order(array($manualSortExpression));
                 }
 
                 $mediaCollection = Pi::model('doc', $this->module)->selectWith($select);
