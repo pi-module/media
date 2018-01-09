@@ -48,7 +48,7 @@ class Media extends \Zend\Form\Element\Text
         $uploadMaxSize = floor($max / 1024) * 1024 . __(' kb');
         $uploadMaxSizeMb = floor(Pi::service('module')->config('max_size', 'media') / 1024);
         $uploadMinDimensions = Pi::service('module')->config('image_minw', 'media') . ' x ' . Pi::service('module')->config('image_minh', 'media') . " px";
-        $uploadMaxDimensions = Pi::service('module')->config('image_minw', 'media') . ' x ' . Pi::service('module')->config('image_minh', 'media') . " px";
+        $uploadMaxDimensions = Pi::service('module')->config('image_maxw', 'media') . ' x ' . Pi::service('module')->config('image_maxh', 'media') . " px";
 
         $uploadUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
             'module' => 'media',
@@ -124,7 +124,7 @@ class Media extends \Zend\Form\Element\Text
         $sNext = __("Next");
         $sLast = __("Last");
 
-        $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='label label-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMaxDimensions);
+        $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='label label-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMinDimensions);
         $dictFileTooBig = __("File size is to high ({{filesize}}kb). Max : {{maxFilesize}}kb");
 
         $modalHtml = <<<HTML
