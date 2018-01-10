@@ -99,7 +99,7 @@ return array(
         'image_maxw'    => array(
             'category'    => 'image',
             'title'       => _t('Max Image width (upload)'),
-            'description' => '',
+            'description' => 'This config can be overriden by custom module values',
             'edit'        => 'text',
             'filter'      => 'number_int',
             'value'       => 2000
@@ -107,7 +107,7 @@ return array(
         'image_maxh'    => array(
             'category'    => 'image',
             'title'       => _t('Max Image height (upload)'),
-            'description' => '',
+            'description' => 'This config can be overriden by custom module values',
             'edit'        => 'text',
             'filter'      => 'number_int',
             'value'       => 2000
@@ -115,7 +115,7 @@ return array(
         'image_minw'    => array(
             'category'    => 'image',
             'title'       => _t('Min Image width (upload)'),
-            'description' => '',
+            'description' => 'This config can be overriden by custom module values',
             'edit'        => 'text',
             'filter'      => 'number_int',
             'value'       => 600
@@ -123,7 +123,7 @@ return array(
         'image_minh'    => array(
             'category'    => 'image',
             'title'       => _t('Min Image height (upload)'),
-            'description' => '',
+            'description' => 'This config can be overriden by custom module values',
             'edit'        => 'text',
             'filter'      => 'number_int',
             'value'       => 600
