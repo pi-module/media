@@ -21,6 +21,8 @@ class Media extends \Zend\Form\Element\Text
      */
     public function getAttributes()
     {
+        $fromModule = $this->getOption('module') ?: 'media';
+
         // Load language
         Pi::service('i18n')->load(array('module/media', 'default'));
 
@@ -47,14 +49,16 @@ class Media extends \Zend\Form\Element\Text
         $max = Pi::service('module')->config('max_size', 'media');
         $uploadMaxSize = floor($max / 1024) * 1024 . __(' kb');
         $uploadMaxSizeMb = floor(Pi::service('module')->config('max_size', 'media') / 1024);
-        $uploadMinDimensions = Pi::service('module')->config('image_minw', 'media') . ' x ' . Pi::service('module')->config('image_minh', 'media') . " px";
-        $uploadMaxDimensions = Pi::service('module')->config('image_maxw', 'media') . ' x ' . Pi::service('module')->config('image_maxh', 'media') . " px";
+        $uploadMinDimensions = Pi::service('module')->config('image_minw', $fromModule) . ' x ' . Pi::service('module')->config('image_minh', $fromModule) . " px";
+        $uploadMaxDimensions = Pi::service('module')->config('image_maxw', $fromModule) . ' x ' . Pi::service('module')->config('image_maxh', $fromModule) . " px";
 
         $uploadUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
             'module' => 'media',
             'controller' => 'modal',
             'action' => 'upload',
         ));
+
+        $uploadUrl .= '?from_module=' . $fromModule;
 
         $listUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
             'module' => 'media',
@@ -80,7 +84,6 @@ class Media extends \Zend\Form\Element\Text
             'action' => 'mediaform',
         ));
 
-        $fromModule = $this->getOption('module') ?: 'media';
         $maxGalleryImages = Pi::service('module')->config('freemium_max_gallery_images', $fromModule);
         $freemiumMsg = Pi::service('module')->config('freemium_alert_msg', $fromModule);
 

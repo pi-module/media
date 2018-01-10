@@ -293,6 +293,7 @@ PHP;
         }
 
         $id = $this->params('id');
+        $fromModule = $this->params('from_module', 'media');
 
         if($id){
             // Get media list
@@ -349,7 +350,7 @@ PHP;
                         $params['ip'] = Pi::user()->getIp();
 
                         // Upload media
-                        $response = Pi::api('doc', 'media')->upload($params, $id);
+                        $response = Pi::api('doc', 'media')->upload($params, $id, $fromModule);
 
 
                         if(!isset($response['path']) || !$response['path']){
@@ -381,7 +382,6 @@ PHP;
                     }
                 }
             }
-
 
             $view->setTemplate('front/partial/modal-media-form');
             $view->setVariable('form', $form);
@@ -469,8 +469,10 @@ PHP;
             $params['uid'] = Pi::user()->getId();
             $params['ip'] = Pi::user()->getIp();
 
+            $fromModule = $this->params('from_module', 'media');
+
             // Upload media
-            $response = Pi::api('doc', 'media')->upload($params);
+            $response = Pi::api('doc', 'media')->upload($params, null, $fromModule);
 
 
             // Check

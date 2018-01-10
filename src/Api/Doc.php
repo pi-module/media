@@ -122,7 +122,7 @@ class Doc extends AbstractApi
      *
      * @return int doc id
      */
-    public function upload(array $params, $currentId = null)
+    public function upload(array $params, $currentId = null, $fromModule = 'media')
     {
         @ignore_user_abort(true);
         @set_time_limit(0);
@@ -184,12 +184,12 @@ class Doc extends AbstractApi
 
         $imageMinW = Pi::config(
             'image_minw',
-            $this->module
+            $fromModule
         );
 
         $imageMinH = Pi::config(
             'image_minh',
-            $this->module
+            $fromModule
         );
 
         $imageSizeControl = array();
@@ -201,12 +201,12 @@ class Doc extends AbstractApi
 
         $imageMaxW = Pi::config(
             'image_maxw',
-            $this->module
+            $fromModule
         );
 
         $imageMaxH = Pi::config(
             'image_maxh',
-            $this->module
+            $fromModule
         );
 
         if($imageMaxW && $imageMaxH){
