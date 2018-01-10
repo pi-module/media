@@ -92,13 +92,15 @@ class ListController extends ActionController
             $where['active'] = 0;
             $params['status'] = 1;
         }
+
+        $orphan = $this->params('orphan', 0);
         $delete = $this->params('delete', 0);
         if ($delete) {
             $where['time_deleted > ?'] = 0;
-        } else {
-            $where['time_deleted'] = 0;
         }
+
         $params['delete'] = $delete;
+        $params['orphan'] = $orphan;
 
         $user = $this->params('user', null);
         $keyword = $this->params('keyword', null);
@@ -133,7 +135,8 @@ class ListController extends ActionController
             $offset,
             'time_created DESC',
             array(),
-            $keyword
+            $keyword,
+            $orphan
         );
 
         $uids = $appkeys = array();
@@ -160,7 +163,8 @@ class ListController extends ActionController
             0,
             'time_created DESC',
             array(),
-            $keyword
+            $keyword,
+            $orphan
         );
         $totalCount = count($totalCountQuery);
 
@@ -183,7 +187,7 @@ class ListController extends ActionController
 
         $navTabs = array(
             array(
-                'active'    => null === $active && !$delete,
+                'active'    => null === $active && !$delete && !$orphan,
                 'label'     => __('All resources'),
                 'href'      => $this->url('', array(
                     'action'    => 'index',
@@ -195,6 +199,14 @@ class ListController extends ActionController
                 'href'      => $this->url('', array(
                     'action'    => 'index',
                     'delete'    => 1,
+                )),
+            ),
+            array(
+                'active'    => $orphan,
+                'label'     => __('Orphan resources'),
+                'href'      => $this->url('', array(
+                    'action'    => 'index',
+                    'orphan'    => 1,
                 )),
             ),
         );

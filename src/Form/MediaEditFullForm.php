@@ -67,18 +67,6 @@ class MediaEditFullForm extends MediaEditForm
         ));
 
         $this->add(array(
-            'name'       => 'active',
-            'type'       => 'Select',
-            'options'    => array(
-                'label'     => __('Active'),
-                'value_options' => array(
-                    0 => __('Disabled'),
-                    1 => __('Enabled'),
-                ),
-            ),
-        ));
-
-        $this->add(array(
             'name'       => 'submit',
             'attributes' => array(               
                 'value'     => __('Submit'),

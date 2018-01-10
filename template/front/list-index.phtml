@@ -35,16 +35,6 @@ $isUserSection = Pi::engine()->section() != 'admin';
                 <div class="pi-media-batch-operation">
                     <input type="checkbox" class="check-all" style="margin-right: 20px">
                     <?php
-                    if (0 === $active || null === $active) {
-                        ?>
-                        <input type="button" name="enable" class="btn disabled" value="<?php _e('Enable'); ?>">
-                        <?php
-                    }
-                    if (1 === $active || null === $active) {
-                        ?>
-                        <input type="button" name="disable" class="btn disabled" value="<?php _e('Disable'); ?>">
-                        <?php
-                    }
                     if (!$delete) {
                         ?>
                         <input type="button" name="delete" class="btn disabled" value="<?php _e('Delete'); ?>">
@@ -87,13 +77,11 @@ $isUserSection = Pi::engine()->section() != 'admin';
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php switch ($media['active']): case 0: ?>
-                                        <span class="label label-default">Disabled</span>
-                                        <?php break; case 1: ?>
+                                    <?php if($media['time_deleted'] == 0): ?>
                                         <span class="label label-success">Enabled</span>
-                                        <?php break; case 2: ?>
-                                        <span class="label label-warning">Soft deleted</span>
-                                        <?php break; endswitch; ?>
+                                    <?php else : ?>
+                                        <span class="label label-danger">Supprimée</span>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
                                     <?php echo $media['title']; ?>

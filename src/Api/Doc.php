@@ -428,16 +428,17 @@ class Doc extends AbstractApi
 
         return $result;
     }
-    
+
     /**
      * Get list by condition
      *
-     * @param array  $condition
-     * @param int    $limit
-     * @param int    $offset
-     * @param string|array $order
+     * @param array $condition
+     * @param int $limit
+     * @param int $offset
+     * @param string $order
      * @param array $attr
-     *
+     * @param null $keyword
+     * @param bool $orphan
      * @return array
      */
     public function getList(
@@ -446,7 +447,8 @@ class Doc extends AbstractApi
         $offset = 0,
         $order  = '',
         array $attr = array(),
-        $keyword = null
+        $keyword = null,
+        $orphanOnly = false
     ) {
         if(isset($condition['keyword'])){
             unset($condition['keyword']);
@@ -469,6 +471,10 @@ class Doc extends AbstractApi
 
         $select->join(array('link' => $linkModel->getTable()), $model->getTable() . '.id = link.media_id', array('using_count' => new \Zend\Db\Sql\Expression('COUNT(DISTINCT object_id)')), \Zend\Db\Sql\Select::JOIN_LEFT);
         $select->group($model->getTable() . '.id');
+
+        if($orphanOnly){
+            $select->where('link.id IS NULL');
+        }
 
         if($keyword && trim($keyword)){
 
