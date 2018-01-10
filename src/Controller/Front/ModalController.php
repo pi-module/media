@@ -11,6 +11,7 @@ namespace Module\Media\Controller\Front;
 
 use Module\Media\Form\MediaEditFilter;
 use Module\Media\Form\MediaEditForm;
+use Module\Media\Form\MediaEditFullForm;
 use Pi;
 use Pi\Mvc\Controller\ActionController;
 use Pi\Paginator\Paginator;
@@ -303,7 +304,13 @@ PHP;
                 die('Not allowed');
             }
 
-            $form = new MediaEditForm('media', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)));
+            if(Pi::engine()->section() == 'admin'){
+                $form = new MediaEditFullForm('media', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)));
+            } else {
+                $form = new MediaEditForm('media', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)));
+            }
+
+
             $form->setAttribute('action', $this->url('', array('action' => 'mediaform')) . '?id=' . $id);
 
             $form->setData($media->toArray());
