@@ -134,7 +134,7 @@ return array(
             'description' => _t('Between 0 to 100 and support both of JPG and PNG, default is 75'),
             'edit'        => 'text',
             'filter'      => 'number_int',
-            'value'       => 75
+            'value'       => 90
         ),
         'image_watermark' => array(
             'category'    => 'image',

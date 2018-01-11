@@ -185,11 +185,17 @@ class Doc extends AbstractApi
         $imageMinW = Pi::config(
             'image_minw',
             $fromModule
+        ) ?: Pi::config(
+            'image_minw',
+            'media'
         );
 
         $imageMinH = Pi::config(
             'image_minh',
             $fromModule
+        ) ?: Pi::config(
+            'image_minh',
+            'media'
         );
 
         $imageSizeControl = array();
@@ -201,12 +207,12 @@ class Doc extends AbstractApi
 
         $imageMaxW = Pi::config(
             'image_maxw',
-            $fromModule
+            'media'
         );
 
         $imageMaxH = Pi::config(
             'image_maxh',
-            $fromModule
+            'media'
         );
 
         if($imageMaxW && $imageMaxH){

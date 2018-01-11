@@ -49,8 +49,25 @@ class Media extends \Zend\Form\Element\Text
         $max = Pi::service('module')->config('max_size', 'media');
         $uploadMaxSize = floor($max / 1024) * 1024 . __(' kb');
         $uploadMaxSizeMb = floor(Pi::service('module')->config('max_size', 'media') / 1024);
-        $uploadMinDimensions = Pi::service('module')->config('image_minw', $fromModule) . ' x ' . Pi::service('module')->config('image_minh', $fromModule) . " px";
-        $uploadMaxDimensions = Pi::service('module')->config('image_maxw', $fromModule) . ' x ' . Pi::service('module')->config('image_maxh', $fromModule) . " px";
+
+        $imageMinW = Pi::config(
+            'image_minw',
+            $fromModule
+        ) ?: Pi::config(
+            'image_minw',
+            'media'
+        );
+
+        $imageMinH = Pi::config(
+            'image_minh',
+            $fromModule
+        ) ?: Pi::config(
+            'image_minh',
+            'media'
+        );
+
+        $uploadMinDimensions = $imageMinW . ' x ' . $imageMinH . " px";
+        $uploadMaxDimensions = Pi::service('module')->config('image_maxw', 'media') . ' x ' . Pi::service('module')->config('image_maxh', 'media') . " px";
 
         $uploadUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
             'module' => 'media',
