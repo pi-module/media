@@ -678,7 +678,14 @@ class Doc extends AbstractApi
                     if($width && $height){
                         $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width, $height)->quality($quality);
                     } else if($width){
-                        $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
+
+                        if(is_array($width)){
+                            foreach($width as $w){
+                                $dataToInject['resized_url'][$w] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($w,$w)->quality($quality);
+                            }
+                        } else {
+                            $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
+                        }
                     }
 
                     if(!$dataToInject['copyright']){
