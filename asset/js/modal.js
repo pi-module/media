@@ -257,8 +257,9 @@ $(function() {
     };
 
 
+
     // Dropzone class:
-    myDropzone = new Dropzone("#dropzone-media-form", {
+    if(typeof myDropzone == 'undefined') myDropzone = new Dropzone("#dropzone-media-form", {
         url: uploadUrl,
         maxFilesize: uploadMaxSizeMb,
         // autoQueue: false,
