@@ -2,6 +2,12 @@
     $this->css($this->assetModule('css/cropper.min.css', 'media'));
     $this->js($this->assetModule('js/cropper.min.js', 'media'));
 
+    $currentModule = Pi::service('module')->current();
+    $currentConfig = Pi::service('registry')->config->read($currentModule);
+
+    $currentMinCropRealWidth = (int) $currentConfig['image_largew'];
+    $currentMinCropRealHeight = (int) $currentConfig['image_largeh'];
+
     $config = Pi::service('registry')->config->read($module);
 
     $ajaxCroppingUpdateUrl = Pi::url($this->url('', array(
@@ -10,8 +16,8 @@
             'id' => 'ID_VALUE'
     ))) . '?cropping=CROPPING_VALUE';
 
-    $minCropRealWidth = (int) $config['image_largew'];
-    $minCropRealHeight = (int) $config['image_largeh'];
+    $minCropRealWidth = $currentMinCropRealWidth ?: (int) $config['image_largew'];
+    $minCropRealHeight = $currentMinCropRealHeight ?: (int) $config['image_largeh'];
 ?>
 <script>
     var ajaxCroppingUpdateUrl = '<?php echo $ajaxCroppingUpdateUrl ?>';
