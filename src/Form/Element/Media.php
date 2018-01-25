@@ -191,7 +191,7 @@ class Media extends \Zend\Form\Element\Text
     </div>
 </div>
 
-<div class="modal fade" id="removeMediaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="removeMediaModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -209,7 +209,7 @@ class Media extends \Zend\Form\Element\Text
     </div>
 </div>
 
-<div class="modal fade" id="editMediaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="editMediaModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -227,7 +227,7 @@ class Media extends \Zend\Form\Element\Text
     </div>
 </div>
 
-<div class="modal fade" id="freemiumAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="freemiumAlert" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -244,7 +244,7 @@ class Media extends \Zend\Form\Element\Text
     </div>
 </div>
 
-<div class="modal fade" id="seasonAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="seasonAlert" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -261,7 +261,7 @@ class Media extends \Zend\Form\Element\Text
     </div>
 </div>
 
-<div class="modal fade" id="maxAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="maxAlert" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -278,7 +278,7 @@ class Media extends \Zend\Form\Element\Text
     </div>
 </div>
 
-<div class="modal fade" id="errorAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="errorAlert" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
