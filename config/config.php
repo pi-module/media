@@ -192,7 +192,7 @@ return array(
         'image_largew'    => array(
             'category'    => 'image',
             'title'       => _t('Large Image width'),
-            'description' => '',
+            'description' => 'This config can be overriden by custom module values. Used for min crop size.',
             'edit'        => 'text',
             'filter'      => 'number_int',
             'value'       => 1200
@@ -200,7 +200,7 @@ return array(
         'image_largeh'    => array(
             'category'    => 'image',
             'title'       => _t('Large Image height'),
-            'description' => '',
+            'description' => 'This config can be overriden by custom module values. Used for min crop size.',
             'edit'        => 'text',
             'filter'      => 'number_int',
             'value'       => 1200

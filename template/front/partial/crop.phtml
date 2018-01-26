@@ -3,6 +3,11 @@
     $this->js($this->assetModule('js/cropper.min.js', 'media'));
 
     $currentModule = Pi::service('module')->current();
+
+    if($currentModule == 'event'){
+        $currentModule = 'news';
+    }
+
     $currentConfig = Pi::service('registry')->config->read($currentModule);
 
     $currentMinCropRealWidth = (int) $currentConfig['image_largew'];
@@ -18,6 +23,8 @@
 
     $minCropRealWidth = $currentMinCropRealWidth ?: (int) $config['image_largew'];
     $minCropRealHeight = $currentMinCropRealHeight ?: (int) $config['image_largeh'];
+
+//    print_r($currentConfig); die();
 ?>
 <script>
     var ajaxCroppingUpdateUrl = '<?php echo $ajaxCroppingUpdateUrl ?>';
