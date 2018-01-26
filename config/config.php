@@ -99,7 +99,7 @@ return array(
         'image_maxw'    => array(
             'category'    => 'image',
             'title'       => _t('Max Image width (upload)'),
-            'description' => 'This config can be overriden by custom module values',
+            'description' => '',
             'edit'        => 'text',
             'filter'      => 'number_int',
             'value'       => 2000
@@ -107,7 +107,7 @@ return array(
         'image_maxh'    => array(
             'category'    => 'image',
             'title'       => _t('Max Image height (upload)'),
-            'description' => 'This config can be overriden by custom module values',
+            'description' => '',
             'edit'        => 'text',
             'filter'      => 'number_int',
             'value'       => 2000
@@ -131,7 +131,7 @@ return array(
         'image_quality'   => array(
             'category'    => 'image',
             'title'       => _t('Image quality'),
-            'description' => _t('Between 0 to 100 and support both of JPG and PNG, default is 75'),
+            'description' => _t('Between 0 to 100 and support both of JPG and PNG, default is 75. Can be overridden by custom module config'),
             'edit'        => 'text',
             'filter'      => 'number_int',
             'value'       => 90
