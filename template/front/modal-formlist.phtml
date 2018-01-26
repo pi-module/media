@@ -1,5 +1,6 @@
-<ul class="media-list media-list-sortable <?php echo $haveToComplete ? 'media-list-incomplete' : '' ?>">
-    <?php if(count($medias)) : ?>
+<?php $hash = rand(); ?>
+<?php if(count($medias)) : ?>
+    <ul class="hash-<?php echo $hash ?> media-list media-list-sortable <?php echo $haveToComplete ? 'media-list-incomplete' : '' ?>">
         <?php foreach($medias as $media) : ?>
             <?php $hasInvalidFields = Pi::api('doc', 'media')->hasInvalidFields($media) ?>
             <li class=" ui-state-default <?php echo $hasInvalidFields ? 'invalid-media' : '' ?>" data-media-id="<?php echo $media['id'] ?>" data-media-season="<?php echo $media['season'] ?>">
@@ -7,7 +8,7 @@
                     <?php if($img = Pi::api('resize','media')->resizeFormList($media)) : ?>
                         <img class="img-thumbnail" src="<?php echo $img ?>" />
                     <?php else : ?>
-                            <?php echo $media['title'] ?>
+                        <?php echo $media['title'] ?>
                     <?php endif; ?>
                 </div>
                 <hr />
@@ -21,10 +22,18 @@
                 </button>
             </li>
         <?php endforeach; ?>
-    <?php else : ?>
-        <li class="ui-state-default"><?php echo __('No media for now...') ?></li>
-    <?php endif; ?>
-</ul>
+    </ul>
+
+    <script>
+        jQuery('.hash-<?php echo $hash ?>').parent('.media-form-list').parent('.panel-body').show();
+    </script>
+<?php else : ?>
+    <span class="hash-<?php echo $hash ?>"></span>
+    <script>
+        jQuery('.hash-<?php echo $hash ?>').parent('.media-form-list').parent('.panel-body').hide();
+    </script>
+<?php endif; ?>
+
 <div class="media-alert clearfix text-center hide">
     <span class="label label-danger"><?php echo __('You have to complete file informations before submit') ?></span>
 </div>

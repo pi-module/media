@@ -21,6 +21,8 @@ class Media extends \Zend\Form\Element\Text
      */
     public function getAttributes()
     {
+        $fromModule = $this->getOption('module') ?: 'media';
+
         // Load language
         Pi::service('i18n')->load(array('module/media', 'default'));
 
@@ -44,7 +46,27 @@ class Media extends \Zend\Form\Element\Text
         $cssHelper($assetHelper('css/dataTables.bootstrap.css', 'media'));
         $cssHelper($assetHelper('css/media.css', 'media'));
 
-        $uploadMaxSize = Pi::service('module')->config('max_size', 'media') . ' ko';
+        $max = Pi::service('module')->config('max_size', 'media');
+        $uploadMaxSize = floor($max / 1024) * 1024 . __(' kb');
+        $uploadMaxSizeMb = floor(Pi::service('module')->config('max_size', 'media') / 1024);
+
+        $imageMinW = Pi::config(
+            'image_minw',
+            $fromModule
+        ) ?: Pi::config(
+            'image_minw',
+            'media'
+        );
+
+        $imageMinH = Pi::config(
+            'image_minh',
+            $fromModule
+        ) ?: Pi::config(
+            'image_minh',
+            'media'
+        );
+
+        $uploadMinDimensions = $imageMinW . ' x ' . $imageMinH . " px";
         $uploadMaxDimensions = Pi::service('module')->config('image_maxw', 'media') . ' x ' . Pi::service('module')->config('image_maxh', 'media') . " px";
 
         $uploadUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
@@ -52,6 +74,8 @@ class Media extends \Zend\Form\Element\Text
             'controller' => 'modal',
             'action' => 'upload',
         ));
+
+        $uploadUrl .= '?from_module=' . $fromModule;
 
         $listUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
             'module' => 'media',
@@ -77,7 +101,6 @@ class Media extends \Zend\Form\Element\Text
             'action' => 'mediaform',
         ));
 
-        $fromModule = $this->getOption('module') ?: 'media';
         $maxGalleryImages = Pi::service('module')->config('freemium_max_gallery_images', $fromModule);
         $freemiumMsg = Pi::service('module')->config('freemium_alert_msg', $fromModule);
 
@@ -91,6 +114,10 @@ class Media extends \Zend\Form\Element\Text
         $confirmDeleteActionTitle = __("Do you confirm you want to delete this media ? In case you delete it inadvertently, you can active it back in your My Media submenu");
 
         $maxAlertTitle = __("Max media alert");
+        $errorAlertTitle = __("Error during upload");
+        $errorAlertBefore = __("Oops ! You reached the limits set for files : please modify your file(s) !");
+        $errorAlertAfter = __("Unfortunately we do not have the infrastructure of the giants of the internet, and therefore we have server limitations for uploading large files. Conversely, we need files of good size so that they display correctly on all types of screens/devices.");
+
         $maxAlertMsg = __("Max media alert : you have reach maximum of picture for this field");
 
         $checkedMediaTitle = __("Your selection (you can unlink each media)");
@@ -117,7 +144,8 @@ class Media extends \Zend\Form\Element\Text
         $sNext = __("Next");
         $sLast = __("Last");
 
-        $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='label label-warning'>Max Size = %s and max dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMaxDimensions);
+        $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='label label-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMinDimensions);
+        $dictFileTooBig = __("File size is to high ({{filesize}}kb). Max : {{maxFilesize}}kb");
 
         $modalHtml = <<<HTML
         
@@ -163,32 +191,32 @@ class Media extends \Zend\Form\Element\Text
     </div>
 </div>
 
-<div class="modal fade" id="removeMediaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="removeMediaModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">$confirmDeleteHeaderTitle</h4>
+                <h4 class="modal-title" >$confirmDeleteHeaderTitle</h4>
             </div>
             <div class="modal-body">
                 $confirmDeleteActionTitle
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">$closeTitle</button>
-                <a id="removeMediaModalBtn" type="button" class="btn btn-primary">$confirmTitle</a>
+                <button id="removeMediaModalBtn" type="button" class="btn btn-primary">$confirmTitle</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editMediaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="editMediaModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{$formModalTitle}</h4>
+                <h4 class="modal-title" >{$formModalTitle}</h4>
             </div>
-            <div class="modal-body" id="editMediaModalContent">
+            <div class="modal-body editMediaModalContent">
 
             </div>
             <div class="modal-footer">
@@ -199,14 +227,14 @@ class Media extends \Zend\Form\Element\Text
     </div>
 </div>
 
-<div class="modal fade" id="freemiumAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="freemiumAlert" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{$freemiumAlertTitle}</h4>
+                <h4 class="modal-title" >{$freemiumAlertTitle}</h4>
             </div>
-            <div class="modal-body" id="editMediaModalContent">
+            <div class="modal-body">
                 {$freemiumMsg}
             </div>
             <div class="modal-footer">
@@ -216,14 +244,14 @@ class Media extends \Zend\Form\Element\Text
     </div>
 </div>
 
-<div class="modal fade" id="seasonAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="seasonAlert" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{$seasonAlertTitle}</h4>
+                <h4 class="modal-title" >{$seasonAlertTitle}</h4>
             </div>
-            <div class="modal-body" id="editMediaModalContent">
+            <div class="modal-body">
                 {$seasonAlertMsg}
             </div>
             <div class="modal-footer">
@@ -233,15 +261,35 @@ class Media extends \Zend\Form\Element\Text
     </div>
 </div>
 
-<div class="modal fade" id="maxAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="maxAlert" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{$maxAlertTitle}</h4>
+                <h4 class="modal-title" >{$maxAlertTitle}</h4>
             </div>
-            <div class="modal-body" id="editMediaModalContent">
+            <div class="modal-body">
                 {$maxAlertMsg}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="errorAlert" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{$errorAlertTitle}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{$errorAlertBefore}</p>
+                <div id="errorAlertContent"></div>
+                <br />
+                <p>{$errorAlertAfter}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -253,8 +301,11 @@ class Media extends \Zend\Form\Element\Text
 <script>
     var uploadUrl = "{$uploadUrl}";
     var uploadMaxSize = "{$uploadMaxSize}";
+    var uploadMaxSizeMb = "{$uploadMaxSizeMb}";
+    var uploadMinDimensions = "{$uploadMinDimensions}";
     var uploadMaxDimensions = "{$uploadMaxDimensions}";
     var uploadMsg = "{$uploadMsg}"
+    var dictFileTooBig = "{$dictFileTooBig}"
     var listUrl = "{$listUrl}";
     var currentSelectedMediaUrl = "{$currentSelectedMediaUrl}";
     var formlistUrl = "{$formlistUrl}";
@@ -307,7 +358,7 @@ HTML;
         <div class="ajax-spinner hide">
             <img src="{$loader}" class="ajax-spinner-loader" alt="" />
         </div>
-        <ul id="sortable" class="sortable-list">
+        <ul class="sortable-list">
             <li class="ui-state-default">{$noMediaLabel}</li>
         </ul>
     </div>

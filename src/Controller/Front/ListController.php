@@ -92,15 +92,18 @@ class ListController extends ActionController
             $where['active'] = 0;
             $params['status'] = 1;
         }
+
+        $orphan = $this->params('orphan', 0);
         $delete = $this->params('delete', 0);
         if ($delete) {
             $where['time_deleted > ?'] = 0;
-        } else {
-            $where['time_deleted'] = 0;
         }
+
         $params['delete'] = $delete;
+        $params['orphan'] = $orphan;
 
         $user = $this->params('user', null);
+        $keyword = $this->params('keyword', null);
 
         if(Pi::engine()->section() != 'admin'){
             $user = Pi::user()->getId();
@@ -118,8 +121,10 @@ class ListController extends ActionController
         if($uid){
             $where['uid'] = $uid;
         }
+
         $params = array(
             'user'  => $user,
+            'keyword'  => $keyword,
         );
 
         // Get media list
@@ -128,9 +133,12 @@ class ListController extends ActionController
             $where,
             $limit,
             $offset,
-            'time_created DESC'
+            'time_created DESC',
+            array(),
+            $keyword,
+            $orphan
         );
-        
+
         $uids = $appkeys = array();
         $apps = $users = $avatars = array();
         foreach ($resultset as $row) {
@@ -141,32 +149,45 @@ class ListController extends ActionController
         if (!empty($appkeys)) {
             $apps = $this->getAppTitle($appkeys);
         }
-        
+
         // Get users
         if (!empty($uids)) {
             $users = Pi::user()->get($uids);
             $avatars = Pi::avatar()->get($uids);
         }
-        
+
         // Total count
-        $totalCount = $this->getModel('doc')->count($where);
+        $totalCountQuery = Pi::api('doc', $module)->getList(
+            $where,
+            0,
+            0,
+            'time_created DESC',
+            array(),
+            $keyword,
+            $orphan
+        );
+        $totalCount = count($totalCountQuery);
 
         // Paginator
         $paginator = Paginator::factory($totalCount, array(
             'page' => $page,
+            'limit'       => $limit,
             'url_options'   => array(
                 'page_param' => 'p',
                 'params'     => array_filter(array_merge(array(
                     'module'        => $this->getModule(),
                     'controller'    => 'list',
                     'action'        => 'index',
-                ), $params)),
+                ))),
+                'options' => array(
+                    'query' => $params,
+                )
             ),
         ));
 
         $navTabs = array(
             array(
-                'active'    => null === $active && !$delete,
+                'active'    => null === $active && !$delete && !$orphan,
                 'label'     => __('All resources'),
                 'href'      => $this->url('', array(
                     'action'    => 'index',
@@ -178,6 +199,14 @@ class ListController extends ActionController
                 'href'      => $this->url('', array(
                     'action'    => 'index',
                     'delete'    => 1,
+                )),
+            ),
+            array(
+                'active'    => $orphan,
+                'label'     => __('Orphan resources'),
+                'href'      => $this->url('', array(
+                    'action'    => 'index',
+                    'orphan'    => 1,
                 )),
             ),
         );
@@ -195,6 +224,7 @@ class ListController extends ActionController
             'active'     => $active,
             'delete'     => $delete,
             'user'       => $user,
+            'keyword'       => $keyword,
         ));
     }
 

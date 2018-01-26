@@ -11,6 +11,7 @@ namespace Module\Media\Controller\Front;
 
 use Module\Media\Form\MediaEditFilter;
 use Module\Media\Form\MediaEditForm;
+use Module\Media\Form\MediaEditFullForm;
 use Pi;
 use Pi\Mvc\Controller\ActionController;
 use Pi\Paginator\Paginator;
@@ -72,6 +73,22 @@ class ModalController extends ActionController
         $select = $mediaModel->select();
         $select->where($where);
         $select->order('time_created DESC');
+
+        if($keyword && trim($keyword)){
+
+            $keyword = trim($keyword);
+            $keywordArray = explode(' ', $keyword);
+            $keywordBoolean = '+' . trim(implode(' +', $keywordArray));
+
+            $select->where(
+                new \Zend\Db\Sql\Predicate\Expression("MATCH(".$mediaModel->getTable() . ".title, ".$mediaModel->getTable() . ".description) AGAINST (? IN BOOLEAN MODE) OR ".$mediaModel->getTable() . ".title LIKE ? OR ".$mediaModel->getTable() . ".description LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%')
+            );
+            $select->columns(array_merge($select->getRawState($select::COLUMNS), array(
+                new \Zend\Db\Sql\Expression("((MATCH(".$mediaModel->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$mediaModel->getTable() . ".description) AGAINST (?) * 1)) AS score", array($keyword, $keyword)),
+            )));
+            $select->order('score DESC, time_created DESC');
+        }
+
         $resultsetFull = $mediaModel->selectWith($select);
 
 
@@ -259,6 +276,8 @@ PHP;
             'haveToComplete'   => $haveToComplete,
         ));
 
+        header("X-Robots-Tag: noindex, nofollow", true);
+
         return Pi::service('view')->render($view->getViewModel());
     }
 
@@ -267,11 +286,14 @@ PHP;
      */
     public function mediaformAction()
     {
+        header("X-Robots-Tag: noindex, nofollow", true);
+
         if(Pi::service()->hasService('log')){
             Pi::service()->getService('log')->mute(true);
         }
 
         $id = $this->params('id');
+        $fromModule = $this->params('from_module', 'media');
 
         if($id){
             // Get media list
@@ -283,7 +305,13 @@ PHP;
                 die('Not allowed');
             }
 
-            $form = new MediaEditForm('media', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)));
+            if(Pi::engine()->section() == 'admin'){
+                $form = new MediaEditFullForm('media', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)));
+            } else {
+                $form = new MediaEditForm('media', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)));
+            }
+
+
             $form->setAttribute('action', $this->url('', array('action' => 'mediaform')) . '?id=' . $id);
 
             $form->setData($media->toArray());
@@ -322,7 +350,7 @@ PHP;
                         $params['ip'] = Pi::user()->getIp();
 
                         // Upload media
-                        $response = Pi::api('doc', 'media')->upload($params, $id);
+                        $response = Pi::api('doc', 'media')->upload($params, $id, $fromModule);
 
 
                         if(!isset($response['path']) || !$response['path']){
@@ -354,7 +382,6 @@ PHP;
                     }
                 }
             }
-
 
             $view->setTemplate('front/partial/modal-media-form');
             $view->setVariable('form', $form);
@@ -409,6 +436,9 @@ PHP;
      * Upload media
      */
     public function uploadAction(){
+
+        header("X-Robots-Tag: noindex, nofollow", true);
+
         $uid = Pi::user()->getId();
 
         if($uid){
@@ -439,8 +469,10 @@ PHP;
             $params['uid'] = Pi::user()->getId();
             $params['ip'] = Pi::user()->getIp();
 
+            $fromModule = $this->params('from_module', 'media');
+
             // Upload media
-            $response = Pi::api('doc', 'media')->upload($params);
+            $response = Pi::api('doc', 'media')->upload($params, null, $fromModule);
 
 
             // Check

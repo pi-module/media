@@ -137,7 +137,7 @@ class ToolsController extends ActionController
         $messenger = $this->plugin('flashMessenger');
 
         if($hasRemove){
-            $messenger->addSuccessMessage($hasRemove . __(' orphaned media have been removed'));
+            $messenger->addSuccessMessage($hasRemove . __('Orphaned media have been removed'));
         } else {
             $messenger->addMessage(__('There is no orphaned media currently'));
         }

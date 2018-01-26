@@ -24,17 +24,18 @@ class MediaEditFullForm extends MediaEditForm
      */
     public function init()
     {
-
-        parent::init();
-
-        $this->remove('submit');
-
         $this->add(array(
             'name'       => 'filename',
             'options'    => array(
                 'label'     => __('Filename'),
             ),
         ));
+
+        parent::init();
+
+        $this->remove('submit');
+
+
 
         $this->add(array(
             'name'       => 'uid',
@@ -62,18 +63,6 @@ class MediaEditFullForm extends MediaEditForm
             'type'      => 'checkbox',
             'options'    => array(
                 'label'     => __('Featured'),
-            ),
-        ));
-
-        $this->add(array(
-            'name'       => 'active',
-            'type'       => 'Select',
-            'options'    => array(
-                'label'     => __('Active'),
-                'value_options' => array(
-                    0 => __('Disabled'),
-                    1 => __('Enabled'),
-                ),
             ),
         ));
 

@@ -223,8 +223,32 @@ SQL;
             }
         }
 
+        if (version_compare($moduleVersion, '1.0.15', '<')) {
+            $sql = sprintf("ALTER TABLE %s ADD FULLTEXT `search_2_idx` (`title`, `description`, `filename`);", $docTable);
+            try {
+                $docAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
 
+            $sql = sprintf("ALTER TABLE %s ADD FULLTEXT `search_filename_idx` (`filename`);", $docTable);
 
+            try {
+                $docAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+        }
             
         return true;
     }

@@ -146,7 +146,7 @@ var initDataTable = function(){
     var table = $('#media_gallery .table');
 
     table.DataTable({
-        "lengthMenu": [[5, 10, 20], [5, 10, 20]],
+        "lengthMenu": [[3, 5, 10, 20], [3, 5, 10, 20]],
         "bDestroy": true,
         "ordering": false,
         "processing": true,
@@ -243,12 +243,28 @@ $(function() {
         input.val(newInputValueArray.join()).change();
     });
 
+    Dropzone.prototype.accept = function(file, done) {
+        if (file.size > this.options.maxFilesize * 1024 * 1024) {
+            return done(this.options.dictFileTooBig.replace("{{filesize}}", Math.round(file.size / 10.24 / 100) ).replace("{{maxFilesize}}", Math.round(this.options.maxFilesize * 1024)));
+        } else if (!Dropzone.isValidFile(file, this.options.acceptedFiles)) {
+            return done(this.options.dictInvalidFileType);
+        } else if ((this.options.maxFiles != null) && this.getAcceptedFiles().length >= this.options.maxFiles) {
+            done(this.options.dictMaxFilesExceeded.replace("{{maxFiles}}", this.options.maxFiles));
+            return this.emit("maxfilesexceeded", file);
+        } else {
+            return this.options.accept.call(this, file, done);
+        }
+    };
+
+
 
     // Dropzone class:
-    myDropzone = new Dropzone("#dropzone-media-form", {
+    if(typeof myDropzone == 'undefined') myDropzone = new Dropzone("#dropzone-media-form", {
         url: uploadUrl,
+        maxFilesize: uploadMaxSizeMb,
         // autoQueue: false,
         dictDefaultMessage: uploadMsg,
+        dictFileTooBig: dictFileTooBig,
         init: function(){
             this.on('resetFiles', function() {
                 if(this.files.length != 0){
@@ -275,6 +291,9 @@ $(function() {
 
             this.on('error', function(file, response) {
                 $(file.previewElement).find('.dz-error-message').html(response);
+
+                $('#errorAlertContent').html(response);
+                $('#errorAlert').modal('show');
             });
         }
     });
@@ -435,7 +454,7 @@ $(function() {
         });
     });
 
-    $(document).on('submit', '#editMediaModalContent form',  function (event) {
+    $(document).on('submit', '.editMediaModalContent form',  function (event) {
         event.preventDefault();
 
         var form = $(this);
@@ -453,7 +472,7 @@ $(function() {
             contentType: false,
             success: function(data) {
                 if(data.status == 0){
-                    $('#editMediaModalContent').html(data.content);
+                    $('.editMediaModalContent').html(data.content);
                     parseCrop();
                 } else {
                     $('#editMediaModal').modal('hide');
@@ -473,15 +492,15 @@ $(function() {
     });
 
     $('#editMediaModalSaveBtn').click(function(){
-        var form = $('#editMediaModalContent form');
+        var form = $('.editMediaModalContent form');
 
         form.find(':submit').click();
     });
 
     $(document).on('show.bs.modal', '#editMediaModal',  function (event) {
-        $( "#editMediaModalContent" ).html('');
+        $( ".editMediaModalContent" ).html('');
     }).on('hidden.bs.modal', '#editMediaModal',  function (event) {
-        $( "#editMediaModalContent" ).html('');
+        $( ".editMediaModalContent" ).html('');
     }).on('shown.bs.modal', '#editMediaModal', function (event) {
 
         var button = $(event.relatedTarget);
@@ -492,7 +511,7 @@ $(function() {
             cache: false,
             dataType: "json",
         }).done(function( data ) {
-            $( "#editMediaModalContent" ).html( data.content );
+            $( ".editMediaModalContent" ).html( data.content );
             parseCrop();
         });
     });

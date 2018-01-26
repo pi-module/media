@@ -122,7 +122,7 @@ class Doc extends AbstractApi
      *
      * @return int doc id
      */
-    public function upload(array $params, $currentId = null)
+    public function upload(array $params, $currentId = null, $fromModule = 'media')
     {
         @ignore_user_abort(true);
         @set_time_limit(0);
@@ -184,30 +184,44 @@ class Doc extends AbstractApi
 
         $imageMinW = Pi::config(
             'image_minw',
-            $this->module
+            $fromModule
+        ) ?: Pi::config(
+            'image_minw',
+            'media'
         );
 
         $imageMinH = Pi::config(
             'image_minh',
-            $this->module
+            $fromModule
+        ) ?: Pi::config(
+            'image_minh',
+            'media'
         );
 
+        $imageSizeControl = array();
+
         if($imageMinW && $imageMinH){
-            $uploader->setImageSize(array('minwidth' => $imageMinW, 'minheight' => $imageMinH));
+            $imageSizeControl['minwidth'] = $imageMinW;
+            $imageSizeControl['minheight'] = $imageMinH;
         }
 
         $imageMaxW = Pi::config(
             'image_maxw',
-            $this->module
+            'media'
         );
 
         $imageMaxH = Pi::config(
             'image_maxh',
-            $this->module
+            'media'
         );
 
         if($imageMaxW && $imageMaxH){
-            $uploader->setImageSize(array('maxwidth' => $imageMaxW, 'maxheight' => $imageMaxH));
+            $imageSizeControl['maxwidth'] = $imageMaxW;
+            $imageSizeControl['maxheight'] = $imageMaxH;
+        }
+
+        if($imageSizeControl){
+            $uploader->setImageSize($imageSizeControl);
         }
 
         $result = $uploader->isValid();
@@ -420,16 +434,17 @@ class Doc extends AbstractApi
 
         return $result;
     }
-    
+
     /**
      * Get list by condition
      *
-     * @param array  $condition
-     * @param int    $limit
-     * @param int    $offset
-     * @param string|array $order
+     * @param array $condition
+     * @param int $limit
+     * @param int $offset
+     * @param string $order
      * @param array $attr
-     *
+     * @param null $keyword
+     * @param bool $orphan
      * @return array
      */
     public function getList(
@@ -437,8 +452,14 @@ class Doc extends AbstractApi
         $limit  = 0,
         $offset = 0,
         $order  = '',
-        array $attr = array()
+        array $attr = array(),
+        $keyword = null,
+        $orphanOnly = false
     ) {
+        if(isset($condition['keyword'])){
+            unset($condition['keyword']);
+        }
+
         $model  = $this->model();
         $select = $model->select()->where($condition);
         if ($limit) {
@@ -447,9 +468,7 @@ class Doc extends AbstractApi
         if ($offset) {
             $select->offset($offset);
         }
-        if ($order) {
-            $select->order($order);
-        }
+
         if ($attr) {
             $select->columns($attr);
         }
@@ -458,6 +477,29 @@ class Doc extends AbstractApi
 
         $select->join(array('link' => $linkModel->getTable()), $model->getTable() . '.id = link.media_id', array('using_count' => new \Zend\Db\Sql\Expression('COUNT(DISTINCT object_id)')), \Zend\Db\Sql\Select::JOIN_LEFT);
         $select->group($model->getTable() . '.id');
+
+        if($orphanOnly){
+            $select->where('link.id IS NULL');
+        }
+
+        if($keyword && trim($keyword)){
+
+            $keyword = trim($keyword);
+            $keywordArray = explode(' ', $keyword);
+            $keywordBoolean = '+' . trim(implode(' +', $keywordArray));
+
+            $select->where(
+                new \Zend\Db\Sql\Predicate\Expression("MATCH(".$model->getTable() . ".title, ".$model->getTable() . ".description, ".$model->getTable() . ".filename) AGAINST (? IN BOOLEAN MODE) OR ".$model->getTable() . ".title LIKE ? OR ".$model->getTable() . ".description LIKE ? OR ".$model->getTable() . ".filename LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%', '%' . $keyword . '%')
+            );
+            $select->columns(array_merge($select->getRawState($select::COLUMNS), array(
+                new \Zend\Db\Sql\Expression("((MATCH(".$model->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$model->getTable() . ".description) AGAINST (?) * 1) + (MATCH(".$model->getTable() . ".filename) AGAINST (?) * 1)) AS score", array($keyword, $keyword, $keyword)),
+            )));
+            $select->order('score DESC, time_created DESC');
+        } else {
+            if ($order) {
+                $select->order($order);
+            }
+        }
 
         $rowset = $model->selectWith($select);
         $result = array();
@@ -612,11 +654,18 @@ class Doc extends AbstractApi
                     new In('id', $ids),
                 ));
 
+                $manualSortExpression = new Expression('FIELD (id, '.implode(',', $ids).')');
+
                 if($sortBySeason){
+                    // no tags, then season, then manual order
                     $orderSeason = $this->getOrderSeason();
-                    $select->order(array(new Expression('FIELD (season, '.$orderSeason.')')));
+                    $select->order(array(
+                        new Expression('season IS NOT NULL'),
+                        new Expression('FIELD (season, '.$orderSeason.')'),
+                        $manualSortExpression
+                    ));
                 } else {
-                    $select->order(array(new Expression('FIELD (id, '.implode(',', $ids).')')));
+                    $select->order(array($manualSortExpression));
                 }
 
                 $mediaCollection = Pi::model('doc', $this->module)->selectWith($select);
@@ -629,7 +678,14 @@ class Doc extends AbstractApi
                     if($width && $height){
                         $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width, $height)->quality($quality);
                     } else if($width){
-                        $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
+
+                        if(is_array($width)){
+                            foreach($width as $w){
+                                $dataToInject['resized_url'][$w] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($w,$w)->quality($quality);
+                            }
+                        } else {
+                            $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
+                        }
                     }
 
                     if(!$dataToInject['copyright']){
