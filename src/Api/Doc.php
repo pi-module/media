@@ -911,4 +911,19 @@ class Doc extends AbstractApi
 
         return $orderSeason;
     }
+
+    public function getRatio(){
+        // default ratio
+        $ratio = 3/2;
+
+        /**
+         * Get custom ratio
+         */
+        $config = Pi::service('registry')->config->read('media');
+        if($config['image_ratio_w'] && $config['image_ratio_h']){
+            $ratio = $config['image_ratio_w'] / $config['image_ratio_h'];
+        }
+
+        return $ratio;
+    }
 }

@@ -136,6 +136,22 @@ return array(
             'filter'      => 'number_int',
             'value'       => 90
         ),
+        'image_ratio_w'   => array(
+            'category'    => 'image',
+            'title'       => _t('Image ratio width'),
+            'description' => _t('Example : "3" for 3/2 ratio'),
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 3
+        ),
+        'image_ratio_h'   => array(
+            'category'    => 'image',
+            'title'       => _t('Image ratio height'),
+            'description' => _t('Example : "2" for 3/2 ratio'),
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 2
+        ),
         'image_watermark' => array(
             'category'    => 'image',
             'title'       => _t('Add Watermark'),

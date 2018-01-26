@@ -21,11 +21,12 @@ class RowGateway extends \Pi\Db\RowGateway\RowGateway
             $this->season = null;
         }
 
-        if(!isset($this->cropping) || !$this->cropping){
+        if(1 || !isset($this->cropping) || !$this->cropping){
+
             $options    = Pi::service('media')->getOption('local', 'options');
             $rootPath   = $options['root_path'];
 
-            $ratio = 3/2;
+            $ratio = Pi::api('doc', 'media')->getRatio();
 
             $filepath = $rootPath . $this->path . $this->filename;
             list($width, $height) = getimagesize($filepath, $info);
