@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: media\n"
-"POT-Creation-Date: 2017-07-19 13:58+0430\n"
-"PO-Revision-Date: 2017-07-19 13:58+0430\n"
+"POT-Creation-Date: 2018-01-28 11:47+0330\n"
+"PO-Revision-Date: 2018-01-28 11:48+0330\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.3\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -23,66 +23,70 @@ msgid "Description are filled yet"
 msgstr "توضیحات هم اکنون تکمیل شده است"
 
 #: src/Controller/Admin/ToolsController.php:140
-msgid " orphaned media have been removed"
+msgid "Orphaned media have been removed"
 msgstr "تصاویر فاقد استفاده حذف شد"
 
 #: src/Controller/Admin/ToolsController.php:142
 msgid "There is no orphaned media currently"
 msgstr "هم اکنون هیچ تصویر غیر ضروری و بدون استفاده ای وجود ندارد"
 
-#: src/Controller/Front/ListController.php:170
+#: src/Controller/Front/ListController.php:191
 msgid "All resources"
 msgstr "همه تصاویر"
 
-#: src/Controller/Front/ListController.php:177
+#: src/Controller/Front/ListController.php:198
 msgid "Deleted resources"
 msgstr "تصاویر حذف شده"
 
-#: src/Controller/Front/ListController.php:188
+#: src/Controller/Front/ListController.php:206
+msgid "Orphan resources"
+msgstr "تصاویر فاقد استفاده"
+
+#: src/Controller/Front/ListController.php:217
 msgid "Resource List"
 msgstr "فهرست تصاویر"
 
-#: src/Controller/Front/ListController.php:281
+#: src/Controller/Front/ListController.php:311
 msgid "Media attach "
 msgstr "پیوست تصویر"
 
-#: src/Controller/Front/ListController.php:326
+#: src/Controller/Front/ListController.php:356
 msgid "Media deleted"
 msgstr "تصویر حذف شد"
 
-#: src/Controller/Front/ListController.php:366
-#: src/Controller/Front/ListController.php:402
+#: src/Controller/Front/ListController.php:396
+#: src/Controller/Front/ListController.php:432
 msgid "Invalid media ID"
 msgstr "شناسه تصویر صحیح نیست"
 
-#: src/Controller/Front/ListController.php:468
+#: src/Controller/Front/ListController.php:498
 msgid "There are some error occur"
 msgstr "چند خطا روی داده است"
 
-#: src/Controller/Front/ListController.php:529
+#: src/Controller/Front/ListController.php:559
 msgid "There are some error occur when renaming filename"
 msgstr "در هنگام تغییر نام فایل یک خطا روی داده است"
 
-#: src/Controller/Front/ListController.php:538
+#: src/Controller/Front/ListController.php:568
 msgid "Filename can not be empty"
 msgstr "نام فایل نمی تواند خالی باشد"
 
-#: src/Controller/Front/ListController.php:546
+#: src/Controller/Front/ListController.php:576
 msgid "Cannot save media data"
 msgstr "ناتوان در زخیره اطلاعات تصویر"
 
-#: src/Controller/Front/ModalController.php:126
+#: src/Controller/Front/ModalController.php:143
 msgid ""
 "This media can't be deleted as it is already used by current or another item."
 msgstr ""
 "این تصویر ار نمی تواند حذف کرد زیاد توسط این مطلب یا یک مطلب دیگر استفاده "
 "شده است"
 
-#: src/Controller/Front/ModalController.php:455
+#: src/Controller/Front/ModalController.php:487
 msgid "Media uploaded successfully"
 msgstr "تصویر با موفقیت بارگزاری شد"
 
-#: src/Controller/Front/ModalController.php:459
+#: src/Controller/Front/ModalController.php:491
 msgid "Missing user id"
 msgstr "شناسه کاربر تنظیم نشده است"
 
@@ -91,35 +95,39 @@ msgid "Application Title"
 msgstr "عنوان برنامه"
 
 #: src/Form/AppEditForm.php:61 src/Form/MediaEditForm.php:154
-#: src/Form/MediaEditFullForm.php:83 template/front/list-index.phtml:26
+#: src/Form/MediaEditFullForm.php:72 template/front/list-index.phtml:27
 msgid "Submit"
 msgstr "ارسال"
 
-#: src/Form/Element/Media.php:27
+#: src/Form/Element/Media.php:29
 msgid "Media gallery"
 msgstr "فهرست تصاویر"
 
-#: src/Form/Element/Media.php:28
+#: src/Form/Element/Media.php:30
 msgid "Add selected media"
 msgstr "درج تصویر انتخاب شده"
 
-#: src/Form/Element/Media.php:85
+#: src/Form/Element/Media.php:50
+msgid " kb"
+msgstr "KB"
+
+#: src/Form/Element/Media.php:108
 msgid "Close"
 msgstr "بستن"
 
-#: src/Form/Element/Media.php:86
+#: src/Form/Element/Media.php:109
 msgid "Confirm"
 msgstr "تایید"
 
-#: src/Form/Element/Media.php:87
+#: src/Form/Element/Media.php:110
 msgid "Alert Freemium account limitations"
 msgstr "اطلاع رسانی محدودیت حساب کاربری رایگان"
 
-#: src/Form/Element/Media.php:88
+#: src/Form/Element/Media.php:111
 msgid "Alert season duplicates"
 msgstr "اطلاع رسانی تکرار فصل"
 
-#: src/Form/Element/Media.php:89
+#: src/Form/Element/Media.php:112
 msgid ""
 "Alert season duplicates : you must have online one picture of each season "
 "only"
@@ -127,11 +135,11 @@ msgstr ""
 "اطلاع رسانی تکرار فصل :‌ شما میتوانید برای هر فصل فقط یک تصویر آنلاین داشته "
 "باشید"
 
-#: src/Form/Element/Media.php:90
+#: src/Form/Element/Media.php:113
 msgid "Delete media"
 msgstr "حذف تصویر"
 
-#: src/Form/Element/Media.php:91
+#: src/Form/Element/Media.php:114
 msgid ""
 "Do you confirm you want to delete this media ? In case you delete it "
 "inadvertently, you can active it back in your My Media submenu"
@@ -140,134 +148,162 @@ msgstr ""
 "حذف کنید یا بعدا بخواهید آن را برگردانید، تصاویر شما در زیر منوی تصاویر من "
 "( مدیاهای من ) قرار دارد"
 
-#: src/Form/Element/Media.php:93
+#: src/Form/Element/Media.php:116
 msgid "Max media alert"
 msgstr "اطلاع رسانی حداکثر تعداد تصویر"
 
-#: src/Form/Element/Media.php:94
+#: src/Form/Element/Media.php:117
+msgid "Error during upload"
+msgstr "خطا در هنگام بارگزاری تصویر"
+
+#: src/Form/Element/Media.php:118
+msgid ""
+"Oops ! You reached the limits set for files : please modify your file(s) !"
+msgstr ""
+"شما حداکثر تصویر مجاز را بارگزاری کرده اید، لطفا فایل های خود را ویرایش "
+"کنید !"
+
+#: src/Form/Element/Media.php:119
+msgid ""
+"Unfortunately we do not have the infrastructure of the giants of the "
+"internet, and therefore we have server limitations for uploading large "
+"files. Conversely, we need files of good size so that they display correctly "
+"on all types of screens/devices."
+msgstr ""
+"متاسفانه برای بارگزاری تصاویر حجیم محدودیت وجود دارد، لطفا تصاویر را با حجم "
+"و ابعداد مناسب بارگزاری کنید تا در تمام رزولیشن ها و دستگاه ها قابل استفاده "
+"باشد."
+
+#: src/Form/Element/Media.php:121
 msgid "Max media alert : you have reach maximum of picture for this field"
 msgstr ""
 "اطلاع رسانی حداکثر تعداد تصویر : شما حداکثر تعداد مشخص شده از تصویر را می "
 "توانید درج کنید"
 
-#: src/Form/Element/Media.php:96
+#: src/Form/Element/Media.php:123
 msgid "Your selection (you can unlink each media)"
 msgstr "تصویر انتخابی ( می توانید هر کدام را حذف کنید )"
 
-#: src/Form/Element/Media.php:97 template/front/list-index.phtml:103
-#: template/front/modal-formlist.phtml:16
+#: src/Form/Element/Media.php:124 template/front/list-index.phtml:93
+#: template/front/modal-formlist.phtml:17
 msgid "Edit"
 msgstr "ویرایش"
 
-#: src/Form/Element/Media.php:98
+#: src/Form/Element/Media.php:125
 msgid "Save"
 msgstr "ذخیره"
 
-#: src/Form/Element/Media.php:99
+#: src/Form/Element/Media.php:126
 msgid "Cancel"
 msgstr "لغو"
 
-#: src/Form/Element/Media.php:101 template/front/list-index.phtml:60
+#: src/Form/Element/Media.php:128 template/front/list-index.phtml:51
 msgid "Thumbnail"
 msgstr "تصویر بند انگشتی"
 
-#: src/Form/Element/Media.php:102 src/Form/MediaEditForm.php:41
-#: template/front/list-index.phtml:62
+#: src/Form/Element/Media.php:129 src/Form/MediaEditForm.php:41
+#: template/front/list-index.phtml:53
 msgid "Title"
 msgstr "عنوان"
 
-#: src/Form/Element/Media.php:103
+#: src/Form/Element/Media.php:130
 msgid "Date"
 msgstr "حذف"
 
-#: src/Form/Element/Media.php:104 src/Form/MediaEditForm.php:99
+#: src/Form/Element/Media.php:131 src/Form/MediaEditForm.php:99
 msgid "Season"
 msgstr "فصل"
 
-#: src/Form/Element/Media.php:105
+#: src/Form/Element/Media.php:132
 msgid "Loading in progress"
 msgstr "در حال بارگزاری ..."
 
-#: src/Form/Element/Media.php:106
+#: src/Form/Element/Media.php:133
 msgid "Search&nbsp;:"
 msgstr "جستجو :"
 
-#: src/Form/Element/Media.php:108
+#: src/Form/Element/Media.php:135
 msgid "Show _MENU_ elements"
 msgstr "نمایش تصویر های _MENU_"
 
-#: src/Form/Element/Media.php:109
+#: src/Form/Element/Media.php:136
 msgid "Show elements _START_ to _END_ on _TOTAL_ elements"
 msgstr "نمایش تصویر ها از _START_ تا _END_ از مجموع _TOTAL_ تصویر"
 
-#: src/Form/Element/Media.php:110
+#: src/Form/Element/Media.php:137
 msgid "Show elements 0 to 0 on 0 element"
 msgstr "نمایش تصویر ها از ۰ تا ۰ از مجموع ۰ تصویر"
 
-#: src/Form/Element/Media.php:111
+#: src/Form/Element/Media.php:138
 msgid "(filtered from _MAX_ elements)"
 msgstr "(فیلتر شده از مجموع _MAX_ تصویر)"
 
-#: src/Form/Element/Media.php:112
+#: src/Form/Element/Media.php:139
 msgid "Loading in progress..."
 msgstr "در حال بارگزاری"
 
-#: src/Form/Element/Media.php:113
+#: src/Form/Element/Media.php:140
 msgid "No element to display"
 msgstr "هیچ تصویر برای نمایش وجود ندارد"
 
-#: src/Form/Element/Media.php:114
+#: src/Form/Element/Media.php:141
 msgid "No data available in the table"
 msgstr "هیچ اطلاعات در دسترس نیست"
 
-#: src/Form/Element/Media.php:115
+#: src/Form/Element/Media.php:142
 msgid "First"
 msgstr "اولین"
 
-#: src/Form/Element/Media.php:116
+#: src/Form/Element/Media.php:143
 msgid "Previous"
 msgstr "قبلی"
 
-#: src/Form/Element/Media.php:117
+#: src/Form/Element/Media.php:144
 msgid "Next"
 msgstr "بعدی"
 
-#: src/Form/Element/Media.php:118
+#: src/Form/Element/Media.php:145
 msgid "Last"
 msgstr "آخرین"
 
-#: src/Form/Element/Media.php:120
+#: src/Form/Element/Media.php:147
 #, php-format
 msgid ""
 "Drop files here to upload new files<br /><span class='label label-"
-"warning'>Max Size = %s and max dimensions = %s</span><br />(or select "
+"warning'>Max Size = %s and min dimensions = %s</span><br />(or select "
 "existing files below)"
 msgstr ""
 "برای بارگذاری تصویر جدید ، تصویر را بکشید و در اینجا رها کنید<br /><span "
-"class='label label-warning'>Max Size = %s and max dimensions = %s</span><br /"
+"class='label label-warning'>Max Size = %s and min dimensions = %s</span><br /"
 ">( یا از تصاویر موجود یکی را انتخاب کنید )"
 
-#: src/Form/Element/Media.php:265
+#: src/Form/Element/Media.php:148
+msgid "File size is to high ({{filesize}}kb). Max : {{maxFilesize}}kb"
+msgstr ""
+"ابعداد فایل بزگتر از ابعاد مجاز است ({{filesize}}kb). حداکثر : "
+"{{maxFilesize}}kb"
+
+#: src/Form/Element/Media.php:316
 msgid "Choose or add new media file"
 msgstr "انتخاب یا درج تصویر جدید"
 
-#: src/Form/Element/Media.php:276
+#: src/Form/Element/Media.php:327
 msgid "We recommend you to fill 4 pictures for all seasons"
 msgstr "پیشنهاد میکنیم برای هر فصل ۱ تصویر درج کنید"
 
-#: src/Form/Element/Media.php:282 template/front/modal-formlist.phtml:25
+#: src/Form/Element/Media.php:333
 msgid "No media for now..."
 msgstr "هنوز هیچ تصویری موجود نیست ..."
 
-#: src/Form/Element/Media.php:289
+#: src/Form/Element/Media.php:340
 msgid "1 picture only"
 msgstr "فقط یک تصویر"
 
-#: src/Form/Element/Media.php:292
+#: src/Form/Element/Media.php:343
 msgid "1 picture per season only = 4 pictures"
 msgstr "۱ تصویر برای هر فصل = ۴ تصویر"
 
-#: src/Form/Element/Media.php:295
+#: src/Form/Element/Media.php:346
 #, php-format
 msgid "Max %s pictures"
 msgstr "حداکثر %s تصویر"
@@ -320,37 +356,25 @@ msgstr "نوع مجوز"
 msgid "Copyright"
 msgstr "کپی رایت"
 
-#: src/Form/MediaEditFullForm.php:35
+#: src/Form/MediaEditFullForm.php:30 template/front/list-index.phtml:56
 msgid "Filename"
 msgstr "نام فایل"
 
-#: src/Form/MediaEditFullForm.php:42
+#: src/Form/MediaEditFullForm.php:43
 msgid "User ID"
 msgstr "شناسه کاربر"
 
-#: src/Form/MediaEditFullForm.php:49
+#: src/Form/MediaEditFullForm.php:50
 msgid "GPS Latitude"
 msgstr "عرض جغرافیایی(Latitude)"
 
-#: src/Form/MediaEditFullForm.php:56
+#: src/Form/MediaEditFullForm.php:57
 msgid "GPS Longitude"
 msgstr "طول جغرافیایی(Longitude)"
 
-#: src/Form/MediaEditFullForm.php:64
+#: src/Form/MediaEditFullForm.php:65
 msgid "Featured"
 msgstr "ویژگی ها"
-
-#: src/Form/MediaEditFullForm.php:72
-msgid "Active"
-msgstr "فعال"
-
-#: src/Form/MediaEditFullForm.php:74
-msgid "Disabled"
-msgstr "غیرفعال"
-
-#: src/Form/MediaEditFullForm.php:75
-msgid "Enabled"
-msgstr "فعال"
 
 #: src/Form/TestForm.php:46
 msgid "Main image"
@@ -378,8 +402,8 @@ msgid "You can add new media here and use it on all other modules"
 msgstr ""
 "شما میتوانید یک تصویر جدید اینجا درج کنید و در تمام بخش ها از آن استفاده کنید"
 
-#: template/front/list-attach.phtml:46 template/front/list-index.phtml:49
-#: template/front/list-index.phtml:111
+#: template/front/list-attach.phtml:46 template/front/list-index.phtml:40
+#: template/front/list-index.phtml:101
 msgid "Delete"
 msgstr "حذف"
 
@@ -399,69 +423,89 @@ msgstr "همه تصاویر شما"
 msgid "Type user id or identity"
 msgstr "شناسه یا نام کاربری را وارد کنید"
 
-#: template/front/list-index.phtml:39
-msgid "Enable"
-msgstr "فعال"
+#: template/front/list-index.phtml:25
+msgid "Keyword"
+msgstr "کیبورد"
 
-#: template/front/list-index.phtml:44
-msgid "Disable"
-msgstr "غیرفعال"
-
-#: template/front/list-index.phtml:59
+#: template/front/list-index.phtml:50
 msgid "ID"
 msgstr "شناسه"
 
-#: template/front/list-index.phtml:61
+#: template/front/list-index.phtml:52
 msgid "Status"
 msgstr "وضعیت"
 
-#: template/front/list-index.phtml:65
+#: template/front/list-index.phtml:57
 msgid "Mimetype"
 msgstr "پسوند فایل"
 
-#: template/front/list-index.phtml:66
+#: template/front/list-index.phtml:58
 msgid "User Id"
 msgstr "شناسه کاربر"
 
-#: template/front/list-index.phtml:68
+#: template/front/list-index.phtml:60
 msgid "Using count"
 msgstr "تعداد استفاده"
 
-#: template/front/list-index.phtml:69
+#: template/front/list-index.phtml:61
 msgid "Time"
 msgstr "زمان"
 
-#: template/front/list-index.phtml:107
+#: template/front/list-index.phtml:81
+msgid "Enabled"
+msgstr "فعال"
+
+#: template/front/list-index.phtml:83
+msgid "Deleted"
+msgstr "حذف"
+
+#: template/front/list-index.phtml:97
 msgid "Undelete"
 msgstr "حذف"
 
-#: template/front/list-index.phtml:115
+#: template/front/list-index.phtml:105
 msgid "Download"
 msgstr "دریافت"
 
-#: template/front/list-index.phtml:131
+#: template/front/list-index.phtml:122
 msgid "No resource available yet."
 msgstr "هیچ تصویری در دسترس نیست"
 
-#: template/front/list-index.phtml:213 template/front/list-index.phtml:264
+#: template/front/list-index.phtml:204 template/front/list-index.phtml:255
 msgid "Do you confirm delete action ?"
 msgstr "آیا اطمینان دارید که این مورد را حذف می کنید؟"
 
-#: template/front/list-index.phtml:263
+#: template/front/list-index.phtml:254
 msgid "This media is already in used !"
 msgstr "این تصویر قبلا استفاده شده است !"
 
-#: template/front/modal-formlist.phtml:15
+#: template/front/modal-formlist.phtml:16
 msgid "Complete"
 msgstr "تکمیل"
 
-#: template/front/modal-formlist.phtml:20
+#: template/front/modal-formlist.phtml:21
 msgid "Unlink"
 msgstr "حذف"
 
-#: template/front/modal-formlist.phtml:29
+#: template/front/modal-formlist.phtml:38
 msgid "You have to complete file informations before submit"
 msgstr "شما باید اطلاعات تصویر را قبل از ارسال تکمیل کنید"
+
+#: template/front/partial/crop.phtml:33
+msgid "Notice : min width has been reached"
+msgstr "توجه : به حداقل حجم ممکن رسیده اید"
+
+#~ msgid "Active"
+#~ msgstr "فعال"
+
+#~ msgid "Disabled"
+#~ msgstr "غیرفعال"
+
+#~ msgid "Enable"
+#~ msgstr "فعال"
+
+#~ msgid "Disable"
+#~ msgstr "غیرفعال"
 
 #~ msgid "Do you confirm you want to delete this media definitively ?"
 #~ msgstr "آیا تایید میکنید که این تصویر به طور کامل حذف شود؟"

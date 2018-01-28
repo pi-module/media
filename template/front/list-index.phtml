@@ -78,9 +78,9 @@ $isUserSection = Pi::engine()->section() != 'admin';
                                 </td>
                                 <td>
                                     <?php if($media['time_deleted'] == 0): ?>
-                                        <span class="label label-success">Enabled</span>
+                                        <span class="label label-success"><?php _e('Enabled') ?></span>
                                     <?php else : ?>
-                                        <span class="label label-danger">Supprimée</span>
+                                        <span class="label label-danger"><?php _e('Deleted') ?></span>
                                     <?php endif; ?>
                                 </td>
                                 <td>
