@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: media\n"
-"POT-Creation-Date: 2018-01-28 11:10+0330\n"
-"PO-Revision-Date: 2018-01-28 11:31+0330\n"
+"POT-Creation-Date: 2018-01-28 11:47+0330\n"
+"PO-Revision-Date: 2018-01-28 11:48+0330\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -451,6 +451,14 @@ msgstr "تعداد استفاده"
 msgid "Time"
 msgstr "زمان"
 
+#: template/front/list-index.phtml:81
+msgid "Enabled"
+msgstr "فعال"
+
+#: template/front/list-index.phtml:83
+msgid "Deleted"
+msgstr "حذف"
+
 #: template/front/list-index.phtml:97
 msgid "Undelete"
 msgstr "حذف"
@@ -492,9 +500,6 @@ msgstr "توجه : به حداقل حجم ممکن رسیده اید"
 
 #~ msgid "Disabled"
 #~ msgstr "غیرفعال"
-
-#~ msgid "Enabled"
-#~ msgstr "فعال"
 
 #~ msgid "Enable"
 #~ msgstr "فعال"
