@@ -10,8 +10,8 @@
 
     $currentConfig = Pi::service('registry')->config->read($currentModule);
 
-    $currentMinCropRealWidth = (int) $currentConfig['image_largew'];
-    $currentMinCropRealHeight = (int) $currentConfig['image_largeh'];
+    $currentMinCropRealWidth = !empty($currentConfig['image_largew']) ? (int) $currentConfig['image_largew'] : null;
+    $currentMinCropRealHeight = !empty($currentConfig['image_largeh']) ? (int) $currentConfig['image_largeh'] : null;
 
     $config = Pi::service('registry')->config->read($module);
 
