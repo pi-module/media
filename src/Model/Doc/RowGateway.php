@@ -21,7 +21,7 @@ class RowGateway extends \Pi\Db\RowGateway\RowGateway
             $this->season = null;
         }
 
-        if(1 || !isset($this->cropping) || !$this->cropping){
+        if(!isset($this->cropping) || !$this->cropping){
 
             $options    = Pi::service('media')->getOption('local', 'options');
             $rootPath   = $options['root_path'];
