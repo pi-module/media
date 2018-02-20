@@ -224,9 +224,20 @@ class Doc extends AbstractApi
             $uploader->setImageSize($imageSizeControl);
         }
 
-        $result = $uploader->isValid();
+        if(!empty($params['filekey'])){
+            $result = $uploader->isValid($params['filekey']);
+        } else {
+            $result = $uploader->isValid();
+        }
+
+
         if ($result) {
-            $uploader->receive();
+            if(!empty($params['filekey'])){
+                $uploader->receive($params['filekey']);
+            } else {
+                $uploader->receive();
+            }
+
             $filename = $uploader->getUploaded();
             if (is_array($filename)) {
                 $filename = current($filename);
@@ -235,7 +246,7 @@ class Doc extends AbstractApi
             $fileinfoList = $uploader->getFileInfo();
             $fileinfo = current($fileinfoList);
             if (!isset($params['mimetype'])) {
-                $params['mimetype'] = $fileinfo['type'];
+                $params['mimetype'] = mime_content_type($fileinfo['tmp_name']);
             }
             if (!isset($params['size'])) {
                 $params['size'] = $fileinfo['size'];
