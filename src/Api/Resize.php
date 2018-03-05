@@ -65,7 +65,9 @@ class Resize extends AbstractApi
             $helper->grayscale();
         }
 
-        $helper->setTimestamp($media['time_updated'] ?: $media['time_created']);
+        if(!empty($media['time_created'])){
+            $helper->setTimestamp($media['time_updated'] ?: $media['time_created']);
+        }
 
         return $helper;
     }
