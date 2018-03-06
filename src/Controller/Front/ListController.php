@@ -74,6 +74,10 @@ class ListController extends ActionController
      */
     public function indexAction()
     {
+        // Check user is login or not
+        Pi::service('authentication')->requireLogin();
+        $this->view()->headTitle(__("List of your media"));
+
         $active = $this->params('status', null);
         if ($active !== null) {
             $active = (int) $active;
