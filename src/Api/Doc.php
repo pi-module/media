@@ -643,7 +643,7 @@ class Doc extends AbstractApi
      * @param $value
      * @return array|bool
      */
-    public function getGalleryLinkData($value, $width = null, $height = null, $quality = null, $sortBySeason = false, $additionalImagesToAdd = array(), $module = 'media'){
+    public function getGalleryLinkData($value, $width = null, $height = null, $quality = null, $sortBySeason = false, $additionalImagesToAdd = array(), $module = 'media', $cropMode = false){
         if($value){
             $ids = explode(',', $value);
 
@@ -687,15 +687,28 @@ class Doc extends AbstractApi
                     $dataToInject['url'] = (string) Pi::api('resize', 'media')->resize($media);
 
                     if($width && $height){
-                        $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width, $height)->quality($quality);
+                        if($cropMode){
+                            $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($width, $height)->quality($quality);
+                        } else {
+                            $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width, $height)->quality($quality);
+                        }
                     } else if($width){
 
                         if(is_array($width)){
                             foreach($width as $w){
-                                $dataToInject['resized_url'][$w] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($w,$w)->quality($quality);
+                                if($cropMode){
+                                    $h = round($w * 2 / 3);
+                                    $dataToInject['resized_url'][$w] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($w,$h)->quality($quality);
+                                } else {
+                                    $dataToInject['resized_url'][$w] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($w,$w)->quality($quality);
+                                }
                             }
                         } else {
-                            $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
+                            if($cropMode){
+                                $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($width)->quality($quality);
+                            } else {
+                                $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
+                            }
                         }
                     }
 
