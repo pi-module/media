@@ -69,9 +69,11 @@ class RowGateway extends \Pi\Db\RowGateway\RowGateway
             $this->cropping = json_encode($cropParams);
         }
 
+        $return = parent::save($rePopulate, $filter);
+
         $this->removePageCacheForTargets();
 
-        return parent::save($rePopulate, $filter);
+        return $return;
     }
 
     public function delete()
@@ -86,34 +88,36 @@ class RowGateway extends \Pi\Db\RowGateway\RowGateway
 
     public function removePageCacheForTargets()
     {
-        $select = Pi::model('link', 'media')->select();
-        $select->where(array(
-            'media_id' => $this->id
-        ));
+        if(isset($this->id) && $this->id){
+            $select = Pi::model('link', 'media')->select();
+            $select->where(array(
+                'media_id' => $this->id
+            ));
 
-        $linkCollection = Pi::model('link', 'media')->selectWith($select);
+            $linkCollection = Pi::model('link', 'media')->selectWith($select);
 
-        foreach($linkCollection as $link){
-            $module = $link->module;
-            $object_name = $link->object_name;
-            $object_id = $link->object_id;
+            foreach($linkCollection as $link){
+                $module = $link->module;
+                $object_name = $link->object_name;
+                $object_id = $link->object_id;
 
-            $entity = Pi::model($object_name, $module)->find($object_id);
+                $entity = Pi::model($object_name, $module)->find($object_id);
 
-            /**
-             * Saving trigger flush cache internaly
-             */
-            if($entity && isset($entity->id)){
-                $entity->save();
-            }
-
-            /**
-             * Try flushing extra object as event is an extended story object
-             */
-            if($module == 'news'){
-                $entity = Pi::model('extra', 'event')->find($object_id);
+                /**
+                 * Saving trigger flush cache internaly
+                 */
                 if($entity && isset($entity->id)){
                     $entity->save();
+                }
+
+                /**
+                 * Try flushing extra object as event is an extended story object
+                 */
+                if($module == 'news'){
+                    $entity = Pi::model('extra', 'event')->find($object_id);
+                    if($entity && isset($entity->id)){
+                        $entity->save();
+                    }
                 }
             }
         }
