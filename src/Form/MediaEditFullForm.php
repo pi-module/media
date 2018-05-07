@@ -29,6 +29,9 @@ class MediaEditFullForm extends MediaEditForm
             'options'    => array(
                 'label'     => __('Filename'),
             ),
+            'attributes' => array(
+                'required' => true,
+            ),
         ));
 
         parent::init();

@@ -361,6 +361,43 @@ PHP;
                             $post['path'] = $response['path'];
                             $post['filename'] = $response['filename'];
                         }
+                    } else if($post['filename'] && $post['filename'] != $media->filename){
+
+                        $filter = new Pi\Filter\Urlizer;
+                        $options    = Pi::service('media')->getOption('local', 'options');
+
+                        // get old path
+                        $slug = $filter($media->filename, '-', true);
+                        $firstChars = str_split(substr($slug, 0, 3));
+                        $relativeDestination = '/original/' . implode('/', $firstChars) . '/';
+                        $rootPath   = $options['root_path'];
+                        $destination = $rootPath . $relativeDestination;
+                        $oldFinalPath = $destination . $slug;
+
+
+                        $slug = $filter($post['filename'], '-', true);
+                        $firstChars = str_split(substr($slug, 0, 3));
+                        $relativeDestination = '/original/' . implode('/', $firstChars) . '/';
+                        $rootPath   = $options['root_path'];
+                        $destination = $rootPath . $relativeDestination;
+                        $newFinalPath = $destination . $slug;
+                        $finalSlug = $slug;
+
+                        $filenameBase = pathinfo($slug, PATHINFO_FILENAME);
+                        $filenameExt = pathinfo($slug, PATHINFO_EXTENSION);
+
+                        $i = 1;
+                        while(is_file($newFinalPath)){
+                            $finalSlug = $filenameBase . '-'. $i++ . '.' . $filenameExt;
+                            $newFinalPath = $destination . $finalSlug;
+                        }
+
+                        $data['filename'] = $finalSlug;
+
+                        rename(
+                            Pi::path($oldFinalPath),
+                            Pi::path($newFinalPath)
+                        );
                     }
 
                     if($formIsValid){
