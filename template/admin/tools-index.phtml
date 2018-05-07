@@ -14,7 +14,7 @@
         <?php _e('You can use this page tools for better manage your media'); ?>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <?php echo _a('Fill empty descriptions from media title'); ?>
@@ -32,19 +32,37 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <?php echo _a('Remove orphaned media'); ?>
+                    <?php echo _a('Clean cache for orpheaned media'); ?>
                 </div>
                 <div class="panel-body">
                     <p>
-                        <?php echo _a('This tool can clean your server by removing medias that are not used on any content'); ?>
+                        <?php echo _a('This tool can clean your server by removing cache medias that are not used on any linked content'); ?>
                     </p>
                     <p>
                         <a href="<?php echo $this->url('', array('action' => 'removeOrphaned')); ?>" class="btn btn-primary btn-sm">
                             <i class="fa fa-cog" aria-hidden="true"></i>
-                            <?php echo _a('Remove orphaned media'); ?>
+                            <?php echo _a('Clean cache for orpheaned media'); ?>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <?php echo _a('Hard delete soft-deleted media'); ?>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        <?php echo _a('This tool can clean your server by removing soft deleted media'); ?>
+                    </p>
+                    <p>
+                        <a href="<?php echo $this->url('', array('action' => 'cleanSoftDeletedMedia')); ?>" class="btn btn-primary btn-sm">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                            <?php echo _a('Hard delete soft-deleted media'); ?>
                         </a>
                     </p>
                 </div>

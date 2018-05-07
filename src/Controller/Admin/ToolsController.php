@@ -89,26 +89,6 @@ class ToolsController extends ActionController
         $hasRemove = 0;
 
         /**
-         * Clean original media
-         * @todo reactive this code when hard delete feature will be work on
-         */
-//        $dir = $rootPath . '/original';
-//
-//        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir));
-//
-//        foreach ($iterator as $file) {
-//            if ($file->isDir()){
-//                continue;
-//            }
-//            $relativeFilepath = str_replace($rootPath, '', $file->getPathname());
-//
-//            if(!in_array($relativeFilepath, $activeMediaPath)){//
-//                unlink($file->getPathname());
-//                $hasRemove++;
-//            }
-//        }
-
-        /**
          * Clean cache media
          */
         $dir = $rootPath . '/processed';
@@ -140,6 +120,41 @@ class ToolsController extends ActionController
             $messenger->addSuccessMessage($hasRemove . __('Orphaned media have been removed'));
         } else {
             $messenger->addMessage(__('There is no orphaned media currently'));
+        }
+
+        $this->redirect()->toRoute(null, array('action' => 'index'));
+    }
+
+    public function cleanSoftDeletedMediaAction()
+    {
+        $options    = Pi::service('media')->getOption('local', 'options');
+        $rootPath   = $options['root_path'];
+
+        $mediaModel = Pi::model('doc', 'media');
+        $select = $mediaModel->select();
+        $select->where('time_deleted > 0');
+
+        $mediaCollection = Pi::model('doc', 'media')->selectWith($select);
+
+        $removedMedia = array();
+
+        foreach($mediaCollection as $mediaEntity){
+            $fullPath = $rootPath . $mediaEntity->path . $mediaEntity->filename;
+
+            if(is_file($fullPath)){
+                unlink($fullPath);
+            }
+
+            $mediaEntity->delete();
+            $removedMedia[] = $fullPath;
+        }
+
+        $messenger = $this->plugin('flashMessenger');
+
+        if($removedMedia){
+            $messenger->addSuccessMessage(__('Soft-deleted media have been hard removed'));
+        } else {
+            $messenger->addMessage(__('There is no soft-deleted media currently'));
         }
 
         $this->redirect()->toRoute(null, array('action' => 'index'));
