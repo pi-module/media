@@ -210,22 +210,22 @@ PHP;
             Pi::service()->getService('log')->mute(true);
         }
 
-        $where = array();
-        $where['id'] = explode(',', $ids);
-
-        $mediaModel = Pi::model('doc', $this->getModule());
-
-        $select = $mediaModel->select();
-        $select->where($where);
-        $select->order('time_created DESC');
-        $resultset= $mediaModel->selectWith($select);
+        /**
+         * Get current media list with current order
+         */
+        $mediaModel = Pi::model('doc', 'media');
+        $where = array(
+            new In($mediaModel->getTable().'.id', explode(',', $ids)),
+        );
+        $order = array(new Expression('FIELD ('.$mediaModel->getTable().'.id, '. $ids .')'));
+        $resultset = Pi::api('doc', $this->getModule())->getList($where, 0, 0, $order);
 
         $data = array();
         foreach($resultset as $media) {
             $data[] = array(
-                'id' => $media->id,
+                'id' => $media['id'],
                 'img' => (string) Pi::api('resize','media')->resize($media)->thumbcrop(100, 100),
-                'season' => $media->season,
+                'season' => $media['season'],
             );
         }
 
