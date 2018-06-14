@@ -1,0 +1,275 @@
+<?php
+$this->backbone();
+$this->css($this->assetModule('script/admin.css'));
+$this->css($this->assetModule('css/media.css'));
+$isUserSection = Pi::engine()->section() != 'admin';
+?>
+<div class="clearfix row">
+    <?php if($isUserSection) : ?>
+        <div class="col-md-3">
+            <?php $sideActive = 'media'; ?>
+            <?php include $this->template('front/partial/list-side.phtml'); ?>
+        </div>
+    <?php endif; ?>
+    <div class="<?php echo $isUserSection ? 'col-md-9' : 'col-md-12' ?>">
+
+        <div class="page-header clearfix">
+            <h1><?php _e('All your medias'); ?></h1>
+        </div>
+
+        <?php echo $this->tab($tabs); ?>
+        <?php if(Pi::engine()->section() == 'admin') : ?>
+            <form name="user" method="GET" action="" style="margin-top: 10px" class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="user" value="<?php echo $user; ?>" placeholder="<?php _e('Type user id or identity'); ?>">
+                    <input type="text" class="form-control" name="keyword" value="<?php echo $keyword; ?>" placeholder="<?php _e('Keyword'); ?>">
+                </div>
+                <button type="submit" class="btn"><?php _e('Submit'); ?></button>
+            </form>
+        <?php endif; ?>
+        <br />
+        <div id="pi-js-media">
+            <?php
+            if (!empty($medias)) {
+                ?>
+                <div class="pi-media-batch-operation">
+                    <input type="checkbox" class="check-all" style="margin-right: 20px">
+                    <?php
+                    if (!$delete) {
+                        ?>
+                        <input type="button" name="delete" class="btn disabled" value="<?php _e('Delete'); ?>">
+                        <?php
+                    }
+                    ?>
+                </div>
+                <div class="pi-media-list">
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th style="width: 10px"></th>
+                            <th style="width: 10px"><?php _e('ID'); ?></th>
+                            <th style="width: 10px"><?php _e('Thumbnail'); ?></th>
+                            <th style="width: 10px"><?php _e('Status'); ?></th>
+                            <th style="width: 20%;"><?php _e('Title'); ?></th>
+
+                            <?php if(Pi::engine()->section() == 'admin') : ?>
+                                <th style="width: 40px;"><?php _e('Filename'); ?></th>
+                                <th style="width: 40px;"><?php _e('Mimetype'); ?></th>
+                                <th style="width: 40px;"><?php _e('User Id'); ?></th>
+                            <?php endif; ?>
+                            <th style="width: 40px;"><?php _e('Using count'); ?></th>
+                            <th style="width: 80px;"><?php _e('Time') ?></th>
+                        </tr>
+                        <?php
+                        foreach ($medias as $media) {
+                            $media['active'] = (int) $media['active'];
+                            ?>
+                            <tr data-id="<?php echo _escape($media['id']); ?>" class="<?php echo 0 === $media['active'] && 0 !== $active ? ' text-muted' : ''; ?>">
+                                <td>
+                                    <input type="checkbox" value="<?php echo _escape($media['id']); ?>" class="check-one <?php echo $media['using_count'] == 0 ? '' : 'no-delete'; ?>">
+                                </td>
+                                <td>
+                                    <?php echo $media['id']; ?>
+                                </td>
+                                <td>
+                                    <?php if($img = Pi::api('resize','media')->resize($media)->thumbcrop(100, 100)) : ?>
+                                        <img alt="" src="<?php echo $img ?>" />
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if($media['time_deleted'] == 0): ?>
+                                        <span class="label label-success"><?php _e('Enabled') ?></span>
+                                    <?php else : ?>
+                                        <span class="label label-danger"><?php _e('Deleted') ?></span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php echo $media['title']; ?>
+                                    <div class="row-actions one-action">
+                                        <a class="has-js-action" href="<?php echo $this->url('', array(
+                                            'controller'    => 'list',
+                                            'action'        => 'edit',
+                                            'id'            => $media['id'],
+                                        )); ?>" data-value="edit"><?php _e('Edit'); ?></a> |
+
+                                        <?php if($media['time_deleted']) : ?>
+                                            <a class="has-js-action" href="javascript:void(0)" data-value="Undelete">
+                                                <?php _e('Undelete'); ?>
+                                            </a> |
+                                        <?php else : ?>
+                                            <a class="has-js-action <?php echo $media['using_count'] > 0 ? 'disabled' : ''; ?>" href="javascript:void(0)" data-value="delete" <?php if($media['using_count']) : ?>data-toggle="tooltip" data-html="true" title="Media is in used currently.<br />You can't delete it !" <?php endif; ?>>
+                                                <?php _e('Delete'); ?>
+                                            </a> |
+                                        <?php endif; ?>
+                                        <a href="<?php echo Pi::api('doc', 'media')->getUrl($media['id']) ?>" target="_blank">
+                                            <?php _e('Download'); ?>
+                                        </a>
+                                    </div>
+                                </td>
+                                <?php if(Pi::engine()->section() == 'admin') : ?>
+                                    <td><?php echo $this->escape($media['filename']); ?></td>
+                                    <td><?php echo $this->escape($media['mimetype']); ?></td>
+                                    <td><?php echo $media['uid'] && is_string(Pi::user()->get($media['uid'], 'name')) ? Pi::user()->get($media['uid'], 'name') . ' ('.$media['uid'].')' : ''; ?></td>
+                                <?php endif; ?>
+                                <td><?php echo $media['using_count']; ?></td>
+                                <td><?php echo _date($media['time_created']); ?></td>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php } else { ?>
+                <div class="pi-media-none"><?php _e('No resource available yet.'); ?></div>
+            <?php } ?>
+            <?php if (!empty($medias) && $paginator) {
+                echo $this->paginationControl($paginator, 'Sliding', 'paginator.phtml');
+            }  ?>
+        </div>
+    </div>
+</div>
+<script>
+    (function($) {
+        var page = {
+            url : "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,""),
+            el  : $("#pi-js-media"),
+            $   : function(selector) {
+                return this.el.find(selector);
+            },
+            init : function() {
+                _.bindAll(this);
+                this.$(".check-all").click(this.checkAll);
+                this.$(".check-one").click(this.clickOne);
+                this.$("[name=enable]").click(this.batchOperation);
+                this.$("[name=disable]").click(this.batchOperation);
+                this.$("[name=delete]").click(this.batchOperation);
+                this.$("[name=download]").click(this.batchOperation);
+                this.$(".one-action a.has-js-action").click(this.oneAction);
+            },
+            checkAll : function() {
+                var flag = this.$(".check-all").prop("checked");
+                this.$(".check-one").prop("checked", flag).each(function() {
+                    var tr = $(this).parents("tr:first");
+                    if (flag) {
+                        tr.addClass("info");
+                    } else {
+                        tr.removeClass("info");
+                    }
+                });
+                this.toggleBulk();
+            },
+            batchOperation : function(e) {
+                var url = "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,"");
+
+                var el = $(e.target);
+                if (el.hasClass('disabled')) {
+                    return;
+                }
+
+                var name = el.attr('name');
+                var operation, flag;
+                var id = [],
+                    fn = function() {
+                        this.$(".check-one:checked").each(function() {
+                            id.push($(this).val());
+                        });
+                        if ('enable' == name || 'disable' == name) {
+                            operation = 'active';
+                            if ('enable' == name) {
+                                flag = 1;
+                            } else {
+                                flag = 0;
+                            }
+                        } else {
+                            operation = name;
+                        }
+                        if ('active' == operation) {
+                            location.href = url + operation + "/id/" + id.join(",") + "/status/"
+                                + flag + "?redirect=" + this.encodeUrl();
+                        } else {
+                            location.href = url + operation + "/id/" + id.join(",") + "?redirect="
+                                + this.encodeUrl();
+                        }
+                    };
+                if (name) {
+                    if (name == "delete") {
+                        var freeDelete = true;
+
+                        $(".check-one:checked").each(function() {
+                            if($(this).hasClass('no-delete')){
+                                freeDelete = false;
+                                alert('Your selection contains at least one media already used. You must recheck your selection !');
+                            }
+                        });
+
+                        if (freeDelete && confirm("<?php _e('Do you confirm delete action ?'); ?>")) {
+                            fn.call(this);
+                        }
+                    } else {
+                        fn.call(this);
+                    }
+                }
+            },
+            clickOne : function(e) {
+                var el = $(e.target),
+                    tr = el.parents("tr:first");
+                if (el.prop("checked")) {
+                    tr.addClass("info");
+                } else {
+                    tr.removeClass("info");
+                }
+                this.toggleBulk();
+            },
+            toggleBulk : function() {
+                var enableObj = this.$("[name=enable]");
+                var disableObj = this.$("[name=disable]");
+                var deleteObj = this.$("[name=delete]");
+                if (this.$(".check-one:checked").length) {
+                    deleteObj.removeClass("disabled");
+                    if (enableObj) {
+                        enableObj.removeClass("disabled");
+                    }
+                    if (disableObj) {
+                        disableObj.removeClass("disabled");
+                    }
+                } else {
+                    deleteObj.addClass("disabled");
+                    if (enableObj) {
+                        enableObj.addClass("disabled");
+                    }
+                    if (disableObj) {
+                        disableObj.addClass("disabled");
+                    }
+                }
+            },
+            oneAction : function(e) {
+                var url = "<?php echo $this->url('', array('controller' => 'list', 'action' => 'index')); ?>".replace(/index\/$/,"");
+
+                var el = $(e.target),
+                    id = el.parents("tr:first").attr("data-id"),
+                    val = el.attr("data-value"),
+                    isDisabled = el.hasClass("disabled"),
+                    status = el.attr("data-status");
+                if (val == "delete") {
+                    if(isDisabled){
+                        alert("<?php _e('This media is already in used !'); ?>");
+                    } else if (confirm("<?php _e('Do you confirm delete action ?'); ?>")) {
+                        location.href = url + "delete?id=" + id + "&redirect=" + this.encodeUrl();
+                    }
+                } else if (val == "undelete") {
+                    location.href = url + "undelete?id=" + id + "&redirect=" + this.encodeUrl();
+                } else if ('active' == val) {
+                    location.href = url + val + "?id=" + id + "&status="
+                        + status + "&redirect=" + this.encodeUrl();
+                } else if ('edit' != val) {
+                    location.href = url + val + "?id=" + id + "&redirect=" + this.encodeUrl();
+                }
+            },
+            encodeUrl : function() {
+                return encodeURIComponent(location.href);
+            }
+        }
+        page.init();
+
+        $('.disabled[data-toggle="tooltip"][data-value="delete"]').tooltip();
+    })(jQuery)
+</script>

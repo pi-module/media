@@ -1,0 +1,389 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Pi-media\n"
+"POT-Creation-Date: 2017-07-19 13:59+0430\n"
+"PO-Revision-Date: 2017-07-19 13:59+0430\n"
+"Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-KeywordsList: _a;_t\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: config/config.php:19
+msgid "General"
+msgstr ""
+
+#: config/config.php:23
+msgid "Form"
+msgstr ""
+
+#: config/config.php:27
+msgid "Validator"
+msgstr ""
+
+#: config/config.php:31
+msgid "Image"
+msgstr ""
+
+#: config/config.php:39
+msgid "List page limit"
+msgstr ""
+
+#: config/config.php:40
+msgid "Maximum count of media resources on a list page."
+msgstr ""
+
+#: config/config.php:46
+msgid "License values"
+msgstr ""
+
+#: config/config.php:47
+msgid "Use `|` as delimiter to separate license terms"
+msgstr ""
+
+#: config/config.php:54
+msgid "Show description on form"
+msgstr ""
+
+#: config/config.php:62
+msgid "Show season on form"
+msgstr ""
+
+#: config/config.php:70
+msgid "Show license on form"
+msgstr ""
+
+#: config/config.php:78
+msgid "Show copyright on form"
+msgstr ""
+
+#: config/config.php:87
+msgid "File extension"
+msgstr ""
+
+#: config/config.php:88
+msgid "Extensions for files allowed to upload."
+msgstr ""
+
+#: config/config.php:93
+msgid "Max file size"
+msgstr ""
+
+#: config/config.php:94
+msgid "Maximum size for files allowed to upload (in KB)."
+msgstr ""
+
+#: config/config.php:101
+msgid "Max Image width (upload)"
+msgstr ""
+
+#: config/config.php:109
+msgid "Max Image height (upload)"
+msgstr ""
+
+#: config/config.php:117
+msgid "Min Image width (upload)"
+msgstr ""
+
+#: config/config.php:125
+msgid "Min Image height (upload)"
+msgstr ""
+
+#: config/config.php:133
+msgid "Image quality"
+msgstr ""
+
+#: config/config.php:134
+msgid "Between 0 to 100 and support both of JPG and PNG, default is 75"
+msgstr ""
+
+#: config/config.php:141
+msgid "Add Watermark"
+msgstr ""
+
+#: config/config.php:149
+msgid "Watermark Image"
+msgstr ""
+
+#: config/config.php:156
+msgid "Watermark Position"
+msgstr ""
+
+#: config/config.php:165
+msgid "Top Left"
+msgstr ""
+
+#: config/config.php:166
+msgid "Top Right"
+msgstr ""
+
+#: config/config.php:167
+msgid "Bottom Left"
+msgstr ""
+
+#: config/config.php:168
+msgid "Bottom Right"
+msgstr ""
+
+#: config/config.php:175
+msgid "Default copyright"
+msgstr ""
+
+#: config/config.php:181
+msgid "Max gallery images for freemium related items"
+msgstr ""
+
+#: config/config.php:188
+msgid "Alert message for freemium item"
+msgstr ""
+
+#: config/config.php:190
+msgid "Freemium item limitations... You can't do this action"
+msgstr ""
+
+#: config/config.php:194
+msgid "Large Image width"
+msgstr ""
+
+#: config/config.php:202
+msgid "Large Image height"
+msgstr ""
+
+#: config/config.php:210
+msgid "Item Image width"
+msgstr ""
+
+#: config/config.php:218
+msgid "Item Image height"
+msgstr ""
+
+#: config/config.php:226
+msgid "Medium Image width"
+msgstr ""
+
+#: config/config.php:234
+msgid "Medium Image height"
+msgstr ""
+
+#: config/config.php:242
+msgid "Thumb Image width"
+msgstr ""
+
+#: config/config.php:250
+msgid "Thumb Image height"
+msgstr ""
+
+#: config/module.php:18
+msgid "Media"
+msgstr ""
+
+#: config/module.php:19
+msgid "Module for media resources and APIs."
+msgstr ""
+
+#: config/navigation.php:24
+msgid "Resource list"
+msgstr ""
+
+#: config/navigation.php:34
+msgid "All"
+msgstr ""
+
+#: config/navigation.php:40 config/navigation.php:78
+#: template/admin/application-list.phtml:33
+msgid "Edit"
+msgstr ""
+
+#: config/navigation.php:47
+msgid "Attach new media"
+msgstr ""
+
+#: config/navigation.php:55
+msgid "Application list"
+msgstr ""
+
+#: config/navigation.php:65
+msgid "List"
+msgstr ""
+
+#: config/navigation.php:71
+msgid "Add"
+msgstr ""
+
+#: config/navigation.php:87
+msgid "Statistics"
+msgstr ""
+
+#: config/navigation.php:96 config/permission.php:27
+msgid "Test"
+msgstr ""
+
+#: config/navigation.php:105 src/Controller/Admin/ToolsController.php:32
+msgid "Tools"
+msgstr ""
+
+#: config/permission.php:18
+msgid "Application management"
+msgstr ""
+
+#: config/permission.php:21
+msgid "Resource management"
+msgstr ""
+
+#: config/permission.php:24
+msgid "Statistics access"
+msgstr ""
+
+#: src/Controller/Admin/ApplicationController.php:104
+msgid "Application List"
+msgstr ""
+
+#: src/Controller/Admin/ApplicationController.php:123
+#: src/Controller/Admin/ApplicationController.php:178
+msgid "There are some error occurred."
+msgstr ""
+
+#: src/Controller/Admin/ApplicationController.php:130
+#: src/Controller/Admin/ApplicationController.php:192
+msgid "Cannot save data."
+msgstr ""
+
+#: src/Controller/Admin/ApplicationController.php:138
+msgid "Invalid application key."
+msgstr ""
+
+#: src/Controller/Admin/ApplicationController.php:214
+msgid "Invalid application."
+msgstr ""
+
+#: src/Controller/Admin/ApplicationController.php:221
+msgid "Application already in use."
+msgstr ""
+
+#: src/Controller/Admin/StatsController.php:41
+msgid "Statistic"
+msgstr ""
+
+#: src/Controller/Admin/TestController.php:68
+#: src/Controller/Admin/TestController.php:125
+msgid "All tests"
+msgstr ""
+
+#: src/Controller/Admin/TestController.php:75
+#: src/Controller/Admin/TestController.php:132
+msgid "Add test"
+msgstr ""
+
+#: src/Controller/Admin/TestController.php:83
+#: src/Controller/Front/ModalController.php:257
+msgid "Resource List"
+msgstr ""
+
+#: src/Controller/Front/ModalController.php:478
+#: src/Controller/Front/ModalController.php:515
+msgid "Invalid media ID"
+msgstr ""
+
+#: template/admin/application-list.phtml:10
+msgid "Name"
+msgstr ""
+
+#: template/admin/application-list.phtml:14
+msgid "Search"
+msgstr ""
+
+#: template/admin/application-list.phtml:20 template/admin/test-index.phtml:12
+msgid "ID"
+msgstr ""
+
+#: template/admin/application-list.phtml:21
+msgid "Appkey"
+msgstr ""
+
+#: template/admin/application-list.phtml:22 template/admin/test-index.phtml:13
+msgid "Title"
+msgstr ""
+
+#: template/admin/application-list.phtml:37 template/admin/test-index.phtml:52
+msgid "Delete"
+msgstr ""
+
+#: template/admin/stats-index.phtml:11
+msgid "Top 10 resources"
+msgstr ""
+
+#: template/admin/stats-index.phtml:21
+msgid "Top 10 submitters"
+msgstr ""
+
+#: template/admin/stats-index.phtml:24
+msgid "Today"
+msgstr ""
+
+#: template/admin/stats-index.phtml:27
+msgid "In 7 days"
+msgstr ""
+
+#: template/admin/stats-index.phtml:30
+msgid "In 30 days"
+msgstr ""
+
+#: template/admin/stats-index.phtml:33
+msgid "history"
+msgstr ""
+
+#: template/admin/test-index.phtml:14
+msgid "Main image"
+msgstr ""
+
+#: template/admin/test-index.phtml:15
+msgid "Main image data"
+msgstr ""
+
+#: template/admin/test-index.phtml:16
+msgid "Additional images data"
+msgstr ""
+
+#: template/admin/test-index.phtml:17
+msgid "Picture tag"
+msgstr ""
+
+#: template/admin/test-index.phtml:18
+msgid "Actions"
+msgstr ""
+
+#: template/admin/test-index.phtml:50
+msgid "Update"
+msgstr ""
+
+#: template/admin/tools-index.phtml:20 template/admin/tools-index.phtml:29
+msgid "Fill empty descriptions from media title"
+msgstr ""
+
+#: template/admin/tools-index.phtml:24
+msgid ""
+"This tool help you to put description from media title to empty description "
+"media"
+msgstr ""
+
+#: template/admin/tools-index.phtml:38 template/admin/tools-index.phtml:47
+msgid "Remove orphaned media"
+msgstr ""
+
+#: template/admin/tools-index.phtml:42
+msgid ""
+"This tool can clean your server and remove medias than not used on any "
+"content"
+msgstr ""
+
+#: template/front/list-edit.phtml:19
+msgid "No media select, please try again!"
+msgstr ""
+
+#~ msgid "Checked all"
+#~ msgstr "All Categories"

@@ -17,7 +17,7 @@ return array(
     'meta'         => array(
         'title'         => _a('Media'),
         'description'   => _a('Module for media resources and APIs.'),
-        'version'       => '1.0.3',
+        'version'       => '1.0.19',
         'license'       => 'New BSD',
         'logo'          => 'image/logo.png',
         'readme'        => 'README.md',
@@ -26,7 +26,9 @@ return array(
     ),
     // Author information
     'author'        => array(
-        'Name'          => 'Zongshu Lin',
+        'Dev'           => 'Zongshu Lin; Frederic Tissot',
+		'Design'        => '@marc-pi, @esprit-dev',
+        'QA'            => '@marc-pi',
         'Email'         => 'zongshu@eefocus.com',
         'Website'       => 'http://www.github.com/linzongshu',
         'Credits'       => 'Pi Engine Team.'

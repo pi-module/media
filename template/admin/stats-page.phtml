@@ -6,9 +6,13 @@
     <tr>
         <td style="width: 20px"><?php echo ++$index; ?></td>
         <td style="width: 100%">
+            <?php if(isset($item['url'])) : ?>
             <a href="<?php echo $this->escape($item['url']); ?>" target="_blank">
                 <?php echo $this->escape($item['title']); ?>
             </a>
+            <?php else : ?>
+                <?php echo $this->escape($item['title']); ?>
+            <?php endif; ?>
         </td>
         <td style="width: 40px"><?php echo $this->escape($item[$field]); ?></td>
     </tr>

@@ -1,43 +1,56 @@
 # Doc table
 CREATE TABLE `{doc}` (
-  `id`           INT(10) UNSIGNED    NOT NULL AUTO_INCREMENT,
-  # URL to access, required
-  `url`          VARCHAR(255)        NOT NULL DEFAULT '',
-  # Absolute path to access, optional; for uploaded doc only
-  `path`         VARCHAR(255)        NOT NULL DEFAULT '',
-  # renamed file name
-  `name`         VARCHAR(255)        NOT NULL DEFAULT '',
-  # filename, for download
-  `filename`     VARCHAR(255)        NOT NULL DEFAULT '',
-  # Encoded file attributes: mimetype, size, width, height, etc.
-  `attributes`   TEXT,
-  `size`         INT(10) UNSIGNED    NOT NULL DEFAULT 0,
-  `mimetype`     VARCHAR(255)        NOT NULL DEFAULT '',
-  # Doc attributes
-  `title`        VARCHAR(255)        NOT NULL DEFAULT '',
-  `description`  VARCHAR(255)        NOT NULL DEFAULT '',
-  `active`       TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-  `time_created` INT(10) UNSIGNED    NOT NULL DEFAULT 0,
-  `time_updated` INT(10) UNSIGNED    NOT NULL DEFAULT 0,
-  `time_deleted` INT(10) UNSIGNED    NOT NULL DEFAULT 0,
-  # Application attributes
-  `appkey`       VARCHAR(64)         NOT NULL DEFAULT '',
-  `module`       VARCHAR(64)         NOT NULL DEFAULT '',
-  # Application type for doc
-  `type`         VARCHAR(64)         NOT NULL DEFAULT '',
-  # Token to identify a group of docs just in case
-  `token`        VARCHAR(64)         NOT NULL DEFAULT '',
-  # User attributes
-  `uid`          INT(10) UNSIGNED    NOT NULL DEFAULT 0,
-  `ip`           VARCHAR(64)         NOT NULL DEFAULT '',
-  # Usage stats
-  `count`        INT(10) UNSIGNED    NOT NULL DEFAULT 0,
+  `id`               INT(10) UNSIGNED    NOT NULL AUTO_INCREMENT,
+  `path`             VARCHAR(255)        NOT NULL DEFAULT '',
+  `filename`         VARCHAR(255)        NOT NULL DEFAULT '',
+  `attributes`       TEXT,
+  `mimetype`         VARCHAR(255)        NOT NULL DEFAULT '',
+  `title`            VARCHAR(255)        NOT NULL DEFAULT '',
+  `description`      VARCHAR(255)        NOT NULL DEFAULT '',
+  `active`           TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+  `time_created`     INT(10) UNSIGNED    NOT NULL DEFAULT '0',
+  `time_updated`     INT(10) UNSIGNED    NOT NULL DEFAULT '0',
+  `time_deleted`     INT(10) UNSIGNED    NOT NULL DEFAULT '0',
+  `appkey`           VARCHAR(64)         NOT NULL DEFAULT '',
+  `uid`              INT(10) UNSIGNED    NOT NULL DEFAULT '0',
+  `count`            INT(10)             NOT NULL DEFAULT '0',
+  `season`           TINYINT(4)                   DEFAULT NULL,
+  `updated_by`       INT(11)                      DEFAULT NULL,
+  `license_type`     VARCHAR(255)                 DEFAULT NULL,
+  `copyright`        VARCHAR(255)                 DEFAULT NULL,
+  `geoloc_latitude`  FLOAT                        DEFAULT NULL,
+  `geoloc_longitude` FLOAT                        DEFAULT NULL,
+  `cropping`         TEXT,
+  `featured`         TINYINT(4)          NOT NULL,
   PRIMARY KEY (`id`),
   KEY `active` (`active`),
   KEY `uid` (`uid`),
-  KEY `module` (`module`),
   KEY `appkey` (`appkey`),
-  KEY `application` (`appkey`, `module`, `type`)
+  FULLTEXT KEY `search_idx` (`title`, `description`),
+  FULLTEXT KEY `search_2_idx` (`title`, `description`, `filename`),
+  FULLTEXT KEY `search_title_idx` (`title`),
+  FULLTEXT KEY `search_description_idx` (`title`, `description`)
+);
+
+# Test table
+CREATE TABLE `{test}` (
+  `id`                INT          NOT NULL AUTO_INCREMENT,
+  `title`             VARCHAR(255) NOT NULL,
+  `main_image`        INT          NULL,
+  `additional_images` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`)
+);
+
+# Link table
+CREATE TABLE `{link}` (
+  `id`          INT         NOT NULL AUTO_INCREMENT,
+  `module`      VARCHAR(20) NOT NULL,
+  `object_name` VARCHAR(50) NOT NULL,
+  `object_id`   INT         NOT NULL,
+  `field`       VARCHAR(50) NOT NULL,
+  `media_id`    INT         NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY (`media_id`)
 );
 
 # Extended meta for docs

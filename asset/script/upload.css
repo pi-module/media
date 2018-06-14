@@ -32,21 +32,26 @@
     z-index: 1000;
 }
 
+#js-carousel{
+    display:flex;
+}
+
 .upload-carousel-item {
-    /* margin: 0 10px;
-    width: 200px; */
     position: relative;
+}
+
+.upload-carousel-item >div {
+    height:100%;
 }
 
 .upload-carousel-item-img {
     text-align: center;
-    height: 64px;
 }
 
 .upload-carousel-item-img img {
     text-align: center;
-    max-height: 64px;
-    max-width: 160px;
+    max-width: 100%;
+    max-height:200px;
 }
 
 .upload-carousel-item .form-horizontal .control-label,

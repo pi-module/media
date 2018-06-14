@@ -1,5 +1,70 @@
-<div class="clearfix">
-    <?php echo $this->form($form); ?>
-
-    <?php include $this->template('image-manager-admin', 'api', 'media'); ?>
+<?php
+    $this->css($this->assetModule('script/admin.css'));
+    $this->jquery();
+    $this->js(Pi::url('public/vendor/bootstrap/js/bootstrap.js'));
+?>
+<?php echo $this->tab($tabs); ?>
+<div id="pi-js-media">
+    <div class="pi-media-list">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th style="width: 50px"><?php echo _a('ID'); ?></th>
+                    <th><?php echo _a('Title'); ?></th>
+                    <th><?php echo _a('Main image'); ?></th>
+                    <th><?php echo _a('Main image data'); ?></th>
+                    <th><?php echo _a('Additional images data'); ?></th>
+                    <th><?php echo _a('Picture tag'); ?></th>
+                    <th style="width: 10px"><?php echo _a('Actions'); ?></th>
+                </tr>
+                <?php foreach ($tests as $test) : ?>
+                    <tr>
+                        <td>
+                            <?php echo $test['id']; ?>
+                        </td>
+                        <td>
+                            <?php echo $test['title']; ?>
+                        </td>
+                        <td>
+                            <?php if($img = Pi::api('doc','media')->getSingleLinkUrl($test['main_image'])->setConfigModule('guide')->thumbcrop('medium')) : ?>
+                                <img class="img-thumbnail" src="<?php echo $img ?>" />
+                            <?php else : ?>
+                                Not a picture...
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if($data = Pi::api('doc','media')->getSingleLinkData($test['main_image'], 100, 100, 90)) : ?>
+                                <a href="#" data-toggle="popover" title="Single Link Data" data-html="true" data-trigger="hover" data-content="<pre><?php echo $this->escape(print_r($data, true)); ?></pre>">Display data</a>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php $galleryImages = Pi::api('doc','media')->getGalleryLinkData($test['additional_images'], 100, 100, 90) ?>
+                            <?php foreach($galleryImages as $key => $galleryImage) : ?>
+                                <a href="#" data-toggle="popover" title="Gallery Link Data" data-html="true" data-trigger="hover" data-content="<pre><?php echo $this->escape(print_r($galleryImage, true)); ?></pre>">ID <?php echo $galleryImage['id'] ?> data</a><br>
+                            <?php endforeach; ?>
+                        </td>
+                        <td>
+                            <?php echo Pi::api('doc','media')->getSingleLinkPictureTag($test['main_image'], array(320,768,900,1200), 90) ?>
+                        </td>
+                        <td>
+                            <a href="<?php echo $this->url('', array('action' => 'edit', 'id' => $test['id'])); ?>" class="btn btn-primary btn-xs"><?php echo _a('Update'); ?></a>
+                            <br><br>
+                            <a href="<?php echo $this->url('', array('action' => 'remove', 'id' => $test['id'])); ?>" class="btn btn-danger  btn-xs"><?php echo _a('Delete'); ?></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    
+    <?php
+        if (!empty($medias) && $paginator) {
+            echo $this->paginationControl($paginator, 'Sliding', 'paginator.phtml');
+        }
+    ?>
 </div>
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+    });
+</script>

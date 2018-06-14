@@ -12,36 +12,55 @@ namespace Module\Media\Form;
 use Pi;
 use Pi\Form\Form as BaseForm;
 
+/**
+ * Class for initializing form of edit application page
+ * 
+ * @author Frédéric TISSOT <contact@espritdev.fr>
+ */ 
 class TestForm extends BaseForm
 {
+    /**
+     * Initalizing form 
+     */
     public function init()
     {
         $this->add(array(
-            'name' => 'image',
-            'options' => array(
-                'label' => __('Upload image'),
-            ),
-            'attributes' => array(
-                'type' => 'file',
-                'description' => '',
-            )
+            'name'       => 'id',
+            'type'      => 'hidden',
         ));
 
         $this->add(array(
-            'name' => 'imageManager',
-            'type' => 'Module\Media\Form\Element\Media',
-            'options' => array(
-                'label' => __('Image manager'),
+            'name'       => 'title',
+            'options'    => array(
+                'label'     => __('Application Title'),
             ),
             'attributes' => array(
-                'link' => '',
+                'type'      => 'text',
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'main_image',
+            'type' => 'Module\Media\Form\Element\Media',
+            'options' => array(
+                'label' => __('Main image'),
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'additional_images',
+            'type' => 'Module\Media\Form\Element\Media',
+            'options' => array(
+                'label' => __('Additional images'),
+                'media_gallery' => true,
             ),
         ));
 
         $this->add(array(
             'name'       => 'submit',
-            'attributes' => array(
-                'value'     => __('Submit'),
+            'attributes' => array(               
+                'value'     => __('Save this test'),
+                'class'     => 'btn btn-primary',
             ),
             'type'       => 'submit',
         ));

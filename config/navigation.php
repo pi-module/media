@@ -36,24 +36,6 @@ return array(
                         'controller'    => 'list',
                         'action'        => 'index',
                     ),
-                    'list-application'  => array(
-                        'label'         => _t('By Application'),
-                        'route'         => 'admin',
-                        'controller'    => 'list',
-                        'action'        => 'application',
-                    ),
-                    'type'              => array(
-                        'label'         => _t('By Type'),
-                        'route'         => 'admin',
-                        'controller'    => 'list',
-                        'action'        => 'type',
-                    ),
-                    'user'              => array(
-                        'label'         => _t('By User'),
-                        'route'         => 'admin',
-                        'controller'    => 'list',
-                        'action'        => 'user',
-                    ),
                     'edit'              => array(
                         'label'         => _t('Edit'),
                         'route'         => 'admin',
@@ -117,6 +99,15 @@ return array(
                 'action'        => 'index',
                 'permission'    => array(
                     'resource'  => 'test',
+                ),
+            ),
+            'tools'              => array(
+                'label'         => _t('Tools'),
+                'route'         => 'admin',
+                'controller'    => 'tools',
+                'action'        => 'index',
+                'permission'    => array(
+                    'resource'  => 'tools',
                 ),
             ),
         ),

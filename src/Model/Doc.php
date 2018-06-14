@@ -22,14 +22,16 @@ class Doc extends Model
     /**
      * {@inheritDoc}
      */
+    protected $rowClass = 'Module\Media\Model\Doc\RowGateway';
+
+    /**
+     * {@inheritDoc}
+     */
     protected $columns = array(
         'id',
-        'url',
         'path',
-        'name',
         'filename',
         'attributes',
-        'size',
         'mimetype',
         'title',
         'description',
@@ -38,12 +40,16 @@ class Doc extends Model
         'time_updated',
         'time_deleted',
         'appkey',
-        'module',
-        'type',
-        'token',
         'uid',
-        'ip',
         'count',
+        'season',
+        'updated_by',
+        'license_type',
+        'copyright',
+        'geoloc_latitude',
+        'geoloc_longitude',
+        'cropping',
+        'featured',
     );
 
     /**

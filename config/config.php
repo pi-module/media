@@ -9,7 +9,7 @@
 
 /**
  * Module config
- * 
+ *
  * @author Zongshu Lin <lin40553024@163.com>
  */
 return array(
@@ -17,6 +17,10 @@ return array(
         array(
             'name'  => 'general',
             'title' => _t('General'),
+        ),
+        array(
+            'name'  => 'form',
+            'title' => _t('Form'),
         ),
         array(
             'name'  => 'validator',
@@ -37,90 +41,116 @@ return array(
             'value'       => 20,
             'filter'      => 'int',
         ),
+        'license_values'      => array(
+            'category'    => 'general',
+            'title'       => _t('License values'),
+            'description' => _t('Use `|` as delimiter to separate license terms'),
+            'edit'        => 'text',
+            'value'       => '',
+        ),
+        // Form
+        'form_description' => array(
+            'category'    => 'form',
+            'title'       => _t('Show description on form'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 1
+        ),
+        'form_season' => array(
+            'category'    => 'form',
+            'title'       => _t('Show season on form'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 1
+        ),
+        'form_license_type' => array(
+            'category'    => 'form',
+            'title'       => _t('Show license on form'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 1
+        ),
+        'form_copyright' => array(
+            'category'    => 'form',
+            'title'       => _t('Show copyright on form'),
+            'description' => '',
+            'edit'        => 'checkbox',
+            'filter'      => 'number_int',
+            'value'       => 1
+        ),
         // Media
         'extension'       => array(
             'category'    => 'validator',
             'title'       => _t('File extension'),
             'description' => _t('Extensions for files allowed to upload.'),
-            'value'       => 'pdf,rar,zip,doc,txt,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,gif',
+            'value'       => 'jpg,jpeg,png,gif', //'pdf,rar,zip,doc,txt,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,gif',
         ),
         'max_size'        => array(
             'category'    => 'validator',
             'title'       => _t('Max file size'),
-            'description' => _t('Maximum size for files allowed to upload (in KB).'),
+            'description' => _t('Maximum size for files allowed to upload (in KB). Caution : on front side, max file size messages are displayed in octets (ko). Here you set in bytes (Kb) ! For 4Mo, you have to set 4 * 1024 = 4096 kb. Also, front limit is rounded to lower Mb integer after conversion, so 4096 Kb == 4Mo and 4095 kb == 3Mo'),
             'value'       => 2048,
             'filter'      => 'int',
         ),
         // Image
-        'image_width'     => array(
+        'image_maxw'    => array(
             'category'    => 'image',
-            'title'       => _t('Image width'),
-            'description' => _t('Maximum image width for image files allowed to upload.'),
-            'value'       => 1600,
-            'filter'      => 'int',
+            'title'       => _t('Max Image width (upload)'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 2000
         ),
-        'image_height'    => array(
+        'image_maxh'    => array(
             'category'    => 'image',
-            'title'       => _t('Image height'),
-            'description' => _t('Maximum image height for image files allowed to upload.'),
-            'value'       => 1600,
-            'filter'      => 'int',
+            'title'       => _t('Max Image height (upload)'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 2000
+        ),
+        'image_minw'    => array(
+            'category'    => 'image',
+            'title'       => _t('Min Image width (upload)'),
+            'description' => 'This config can be overriden by custom module values',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 600
+        ),
+        'image_minh'    => array(
+            'category'    => 'image',
+            'title'       => _t('Min Image height (upload)'),
+            'description' => 'This config can be overriden by custom module values',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 600
         ),
         'image_quality'   => array(
             'category'    => 'image',
             'title'       => _t('Image quality'),
-            'description' => _t('Between 0 to 100 and support both of JPG and PNG, default is 75'),
+            'description' => _t('Between 0 to 100 and support both of JPG and PNG, default is 75. Can be overridden by custom module config'),
             'edit'        => 'text',
             'filter'      => 'number_int',
-            'value'       => 75
+            'value'       => 90
         ),
-        'image_largeh'    => array(
+        'image_ratio_w'   => array(
             'category'    => 'image',
-            'title'       => _t('Large Image height'),
-            'description' => '',
+            'title'       => _t('Image ratio width'),
+            'description' => _t('Example : "3" for 3/2 ratio'),
             'edit'        => 'text',
             'filter'      => 'number_int',
-            'value'       => 1200
+            'value'       => 3
         ),
-        'image_largew'    => array(
+        'image_ratio_h'   => array(
             'category'    => 'image',
-            'title'       => _t('Large Image width'),
-            'description' => '',
+            'title'       => _t('Image ratio height'),
+            'description' => _t('Example : "2" for 3/2 ratio'),
             'edit'        => 'text',
             'filter'      => 'number_int',
-            'value'       => 1200
-        ),
-        'image_mediumh'   => array(
-            'category'    => 'image',
-            'title'       => _t('Medium Image height'),
-            'description' => '',
-            'edit'        => 'text',
-            'filter'      => 'number_int',
-            'value'       => 400
-        ),
-        'image_mediumw'   => array(
-            'category'    => 'image',
-            'title'       => _t('Medium Image width'),
-            'description' => '',
-            'edit'        => 'text',
-            'filter'      => 'number_int',
-            'value'       => 400
-        ),
-        'image_thumbh'    => array(
-            'category'    => 'image',
-            'title'       => _t('Thumb Image height'),
-            'description' => '',
-            'edit'        => 'text',
-            'filter'      => 'number_int',
-            'value'       => 200
-        ),
-        'image_thumbw'    => array(
-            'category'    => 'image',
-            'title'       => _t('Thumb Image width'),
-            'description' => '',
-            'edit'        => 'text',
-            'filter'      => 'number_int',
-            'value'       => 200
+            'value'       => 2
         ),
         'image_watermark' => array(
             'category'    => 'image',
@@ -155,6 +185,89 @@ return array(
                     ),
                 ),
             ),
+        ),
+        'image_default_copyright'      => array(
+            'category'    => 'image',
+            'title'       => _t('Default copyright'),
+            'edit'        => 'text',
+            'value'       => '',
+        ),
+        'freemium_max_gallery_images'   => array(
+            'category'    => 'image',
+            'title'       => _t('Max gallery images for freemium related items'),
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 2
+        ),
+        'freemium_alert_msg'      => array(
+            'category'    => 'image',
+            'title'       => _t('Alert message for freemium item'),
+            'edit'        => 'text',
+            'value'       => _t("Freemium item limitations... You can't do this action"),
+        ),
+        'image_largew'    => array(
+            'category'    => 'image',
+            'title'       => _t('Large Image width'),
+            'description' => 'This config can be overriden by custom module values. Used for min crop size.',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 1200
+        ),
+        'image_largeh'    => array(
+            'category'    => 'image',
+            'title'       => _t('Large Image height'),
+            'description' => 'This config can be overriden by custom module values. Used for min crop size.',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 1200
+        ),
+        'image_itemw' => array(
+            'category'    => 'image',
+            'title'       => _a('Item Image width'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 800
+        ),
+        'image_itemh' => array(
+            'category'    => 'image',
+            'title'       => _a('Item Image height'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 800
+        ),
+        'image_mediumw' => array(
+            'category'    => 'image',
+            'title'       => _a('Medium Image width'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 500
+        ),
+        'image_mediumh' => array(
+            'category'    => 'image',
+            'title'       => _a('Medium Image height'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 500
+        ),
+        'image_thumbw' => array(
+            'category'    => 'image',
+            'title'       => _a('Thumb Image width'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 250
+        ),
+        'image_thumbh' => array(
+            'category'    => 'image',
+            'title'       => _a('Thumb Image height'),
+            'description' => '',
+            'edit'        => 'text',
+            'filter'      => 'number_int',
+            'value'       => 250
         ),
     ),
 );

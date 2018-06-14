@@ -1,0 +1,261 @@
+#media_gallery [data-media-id]:hover{
+    background-color:#efefef;
+    cursor:pointer;
+}
+
+#media_gallery [data-media-id].checked{
+    background-color:#92ce8d!important;
+}
+
+#media_gallery .checked-column
+{
+    vertical-align: middle!important;
+}
+
+#media_gallery .checked-column span
+{
+    color:green;
+    visibility:hidden;
+}
+
+#media_gallery [data-media-id].checked .checked-column span{
+    visibility:visible;
+}
+
+.media-form-list ul{
+    padding:0;
+    margin:0;
+    margin-left:-10px;
+}
+
+.media-form-list li{
+    text-align: center;
+    vertical-align: top;
+    display:inline-block;
+    margin:0 0 10px 0;
+    padding-left:10px;
+    min-width:120px;
+    width:20%;
+    float:left;
+}
+
+.media-form-list li .box{
+    text-align: center;
+    vertical-align: middle;
+    /*display:inline-block;*/
+
+    background-color:whitesmoke;
+}
+
+.media-form-list li hr{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.ui-sortable li{
+    cursor: move;
+}
+
+.invalid-media .img-thumbnail
+{
+    background-color:#eea236!important;
+}
+
+.btn-complete-action{
+    display:none;
+}
+
+.invalid-media .btn-complete-action{
+    display: inline-block;
+}
+
+.invalid-media .btn-edit-action{
+    display: none;
+}
+
+.media-list-incomplete + .media-alert{
+    display:block!important;
+    clear:both;
+}
+
+#pi-media.userSection .container {
+    max-width: none;
+    width: auto;
+}
+
+.ajax-spinner-loader {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    width: 70px;
+}
+
+.media-modal-thumb {
+    max-height:none!important;
+}
+
+.dataTable{
+    width:100%!important;
+}
+
+.dataTable th{
+    text-align: center;
+}
+
+
+#selectedMediaListModal ul{
+    margin:0;
+    padding:0;
+}
+
+#selectedMediaListModal ul li{
+    display:inline-block;
+    margin:0;
+    padding:0;
+    list-style: none;
+    position:relative;
+    margin:0 5px 5px 0;
+}
+
+#selectedMediaListModal ul li img{
+    display:inline-block;
+}
+
+#selectedMediaListModal ul li .unlink-media-btn{
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: white;
+    border: 0;
+    color: red;
+    font-size: 16px;
+	border-radius: 4px;
+}
+
+.media-form-list ul{
+    display:block;
+    /*min-height: 185px;*/
+}
+
+.media-form-list ul:after{
+    content:'';
+    display:block;
+    clear:both;
+}
+
+#selectedMediaListModal .list li,
+.media-form-list li{
+    position:relative;
+    overflow: hidden;
+}
+
+.media-form-list li img{
+    margin:0;
+}
+
+#selectedMediaListModal .list li[data-media-season]:after,
+.media-form-list li[data-media-season]:after {
+    content: none;
+    display: block;
+    top: 20px;
+    right: -20px;
+    width: 100px;
+    position: absolute;
+    transform: rotate(45deg);
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 1px 1px 0px black;
+    text-align: center;
+}
+
+#selectedMediaListModal .list li[data-media-season]:after{
+    transform: rotate(-45deg);
+    top: 20px;
+    left: -20px;
+    width: 100px;
+}
+
+#selectedMediaListModal .list li[data-media-season="1"]:after,
+.media-form-list li[data-media-season="1"]:after {
+    content: 'Eté';
+    background: #ffa01f;
+}
+
+#selectedMediaListModal .list li[data-media-season="2"]:after,
+.media-form-list li[data-media-season="2"]:after {
+    content: 'Hiver';
+    background: #00bfff;
+}
+
+#selectedMediaListModal .list li[data-media-season="3"]:after,
+.media-form-list li[data-media-season="3"]:after {
+    content: 'Automne';
+    background: #a76914;
+}
+
+#selectedMediaListModal .list li[data-media-season="4"]:after,
+.media-form-list li[data-media-season="4"]:after {
+    content: 'Printemps';
+    background: #6fbb12;
+}
+
+
+.season-switch .btn-default{
+    color: #333!important;
+    background-color: #fff!important;
+    border-color: #ccc!important;
+}
+
+.season-switch button[data-id="1"],
+.season-switch button[data-id="2"]{
+    padding: 1px 15px;
+}
+
+tr[data-media-id] img{
+    width:50px;
+    height:50px;
+}
+
+.has-js-action.disabled{
+    cursor: not-allowed;
+}
+
+.dz-error-mark g{
+    fill:red;
+}
+
+
+
+
+
+.dz-success-mark path,
+.dz-success-mark g{
+    fill:#3ca233;
+    fill-opacity: 1;
+}
+
+.btn-group.season-switch{
+    white-space: nowrap;
+}
+
+.dropzone .dz-preview .dz-error-message{
+    width: 270px;
+}
+
+.dropzone .dz-preview .dz-error-message ul{
+    padding:0 0 0 10px;
+    margin:0;
+}
+
+.dropzone .dz-preview .dz-error-message ul li{
+    margin-bottom:5px;
+}
+
+.dropzone .dz-preview .dz-error-message ul li:last-child{
+    margin-bottom:0px;
+}
+
+.media .page-header h1{
+    margin-top:0;
+}

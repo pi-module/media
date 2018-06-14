@@ -10,9 +10,15 @@
 namespace Module\Media\Api;
 
 use Closure;
+use Module\Media\Form\MediaEditFilter;
+use Module\Media\Form\MediaEditForm;
+use Module\Media\Form\MediaEditFullForm;
 use Pi;
 use Pi\Application\Api\AbstractApi;
 use Pi\File\Transfer\Upload;
+use Pi\Filter;
+use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Predicate\In;
 
 class Doc extends AbstractApi
 {
@@ -96,7 +102,12 @@ class Doc extends AbstractApi
             $data['time_created'] = time();
         }
         $row = $this->model()->createRow($data);
-        $row->save();
+
+        try{
+            $row->save();
+        }catch(\Exception $e){
+//            echo $e->getMessage();
+        }
 
         return (int) $row->id;
     }
@@ -111,94 +122,146 @@ class Doc extends AbstractApi
      *
      * @return int doc id
      */
-    public function upload(array $params, $method = 'POST')
+    public function upload(array $params, $currentId = null, $fromModule = 'media')
     {
         @ignore_user_abort(true);
         @set_time_limit(0);
 
         $options    = Pi::service('media')->getOption('local', 'options');
-        $rootUri    = $options['root_uri'];
         $rootPath   = $options['root_path'];
-        $path       = $options['locator']['path'];
-        if ($path instanceof Closure) {
-            $relativePath = $path();
-        } else {
-            $relativePath = $path;
+
+        if (extension_loaded('intl') && !normalizer_is_normalized($params['filename'])) {
+            $params['filename'] = normalizer_normalize($params['filename']);
         }
-        $destination = $rootPath . '/' . $relativePath;
+
+        $filter = new Filter\Urlizer;
+        $slug = $filter($params['filename'], '-', true);
+
+        $firstChars = str_split(substr($slug, 0, 3));
+
+        $relativeDestination = '/original/' . implode('/', $firstChars) . '/';
+
+        $destination = $rootPath . $relativeDestination;
+
+        $finalPath = $destination . $slug;
+        $finalSlug = $slug;
+
+        $filenameBase = pathinfo($slug, PATHINFO_FILENAME);
+        $filenameExt = pathinfo($slug, PATHINFO_EXTENSION);
+
+        $i = 1;
+        while(is_file($finalPath)){
+            $finalSlug = $filenameBase . '-'. $i++ . '.' . $filenameExt;
+            $finalPath = $destination . $finalSlug;
+        }
+
         Pi::service('file')->mkdir($destination);
-        $rename = $options['locator']['file'];
+
+        $params['filename'] = $finalSlug;
 
         $success = false;
-        switch (strtoupper($method)) {
-            // For remote post
-            case 'POST':
-                $uploader = new Upload(array(
-                    'destination'   => $destination,
-                    'rename'        => $rename($params['filename']),
-                ));
-                $maxSize = Pi::config(
-                    'max_size',
-                    $this->module
-                );
-                if ($maxSize) {
-                    $uploader->setSize($maxSize * 1024);
-                }
-                $result = $uploader->isValid();
-                if ($result) {
-                    $uploader->receive();
-                    $filename = $uploader->getUploaded();
-                    if (is_array($filename)) {
-                        $filename = current($filename);
-                    }
-                    // Fetch file attributes
-                    $fileinfoList = $uploader->getFileInfo();
-                    $fileinfo = current($fileinfoList);
-                    if (!isset($params['mimetype'])) {
-                        $params['mimetype'] = $fileinfo['type'];
-                    }
-                    if (!isset($params['size'])) {
-                        $params['size'] = $fileinfo['size'];
-                    }
-                    $success = true;
-                }
-                break;
-            // For remote put
-            case 'PUT':
-                $putdata = fopen('php://input', 'r');
-                $filename = $rename($params['filename']);
-                $target = $destination  . '/' . $filename;
-                $fp = fopen($target, 'w');
-                while ($data = fread($putdata, 1024)) {
-                    fwrite($fp, $data);
-                }
-                fclose($fp);
-                fclose($putdata);
 
-                $success = true;
-                break;
-
-            // For local
-            case 'MOVE':
-                $filename = $rename($params['filename']);
-                $target = $destination . '/' . $filename;
-                Pi::service('file')->copy($params['file'], $target);
-                unset($params['file']);
-                $success = true;
-                break;
-
-            default:
-                break;
+        $uploader = new Upload(array(
+            'destination'   => $destination,
+            'rename'        => $finalSlug,
+        ));
+        $maxSize = Pi::config(
+            'max_size',
+            $this->module
+        );
+        if ($maxSize) {
+            $uploader->setSize($maxSize * 1024);
         }
-        if ($success) {
-            //$params['url']  = $rootUri . '/' . $relativePath . '/' . $filename;
-            //$params['path'] = $rootPath . '/' . $relativePath . '/' . $filename;
-            $params['url']  = Pi::url();
-            $params['path'] = 'upload/media' . '/' . $relativePath;
 
-            $result = $this->add($params);
+        $extensions = Pi::config(
+            'extension',
+            $this->module
+        );
+
+        if($extensions && $extArray = explode(',', $extensions)){
+            $uploader->setExtension($extArray);
+        }
+
+        $imageMinW = Pi::config(
+            'image_minw',
+            $fromModule
+        ) ?: Pi::config(
+            'image_minw',
+            'media'
+        );
+
+        $imageMinH = Pi::config(
+            'image_minh',
+            $fromModule
+        ) ?: Pi::config(
+            'image_minh',
+            'media'
+        );
+
+        $imageSizeControl = array();
+
+        if($imageMinW && $imageMinH){
+            $imageSizeControl['minwidth'] = $imageMinW;
+            $imageSizeControl['minheight'] = $imageMinH;
+        }
+
+        $imageMaxW = Pi::config(
+            'image_maxw',
+            'media'
+        );
+
+        $imageMaxH = Pi::config(
+            'image_maxh',
+            'media'
+        );
+
+        if($imageMaxW && $imageMaxH){
+            $imageSizeControl['maxwidth'] = $imageMaxW;
+            $imageSizeControl['maxheight'] = $imageMaxH;
+        }
+
+        if($imageSizeControl){
+            $uploader->setImageSize($imageSizeControl);
+        }
+
+        if(!empty($params['filekey'])){
+            $result = $uploader->isValid($params['filekey']);
         } else {
-            $result = 0;
+            $result = $uploader->isValid();
+        }
+
+
+        if ($result) {
+            if(!empty($params['filekey'])){
+                $uploader->receive($params['filekey']);
+            } else {
+                $uploader->receive();
+            }
+
+            $filename = $uploader->getUploaded();
+            if (is_array($filename)) {
+                $filename = current($filename);
+            }
+            // Fetch file attributes
+            $fileinfoList = $uploader->getFileInfo();
+            $fileinfo = current($fileinfoList);
+            if (!isset($params['mimetype'])) {
+                $params['mimetype'] = mime_content_type($fileinfo['tmp_name']);
+            }
+            if (!isset($params['size'])) {
+                $params['size'] = $fileinfo['size'];
+            }
+            $success = true;
+        }
+
+        if ($success) {
+            $params['path'] = $relativeDestination;
+            $params['filename'] = $finalSlug;
+            $params['id'] = $currentId ?: $this->add($params);
+            $result = $params;
+        } else {
+            $params['upload_errors'] = $uploader->getMessages();
+            $result = $params;
         }
 
         return $result;
@@ -222,7 +285,23 @@ class Doc extends AbstractApi
             if (empty($data['time_updated'])) {
                 $data['time_updated'] = time();
             }
+
+            if (isset($data['active']) && $data['active'] != $row->active) {
+                if($data['active'] == 2){
+                    $data['time_deleted'] = time();
+                }
+
+                if($data['active'] != 2){
+                    $data['time_deleted'] = '';
+                }
+            }
+
             $row->assign($data);
+
+            if($uid = Pi::user()->getId()){
+                $row->updated_by = $uid;
+            }
+
             $row->save();
 
             return true;
@@ -366,16 +445,17 @@ class Doc extends AbstractApi
 
         return $result;
     }
-    
+
     /**
      * Get list by condition
      *
-     * @param array  $condition
-     * @param int    $limit
-     * @param int    $offset
-     * @param string|array $order
+     * @param array $condition
+     * @param int $limit
+     * @param int $offset
+     * @param string $order
      * @param array $attr
-     *
+     * @param null $keyword
+     * @param bool $orphan
      * @return array
      */
     public function getList(
@@ -383,8 +463,14 @@ class Doc extends AbstractApi
         $limit  = 0,
         $offset = 0,
         $order  = '',
-        array $attr = array()
+        array $attr = array(),
+        $keyword = null,
+        $orphanOnly = false
     ) {
+        if(isset($condition['keyword'])){
+            unset($condition['keyword']);
+        }
+
         $model  = $this->model();
         $select = $model->select()->where($condition);
         if ($limit) {
@@ -393,17 +479,43 @@ class Doc extends AbstractApi
         if ($offset) {
             $select->offset($offset);
         }
-        if ($order) {
-            $select->order($order);
-        }
+
         if ($attr) {
             $select->columns($attr);
         }
+
+        $linkModel = Pi::model('link', $this->module);
+
+        $select->join(array('link' => $linkModel->getTable()), $model->getTable() . '.id = link.media_id', array('using_count' => new \Zend\Db\Sql\Expression('COUNT(DISTINCT object_id)')), \Zend\Db\Sql\Select::JOIN_LEFT);
+        $select->group($model->getTable() . '.id');
+
+        if($orphanOnly){
+            $select->where('link.id IS NULL');
+        }
+
+        if($keyword && trim($keyword)){
+
+            $keyword = trim($keyword);
+            $keywordArray = explode(' ', $keyword);
+            $keywordBoolean = '+' . trim(implode(' +', $keywordArray));
+
+            $select->where(
+                new \Zend\Db\Sql\Predicate\Expression("MATCH(".$model->getTable() . ".title, ".$model->getTable() . ".description, ".$model->getTable() . ".filename) AGAINST (? IN BOOLEAN MODE) OR ".$model->getTable() . ".title LIKE ? OR ".$model->getTable() . ".description LIKE ? OR ".$model->getTable() . ".filename LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%', '%' . $keyword . '%')
+            );
+            $select->columns(array_merge($select->getRawState($select::COLUMNS), array(
+                new \Zend\Db\Sql\Expression("((MATCH(".$model->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$model->getTable() . ".description) AGAINST (?) * 1) + (MATCH(".$model->getTable() . ".filename) AGAINST (?) * 1)) AS score", array($keyword, $keyword, $keyword)),
+            )));
+            $select->order('score DESC, time_created DESC');
+        } else {
+            if ($order) {
+                $select->order($order);
+            }
+        }
+
         $rowset = $model->selectWith($select);
         $result = array();
         foreach ($rowset as $row) {
             $result[$row->id] = $row->toArray();
-            $result[$row->id]['url'] = sprintf('%s/%s/%s', $row->url, $row->path , $row->name);
         }
 
         return $result;
@@ -430,9 +542,10 @@ class Doc extends AbstractApi
      */
     public function getUrl($id)
     {
-        $url = $this->get($id, 'url');
+        $path = $this->get($id, 'path');
+        $filename = $this->get($id, 'filename');
 
-        return $url;
+        return Pi::url('upload/media' .$path . $filename);
     }
 
     /**
@@ -480,5 +593,361 @@ class Doc extends AbstractApi
     protected function transferSize($value, $direction = true)
     {
         return Pi::service('file')->transformSize($value);
+    }
+
+    /**
+     * Get Original Single link data
+     * @param $value
+     * @return array|bool
+     */
+    public function getSingleLinkData($value, $width = null, $height = null, $quality = null, $module = 'media'){
+        $ids = explode(',', $value);
+
+        if($ids){
+            /**
+             * helper get first entry (if field is seasonable, then first entry would be the current season (on submit item action, or manual trigger from BO does an automatic sort)
+             */
+            $id = array_shift($ids);
+            $media = Pi::model('doc', $this->module)->find($id);
+
+            if(!$media){
+                return null;
+            }
+
+            $data = $media->toArray();
+            $data['url'] = (string) Pi::api('resize', 'media')->resize($media);
+
+            if($width && $height){
+                $data['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbcrop($width, $height)->quality($quality);
+            } else if($width && is_string($width)){
+                $data['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbcrop($width)->quality($quality);
+            }
+
+            if(!$data['copyright']){
+                $config = Pi::service('registry')->config->read('media');
+                $data['copyright'] = $config['image_default_copyright'];
+            }
+
+            if($data['copyright'] && !preg_match('#©#', $data['copyright'])){
+                $data['copyright'] = '© ' . $data['copyright'];
+            }
+
+            return $data;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get Original Gallery link data
+     * @param $value
+     * @return array|bool
+     */
+    public function getGalleryLinkData($value, $width = null, $height = null, $quality = null, $sortBySeason = false, $additionalImagesToAdd = array(), $module = 'media', $cropMode = false){
+        if($value){
+            $ids = explode(',', $value);
+
+            if($additionalImagesToAdd){
+                $additionalIds = explode(',', $additionalImagesToAdd);
+                array_shift($additionalIds);
+
+                $ids = array_merge($ids, $additionalIds);
+            }
+
+            $ids = array_filter($ids);
+            $ids = array_unique($ids);
+
+            if($ids){
+                $model = Pi::model('doc', $this->module);
+                $select = $model->select();
+
+                $select->where(array(
+                    new In('id', $ids),
+                ));
+
+                $manualSortExpression = new Expression('FIELD (id, '.implode(',', $ids).')');
+
+                if($sortBySeason){
+                    // no tags, then season, then manual order
+                    $orderSeason = $this->getOrderSeason();
+                    $select->order(array(
+                        new Expression('season IS NOT NULL'),
+                        new Expression('FIELD (season, '.$orderSeason.')'),
+                        $manualSortExpression
+                    ));
+                } else {
+                    $select->order(array($manualSortExpression));
+                }
+
+                $mediaCollection = Pi::model('doc', $this->module)->selectWith($select);
+
+                $mediaArray = array();
+                foreach($mediaCollection as $media){
+                    $dataToInject = $media->toArray();
+                    $dataToInject['url'] = (string) Pi::api('resize', 'media')->resize($media);
+
+                    if($width && $height){
+                        if($cropMode){
+                            $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($width, $height)->quality($quality);
+                        } else {
+                            $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width, $height)->quality($quality);
+                        }
+                    } else if($width){
+
+                        if(is_array($width)){
+                            foreach($width as $w){
+                                if($cropMode){
+                                    $h = round($w * 2 / 3);
+                                    $dataToInject['resized_url'][$w] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($w,$h)->quality($quality);
+                                } else {
+                                    $dataToInject['resized_url'][$w] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($w,$w)->quality($quality);
+                                }
+                            }
+                        } else {
+                            if($cropMode){
+                                $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($width)->quality($quality);
+                            } else {
+                                $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
+                            }
+                        }
+                    }
+
+                    if(!$dataToInject['copyright']){
+                        $config = Pi::service('registry')->config->read('media');
+                        $dataToInject['copyright'] = $config['image_default_copyright'];
+                    }
+
+                    if($dataToInject['copyright'] && !preg_match('#©#', $dataToInject['copyright'])){
+                        $dataToInject['copyright'] = '© ' . $dataToInject['copyright'];
+                    }
+
+                    $mediaArray[] = $dataToInject;
+                }
+
+                return $mediaArray;
+            }
+        }
+
+        return array();
+    }
+
+    /**
+     * Resize by media values
+     */
+    public function getSingleLinkUrl($value, $quality = null){
+
+        $ids = explode(',', $value);
+
+        if($ids){
+            /**
+             * helper get first entry (if field is seasonable, then first entry would be the current season (on submit item action, or manual trigger from BO does an automatic sort)
+             */
+            return Pi::api('resize', 'media')->resize(array_shift($ids))->quality($quality);
+        }
+
+        return false;
+    }
+
+    public function getSingleLinkPictureTag($value, $sizes = array(320,768,1200,2000), $quality = null){
+
+        $ids = explode(',', $value);
+
+        if($ids){
+
+            /**
+             * helper get first entry (if field is seasonable, then first entry would be the current season (on submit item action, or manual trigger from BO does an automatic sort)
+             */
+            $id = array_shift($ids);
+
+            $media = Pi::model('doc', $this->module)->find($id);
+            $data = $media->toArray();
+            $data['urls'] = array();
+
+            $data['urls']['original'] = (string) Pi::api('resize', 'media')->resize($media);
+
+            foreach($sizes as $size){
+                $size = (int) $size;
+                $data['urls'][$size] = (string) Pi::api('resize', 'media')->resize($media)->thumb($size, floor($size * 1.5))->quality($quality);
+            }
+
+            $pictureView = new \Zend\View\Model\ViewModel;
+            $pictureView->setTemplate('media:front/partial/picture-tag');
+            $pictureView->setVariable('data', $data);
+            $pictureHtml = Pi::service('view')->render($pictureView);
+
+            return $pictureHtml;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param \Pi\Db\RowGateway\RowGateway $media
+     */
+    public function removeImageCache($media){
+        if(!empty($media->id)){
+            $path = 'upload/media' . $media->path . $media->filename;
+            $path = str_replace('upload/media/original', '', $path);
+
+            $pattern = 'upload/media/processed/*' . $path;
+            foreach (glob($pattern) as $filename) {
+                unlink($filename);
+            }
+        }
+    }
+
+    /**
+     * Get invalid fields from media object
+     * @param $media
+     * @return array
+     */
+    public function getInvalidFields($media){
+        $form = new MediaEditForm('media');
+        $form->setInputFilter(new MediaEditFilter());
+
+        $form->setData($media);
+        $form->isValid();
+
+        $invalidFields = array();
+
+        foreach($form->getElements() as $element){
+            /* @var $element \Zend\Form\Element */
+
+            if($element->getName() == 'id') continue;
+
+            $filter = $form->getInputFilter()->get($element->getName());
+
+
+            if(!$filter->isValid()){
+                $invalidFields[] = $element->getName();
+            }
+        }
+
+        return $invalidFields;
+    }
+
+    public function hasInvalidFields($media){
+
+        return (bool) $this->getInvalidFields($media);
+    }
+
+    public function getSlugFilename($filename){
+        $filter = new Filter\Urlizer;
+        $slug = $filter($filename, '-', true);
+
+        return $slug;
+    }
+
+    public function getMediaPath($filename){
+        $slug = $this->getSlugFilename($filename);
+
+        $firstChars = str_split(substr($slug, 0, 3));
+
+        $relativeDestination = '/original/' . implode('/', $firstChars) . '/';
+
+        return $relativeDestination;
+    }
+
+
+    /**
+     * Insert media item
+     * @param $mediaData
+     * @param $originalImagePath
+     * @return mixed
+     */
+    public function insertMedia($mediaData, $originalImagePath){
+        $options    = Pi::service('media')->getOption('local', 'options');
+        $rootPath   = $options['root_path'];
+
+        if(is_file($originalImagePath)){
+            $baseFilename = basename($originalImagePath);
+
+            $path = Pi::api('doc', 'media')->getMediaPath($baseFilename);
+            $slug = Pi::api('doc', 'media')->getSlugFilename($baseFilename);
+
+            $mediaData['mimetype'] = mime_content_type($originalImagePath);
+            $mediaData['path'] = $path;
+            $mediaData['filename'] = $slug;
+
+            $destination = $rootPath . $path . $slug;
+
+            Pi::service('file')->mkdir($rootPath . $path);
+
+            if(!is_file($destination)){
+                @copy($originalImagePath, $destination);
+            }
+
+            $mediaEntity = Pi::model('doc', 'media')->select(array('filename' => $slug))->current();
+
+            if(!$mediaEntity || !$mediaEntity->id){
+                $mediaEntity = Pi::model('doc', 'media')->createRow($mediaData);
+                $mediaEntity->save();
+            }
+
+            return $mediaEntity->id;
+
+        } else {
+            Pi::service('audit')->log("migrate_media", "Media can't be created - original file does not exist");
+            Pi::service('audit')->log("migrate_media", $originalImagePath);
+            Pi::service('audit')->log("migrate_media", json_encode($mediaData));
+        }
+    }
+
+    public function getOrderSeason(){
+        $currentDate = date('m/d');
+
+        $seasonDates = array(
+            1 => Pi::config('season_summer_at', 'guide'),
+            2 => Pi::config('season_winter_at', 'guide'),
+            3 => Pi::config('season_autumn_at', 'guide'),
+            4 => Pi::config('season_spring_at', 'guide'),
+        );
+
+        asort($seasonDates);
+        end($seasonDates);
+        $currentSeason = key($seasonDates);
+        reset($seasonDates);
+
+        foreach($seasonDates as $season => $seasonDate){
+            if($currentDate >= $seasonDate){
+                $currentSeason = $season;
+            }
+        }
+
+        $orderSeason = null;
+
+        switch($currentSeason){
+            case 1:
+                $orderSeason = '1,4,3,2';
+                break;
+            case 2:
+                $orderSeason = '2,3,4,1';
+                break;
+            case 3:
+                $orderSeason = '3,1,4,2';
+                break;
+            case 4:
+                $orderSeason = '4,1,3,2';
+                break;
+            default:
+                break;
+        }
+
+        return $orderSeason;
+    }
+
+    public function getRatio(){
+        // default ratio
+        $ratio = 3/2;
+
+        /**
+         * Get custom ratio
+         */
+        $config = Pi::service('registry')->config->read('media');
+        if($config['image_ratio_w'] && $config['image_ratio_h']){
+            $ratio = $config['image_ratio_w'] / $config['image_ratio_h'];
+        }
+
+        return $ratio;
     }
 }
