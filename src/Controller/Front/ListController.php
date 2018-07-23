@@ -552,7 +552,10 @@ class ListController extends ActionController
                     $newFinalPath = $destination . $finalSlug;
                 }
 
+                $data['path'] = $relativeDestination;
                 $data['filename'] = $finalSlug;
+
+                mkdir($destination, 0777, true);
 
                 $result = rename(
                     Pi::path($oldFinalPath),
