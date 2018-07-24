@@ -256,13 +256,14 @@ $(function() {
         }
     };
 
-
+    document.processedFiles = 0;
 
     // Dropzone class:
     if(typeof myDropzone == 'undefined') myDropzone = new Dropzone("#dropzone-media-form", {
         url: uploadUrl,
         maxFilesize: uploadMaxSizeMb,
         // autoQueue: false,
+        // uploadMultiple: true,
         dictDefaultMessage: uploadMsg,
         dictFileTooBig: dictFileTooBig,
         init: function(){
@@ -307,8 +308,14 @@ $(function() {
     });
 
     myDropzone.on("success", function(file) {
+        document.processedFiles++;
+    });
+
+    myDropzone.on("queuecomplete", function(file) {
         $('#media_gallery .table').DataTable().ajax.reload(function(){
-            $('#media_gallery .table tbody tr:first-child').click();
+            console.log(document.processedFiles);
+            $('#media_gallery .table tbody').children('tr').slice(0,document.processedFiles).click();
+            document.processedFiles = 0;
         });
     });
 
