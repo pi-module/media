@@ -145,6 +145,8 @@ var removeMediaToModal = function(media){
 var initDataTable = function(){
     var table = $('#media_gallery .table');
 
+    finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? 1:0);
+
     table.DataTable({
         "lengthMenu": [[3, 5, 10, 20], [3, 5, 10, 20]],
         "bDestroy": true,
@@ -152,7 +154,7 @@ var initDataTable = function(){
         "processing": true,
         "serverSide": true,
         "autoWidth": false,
-        "ajax": listUrl,
+        "ajax": finalListUrl,
         "columns": [
             {
                 "width": "10px",
@@ -225,8 +227,28 @@ var loadList  = function(){
 };
 
 var myDropzone;
+var showUIDMedia = 0;
+var showUIDBtnInitialized = false;
 
 $(function() {
+
+    $('#show_uid_media').click(function(){
+        showUIDMedia = $(this).prop('checked');
+
+        /**
+         * Reload list with uid media option
+         */
+        if(showUIDBtnInitialized){
+            var dataTable = $('#media_gallery .table').DataTable();
+
+            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? 1:0);
+
+            dataTable.ajax.url(finalListUrl);
+            dataTable.ajax.reload();
+        }
+    }).click().click();
+
+    showUIDBtnInitialized = true;
 
     $(document).on('click', '.btn-unlink-action', function(){
         var mediaId = $(this).data('media-id');
@@ -318,7 +340,10 @@ $(function() {
         /**
          * Set upload count to refresh list ajax url
          */
-        dataTable.ajax.url(listUrl + '?uploadCount=' + document.processedFiles);
+
+        finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? 1:0);
+
+        dataTable.ajax.url(finalListUrl + '&uploadCount=' + document.processedFiles);
         dataTable.ajax.reload(function(data){
 
             var uploadedMedia = data['uploadedMedia'].slice(0,document.processedFiles);

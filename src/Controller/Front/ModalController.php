@@ -37,6 +37,7 @@ class ModalController extends ActionController
         $start = $this->params('start');
         $keyword = $this->params('search');
         $uploadCount = $this->params('uploadCount');
+        $showUIDMedia = $this->params('show_uid_media');
 
         if(isset($keyword['value'])){
             $keyword = $keyword['value'];
@@ -62,6 +63,10 @@ class ModalController extends ActionController
             }
 
             $where['uid'] = $adminRoles;
+
+            if($showUIDMedia){
+                $where['uid'] = $showUIDMedia;
+            }
         } else {
             $where['uid'] = Pi::user()->getId();
         }
