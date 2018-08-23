@@ -36,6 +36,7 @@ class ModalController extends ActionController
         $length = $this->params('length');
         $start = $this->params('start');
         $keyword = $this->params('search');
+        $uploadCount = $this->params('uploadCount');
 
         if(isset($keyword['value'])){
             $keyword = $keyword['value'];
@@ -87,6 +88,8 @@ class ModalController extends ActionController
                 new \Zend\Db\Sql\Expression("((MATCH(".$mediaModel->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$mediaModel->getTable() . ".description) AGAINST (?) * 1)) AS score", array($keyword, $keyword)),
             )));
             $select->order('score DESC, time_created DESC');
+        } else {
+            $select->order('time_created DESC');
         }
 
         $resultsetFull = $mediaModel->selectWith($select);
@@ -94,8 +97,6 @@ class ModalController extends ActionController
 
         $select = $mediaModel->select();
         $select->where($where);
-
-        $select->limit($length);
         $select->offset($start);
         $select->join(array('link' => $linkModel->getTable()), $mediaModel->getTable() . ".id = link.media_id", array(), \Zend\Db\Sql\Select::JOIN_LEFT);
         $select->group($mediaModel->getTable() . ".id");
@@ -121,6 +122,7 @@ class ModalController extends ActionController
             $select->order('time_created DESC');
         }
 
+        $select->limit($length);
         $resultset = $mediaModel->selectWith($select);
 
         $section = Pi::engine()->section() == 'admin' ? 'admin' : 'default';
@@ -189,11 +191,31 @@ PHP;
             );
         }
 
+        $uploadedMedia = array();
+        $i = 0;
+        foreach($resultsetFull as $media) {
+            $i++;
+            /**
+             * Reach upload count, full media list useless
+             */
+            if($i > $uploadCount){
+                break;
+            }
+
+            $img = (string) Pi::api('resize','media')->resize($media)->thumbcrop(100, 100);
+            $uploadedMedia[] = array(
+                'id' => (int) $media['id'],
+                'img' => $img,
+                'season' => $media['season'],
+            );
+        }
+
         $output = array(
             "draw" => (int) $draw,
             "recordsTotal" => (int) $resultsetFull->count(),
             "recordsFiltered" => (int) $resultsetFull->count(),
             "data" => $data,
+            'uploadedMedia' => $uploadedMedia,
         );
 
         return $output;

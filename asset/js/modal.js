@@ -312,9 +312,35 @@ $(function() {
     });
 
     myDropzone.on("queuecomplete", function(file) {
-        $('#media_gallery .table').DataTable().ajax.reload(function(){
-            console.log(document.processedFiles);
-            $('#media_gallery .table tbody').children('tr').slice(0,document.processedFiles).click();
+
+        var dataTable = $('#media_gallery .table').DataTable();
+
+        /**
+         * Set upload count to refresh list ajax url
+         */
+        dataTable.ajax.url(listUrl + '?uploadCount=' + document.processedFiles);
+        dataTable.ajax.reload(function(data){
+
+            var uploadedMedia = data['uploadedMedia'].slice(0,document.processedFiles);
+
+
+            uploadedMedia.forEach(function(media){
+                var rowElement = $('#media_gallery .table tbody tr[data-media-id='+media.id+']');
+
+                if(rowElement.length){
+                    /**
+                     * Item on first page
+                     */
+                    rowElement.click();
+                } else {
+                    /**
+                     * Item should be on next pages... but inserted in page 1 / hidden
+                     */
+                    $('#media_gallery .table tbody tr:last-child').after('<tr style="display:none;" data-media-id="'+media.id+'" data-media-img="'+media.img+'"><td>TOTO</td></tr>');
+                    $('#media_gallery .table tbody tr[data-media-id='+media.id+']').click();
+                }
+            });
+
             document.processedFiles = 0;
         });
     });
