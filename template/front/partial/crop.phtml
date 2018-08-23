@@ -31,7 +31,7 @@
     var minCropRealWidth = <?php echo $minCropRealWidth ?>;
     var minCropRealHeight = <?php echo $minCropRealHeight ?>;
     var warningMinWidthAlertText = "<?php echo __("Notice : min width has been reached") ?>";
-    var ratio = <?php echo $ratio ?>;
+    var ratio = <?php echo str_replace(',', '.', $ratio) ?>;
 
     function initCrop(element, croppingInputElement){
         var targetElement = element.get(0);
