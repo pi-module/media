@@ -62,11 +62,12 @@ class ModalController extends ActionController
                 $adminRoles[] = $role->uid;
             }
 
+            if($showUIDMedia){
+                $adminRoles[] = $showUIDMedia;
+            }
+
             $where['uid'] = $adminRoles;
 
-            if($showUIDMedia){
-                $where['uid'] = $showUIDMedia;
-            }
         } else {
             $where['uid'] = Pi::user()->getId();
         }

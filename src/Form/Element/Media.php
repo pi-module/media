@@ -22,6 +22,7 @@ class Media extends \Zend\Form\Element\Text
     public function getAttributes()
     {
         $fromModule = $this->getOption('module') ?: 'media';
+        $fromUid = $this->getOption('uid') ?: null;
 
         // Load language
         Pi::service('i18n')->load(array('module/media', 'default'));
@@ -146,8 +147,8 @@ class Media extends \Zend\Form\Element\Text
         $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='label label-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMinDimensions);
         $dictFileTooBig = __("File size is to high ({{filesize}}kb). Max : {{maxFilesize}}kb");
 
-        if(Pi::engine()->section() == 'admin'){
-            $showUIDMediaContent = '<div><label for="show_uid_media"><input type="checkbox" name="show_uid_media" id="show_uid_media"/> Show Item UID media</label></div>';
+        if(Pi::engine()->section() == 'admin' && $fromUid){
+            $showUIDMediaContent = '<div><label for="show_uid_media"><input type="checkbox" name="show_uid_media" id="show_uid_media" value="'.$fromUid.'" /> Show Item UID media</label></div>';
         } else {
             $showUIDMediaContent = '';
         }

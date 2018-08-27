@@ -145,7 +145,7 @@ var removeMediaToModal = function(media){
 var initDataTable = function(){
     var table = $('#media_gallery .table');
 
-    finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? 1:0);
+    finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0);
 
     table.DataTable({
         "lengthMenu": [[3, 5, 10, 20], [3, 5, 10, 20]],
@@ -233,7 +233,12 @@ var showUIDBtnInitialized = false;
 $(function() {
 
     $('#show_uid_media').click(function(){
-        showUIDMedia = $(this).prop('checked');
+
+        if($(this).prop('checked')){
+            showUIDMedia = $(this).val();
+        } else {
+            showUIDMedia = 0;
+        }
 
         /**
          * Reload list with uid media option
@@ -241,7 +246,7 @@ $(function() {
         if(showUIDBtnInitialized){
             var dataTable = $('#media_gallery .table').DataTable();
 
-            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? 1:0);
+            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0);
 
             dataTable.ajax.url(finalListUrl);
             dataTable.ajax.reload();
@@ -341,7 +346,7 @@ $(function() {
          * Set upload count to refresh list ajax url
          */
 
-        finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? 1:0);
+        finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0);
 
         dataTable.ajax.url(finalListUrl + '&uploadCount=' + document.processedFiles);
         dataTable.ajax.reload(function(data){
