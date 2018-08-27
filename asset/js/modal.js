@@ -230,6 +230,51 @@ var myDropzone;
 var showUIDMedia = 0;
 var showUIDBtnInitialized = false;
 
+detectVerticalSquash = function(img) {
+    var alpha, canvas, ctx, data, ey, ih, iw, py, ratio, sy;
+    iw = img.naturalWidth;
+    ih = img.naturalHeight;
+    canvas = document.createElement("canvas");
+    canvas.width = 1;
+    canvas.height = ih;
+    ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    data = ctx.getImageData(0, 0, 1, ih).data;
+    sy = 0;
+    ey = ih;
+    py = ih;
+    while (py > sy) {
+        alpha = data[(py - 1) * 4 + 3];
+        if (alpha === 0) {
+            ey = py;
+        } else {
+            sy = py;
+        }
+        py = (ey + sy) >> 1;
+    }
+    ratio = py / ih;
+    if (ratio === 0) {
+        return 1;
+    } else {
+        return ratio;
+    }
+};
+
+drawImageIOSFix = function(o, ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) {
+
+    // console.log(o);
+    var vertSquashRatio;
+    vertSquashRatio = detectVerticalSquash(img);
+
+    dh = dh / vertSquashRatio;
+    ctx.translate( dx+dw/2, dy+dh/2 );
+    ctx.rotate(-o*Math.PI/180);
+    dx = -dw/2;
+    dy = -dh/2;
+
+    return ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh / vertSquashRatio);
+};
+
 $(function() {
 
     $('#show_uid_media').click(function(){
@@ -283,6 +328,58 @@ $(function() {
         }
     };
 
+    Dropzone.prototype.createThumbnailFromUrl = function(file, imageUrl, callback, crossOrigin) {
+        var img;
+        img = document.createElement("img");
+        if (crossOrigin) {
+            img.crossOrigin = crossOrigin;
+        }
+        img.onload = (function(_this) {
+
+            return function() {
+                var orientation = 0;
+                EXIF.getData(img, function() {
+                    switch(parseInt(EXIF.getTag(this, "Orientation"))){
+                        case 3:
+                            orientation = 180;
+                            break;
+                        case 6:
+                            orientation = -90;
+                            break;
+                        case 8:
+                            orientation = 90;
+                            break;
+                    }
+                });
+
+                var canvas, ctx, resizeInfo, thumbnail, _ref, _ref1, _ref2, _ref3;
+                file.width = img.width;
+                file.height = img.height;
+                resizeInfo = _this.options.resize.call(_this, file);
+                if (resizeInfo.trgWidth == null) {
+                    resizeInfo.trgWidth = resizeInfo.optWidth;
+                }
+                if (resizeInfo.trgHeight == null) {
+                    resizeInfo.trgHeight = resizeInfo.optHeight;
+                }
+                canvas = document.createElement("canvas");
+                ctx = canvas.getContext("2d");
+                canvas.width = resizeInfo.trgWidth;
+                canvas.height = resizeInfo.trgHeight;
+                drawImageIOSFix(orientation, ctx, img, (_ref = resizeInfo.srcX) != null ? _ref : 0, (_ref1 = resizeInfo.srcY) != null ? _ref1 : 0, resizeInfo.srcWidth, resizeInfo.srcHeight, (_ref2 = resizeInfo.trgX) != null ? _ref2 : 0, (_ref3 = resizeInfo.trgY) != null ? _ref3 : 0, resizeInfo.trgWidth, resizeInfo.trgHeight);
+                thumbnail = canvas.toDataURL("image/png");
+                _this.emit("thumbnail", file, thumbnail);
+                if (callback != null) {
+                    return callback();
+                }
+            };
+        })(this);
+        if (callback != null) {
+            img.onerror = callback;
+        }
+        return img.src = imageUrl;
+    };
+
     document.processedFiles = 0;
 
     // Dropzone class:
@@ -290,7 +387,8 @@ $(function() {
         url: uploadUrl,
         maxFilesize: uploadMaxSizeMb,
         // autoQueue: false,
-        // uploadMultiple: true,
+        // uploadMultiple: true,detectVerticalSquash
+        // createImageThumbnails: false,
         dictDefaultMessage: uploadMsg,
         dictFileTooBig: dictFileTooBig,
         init: function(){
@@ -325,6 +423,25 @@ $(function() {
             });
         }
     });
+
+    // myDropzone.on('addedfile', function(file) {
+    //     var self = this;
+    //     window.loadImage.parseMetaData(file, function (data) {
+    //         // use embedded thumbnail if exists.
+    //         if (data.exif) {
+    //             var thumbnail = data.exif.get('Thumbnail');
+    //             var orientation = data.exif.get('Orientation');
+    //             if (thumbnail && orientation) {
+    //                 window.loadImage(thumbnail, function (img) {
+    //                     self.emit('thumbnail', file, img.toDataURL());
+    //                 }, { orientation: orientation });
+    //                 return;
+    //             }
+    //         }
+    //         // use default implementation for PNG, etc.
+    //         self.createThumbnail(file);
+    //     });
+    // });
 
     myDropzone.on("drop", function() {
         return false;

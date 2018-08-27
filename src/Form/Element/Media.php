@@ -39,6 +39,9 @@ class Media extends \Zend\Form\Element\Text
         $jsHelper($assetHelper('js/jquery-ui.custom.min.js', 'media'));
         $jsHelper($assetHelper('js/jquery.dataTables.min.js', 'media'));
         $jsHelper($assetHelper('js/dataTables.bootstrap.min.js', 'media'));
+
+        $jsHelper($assetHelper('js/exif.js', 'media'));
+        $jsHelper($assetHelper('js/load-image.all.min.js', 'media'));
         $jsHelper($assetHelper('js/modal.js', 'media'));
 
         $cssHelper = Pi::service('view')->gethelper('css');
