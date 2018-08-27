@@ -238,6 +238,10 @@ PHP;
             Pi::service()->getService('log')->mute(true);
         }
 
+        if(!$ids){
+            return $this->jumpto404();
+        }
+
         /**
          * Get current media list with current order
          */
