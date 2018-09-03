@@ -38,7 +38,10 @@
         var targetElementWidth = element.outerWidth();
         var targetElementHeight = element.outerHeight();
 
+        jQuery('#editMediaModal, #media').find('.cropping-data').remove();
+
         if(jQuery('#editMediaModal, #media').find(targetElement).length > 0){
+
             jQuery(targetElement).parent().after(function() {
                 return '<div class="cropping-data">' +
                     '<small>Width : <span class="width"></span>px, Height : <span class="height"></span>, OffsetX : <span class="x"></span>, OffsetY : <span class="y"></span></small>' +
