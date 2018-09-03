@@ -26,7 +26,10 @@ var refreshFormList = function(formList){
 
     $.ajax({
         url: formlistUrl + "?ids=" + inputValues,
-        cache: false
+        cache: false,
+        beforeSend : function(){
+            formList.html(jQuery('.ajax-spinner-prototype').html());
+        }
     }).done(function( html ) {
         formList.html( html );
 

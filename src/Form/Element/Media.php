@@ -375,6 +375,12 @@ HTML;
     </div>
   </div>
 </div>
+
+<div class="ajax-spinner-prototype hide">
+    <div class="ajax-spinner">
+        <img src="{$loader}" class="ajax-spinner-loader" alt="" />
+    </div>
+</div>
 HTML;
 
         if(!isset($GLOBALS['isMediaModalLoaded'])){
