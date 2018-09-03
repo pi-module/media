@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: media\n"
-"POT-Creation-Date: 2017-07-19 13:02+0430\n"
-"PO-Revision-Date: 2017-07-19 13:04+0430\n"
+"POT-Creation-Date: 2018-01-28 11:31+0330\n"
+"PO-Revision-Date: 2018-01-28 11:41+0330\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.3\n"
 "X-Poedit-KeywordsList: _a;_t\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -76,8 +76,18 @@ msgid "Max file size"
 msgstr "حداکثر حجم فایل"
 
 #: config/config.php:94
-msgid "Maximum size for files allowed to upload (in KB)."
-msgstr "حداکثر حجم فایل مجاز برای بارگزاری ( به KB )"
+msgid ""
+"Maximum size for files allowed to upload (in KB). Caution : on front side, "
+"max file size messages are displayed in octets (ko). Here you set in bytes "
+"(Kb) ! For 4Mo, you have to set 4 * 1024 = 4096 kb. Also, front limit is "
+"rounded to lower Mb integer after conversion, so 4096 Kb == 4Mo and 4095 kb "
+"== 3Mo"
+msgstr ""
+"حداکثرسایز قایل مجاز برای بارگزاری ( به کیلوبایت KB ). احتیاط : در سمت "
+"کاربر حداکثر سایز مجاز برای بارگزاری به صورت هشت تایی نمایش داده می شود. "
+"شما اینجا به صورت بایت ( KB ) وارد می کنید ! برای ۴ مگابایت شما باید به "
+"صورت 4 * 1024 = 4096 کیلوبایت وارد کنید. همچنین محدودیت برای گرد کردن به "
+"پایین بعد از تبدیل وجود دارد، بنابراین 4096 Kb == 4Mo است"
 
 #: config/config.php:101
 msgid "Max Image width (upload)"
@@ -100,83 +110,102 @@ msgid "Image quality"
 msgstr "کیفیت تصویر"
 
 #: config/config.php:134
-msgid "Between 0 to 100 and support both of JPG and PNG, default is 75"
+msgid ""
+"Between 0 to 100 and support both of JPG and PNG, default is 75. Can be "
+"overridden by custom module config"
 msgstr ""
-"یک عدد بین 0 تا 100 ، هر دو فرمت JPG و PNG را پشتیبانی می کند، پیش فرض 75"
+"یک عدد بین 0 تا 100 ، هر دو فرمت JPG و PNG را پشتیبانی می کند، پیش فرض 75. "
+"این گزینه از طریق تنظیمات ماژول ها بازنویسی می شود"
 
 #: config/config.php:141
+msgid "Image ratio width"
+msgstr "نسبت عرض تصویر"
+
+#: config/config.php:142
+msgid "Example : \"3\" for 3/2 ratio"
+msgstr "مثال : \"3\" برای نسبت ۳/۲"
+
+#: config/config.php:149
+msgid "Image ratio height"
+msgstr "نسبت ارتفاع تصویر"
+
+#: config/config.php:150
+msgid "Example : \"2\" for 3/2 ratio"
+msgstr "مثال : \"2\" برای نسبت ۳/۲"
+
+#: config/config.php:157
 msgid "Add Watermark"
 msgstr "درج واترمارک"
 
-#: config/config.php:149
+#: config/config.php:165
 msgid "Watermark Image"
 msgstr "تصویر واترمارک"
 
-#: config/config.php:156
+#: config/config.php:172
 msgid "Watermark Position"
 msgstr "محل واترمارک"
 
-#: config/config.php:165
+#: config/config.php:181
 msgid "Top Left"
 msgstr "بالا چپ"
 
-#: config/config.php:166
+#: config/config.php:182
 msgid "Top Right"
 msgstr "بالا راست"
 
-#: config/config.php:167
+#: config/config.php:183
 msgid "Bottom Left"
 msgstr "پایین چپ"
 
-#: config/config.php:168
+#: config/config.php:184
 msgid "Bottom Right"
 msgstr "پایین راست"
 
-#: config/config.php:175
+#: config/config.php:191
 msgid "Default copyright"
 msgstr "کپی رایت پیش فرض"
 
-#: config/config.php:181
+#: config/config.php:197
 msgid "Max gallery images for freemium related items"
 msgstr "حداکثر تعداد تصاویر برای موارد رایگان"
 
-#: config/config.php:188
+#: config/config.php:204
 msgid "Alert message for freemium item"
 msgstr "متن پیام اخطار برای موارد رایگان"
 
-#: config/config.php:190
+#: config/config.php:206
 msgid "Freemium item limitations... You can't do this action"
 msgstr "محدود موارد رایگان... شما نمی توانید این فعالیت را انجام دهید"
 
-#: config/config.php:194
+#: config/config.php:210
 msgid "Large Image width"
 msgstr "عرض تصویر بزرگ"
 
-#: config/config.php:202
+#: config/config.php:218
 msgid "Large Image height"
 msgstr "ارتفاع تصویر بزرگ"
 
-#: config/config.php:210
+#: config/config.php:226
 msgid "Item Image width"
 msgstr "عرض تصویر میانه"
 
-#: config/config.php:218
+#: config/config.php:234
 msgid "Item Image height"
 msgstr "ارتفاع تصویر میانه"
 
-#: config/config.php:226
+#: config/config.php:242
 msgid "Medium Image width"
 msgstr "عرض تصویر متوسط"
 
-#: config/config.php:234
+#: config/config.php:250
 msgid "Medium Image height"
 msgstr "ارتفاع تصویر متوسط"
 
-#: config/config.php:242
+#: config/config.php:258
 msgid "Thumb Image width"
 msgstr "عرض تصویر بندانگشتی"
 
-#: config/config.php:250
+#: config/config.php:266
 msgid "Thumb Image height"
 msgstr "ارتفاع تصویر بندانگشتی"
 
@@ -282,12 +311,12 @@ msgid "Add test"
 msgstr "تست جدید"
 
 #: src/Controller/Admin/TestController.php:83
-#: src/Controller/Front/ModalController.php:257
+#: src/Controller/Front/ModalController.php:274
 msgid "Resource List"
 msgstr "فهرست تصاویر"
 
-#: src/Controller/Front/ModalController.php:478
-#: src/Controller/Front/ModalController.php:515
+#: src/Controller/Front/ModalController.php:510
+#: src/Controller/Front/ModalController.php:547
 msgid "Invalid media ID"
 msgstr "شناسه تصویر اشتباه است"
 
@@ -381,7 +410,7 @@ msgstr "حذف تصاویر یتیم"
 
 #: template/admin/tools-index.phtml:42
 msgid ""
-"This tool can clean your server and remove medias than not used on any "
+"This tool can clean your server by removing medias that are not used on any "
 "content"
 msgstr ""
 "این ابزار برای پاکسازی تصاویری که بر روی هیچ آیتمی استفاده نشده اند از روی "
@@ -390,6 +419,9 @@ msgstr ""
 #: template/front/list-edit.phtml:19
 msgid "No media select, please try again!"
 msgstr "هیچ تصویری انتخاب نشده است لطفا مجددا تلاش کنید"
+
+#~ msgid "Maximum size for files allowed to upload (in KB)."
+#~ msgstr "حداکثر حجم فایل مجاز برای بارگزاری ( به KB )"
 
 #~ msgid "Pipe separated"
 #~ msgstr "Pipe separated"

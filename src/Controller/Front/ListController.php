@@ -74,6 +74,12 @@ class ListController extends ActionController
      */
     public function indexAction()
     {
+        if(!Pi::service('user')->hasIdentity()){
+            $this->jumpToDenied();
+        }
+
+        $this->view()->headTitle(__("List of your media"));
+
         $active = $this->params('status', null);
         if ($active !== null) {
             $active = (int) $active;
@@ -546,7 +552,10 @@ class ListController extends ActionController
                     $newFinalPath = $destination . $finalSlug;
                 }
 
+                $data['path'] = $relativeDestination;
                 $data['filename'] = $finalSlug;
+
+                mkdir($destination, 0777, true);
 
                 $result = rename(
                     Pi::path($oldFinalPath),

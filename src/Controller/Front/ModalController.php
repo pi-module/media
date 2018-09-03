@@ -36,6 +36,8 @@ class ModalController extends ActionController
         $length = $this->params('length');
         $start = $this->params('start');
         $keyword = $this->params('search');
+        $uploadCount = $this->params('uploadCount');
+        $showUIDMedia = $this->params('show_uid_media');
 
         if(isset($keyword['value'])){
             $keyword = $keyword['value'];
@@ -60,7 +62,12 @@ class ModalController extends ActionController
                 $adminRoles[] = $role->uid;
             }
 
+            if($showUIDMedia){
+                $adminRoles[] = $showUIDMedia;
+            }
+
             $where['uid'] = $adminRoles;
+
         } else {
             $where['uid'] = Pi::user()->getId();
         }
@@ -87,6 +94,8 @@ class ModalController extends ActionController
                 new \Zend\Db\Sql\Expression("((MATCH(".$mediaModel->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$mediaModel->getTable() . ".description) AGAINST (?) * 1)) AS score", array($keyword, $keyword)),
             )));
             $select->order('score DESC, time_created DESC');
+        } else {
+            $select->order('time_created DESC');
         }
 
         $resultsetFull = $mediaModel->selectWith($select);
@@ -94,8 +103,6 @@ class ModalController extends ActionController
 
         $select = $mediaModel->select();
         $select->where($where);
-
-        $select->limit($length);
         $select->offset($start);
         $select->join(array('link' => $linkModel->getTable()), $mediaModel->getTable() . ".id = link.media_id", array(), \Zend\Db\Sql\Select::JOIN_LEFT);
         $select->group($mediaModel->getTable() . ".id");
@@ -121,6 +128,7 @@ class ModalController extends ActionController
             $select->order('time_created DESC');
         }
 
+        $select->limit($length);
         $resultset = $mediaModel->selectWith($select);
 
         $section = Pi::engine()->section() == 'admin' ? 'admin' : 'default';
@@ -189,11 +197,31 @@ PHP;
             );
         }
 
+        $uploadedMedia = array();
+        $i = 0;
+        foreach($resultsetFull as $media) {
+            $i++;
+            /**
+             * Reach upload count, full media list useless
+             */
+            if($i > $uploadCount){
+                break;
+            }
+
+            $img = (string) Pi::api('resize','media')->resize($media)->thumbcrop(100, 100);
+            $uploadedMedia[] = array(
+                'id' => (int) $media['id'],
+                'img' => $img,
+                'season' => $media['season'],
+            );
+        }
+
         $output = array(
             "draw" => (int) $draw,
             "recordsTotal" => (int) $resultsetFull->count(),
             "recordsFiltered" => (int) $resultsetFull->count(),
             "data" => $data,
+            'uploadedMedia' => $uploadedMedia,
         );
 
         return $output;
@@ -210,22 +238,26 @@ PHP;
             Pi::service()->getService('log')->mute(true);
         }
 
-        $where = array();
-        $where['id'] = explode(',', $ids);
+        if(!$ids){
+            return $this->jumpto404();
+        }
 
-        $mediaModel = Pi::model('doc', $this->getModule());
-
-        $select = $mediaModel->select();
-        $select->where($where);
-        $select->order('time_created DESC');
-        $resultset= $mediaModel->selectWith($select);
+        /**
+         * Get current media list with current order
+         */
+        $mediaModel = Pi::model('doc', 'media');
+        $where = array(
+            new In($mediaModel->getTable().'.id', explode(',', $ids)),
+        );
+        $order = array(new Expression('FIELD ('.$mediaModel->getTable().'.id, '. $ids .')'));
+        $resultset = Pi::api('doc', $this->getModule())->getList($where, 0, 0, $order);
 
         $data = array();
         foreach($resultset as $media) {
             $data[] = array(
-                'id' => $media->id,
+                'id' => $media['id'],
                 'img' => (string) Pi::api('resize','media')->resize($media)->thumbcrop(100, 100),
-                'season' => $media->season,
+                'season' => $media['season'],
             );
         }
 
@@ -361,6 +393,43 @@ PHP;
                             $post['path'] = $response['path'];
                             $post['filename'] = $response['filename'];
                         }
+                    } else if($post['filename'] && $post['filename'] != $media->filename){
+
+                        $filter = new Pi\Filter\Urlizer;
+                        $options    = Pi::service('media')->getOption('local', 'options');
+
+                        // get old path
+                        $slug = $filter($media->filename, '-', true);
+                        $firstChars = str_split(substr($slug, 0, 3));
+                        $relativeDestination = '/original/' . implode('/', $firstChars) . '/';
+                        $rootPath   = $options['root_path'];
+                        $destination = $rootPath . $relativeDestination;
+                        $oldFinalPath = $destination . $slug;
+
+
+                        $slug = $filter($post['filename'], '-', true);
+                        $firstChars = str_split(substr($slug, 0, 3));
+                        $relativeDestination = '/original/' . implode('/', $firstChars) . '/';
+                        $rootPath   = $options['root_path'];
+                        $destination = $rootPath . $relativeDestination;
+                        $newFinalPath = $destination . $slug;
+                        $finalSlug = $slug;
+
+                        $filenameBase = pathinfo($slug, PATHINFO_FILENAME);
+                        $filenameExt = pathinfo($slug, PATHINFO_EXTENSION);
+
+                        $i = 1;
+                        while(is_file($newFinalPath)){
+                            $finalSlug = $filenameBase . '-'. $i++ . '.' . $filenameExt;
+                            $newFinalPath = $destination . $finalSlug;
+                        }
+
+                        $data['filename'] = $finalSlug;
+
+                        rename(
+                            Pi::path($oldFinalPath),
+                            Pi::path($newFinalPath)
+                        );
                     }
 
                     if($formIsValid){

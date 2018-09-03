@@ -224,9 +224,20 @@ class Doc extends AbstractApi
             $uploader->setImageSize($imageSizeControl);
         }
 
-        $result = $uploader->isValid();
+        if(!empty($params['filekey'])){
+            $result = $uploader->isValid($params['filekey']);
+        } else {
+            $result = $uploader->isValid();
+        }
+
+
         if ($result) {
-            $uploader->receive();
+            if(!empty($params['filekey'])){
+                $uploader->receive($params['filekey']);
+            } else {
+                $uploader->receive();
+            }
+
             $filename = $uploader->getUploaded();
             if (is_array($filename)) {
                 $filename = current($filename);
@@ -235,7 +246,7 @@ class Doc extends AbstractApi
             $fileinfoList = $uploader->getFileInfo();
             $fileinfo = current($fileinfoList);
             if (!isset($params['mimetype'])) {
-                $params['mimetype'] = $fileinfo['type'];
+                $params['mimetype'] = mime_content_type($fileinfo['tmp_name']);
             }
             if (!isset($params['size'])) {
                 $params['size'] = $fileinfo['size'];
@@ -632,7 +643,7 @@ class Doc extends AbstractApi
      * @param $value
      * @return array|bool
      */
-    public function getGalleryLinkData($value, $width = null, $height = null, $quality = null, $sortBySeason = false, $additionalImagesToAdd = array(), $module = 'media'){
+    public function getGalleryLinkData($value, $width = null, $height = null, $quality = null, $sortBySeason = false, $additionalImagesToAdd = array(), $module = 'media', $cropMode = false){
         if($value){
             $ids = explode(',', $value);
 
@@ -676,15 +687,28 @@ class Doc extends AbstractApi
                     $dataToInject['url'] = (string) Pi::api('resize', 'media')->resize($media);
 
                     if($width && $height){
-                        $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width, $height)->quality($quality);
+                        if($cropMode){
+                            $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($width, $height)->quality($quality);
+                        } else {
+                            $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width, $height)->quality($quality);
+                        }
                     } else if($width){
 
                         if(is_array($width)){
                             foreach($width as $w){
-                                $dataToInject['resized_url'][$w] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($w,$w)->quality($quality);
+                                if($cropMode){
+                                    $h = round($w * 2 / 3);
+                                    $dataToInject['resized_url'][$w] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($w,$h)->quality($quality);
+                                } else {
+                                    $dataToInject['resized_url'][$w] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($w,$w)->quality($quality);
+                                }
                             }
                         } else {
-                            $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
+                            if($cropMode){
+                                $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($width)->quality($quality);
+                            } else {
+                                $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
+                            }
                         }
                     }
 
@@ -718,7 +742,9 @@ class Doc extends AbstractApi
             /**
              * helper get first entry (if field is seasonable, then first entry would be the current season (on submit item action, or manual trigger from BO does an automatic sort)
              */
-            return Pi::api('resize', 'media')->resize(array_shift($ids))->quality($quality);
+            $docId = array_shift($ids);
+
+            return Pi::api('resize', 'media')->resize($docId)->quality($quality);
         }
 
         return false;
@@ -869,8 +895,18 @@ class Doc extends AbstractApi
         }
     }
 
-    public function getOrderSeason(){
-        $currentDate = date('m/d');
+    /**
+     * Get order season
+     * @param null $forceCurrentDate
+     * @return null|string
+     */
+    public function getOrderSeason($forceCurrentDate = null){
+
+        if($forceCurrentDate){
+            $currentDate = date('m/d', $forceCurrentDate);
+        } else {
+            $currentDate = date('m/d');
+        }
 
         $seasonDates = array(
             1 => Pi::config('season_summer_at', 'guide'),
@@ -910,5 +946,20 @@ class Doc extends AbstractApi
         }
 
         return $orderSeason;
+    }
+
+    public function getRatio(){
+        // default ratio
+        $ratio = 3/2;
+
+        /**
+         * Get custom ratio
+         */
+        $config = Pi::service('registry')->config->read('media');
+        if($config['image_ratio_w'] && $config['image_ratio_h']){
+            $ratio = $config['image_ratio_w'] / $config['image_ratio_h'];
+        }
+
+        return $ratio;
     }
 }

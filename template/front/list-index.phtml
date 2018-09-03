@@ -78,9 +78,9 @@ $isUserSection = Pi::engine()->section() != 'admin';
                                 </td>
                                 <td>
                                     <?php if($media['time_deleted'] == 0): ?>
-                                        <span class="label label-success">Enabled</span>
+                                        <span class="label label-success"><?php _e('Enabled') ?></span>
                                     <?php else : ?>
-                                        <span class="label label-danger">Supprimée</span>
+                                        <span class="label label-danger"><?php _e('Deleted') ?></span>
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -109,7 +109,7 @@ $isUserSection = Pi::engine()->section() != 'admin';
                                 <?php if(Pi::engine()->section() == 'admin') : ?>
                                     <td><?php echo $this->escape($media['filename']); ?></td>
                                     <td><?php echo $this->escape($media['mimetype']); ?></td>
-                                    <td><?php echo $media['uid'] ? Pi::user()->get($media['uid'], 'name') . ' ('.$media['uid'].')' : ''; ?></td>
+                                    <td><?php echo $media['uid'] && is_string(Pi::user()->get($media['uid'], 'name')) ? Pi::user()->get($media['uid'], 'name') . ' ('.$media['uid'].')' : ''; ?></td>
                                 <?php endif; ?>
                                 <td><?php echo $media['using_count']; ?></td>
                                 <td><?php echo _date($media['time_created']); ?></td>

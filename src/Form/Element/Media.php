@@ -22,6 +22,7 @@ class Media extends \Zend\Form\Element\Text
     public function getAttributes()
     {
         $fromModule = $this->getOption('module') ?: 'media';
+        $fromUid = $this->getOption('uid') ?: null;
 
         // Load language
         Pi::service('i18n')->load(array('module/media', 'default'));
@@ -39,6 +40,8 @@ class Media extends \Zend\Form\Element\Text
         $jsHelper($assetHelper('js/jquery.dataTables.min.js', 'media'));
         $jsHelper($assetHelper('js/dataTables.bootstrap.min.js', 'media'));
 
+        $jsHelper($assetHelper('js/exif.js', 'media'));
+        $jsHelper($assetHelper('js/load-image.all.min.js', 'media'));
         $jsHelper($assetHelper('js/modal.js', 'media'));
 
         $cssHelper = Pi::service('view')->gethelper('css');
@@ -147,6 +150,12 @@ class Media extends \Zend\Form\Element\Text
         $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='label label-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMinDimensions);
         $dictFileTooBig = __("File size is to high ({{filesize}}kb). Max : {{maxFilesize}}kb");
 
+        if(Pi::engine()->section() == 'admin' && $fromUid){
+            $showUIDMediaContent = '<div><label for="show_uid_media"><input type="checkbox" name="show_uid_media" id="show_uid_media" value="'.$fromUid.'" /> Show Item UID media</label></div>';
+        } else {
+            $showUIDMediaContent = '';
+        }
+
         $modalHtml = <<<HTML
         
 <div id="addMediaModal" class="modal fade" tabindex="-1" role="dialog">
@@ -162,6 +171,8 @@ class Media extends \Zend\Form\Element\Text
                 <br />
                 
                 <div id="media_gallery">
+                
+                    {$showUIDMediaContent}
                     <table class="table table-striped" data-sprocessing="{$sProcessing}" data-ssearch="{$sSearch}" data-slengthmenu="{$sLengthMenu}" data-sinfo="{$sInfo}" data-sinfoempty="{$sInfoEmpty}" data-sinfofiltered="{$sInfoFiltered}" data-sloadingrecords="{$sLoadingRecords}" data-szerorecords="{$sZeroRecords}" data-semptytable="{$sEmptyTable}" data-sfirst="{$sFirst}" data-sprevious="{$sPrevious}" data-snext="{$sNext}" data-slast="{$sLast}">
                         <thead>
                         <tr>
