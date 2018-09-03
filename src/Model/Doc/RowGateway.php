@@ -33,7 +33,7 @@ class RowGateway extends \Pi\Db\RowGateway\RowGateway
 
             $exif = exif_read_data($filepath);
 
-            if(!empty($exif['Orientation']) && ($exif['Orientation'] == 6 || $exif['Orientation'] == 8)){
+            if(!empty($exif['Orientation']) && in_array($exif['Orientation'], array(5,6,7,8))){
                 /**
                  * Switch width / height according to image orientation
                  */
