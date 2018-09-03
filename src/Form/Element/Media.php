@@ -150,11 +150,14 @@ class Media extends \Zend\Form\Element\Text
         $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='label label-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMinDimensions);
         $dictFileTooBig = __("File size is to high ({{filesize}}kb). Max : {{maxFilesize}}kb");
 
+
+        $customFilters = '<div><label for="show_checked_items_first"><input type="checkbox" name="show_checked_items_first" id="show_checked_items_first" value="1" /> '.__("Show checked items first").'</label>';
+
         if(Pi::engine()->section() == 'admin' && $fromUid){
-            $showUIDMediaContent = '<div><label for="show_uid_media"><input type="checkbox" name="show_uid_media" id="show_uid_media" value="'.$fromUid.'" /> Show Item UID media</label></div>';
-        } else {
-            $showUIDMediaContent = '';
+            $customFilters .= '&nbsp;&nbsp;&nbsp;<label for="show_uid_media"><input type="checkbox" name="show_uid_media" id="show_uid_media" value="'.$fromUid.'" /> '.__("Show Item UID media").'</label>';
         }
+
+        $customFilters .= '</div>';
 
         $modalHtml = <<<HTML
         
@@ -172,7 +175,7 @@ class Media extends \Zend\Form\Element\Text
                 
                 <div id="media_gallery">
                 
-                    {$showUIDMediaContent}
+                    {$customFilters}
                     <table class="table table-striped" data-sprocessing="{$sProcessing}" data-ssearch="{$sSearch}" data-slengthmenu="{$sLengthMenu}" data-sinfo="{$sInfo}" data-sinfoempty="{$sInfoEmpty}" data-sinfofiltered="{$sInfoFiltered}" data-sloadingrecords="{$sLoadingRecords}" data-szerorecords="{$sZeroRecords}" data-semptytable="{$sEmptyTable}" data-sfirst="{$sFirst}" data-sprevious="{$sPrevious}" data-snext="{$sNext}" data-slast="{$sLast}">
                         <thead>
                         <tr>

@@ -148,7 +148,7 @@ var removeMediaToModal = function(media){
 var initDataTable = function(){
     var table = $('#media_gallery .table');
 
-    finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0);
+    finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_item_first=' + (showCheckedItemsFirst ? 1 : 0);
 
     table.DataTable({
         "lengthMenu": [[3, 5, 10, 20], [3, 5, 10, 20]],
@@ -231,6 +231,7 @@ var loadList  = function(){
 
 var myDropzone;
 var showUIDMedia = 0;
+var showCheckedItemsFirst = 0;
 var showUIDBtnInitialized = false;
 
 detectVerticalSquash = function(img) {
@@ -280,6 +281,12 @@ drawImageIOSFix = function(o, ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) {
 
 $(function() {
 
+    $(document).on('keyup', 'input[type=search]', function(){
+        if(showCheckedItemsFirst){
+            $('#show_checked_items_first').click();
+        }
+    });
+
     $('#show_uid_media').click(function(){
 
         if($(this).prop('checked')){
@@ -294,7 +301,30 @@ $(function() {
         if(showUIDBtnInitialized){
             var dataTable = $('#media_gallery .table').DataTable();
 
-            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0);
+            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_items_first=' + (showCheckedItemsFirst ? 1 : 0);
+
+            dataTable.ajax.url(finalListUrl);
+            dataTable.ajax.reload();
+        }
+    }).click().click();
+
+    $('#show_checked_items_first').click(function(){
+
+        if($(this).prop('checked')){
+            $('input[type=search]').val('').keyup();
+            console.log('HIT');
+            showCheckedItemsFirst = 1;
+        } else {
+            showCheckedItemsFirst = 0;
+        }
+
+        /**
+         * Reload list with uid media option
+         */
+        if(showUIDBtnInitialized){
+            var dataTable = $('#media_gallery .table').DataTable();
+
+            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_items_first=' + (showCheckedItemsFirst ? 1 : 0);
 
             dataTable.ajax.url(finalListUrl);
             dataTable.ajax.reload();
@@ -460,13 +490,18 @@ $(function() {
 
     myDropzone.on("queuecomplete", function(file) {
 
+
+        if(showCheckedItemsFirst){
+            jQuery('#show_checked_items_first').click();
+        }
+
         var dataTable = $('#media_gallery .table').DataTable();
 
         /**
          * Set upload count to refresh list ajax url
          */
 
-        finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0);
+        finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_items_first=' + (showCheckedItemsFirst ? 1 : 0);
 
         dataTable.ajax.url(finalListUrl + '&uploadCount=' + document.processedFiles);
         dataTable.ajax.reload(function(data){

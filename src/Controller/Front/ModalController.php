@@ -50,6 +50,7 @@ class ModalController extends ActionController
         $keyword = $this->params('search');
         $uploadCount = $this->params('uploadCount');
         $showUIDMedia = $this->params('show_uid_media');
+        $showCheckedItemsFirst = $this->params('show_checked_items_first');
 
         if(isset($keyword['value'])){
             $keyword = $keyword['value'];
@@ -137,8 +138,14 @@ class ModalController extends ActionController
             )));
             $select->order('score DESC, time_created DESC');
         } else {
+            if($showCheckedItemsFirst){
+                $select->order('link.id DESC');
+
+            }
             $select->order('time_created DESC');
         }
+
+//        echo $select->getSqlString(); die();
 
         $select->limit($length);
         $resultset = $mediaModel->selectWith($select);
