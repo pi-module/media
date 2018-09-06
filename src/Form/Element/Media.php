@@ -22,6 +22,7 @@ class Media extends \Zend\Form\Element\Text
     public function getAttributes()
     {
         $fromModule = $this->getOption('module') ?: 'media';
+        $fromUid = $this->getOption('uid') ?: null;
 
         // Load language
         Pi::service('i18n')->load(array('module/media', 'default'));
@@ -38,6 +39,9 @@ class Media extends \Zend\Form\Element\Text
         $jsHelper($assetHelper('js/jquery-ui.custom.min.js', 'media'));
         $jsHelper($assetHelper('js/jquery.dataTables.min.js', 'media'));
         $jsHelper($assetHelper('js/dataTables.bootstrap.min.js', 'media'));
+
+        $jsHelper($assetHelper('js/exif.js', 'media'));
+        $jsHelper($assetHelper('js/load-image.all.min.js', 'media'));
         $jsHelper($assetHelper('js/modal.js', 'media'));
 
         $cssHelper = Pi::service('view')->gethelper('css');
@@ -146,6 +150,15 @@ class Media extends \Zend\Form\Element\Text
         $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='label label-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMinDimensions);
         $dictFileTooBig = __("File size is to high ({{filesize}}kb). Max : {{maxFilesize}}kb");
 
+
+        $customFilters = '<div><label for="show_checked_items_first"><input type="checkbox" name="show_checked_items_first" id="show_checked_items_first" value="1" /> '.__("Show checked items first").'</label>';
+
+        if(Pi::engine()->section() == 'admin' && $fromUid){
+            $customFilters .= '&nbsp;&nbsp;&nbsp;<label for="show_uid_media"><input type="checkbox" name="show_uid_media" id="show_uid_media" value="'.$fromUid.'" /> '.__("Show Item UID media").'</label>';
+        }
+
+        $customFilters .= '</div>';
+
         $modalHtml = <<<HTML
         
 <div id="addMediaModal" class="modal fade" tabindex="-1" role="dialog">
@@ -161,6 +174,8 @@ class Media extends \Zend\Form\Element\Text
                 <br />
                 
                 <div id="media_gallery">
+                
+                    {$customFilters}
                     <table class="table table-striped" data-sprocessing="{$sProcessing}" data-ssearch="{$sSearch}" data-slengthmenu="{$sLengthMenu}" data-sinfo="{$sInfo}" data-sinfoempty="{$sInfoEmpty}" data-sinfofiltered="{$sInfoFiltered}" data-sloadingrecords="{$sLoadingRecords}" data-szerorecords="{$sZeroRecords}" data-semptytable="{$sEmptyTable}" data-sfirst="{$sFirst}" data-sprevious="{$sPrevious}" data-snext="{$sNext}" data-slast="{$sLast}">
                         <thead>
                         <tr>
@@ -362,6 +377,12 @@ HTML;
         </ul>
     </div>
   </div>
+</div>
+
+<div class="ajax-spinner-prototype hide">
+    <div class="ajax-spinner">
+        <img src="{$loader}" class="ajax-spinner-loader" alt="" />
+    </div>
 </div>
 HTML;
 

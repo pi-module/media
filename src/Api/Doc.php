@@ -742,7 +742,9 @@ class Doc extends AbstractApi
             /**
              * helper get first entry (if field is seasonable, then first entry would be the current season (on submit item action, or manual trigger from BO does an automatic sort)
              */
-            return Pi::api('resize', 'media')->resize(array_shift($ids))->quality($quality);
+            $docId = array_shift($ids);
+
+            return Pi::api('resize', 'media')->resize($docId)->quality($quality);
         }
 
         return false;
@@ -893,8 +895,18 @@ class Doc extends AbstractApi
         }
     }
 
-    public function getOrderSeason(){
-        $currentDate = date('m/d');
+    /**
+     * Get order season
+     * @param null $forceCurrentDate
+     * @return null|string
+     */
+    public function getOrderSeason($forceCurrentDate = null){
+
+        if($forceCurrentDate){
+            $currentDate = date('m/d', $forceCurrentDate);
+        } else {
+            $currentDate = date('m/d');
+        }
 
         $seasonDates = array(
             1 => Pi::config('season_summer_at', 'guide'),
