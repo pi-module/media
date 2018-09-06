@@ -39,6 +39,7 @@
         var targetElementHeight = element.outerHeight();
 
         jQuery('#editMediaModal, #media').find('.cropping-data').remove();
+        jQuery('#editMediaModal, #media').find('.cropping-data-warning').parent().remove();
 
         if(jQuery('#editMediaModal, #media').find(targetElement).length > 0){
 
