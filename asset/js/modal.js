@@ -16,6 +16,23 @@ var checkFormCanBeSubmit = function(){
     });
 };
 
+var getSelectMediaIds = function(){
+    var selectedMedia = $('#selectedMediaListModal .list').find('[data-selected-media-id]');
+
+    var checkedMedia = [];
+    selectedMedia.each(function(){
+        var id = $(this).attr('data-selected-media-id');
+        checkedMedia.push(id);
+    });
+
+    if(selectedMedia.length){
+        var selectMediaIds = checkedMedia.join();
+        return selectMediaIds;
+    } else {
+        return '';
+    }
+};
+
 var refreshFormList = function(formList){
     var inputName = formList.attr('data-input-name');
     var inputElement = $('[name='+inputName+']');
@@ -147,8 +164,11 @@ var removeMediaToModal = function(media){
 
 var initDataTable = function(){
     var table = $('#media_gallery .table');
+    var selectedMedia = $('#selectedMediaListModal .list').find('[data-selected-media-id]');
 
-    finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_item_first=' + (showCheckedItemsFirst ? 1 : 0);
+    finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_item_first=' + (showCheckedItemsFirst ? getSelectMediaIds() : 0);
+
+
 
     table.DataTable({
         "lengthMenu": [[3, 5, 10, 20], [3, 5, 10, 20]],
@@ -300,8 +320,9 @@ $(function() {
          */
         if(showUIDBtnInitialized){
             var dataTable = $('#media_gallery .table').DataTable();
+            var selectedMedia = $('#selectedMediaListModal .list').find('[data-selected-media-id]');
 
-            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_items_first=' + (showCheckedItemsFirst ? 1 : 0);
+            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_items_first=' + (showCheckedItemsFirst ? getSelectMediaIds() : 0);
 
             dataTable.ajax.url(finalListUrl);
             dataTable.ajax.reload();
@@ -323,8 +344,9 @@ $(function() {
          */
         if(showUIDBtnInitialized){
             var dataTable = $('#media_gallery .table').DataTable();
+            var selectedMedia = $('#selectedMediaListModal .list').find('[data-selected-media-id]');
 
-            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_items_first=' + (showCheckedItemsFirst ? 1 : 0);
+            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_items_first=' + (showCheckedItemsFirst ? getSelectMediaIds() : 0);
 
             dataTable.ajax.url(finalListUrl);
             dataTable.ajax.reload();
@@ -492,16 +514,19 @@ $(function() {
 
 
         if(showCheckedItemsFirst){
-            jQuery('#show_checked_items_first').click();
+            jQuery('#show_checked_items_first').click().hide();
+            jQuery('[for=show_checked_items_first]').hide();
         }
 
         var dataTable = $('#media_gallery .table').DataTable();
+        var inputName = $('#addMediaModal').attr('data-input-name');
+        var selectedMedia = $('#selectedMediaListModal .list').find('[data-selected-media-id]');
 
         /**
          * Set upload count to refresh list ajax url
          */
 
-        finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_items_first=' + (showCheckedItemsFirst ? 1 : 0);
+        finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_items_first=' + (showCheckedItemsFirst ? getSelectMediaIds() : 0);
 
         dataTable.ajax.url(finalListUrl + '&uploadCount=' + document.processedFiles);
         dataTable.ajax.reload(function(data){

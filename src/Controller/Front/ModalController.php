@@ -139,13 +139,11 @@ class ModalController extends ActionController
             $select->order('score DESC, time_created DESC');
         } else {
             if($showCheckedItemsFirst){
-                $select->order('link.id DESC');
-
+                $sortExpression = new Expression('FIELD ('.$mediaModel->getTable().'.id, '. $showCheckedItemsFirst .') DESC');
+                $select->order($sortExpression);
             }
             $select->order('time_created DESC');
         }
-
-//        echo $select->getSqlString(); die();
 
         $select->limit($length);
         $resultset = $mediaModel->selectWith($select);
