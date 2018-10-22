@@ -43,7 +43,7 @@ $this->Backbone();
         <p><%= data.title %></p>
         <button type="button" class="remove-attach btn btn-danger btn-xs" data-toggle="button"
                 data-link="<?php echo $this->url('', array('controller' => 'list', 'action' => 'delete')); ?>/id/<%= data.id %>"><i
-                class="fa fa-trash fa fa-white"></i> <?php _e('Delete'); ?></button>
+                class="fas fa-trash-alt"></i> <?php _e('Delete'); ?></button>
     </div>
 </script>
 <?php include $this->template('front/partial/crop'); ?>
