@@ -54,8 +54,8 @@
     max-height:200px;
 }
 
-.upload-carousel-item .form-horizontal .control-label,
-.widget-tab-item.form-horizontal .control-label {
+.upload-carousel-item .form-horizontal .col-form-label,
+.widget-tab-item.form-horizontal .col-form-label {
     width: 40px;
     font-size: 12px;
 }
