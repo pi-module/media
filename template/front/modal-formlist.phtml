@@ -14,12 +14,12 @@
                 <hr />
                 <?php if(\Pi::engine()->section() == 'admin' || $media['uid'] == \Pi::user()->getId()) : ?>
                     <?php if($hasInvalidFields) : ?>
-                        <button type="button" class="btn btn-danger btn-xs btn-complete-action btn-xs" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Complete') ?></button>
+                        <button type="button" class="btn btn-danger btn-sm btn-complete-action btn-sm" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Complete') ?></button>
                     <?php else : ?>
-                        <button type="button" class="btn btn-secondary btn-xs btn-edit-action btn-xs" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Edit') ?></button>
+                        <button type="button" class="btn btn-secondary btn-sm btn-edit-action btn-sm" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Edit') ?></button>
                     <?php endif ?>
                 <?php endif; ?>
-                <button type="button" class="btn btn-warning btn-xs btn-unlink-action" href="#" data-media-id="<?php echo $media['id'] ?>">
+                <button type="button" class="btn btn-warning btn-sm btn-unlink-action" href="#" data-media-id="<?php echo $media['id'] ?>">
                     <span class="glyphicon glyphicon-remove"></span>
                     <?php echo __('Unlink') ?>
                 </button>

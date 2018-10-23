@@ -47,9 +47,9 @@
                             <?php echo Pi::api('doc','media')->getSingleLinkPictureTag($test['main_image'], array(320,768,900,1200), 90) ?>
                         </td>
                         <td>
-                            <a href="<?php echo $this->url('', array('action' => 'edit', 'id' => $test['id'])); ?>" class="btn btn-primary btn-xs"><?php echo _a('Update'); ?></a>
+                            <a href="<?php echo $this->url('', array('action' => 'edit', 'id' => $test['id'])); ?>" class="btn btn-primary btn-sm"><?php echo _a('Update'); ?></a>
                             <br><br>
-                            <a href="<?php echo $this->url('', array('action' => 'remove', 'id' => $test['id'])); ?>" class="btn btn-danger  btn-xs"><?php echo _a('Delete'); ?></a>
+                            <a href="<?php echo $this->url('', array('action' => 'remove', 'id' => $test['id'])); ?>" class="btn btn-danger  btn-sm"><?php echo _a('Delete'); ?></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

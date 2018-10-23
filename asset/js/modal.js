@@ -146,7 +146,7 @@ var addMediaToModal = function(media){
     var container = $('#selectedMediaListModal .list');
     var html = container.html();
     var mediaTmpl = '<li data-id="'+media.id+'" data-media-season="'+media.season+'">' +
-        '<button class="btn btn-secondary btn-xs unlink-media-btn">' +
+        '<button class="btn btn-secondary btn-sm unlink-media-btn">' +
         '<i class="fas fa-unlink"></i>' +
         '</button>' +
         '<img data-selected-media-id="'+media.id+'" class="thumbnail" src="' + media.img + '" />' +
