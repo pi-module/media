@@ -146,7 +146,7 @@ var addMediaToModal = function(media){
     var container = $('#selectedMediaListModal .list');
     var html = container.html();
     var mediaTmpl = '<li data-id="'+media.id+'" data-media-season="'+media.season+'">' +
-        '<button class="btn btn-default btn-xs unlink-media-btn">' +
+        '<button class="btn btn-secondary btn-xs unlink-media-btn">' +
         '<i class="fas fa-unlink"></i>' +
         '</button>' +
         '<img data-selected-media-id="'+media.id+'" class="thumbnail" src="' + media.img + '" />' +
@@ -766,8 +766,8 @@ $(function() {
     $( document ).on('click', '.season-switch button', function(e){
         e.stopImmediatePropagation();
         var switchElement = $(this).parent();
-        switchElement.find('button').removeClass('btn-primary').addClass('btn-default');
-        $(this).removeClass('btn-default').addClass('btn-primary');
+        switchElement.find('button').removeClass('btn-primary').addClass('btn-secondary');
+        $(this).removeClass('btn-secondary').addClass('btn-primary');
 
         var url = switchElement.data('url');
         var id = switchElement.data('id');

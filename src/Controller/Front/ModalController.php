@@ -180,7 +180,7 @@ PHP;
 
                 $buttons = '';
                 foreach ($seasonOptions['value_options'] as $value => $label){
-                    $class = $media->season == $value ? 'btn-primary' : 'btn-default';
+                    $class = $media->season == $value ? 'btn-primary' : 'btn-secondary';
                     $buttons .= '<button type="button" data-id="'.$value.'" class="btn btn-primary ' . $class . '">'.$label.'</button>';
                 }
 

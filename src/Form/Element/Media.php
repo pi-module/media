@@ -198,7 +198,7 @@ class Media extends \Zend\Form\Element\Text
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{$formModalCancelBtn}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{$formModalCancelBtn}</button>
                 <button id="mediaModalSaveBtn" type="button" class="btn btn-primary" data-dismiss="modal">{$saveBtnTitle}</button>
             </div>
         </div>
@@ -216,7 +216,7 @@ class Media extends \Zend\Form\Element\Text
                 $confirmDeleteActionTitle
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">$closeTitle</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">$closeTitle</button>
                 <button id="removeMediaModalBtn" type="button" class="btn btn-primary">$confirmTitle</button>
             </div>
         </div>
@@ -234,7 +234,7 @@ class Media extends \Zend\Form\Element\Text
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button id="editMediaModalSaveBtn" type="button" class="btn btn-primary">{$formModalSaveBtn}</button>
             </div>
         </div>
@@ -252,7 +252,7 @@ class Media extends \Zend\Form\Element\Text
                 {$freemiumMsg}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -269,7 +269,7 @@ class Media extends \Zend\Form\Element\Text
                 {$seasonAlertMsg}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -286,7 +286,7 @@ class Media extends \Zend\Form\Element\Text
                 {$maxAlertMsg}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -306,7 +306,7 @@ class Media extends \Zend\Form\Element\Text
                 <p>{$errorAlertAfter}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
