@@ -191,7 +191,7 @@ PHP;
                 ));
 
                 $seasonBtn = <<<PHP
-<div class="btn-group btn-group-xs season-switch" role="group" aria-label="Extra-small button group" data-url="{$mediaFormActionUrl}" data-id="{$media->id}">
+<div class="btn-group season-switch" role="group" aria-label="Extra-small button group" data-url="{$mediaFormActionUrl}" data-id="{$media->id}">
     {$buttons}
 </div>
 PHP;
