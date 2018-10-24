@@ -362,12 +362,12 @@ HTML;
 
         $description = <<<HTML
         
-<div class="panel panel-default">
-  <div class="panel-heading"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-season="{$isMediaSeason}" data-media-gallery="{$isMediaGallery}" data-max-gallery-images="{$maxGalleryImagesConstrain}" data-max-msg="{$maxGalleryImagesMsg}" data-toggle="modal" type="button" data-target="#addMediaModal">
+<div class="card">
+  <div class="card-header"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-season="{$isMediaSeason}" data-media-gallery="{$isMediaGallery}" data-max-gallery-images="{$maxGalleryImagesConstrain}" data-max-msg="{$maxGalleryImagesMsg}" data-toggle="modal" type="button" data-target="#addMediaModal">
     <span class="glyphicon glyphicon-picture"></span> {$addLabel}</button>
     &nbsp;&nbsp;&nbsp;<strong>{$maxGalleryImagesMsg}</strong> &nbsp;&nbsp;&nbsp; <span class="badge badge-warning label-lg additional_info hide">{$isMediaSeasonRecommendedMsg}</span>
   </div>
-  <div class="panel-body">
+  <div class="card-body">
     <div class="media-form-list media-form-list-{$name}" data-can-connect-lists="{$canConnectLists}" data-media-season="{$isMediaSeason}" data-media-season-recommended="{$isMediaSeasonRecommended}" data-input-name="{$name}" data-freemium="{$isFreemium}" data-max-gallery-images="{$maxGalleryImagesConstrain}">
         <div class="ajax-spinner hide">
             <img src="{$loader}" class="ajax-spinner-loader" alt="" />

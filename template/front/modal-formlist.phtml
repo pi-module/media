@@ -28,12 +28,12 @@
     </ul>
 
     <script>
-        jQuery('.hash-<?php echo $hash ?>').parent('.media-form-list').parent('.panel-body').show();
+        jQuery('.hash-<?php echo $hash ?>').parent('.media-form-list').parent('.card-body').show();
     </script>
 <?php else : ?>
     <span class="hash-<?php echo $hash ?>"></span>
     <script>
-        jQuery('.hash-<?php echo $hash ?>').parent('.media-form-list').parent('.panel-body').hide();
+        jQuery('.hash-<?php echo $hash ?>').parent('.media-form-list').parent('.card-body').hide();
     </script>
 <?php endif; ?>
 
