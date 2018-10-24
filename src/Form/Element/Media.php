@@ -147,7 +147,7 @@ class Media extends \Zend\Form\Element\Text
         $sNext = __("Next");
         $sLast = __("Last");
 
-        $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='label label-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMinDimensions);
+        $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='badge badge-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMinDimensions);
         $dictFileTooBig = __("File size is to high ({{filesize}}kb). Max : {{maxFilesize}}kb");
 
 
@@ -365,7 +365,7 @@ HTML;
 <div class="panel panel-default">
   <div class="panel-heading"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-season="{$isMediaSeason}" data-media-gallery="{$isMediaGallery}" data-max-gallery-images="{$maxGalleryImagesConstrain}" data-max-msg="{$maxGalleryImagesMsg}" data-toggle="modal" type="button" data-target="#addMediaModal">
     <span class="glyphicon glyphicon-picture"></span> {$addLabel}</button>
-    &nbsp;&nbsp;&nbsp;<strong>{$maxGalleryImagesMsg}</strong> &nbsp;&nbsp;&nbsp; <span class="label label-warning label-lg additional_info hide">{$isMediaSeasonRecommendedMsg}</span>
+    &nbsp;&nbsp;&nbsp;<strong>{$maxGalleryImagesMsg}</strong> &nbsp;&nbsp;&nbsp; <span class="badge badge-warning label-lg additional_info hide">{$isMediaSeasonRecommendedMsg}</span>
   </div>
   <div class="panel-body">
     <div class="media-form-list media-form-list-{$name}" data-can-connect-lists="{$canConnectLists}" data-media-season="{$isMediaSeason}" data-media-season-recommended="{$isMediaSeasonRecommended}" data-input-name="{$name}" data-freemium="{$isFreemium}" data-max-gallery-images="{$maxGalleryImagesConstrain}">
