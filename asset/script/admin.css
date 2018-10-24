@@ -14,7 +14,7 @@ tr:hover .row-actions {
 td {
     word-break: break-all;
 }
-#pi-article .nav-pills > .active > a {
+#pi-article .nav-pills > a.active {
     color: #333;
     font-weight: bold;
     background: none;
