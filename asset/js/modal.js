@@ -38,7 +38,7 @@ var refreshFormList = function(formList){
     var inputElement = $('[name='+inputName+']');
     var inputValues = inputElement.val();
 
-    formList.find('.ajax-spinner').removeClass('hide');
+    formList.find('.ajax-spinner').removeClass('d-none');
     formList.find('.sortable-list').remove();
 
     $.ajax({
@@ -133,9 +133,9 @@ var refreshFormList = function(formList){
 
 
             if(uniqueSeasons.length < 4){
-                info.removeClass('hide');
+                info.removeClass('d-none');
             } else {
-                info.addClass('hide');
+                info.addClass('d-none');
             }
 
         }

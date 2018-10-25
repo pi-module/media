@@ -38,7 +38,7 @@ class Media extends \Zend\Form\Element\Text
         $jsHelper($assetHelper('js/dropzone.js', 'media'));
         $jsHelper($assetHelper('js/jquery-ui.custom.min.js', 'media'));
         $jsHelper($assetHelper('js/jquery.dataTables.min.js', 'media'));
-        $jsHelper($assetHelper('js/dataTables.bootstrap.min.js', 'media'));
+        $jsHelper($assetHelper('js/dataTables.bootstrap4.min.js', 'media'));
 
         $jsHelper($assetHelper('js/exif.js', 'media'));
         $jsHelper($assetHelper('js/load-image.all.min.js', 'media'));
@@ -46,7 +46,7 @@ class Media extends \Zend\Form\Element\Text
 
         $cssHelper = Pi::service('view')->gethelper('css');
         $cssHelper($assetHelper('css/dropzone.css', 'media'));
-        $cssHelper($assetHelper('css/dataTables.bootstrap.css', 'media'));
+        $cssHelper($assetHelper('css/dataTables.bootstrap4.min.css', 'media'));
         $cssHelper($assetHelper('css/media.css', 'media'));
 
         $max = Pi::service('module')->config('max_size', 'media');
@@ -365,11 +365,11 @@ HTML;
 <div class="card">
   <div class="card-header"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-season="{$isMediaSeason}" data-media-gallery="{$isMediaGallery}" data-max-gallery-images="{$maxGalleryImagesConstrain}" data-max-msg="{$maxGalleryImagesMsg}" data-toggle="modal" type="button" data-target="#addMediaModal">
     <span class="glyphicon glyphicon-picture"></span> {$addLabel}</button>
-    &nbsp;&nbsp;&nbsp;<strong>{$maxGalleryImagesMsg}</strong> &nbsp;&nbsp;&nbsp; <span class="badge badge-warning label-lg additional_info hide">{$isMediaSeasonRecommendedMsg}</span>
+    &nbsp;&nbsp;&nbsp;<strong>{$maxGalleryImagesMsg}</strong> &nbsp;&nbsp;&nbsp; <span class="badge badge-warning label-lg additional_info d-none">{$isMediaSeasonRecommendedMsg}</span>
   </div>
   <div class="card-body">
     <div class="media-form-list media-form-list-{$name}" data-can-connect-lists="{$canConnectLists}" data-media-season="{$isMediaSeason}" data-media-season-recommended="{$isMediaSeasonRecommended}" data-input-name="{$name}" data-freemium="{$isFreemium}" data-max-gallery-images="{$maxGalleryImagesConstrain}">
-        <div class="ajax-spinner hide">
+        <div class="ajax-spinner d-none">
             <img src="{$loader}" class="ajax-spinner-loader" alt="" />
         </div>
         <ul class="sortable-list">
@@ -379,7 +379,7 @@ HTML;
   </div>
 </div>
 
-<div class="ajax-spinner-prototype hide">
+<div class="ajax-spinner-prototype d-none">
     <div class="ajax-spinner">
         <img src="{$loader}" class="ajax-spinner-loader" alt="" />
     </div>
@@ -402,7 +402,7 @@ HTML;
         }
 
         $this->attributes['id'] = 'media_input_' . $this->getName();
-        $this->attributes['class'] = 'media-input hide';
+        $this->attributes['class'] = 'media-input d-none';
         $this->attributes['description'] = $description;
 
         return $this->attributes;

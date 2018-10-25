@@ -361,7 +361,7 @@ PHP;
 
             $form->setData($media->toArray());
             $form->setInputFilter(new MediaEditFilter());
-            $form->get('submit')->setAttribute('class', 'hide');
+            $form->get('submit')->setAttribute('class', 'd-none');
 
             $view = new \Zend\View\Model\ViewModel;
 
