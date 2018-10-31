@@ -337,7 +337,6 @@ $(function() {
 
         if($(this).prop('checked')){
             $('input[type=search]').val('').keyup();
-            console.log('HIT');
             showCheckedItemsFirst = 1;
         } else {
             showCheckedItemsFirst = 0;
