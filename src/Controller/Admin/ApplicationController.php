@@ -41,7 +41,6 @@ class ApplicationController extends ActionController
         $form->setAttributes(array(
             'action'  => $this->url('', array('action' => $action)),
             'method'  => 'post',
-            'class'   => 'form-horizontal',
         ));
 
         return $form;

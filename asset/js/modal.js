@@ -54,7 +54,7 @@ var refreshFormList = function(formList){
         console.log('done');
         formList.html( html );
 
-        formList.parents('.col-sm-5.js-form-element').removeClass('col-sm-5').addClass('col-sm-9');
+        formList.parents('.form-group').find('.col-sm-5').removeClass('col-sm-5').addClass('col-sm-9');
 
         checkFormCanBeSubmit();
 
@@ -362,7 +362,7 @@ $(function() {
     $(document).on('click', '.btn-unlink-action', function(){
         var mediaId = $(this).data('media-id');
 
-        var input = $(this).parents('.js-form-element').find('.media-input');
+        var input = $(this).parents('.form-group').find('.media-input');
 
         var currentInputValue = input.val();
         var currentInputValueArray = currentInputValue.split(',');
