@@ -16,21 +16,45 @@ var checkFormCanBeSubmit = function(){
     });
 };
 
+var getSelectMediaIds = function(){
+    var selectedMedia = $('#selectedMediaListModal .list').find('[data-selected-media-id]');
+
+    var checkedMedia = [];
+    selectedMedia.each(function(){
+        var id = $(this).attr('data-selected-media-id');
+        checkedMedia.push(id);
+    });
+
+    if(selectedMedia.length){
+        var selectMediaIds = checkedMedia.join();
+        return selectMediaIds;
+    } else {
+        return '';
+    }
+};
+
 var refreshFormList = function(formList){
     var inputName = formList.attr('data-input-name');
     var inputElement = $('[name='+inputName+']');
     var inputValues = inputElement.val();
 
-    formList.find('.ajax-spinner').removeClass('hide');
+    formList.find('.ajax-spinner').removeClass('d-none');
     formList.find('.sortable-list').remove();
 
     $.ajax({
         url: formlistUrl + "?ids=" + inputValues,
-        cache: false
+        cache: false,
+        beforeSend : function(){
+            console.log(formList);
+            var html = jQuery('.ajax-spinner-prototype').html();
+            console.log(html);
+            formList.html(html);
+        }
     }).done(function( html ) {
+        console.log('done');
         formList.html( html );
 
-        formList.parents('.col-sm-5.js-form-element').removeClass('col-sm-5').addClass('col-sm-9');
+        formList.parents('.form-group').find('.col-sm-5').removeClass('col-sm-5').addClass('col-sm-9');
 
         checkFormCanBeSubmit();
 
@@ -109,9 +133,9 @@ var refreshFormList = function(formList){
 
 
             if(uniqueSeasons.length < 4){
-                info.removeClass('hide');
+                info.removeClass('d-none');
             } else {
-                info.addClass('hide');
+                info.addClass('d-none');
             }
 
         }
@@ -122,8 +146,8 @@ var addMediaToModal = function(media){
     var container = $('#selectedMediaListModal .list');
     var html = container.html();
     var mediaTmpl = '<li data-id="'+media.id+'" data-media-season="'+media.season+'">' +
-        '<button class="btn btn-default btn-xs unlink-media-btn">' +
-        '<i class="fa fa-chain-broken"></i>' +
+        '<button class="btn btn-secondary btn-sm unlink-media-btn">' +
+        '<i class="fas fa-unlink"></i>' +
         '</button>' +
         '<img data-selected-media-id="'+media.id+'" class="thumbnail" src="' + media.img + '" />' +
         '</li>';
@@ -144,8 +168,11 @@ var removeMediaToModal = function(media){
 
 var initDataTable = function(){
     var table = $('#media_gallery .table');
+    var selectedMedia = $('#selectedMediaListModal .list').find('[data-selected-media-id]');
 
-    finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0);
+    finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_item_first=' + (showCheckedItemsFirst ? getSelectMediaIds() : 0);
+
+
 
     table.DataTable({
         "lengthMenu": [[3, 5, 10, 20], [3, 5, 10, 20]],
@@ -228,6 +255,7 @@ var loadList  = function(){
 
 var myDropzone;
 var showUIDMedia = 0;
+var showCheckedItemsFirst = 0;
 var showUIDBtnInitialized = false;
 
 detectVerticalSquash = function(img) {
@@ -277,6 +305,12 @@ drawImageIOSFix = function(o, ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) {
 
 $(function() {
 
+    $(document).on('keyup', 'input[type=search]', function(){
+        if(showCheckedItemsFirst){
+            $('#show_checked_items_first').click();
+        }
+    });
+
     $('#show_uid_media').click(function(){
 
         if($(this).prop('checked')){
@@ -290,8 +324,32 @@ $(function() {
          */
         if(showUIDBtnInitialized){
             var dataTable = $('#media_gallery .table').DataTable();
+            var selectedMedia = $('#selectedMediaListModal .list').find('[data-selected-media-id]');
 
-            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0);
+            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_items_first=' + (showCheckedItemsFirst ? getSelectMediaIds() : 0);
+
+            dataTable.ajax.url(finalListUrl);
+            dataTable.ajax.reload();
+        }
+    }).click().click();
+
+    $('#show_checked_items_first').click(function(){
+
+        if($(this).prop('checked')){
+            $('input[type=search]').val('').keyup();
+            showCheckedItemsFirst = 1;
+        } else {
+            showCheckedItemsFirst = 0;
+        }
+
+        /**
+         * Reload list with uid media option
+         */
+        if(showUIDBtnInitialized){
+            var dataTable = $('#media_gallery .table').DataTable();
+            var selectedMedia = $('#selectedMediaListModal .list').find('[data-selected-media-id]');
+
+            finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_items_first=' + (showCheckedItemsFirst ? getSelectMediaIds() : 0);
 
             dataTable.ajax.url(finalListUrl);
             dataTable.ajax.reload();
@@ -303,7 +361,7 @@ $(function() {
     $(document).on('click', '.btn-unlink-action', function(){
         var mediaId = $(this).data('media-id');
 
-        var input = $(this).parents('.js-form-element').find('.media-input');
+        var input = $(this).parents('.form-group').find('.media-input');
 
         var currentInputValue = input.val();
         var currentInputValueArray = currentInputValue.split(',');
@@ -457,13 +515,21 @@ $(function() {
 
     myDropzone.on("queuecomplete", function(file) {
 
+
+        if(showCheckedItemsFirst){
+            jQuery('#show_checked_items_first').click().hide();
+            jQuery('[for=show_checked_items_first]').hide();
+        }
+
         var dataTable = $('#media_gallery .table').DataTable();
+        var inputName = $('#addMediaModal').attr('data-input-name');
+        var selectedMedia = $('#selectedMediaListModal .list').find('[data-selected-media-id]');
 
         /**
          * Set upload count to refresh list ajax url
          */
 
-        finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0);
+        finalListUrl = listUrl + '?show_uid_media=' + (showUIDMedia ? showUIDMedia : 0) + '&show_checked_items_first=' + (showCheckedItemsFirst ? getSelectMediaIds() : 0);
 
         dataTable.ajax.url(finalListUrl + '&uploadCount=' + document.processedFiles);
         dataTable.ajax.reload(function(data){
@@ -699,8 +765,8 @@ $(function() {
     $( document ).on('click', '.season-switch button', function(e){
         e.stopImmediatePropagation();
         var switchElement = $(this).parent();
-        switchElement.find('button').removeClass('btn-primary').addClass('btn-default');
-        $(this).removeClass('btn-default').addClass('btn-primary');
+        switchElement.find('button').removeClass('btn-primary').addClass('btn-secondary');
+        $(this).removeClass('btn-secondary').addClass('btn-primary');
 
         var url = switchElement.data('url');
         var id = switchElement.data('id');

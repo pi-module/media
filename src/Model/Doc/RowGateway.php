@@ -31,6 +31,18 @@ class RowGateway extends \Pi\Db\RowGateway\RowGateway
             $filepath = $rootPath . $this->path . $this->filename;
             list($width, $height) = getimagesize($filepath, $info);
 
+            $exif = exif_read_data($filepath);
+
+            if(!empty($exif['Orientation']) && in_array($exif['Orientation'], array(5,6,7,8))){
+                /**
+                 * Switch width / height according to image orientation
+                 */
+                $oldWidth = $width;
+                $oldHeight = $height;
+                $width = $oldHeight;
+                $height = $oldWidth;
+            }
+
             $currentRatio = $width / $height;
 
             /**

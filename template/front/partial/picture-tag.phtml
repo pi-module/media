@@ -2,7 +2,7 @@
     <picture>
         <?php foreach($data['urls'] as $size => $url) : ?>
             <?php if($size == 'original') : ?>
-                <img class="img-responsive" src="<?php echo $url ?>" alt="<?php echo $this->escape($data['title']) ?>">
+                <img class="img-fluid" src="<?php echo $url ?>" alt="<?php echo $this->escape($data['title']) ?>">
             <?php else : ?>
                 <source srcset="<?php echo $url ?>" media="(max-width: <?php echo $size ?>px)">
             <?php endif; ?>

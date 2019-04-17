@@ -270,12 +270,12 @@ msgstr "Dernier"
 #: src/Form/Element/Media.php:147
 #, php-format
 msgid ""
-"Drop files here to upload new files<br /><span class='label label-"
+"Drop files here to upload new files<br /><span class='badge badge-"
 "warning'>Max Size = %s and min dimensions = %s</span><br />(or select "
 "existing files below)"
 msgstr ""
 "Déposer les fichiers ici pour charger de nouveaux fichiers<br /><span "
-"class='label label-warning'>Poids Maximal = %s et Dimensions Minimales = %s</"
+"class='badge badge-warning'>Poids Maximal = %s et Dimensions Minimales = %s</"
 "span><br />(ou sélectionnez un fichier déjà existant ci-dessus)"
 
 #: src/Form/Element/Media.php:148

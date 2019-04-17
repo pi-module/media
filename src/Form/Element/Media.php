@@ -38,7 +38,7 @@ class Media extends \Zend\Form\Element\Text
         $jsHelper($assetHelper('js/dropzone.js', 'media'));
         $jsHelper($assetHelper('js/jquery-ui.custom.min.js', 'media'));
         $jsHelper($assetHelper('js/jquery.dataTables.min.js', 'media'));
-        $jsHelper($assetHelper('js/dataTables.bootstrap.min.js', 'media'));
+        $jsHelper($assetHelper('js/dataTables.bootstrap4.min.js', 'media'));
 
         $jsHelper($assetHelper('js/exif.js', 'media'));
         $jsHelper($assetHelper('js/load-image.all.min.js', 'media'));
@@ -46,7 +46,7 @@ class Media extends \Zend\Form\Element\Text
 
         $cssHelper = Pi::service('view')->gethelper('css');
         $cssHelper($assetHelper('css/dropzone.css', 'media'));
-        $cssHelper($assetHelper('css/dataTables.bootstrap.css', 'media'));
+        $cssHelper($assetHelper('css/dataTables.bootstrap4.min.css', 'media'));
         $cssHelper($assetHelper('css/media.css', 'media'));
 
         $max = Pi::service('module')->config('max_size', 'media');
@@ -147,14 +147,17 @@ class Media extends \Zend\Form\Element\Text
         $sNext = __("Next");
         $sLast = __("Last");
 
-        $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='label label-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMinDimensions);
+        $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='badge badge-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMinDimensions);
         $dictFileTooBig = __("File size is to high ({{filesize}}kb). Max : {{maxFilesize}}kb");
 
+
+        $customFilters = '<div><label for="show_checked_items_first"><input type="checkbox" name="show_checked_items_first" id="show_checked_items_first" value="1" /> '.__("Show checked items first").'</label>';
+
         if(Pi::engine()->section() == 'admin' && $fromUid){
-            $showUIDMediaContent = '<div><label for="show_uid_media"><input type="checkbox" name="show_uid_media" id="show_uid_media" value="'.$fromUid.'" /> Show Item UID media</label></div>';
-        } else {
-            $showUIDMediaContent = '';
+            $customFilters .= '&nbsp;&nbsp;&nbsp;<label for="show_uid_media"><input type="checkbox" name="show_uid_media" id="show_uid_media" value="'.$fromUid.'" /> '.__("Show Item UID media").'</label>';
         }
+
+        $customFilters .= '</div>';
 
         $modalHtml = <<<HTML
         
@@ -162,8 +165,8 @@ class Media extends \Zend\Form\Element\Text
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">{$modalTitle} <span class="max"></span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
             
@@ -172,7 +175,7 @@ class Media extends \Zend\Form\Element\Text
                 
                 <div id="media_gallery">
                 
-                    {$showUIDMediaContent}
+                    {$customFilters}
                     <table class="table table-striped" data-sprocessing="{$sProcessing}" data-ssearch="{$sSearch}" data-slengthmenu="{$sLengthMenu}" data-sinfo="{$sInfo}" data-sinfoempty="{$sInfoEmpty}" data-sinfofiltered="{$sInfoFiltered}" data-sloadingrecords="{$sLoadingRecords}" data-szerorecords="{$sZeroRecords}" data-semptytable="{$sEmptyTable}" data-sfirst="{$sFirst}" data-sprevious="{$sPrevious}" data-snext="{$sNext}" data-slast="{$sLast}">
                         <thead>
                         <tr>
@@ -195,7 +198,7 @@ class Media extends \Zend\Form\Element\Text
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{$formModalCancelBtn}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{$formModalCancelBtn}</button>
                 <button id="mediaModalSaveBtn" type="button" class="btn btn-primary" data-dismiss="modal">{$saveBtnTitle}</button>
             </div>
         </div>
@@ -206,14 +209,14 @@ class Media extends \Zend\Form\Element\Text
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" >$confirmDeleteHeaderTitle</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 $confirmDeleteActionTitle
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">$closeTitle</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">$closeTitle</button>
                 <button id="removeMediaModalBtn" type="button" class="btn btn-primary">$confirmTitle</button>
             </div>
         </div>
@@ -224,14 +227,14 @@ class Media extends \Zend\Form\Element\Text
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" >{$formModalTitle}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body editMediaModalContent">
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button id="editMediaModalSaveBtn" type="button" class="btn btn-primary">{$formModalSaveBtn}</button>
             </div>
         </div>
@@ -242,14 +245,14 @@ class Media extends \Zend\Form\Element\Text
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" >{$freemiumAlertTitle}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 {$freemiumMsg}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -259,14 +262,14 @@ class Media extends \Zend\Form\Element\Text
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" >{$seasonAlertTitle}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 {$seasonAlertMsg}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -276,14 +279,14 @@ class Media extends \Zend\Form\Element\Text
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" >{$maxAlertTitle}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 {$maxAlertMsg}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -293,8 +296,8 @@ class Media extends \Zend\Form\Element\Text
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">{$errorAlertTitle}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <p>{$errorAlertBefore}</p>
@@ -303,7 +306,7 @@ class Media extends \Zend\Form\Element\Text
                 <p>{$errorAlertAfter}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -359,14 +362,14 @@ HTML;
 
         $description = <<<HTML
         
-<div class="panel panel-default">
-  <div class="panel-heading"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-season="{$isMediaSeason}" data-media-gallery="{$isMediaGallery}" data-max-gallery-images="{$maxGalleryImagesConstrain}" data-max-msg="{$maxGalleryImagesMsg}" data-toggle="modal" type="button" data-target="#addMediaModal">
+<div class="card">
+  <div class="card-header"><button class="btn btn-primary btn-sm" data-input-name="{$name}" data-media-season="{$isMediaSeason}" data-media-gallery="{$isMediaGallery}" data-max-gallery-images="{$maxGalleryImagesConstrain}" data-max-msg="{$maxGalleryImagesMsg}" data-toggle="modal" type="button" data-target="#addMediaModal">
     <span class="glyphicon glyphicon-picture"></span> {$addLabel}</button>
-    &nbsp;&nbsp;&nbsp;<strong>{$maxGalleryImagesMsg}</strong> &nbsp;&nbsp;&nbsp; <span class="label label-warning label-lg additional_info hide">{$isMediaSeasonRecommendedMsg}</span>
+    &nbsp;&nbsp;&nbsp;<strong>{$maxGalleryImagesMsg}</strong> &nbsp;&nbsp;&nbsp; <span class="badge badge-warning label-lg additional_info d-none">{$isMediaSeasonRecommendedMsg}</span>
   </div>
-  <div class="panel-body">
+  <div class="card-body">
     <div class="media-form-list media-form-list-{$name}" data-can-connect-lists="{$canConnectLists}" data-media-season="{$isMediaSeason}" data-media-season-recommended="{$isMediaSeasonRecommended}" data-input-name="{$name}" data-freemium="{$isFreemium}" data-max-gallery-images="{$maxGalleryImagesConstrain}">
-        <div class="ajax-spinner hide">
+        <div class="ajax-spinner d-none">
             <img src="{$loader}" class="ajax-spinner-loader" alt="" />
         </div>
         <ul class="sortable-list">
@@ -374,6 +377,12 @@ HTML;
         </ul>
     </div>
   </div>
+</div>
+
+<div class="ajax-spinner-prototype d-none">
+    <div class="ajax-spinner">
+        <img src="{$loader}" class="ajax-spinner-loader" alt="" />
+    </div>
 </div>
 HTML;
 
@@ -393,7 +402,7 @@ HTML;
         }
 
         $this->attributes['id'] = 'media_input_' . $this->getName();
-        $this->attributes['class'] = 'media-input hide';
+        $this->attributes['class'] = 'media-input d-none';
         $this->attributes['description'] = $description;
 
         return $this->attributes;

@@ -38,7 +38,11 @@
         var targetElementWidth = element.outerWidth();
         var targetElementHeight = element.outerHeight();
 
+        jQuery('#editMediaModal, #media').find('.cropping-data').remove();
+        jQuery('#editMediaModal, #media').find('.cropping-data-warning').parent().remove();
+
         if(jQuery('#editMediaModal, #media').find(targetElement).length > 0){
+
             jQuery(targetElement).parent().after(function() {
                 return '<div class="cropping-data">' +
                     '<small>Width : <span class="width"></span>px, Height : <span class="height"></span>, OffsetX : <span class="x"></span>, OffsetY : <span class="y"></span></small>' +
@@ -73,7 +77,9 @@
             minContainerWidth: 180,
             aspectRatio: ratio,
             viewMode: 1,
-            rotatable: false,
+            scalable: 1,
+            checkOrientation: 1,
+            rotatable: true,
             responsive: false,
             minCropBoxWidth: minCropWidth,
             minCropBoxHeight: minCropHeight,
