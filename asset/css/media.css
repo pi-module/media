@@ -259,3 +259,7 @@ tr[data-media-id] img{
 .media .page-header h1{
     margin-top:0;
 }
+
+.pi-module-content .media{
+    display:block;
+}
