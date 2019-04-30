@@ -261,5 +261,5 @@ tr[data-media-id] img{
 }
 
 .pi-module-content .media{
-    display:block;
+    display:flex;
 }
