@@ -38,7 +38,7 @@ var refreshFormList = function(formList){
     var inputElement = $('[name='+inputName+']');
     var inputValues = inputElement.val();
 
-    formList.find('.ajax-spinner').removeClass('hide');
+    formList.find('.ajax-spinner').removeClass('d-none');
     formList.find('.sortable-list').remove();
 
     $.ajax({
@@ -54,7 +54,7 @@ var refreshFormList = function(formList){
         console.log('done');
         formList.html( html );
 
-        formList.parents('.col-sm-5.js-form-element').removeClass('col-sm-5').addClass('col-sm-9');
+        formList.parents('.form-group').find('.col-sm-5').removeClass('col-sm-5').addClass('col-sm-9');
 
         checkFormCanBeSubmit();
 
@@ -133,9 +133,9 @@ var refreshFormList = function(formList){
 
 
             if(uniqueSeasons.length < 4){
-                info.removeClass('hide');
+                info.removeClass('d-none');
             } else {
-                info.addClass('hide');
+                info.addClass('d-none');
             }
 
         }
@@ -146,8 +146,8 @@ var addMediaToModal = function(media){
     var container = $('#selectedMediaListModal .list');
     var html = container.html();
     var mediaTmpl = '<li data-id="'+media.id+'" data-media-season="'+media.season+'">' +
-        '<button class="btn btn-default btn-xs unlink-media-btn">' +
-        '<i class="fa fa-chain-broken"></i>' +
+        '<button class="btn btn-secondary btn-sm unlink-media-btn">' +
+        '<i class="fas fa-unlink"></i>' +
         '</button>' +
         '<img data-selected-media-id="'+media.id+'" class="thumbnail" src="' + media.img + '" />' +
         '</li>';
@@ -337,7 +337,6 @@ $(function() {
 
         if($(this).prop('checked')){
             $('input[type=search]').val('').keyup();
-            console.log('HIT');
             showCheckedItemsFirst = 1;
         } else {
             showCheckedItemsFirst = 0;
@@ -362,7 +361,7 @@ $(function() {
     $(document).on('click', '.btn-unlink-action', function(){
         var mediaId = $(this).data('media-id');
 
-        var input = $(this).parents('.js-form-element').find('.media-input');
+        var input = $(this).parents('.form-group').find('.media-input');
 
         var currentInputValue = input.val();
         var currentInputValueArray = currentInputValue.split(',');
@@ -766,8 +765,8 @@ $(function() {
     $( document ).on('click', '.season-switch button', function(e){
         e.stopImmediatePropagation();
         var switchElement = $(this).parent();
-        switchElement.find('button').removeClass('btn-primary').addClass('btn-default');
-        $(this).removeClass('btn-default').addClass('btn-primary');
+        switchElement.find('button').removeClass('btn-primary').addClass('btn-secondary');
+        $(this).removeClass('btn-secondary').addClass('btn-primary');
 
         var url = switchElement.data('url');
         var id = switchElement.data('id');

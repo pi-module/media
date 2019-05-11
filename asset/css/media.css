@@ -201,7 +201,7 @@
 }
 
 
-.season-switch .btn-default{
+.season-switch .btn-secondary{
     color: #333!important;
     background-color: #fff!important;
     border-color: #ccc!important;
@@ -258,4 +258,8 @@ tr[data-media-id] img{
 
 .media .page-header h1{
     margin-top:0;
+}
+
+.pi-module-content .media{
+    display:flex;
 }

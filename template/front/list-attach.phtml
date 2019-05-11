@@ -18,18 +18,16 @@ $this->Backbone();
         <?php _e('You can add new media here and use it on all other modules'); ?>
     </div>
     <div class="container-fluid">
-        <div class="row">
-            <div id="attach-form">
-                <div class="controls" id="js-carousel" style="overflow:hidden;">
-                    <div class="upload-carousel-btn col-md-3">
-                        <div class="upload-carousel-add">
-                            <div class="fileinput-button">
-                                <input type="file" name="file" multiple style="width: 100%;">
-                            </div>
+        <div id="attach-form">
+            <div class="controls row" id="js-carousel" style="overflow:hidden;">
+                <div class="upload-carousel-btn col-md-2">
+                    <div class="upload-carousel-add">
+                        <div class="fileinput-button">
+                            <input type="file" name="file" multiple style="width: 100%;">
                         </div>
-                        <div id="progress">
-                            <div class="bar" style="width: 0%;"></div>
-                        </div>
+                    </div>
+                    <div id="progress">
+                        <div class="bar" style="width: 0%;"></div>
                     </div>
                 </div>
             </div>
@@ -41,9 +39,9 @@ $this->Backbone();
         <div class="upload-carousel-item-img"><img id="imageview_<%= data.id %>" class="imageview attachement" data-rel="cropping_<%= data.id %>" src="<%= data.preview %>" alt="<%= data.title %>"/></div>
         <input data-id="<%= data.id %>" class="cropping ajaxUpdate" type="hidden" name="cropping_<%= data.id %>" value='<%= data.cropping %>' />
         <p><%= data.title %></p>
-        <button type="button" class="remove-attach btn btn-danger btn-xs" data-toggle="button"
+        <button type="button" class="remove-attach btn btn-danger btn-sm" data-toggle="button"
                 data-link="<?php echo $this->url('', array('controller' => 'list', 'action' => 'delete')); ?>/id/<%= data.id %>"><i
-                class="fa fa-trash fa fa-white"></i> <?php _e('Delete'); ?></button>
+                class="fas fa-trash-alt"></i> <?php _e('Delete'); ?></button>
     </div>
 </script>
 <?php include $this->template('front/partial/crop'); ?>

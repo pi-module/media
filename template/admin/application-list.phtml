@@ -1,7 +1,7 @@
 <?php $this->css($this->assetModule('script/admin.css')); ?>
 <div id="jsList">
     <div class="clearfix form-inline">
-        <form class="navbar-form navbar-left" style="padding-left: 0; margin: 0"
+        <form class="form-inline navbar-left" style="padding-left: 0; margin: 0"
               method="get" 
               action="<?php echo $this->url('', array('action' => 'list')); ?>" style="margin: 0">
             <div class="form-group">
@@ -42,7 +42,7 @@
             <?php } ?>
         </tbody>
     </table>
-    <div class="pull-right">
+    <div class="float-right">
         <?php echo $this->paginationControl($paginator, 'Sliding', 'paginator.phtml'); ?>
     </div>
 </div>

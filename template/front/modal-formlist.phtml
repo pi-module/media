@@ -14,13 +14,13 @@
                 <hr />
                 <?php if(\Pi::engine()->section() == 'admin' || $media['uid'] == \Pi::user()->getId()) : ?>
                     <?php if($hasInvalidFields) : ?>
-                        <button type="button" class="btn btn-danger btn-xs btn-complete-action btn-xs" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Complete') ?></button>
+                        <button type="button" class="btn btn-danger btn-sm btn-complete-action btn-sm" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Complete') ?></button>
                     <?php else : ?>
-                        <button type="button" class="btn btn-default btn-xs btn-edit-action btn-xs" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Edit') ?></button>
+                        <button type="button" class="btn btn-secondary btn-sm btn-edit-action btn-sm" href="#" data-media-id="<?php echo $media['id'] ?>" data-toggle="modal" data-target="#editMediaModal"><?php echo __('Edit') ?></button>
                     <?php endif ?>
                 <?php endif; ?>
-                <button type="button" class="btn btn-warning btn-xs btn-unlink-action" href="#" data-media-id="<?php echo $media['id'] ?>">
-                    <span class="glyphicon glyphicon-remove"></span>
+                <button type="button" class="btn btn-warning btn-sm btn-unlink-action" href="#" data-media-id="<?php echo $media['id'] ?>">
+                    <span class="fas fa-times text-white"></span>
                     <?php echo __('Unlink') ?>
                 </button>
             </li>
@@ -28,15 +28,15 @@
     </ul>
 
     <script>
-        jQuery('.hash-<?php echo $hash ?>').parent('.media-form-list').parent('.panel-body').show();
+        jQuery('.hash-<?php echo $hash ?>').parent('.media-form-list').parent('.card-body').show();
     </script>
 <?php else : ?>
     <span class="hash-<?php echo $hash ?>"></span>
     <script>
-        jQuery('.hash-<?php echo $hash ?>').parent('.media-form-list').parent('.panel-body').hide();
+        jQuery('.hash-<?php echo $hash ?>').parent('.media-form-list').parent('.card-body').hide();
     </script>
 <?php endif; ?>
 
-<div class="media-alert clearfix text-center hide">
-    <span class="label label-danger"><?php echo __('You have to complete file informations before submit') ?></span>
+<div class="media-alert clearfix text-center d-none">
+    <span class="badge badge-danger"><?php echo __('You have to complete file informations before submit') ?></span>
 </div>

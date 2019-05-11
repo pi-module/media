@@ -170,8 +170,8 @@ class ModalController extends ActionController
                 }
 
                 $removeBtn = <<<PHP
-<a $disabled class="btn btn-danger btn-xs do-ajax remove-media-ajax" data-href="$removeUrl" data-value="delete">
-    <span class="glyphicon glyphicon-remove" ></span >
+<a $disabled class="btn btn-danger btn-sm do-ajax remove-media-ajax" data-href="$removeUrl" data-value="delete">
+    <span class="fas fa-times text-white" ></span >
 </a>
 PHP;
 
@@ -180,7 +180,7 @@ PHP;
 
                 $buttons = '';
                 foreach ($seasonOptions['value_options'] as $value => $label){
-                    $class = $media->season == $value ? 'btn-primary' : 'btn-default';
+                    $class = $media->season == $value ? 'btn-primary' : 'btn-secondary';
                     $buttons .= '<button type="button" data-id="'.$value.'" class="btn btn-primary ' . $class . '">'.$label.'</button>';
                 }
 
@@ -191,7 +191,7 @@ PHP;
                 ));
 
                 $seasonBtn = <<<PHP
-<div class="btn-group btn-group-xs season-switch" role="group" aria-label="Extra-small button group" data-url="{$mediaFormActionUrl}" data-id="{$media->id}">
+<div class="btn-group season-switch" role="group" aria-label="Extra-small button group" data-url="{$mediaFormActionUrl}" data-id="{$media->id}">
     {$buttons}
 </div>
 PHP;
@@ -205,7 +205,7 @@ PHP;
                     'data-media-img' => $img,
                     'data-media-season' => $media['season'],
                 ),
-                'checked' => '<span class="glyphicon glyphicon-ok"></span>',
+                'checked' => '<span class="fas fa-check"></span>',
                 'img' => "<img src='" . $img . "' class='media-modal-thumb' />",
                 'title' => $media->title,
                 'date' => _date($media->time_created),
@@ -361,7 +361,7 @@ PHP;
 
             $form->setData($media->toArray());
             $form->setInputFilter(new MediaEditFilter());
-            $form->get('submit')->setAttribute('class', 'hide');
+            $form->get('submit')->setAttribute('class', 'd-none');
 
             $view = new \Zend\View\Model\ViewModel;
 
