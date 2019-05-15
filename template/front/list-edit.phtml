@@ -2,7 +2,7 @@
 $this->css($this->assetModule('css/media.css'));
 $isUserSection = Pi::engine()->section() != 'admin';
 ?>
-<div class="clearfix row">
+<div class="clearfix row user-section-wrapper">
     <?php if($isUserSection) : ?>
         <div class="col-md-3">
             <?php $sideActive = 'media'; ?>
