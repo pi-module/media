@@ -23,9 +23,10 @@ $isUserSection = Pi::engine()->section() != 'admin';
             <form name="user" method="GET" action="" style="margin-top: 10px" class="form-inline">
                 <div class="form-group">
                     <input type="text" class="form-control" name="user" value="<?php echo $user; ?>" placeholder="<?php _e('Type user id or identity'); ?>">
+                    &nbsp;
                     <input type="text" class="form-control" name="keyword" value="<?php echo $keyword; ?>" placeholder="<?php _e('Keyword'); ?>">
-                </div>
-                <button type="submit" class="btn"><?php _e('Submit'); ?></button>
+                </div>&nbsp;
+                <button type="submit" class="btn btn-primary"><?php _e('Submit'); ?></button>
             </form>
         <?php endif; ?>
         <br />
@@ -38,7 +39,7 @@ $isUserSection = Pi::engine()->section() != 'admin';
                     <?php
                     if (!$delete) {
                         ?>
-                        <input type="button" name="delete" class="btn disabled" value="<?php _e('Delete'); ?>">
+                        <input type="button" name="delete" class="btn btn-secondary disabled" value="<?php _e('Delete'); ?>">
                         <?php
                     }
                     ?>
