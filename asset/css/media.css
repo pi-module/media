@@ -263,3 +263,8 @@ tr[data-media-id] img{
 body:not(.pi-admin) .pi-module-content .media{
     display:flex;
 }
+
+.season-switch .btn {
+    padding: 1px 5px;
+    font-size: 14px;
+}
