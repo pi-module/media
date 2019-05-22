@@ -10,8 +10,8 @@
 
     $currentConfig = Pi::service('registry')->config->read($currentModule);
 
-    $currentMinCropRealWidth = !empty($currentConfig['image_largew']) ? (int) $currentConfig['image_largew'] : null;
-    $currentMinCropRealHeight = !empty($currentConfig['image_largeh']) ? (int) $currentConfig['image_largeh'] : null;
+    $currentMinCropRealWidth = !empty($currentConfig['image_minw']) ? (int) $currentConfig['image_minw'] : null;
+    $currentMinCropRealHeight = !empty($currentConfig['image_minh']) ? (int) $currentConfig['image_minh'] : null;
 
     $config = Pi::service('registry')->config->read($module);
 
@@ -21,8 +21,8 @@
             'id' => 'ID_VALUE'
     ))) . '?cropping=CROPPING_VALUE';
 
-    $minCropRealWidth = $currentMinCropRealWidth ?: (int) $config['image_largew'];
-    $minCropRealHeight = $currentMinCropRealHeight ?: (int) $config['image_largeh'];
+    $minCropRealWidth = $currentMinCropRealWidth ?: (int) $config['image_minw'];
+    $minCropRealHeight = $currentMinCropRealHeight ?: (int) $config['image_minh'];
 
     $ratio = Pi::api('doc', 'media')->getRatio();
 ?>
