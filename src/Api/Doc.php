@@ -747,7 +747,7 @@ class Doc extends AbstractApi
             return Pi::api('resize', 'media')->resize($docId)->quality($quality);
         }
 
-        return false;
+        return Pi::api('resize', 'media')->resize(null)->quality($quality);
     }
 
     public function getSingleLinkPictureTag($value, $sizes = array(320,768,1200,2000), $quality = null){

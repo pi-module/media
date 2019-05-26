@@ -162,7 +162,7 @@ class Media extends \Zend\Form\Element\Text
         $modalHtml = <<<HTML
         
 <div id="addMediaModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">{$modalTitle} <span class="max"></span></h4>
@@ -222,6 +222,16 @@ class Media extends \Zend\Form\Element\Text
         </div>
     </div>
 </div>
+
+<script>
+// Fix for bootstrap bug. When you open 2 modals (first open second), there no scrollbar
+$('body').on('hidden.bs.modal', function () {
+    if($('.modal.show').length > 0)
+    {
+        $('body').addClass('modal-open');
+    }
+});
+</script>
 
 <div class="modal fade" id="editMediaModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">

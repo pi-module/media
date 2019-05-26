@@ -21,9 +21,12 @@ class Resize extends AbstractApi
     protected $module = 'media';
 
     /**
-     * Resize by media object or id
+     * Resize
+     *
      * @param $media
+     *
      * @return mixed
+     * @throws \Exception
      */
     public function resize($media){
 
