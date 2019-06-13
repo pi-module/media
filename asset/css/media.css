@@ -259,3 +259,12 @@ tr[data-media-id] img{
 .media .page-header h1{
     margin-top:0;
 }
+
+body:not(.pi-admin) .pi-module-content .media{
+    display:flex;
+}
+
+.season-switch .btn {
+    padding: 1px 5px;
+    font-size: 14px;
+}
