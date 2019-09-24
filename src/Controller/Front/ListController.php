@@ -91,8 +91,6 @@ class ListController extends ActionController
             $this->jumpToDenied();
         }
 
-        $this->view()->headTitle(__("List of your media"));
-
         $active = $this->params('status', null);
         if ($active !== null) {
             $active = (int) $active;
@@ -101,7 +99,7 @@ class ListController extends ActionController
         $limit  = (int) $this->config('page_limit') > 0
             ? $this->config('page_limit') : 20;
         $offset = ($page - 1) * $limit;
-        
+
         $where = array();
         $params = array();
         if (1 === $active) {
@@ -231,7 +229,9 @@ class ListController extends ActionController
         );
 
         $this->view()->setTemplate('../front/list-index');
-        
+
+
+        $this->view()->headTitle(__('My Medias'));
         $this->view()->assign(array(
             'title'      => __('Resource List'),
             'apps'       => $apps,
