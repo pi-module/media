@@ -250,10 +250,82 @@ SQL;
             }
         }
 
-        if (version_compare($moduleVersion, '1.1.1', '<')) {
+        if (version_compare($moduleVersion, '1.1.2', '<')) {
             $sql = sprintf("ALTER TABLE %s CHANGE `featured` `featured` TINYINT(4) NOT NULL DEFAULT '0';", $docTable);
             try {
                 $docAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+
+            $sql = sprintf("ALTER TABLE %s CHANGE `id` `id` INT(10) NOT NULL AUTO_INCREMENT;", $linkTable);
+            try {
+                $linkAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+
+            $sql = sprintf("ALTER TABLE %s CHANGE `module` `module` VARCHAR(20) NOT NULL DEFAULT '';", $linkTable);
+            try {
+                $linkAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+
+            $sql = sprintf("ALTER TABLE %s CHANGE `object_name` `object_name` VARCHAR(50) NOT NULL DEFAULT '';", $linkTable);
+            try {
+                $linkAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+
+            $sql = sprintf("ALTER TABLE %s CHANGE `object_id` `object_id` INT(10) NOT NULL DEFAULT 0;", $linkTable);
+            try {
+                $linkAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+
+            $sql = sprintf("ALTER TABLE %s CHANGE `field` `field` VARCHAR(50) NOT NULL DEFAULT '';", $linkTable);
+            try {
+                $linkAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+
+            $sql = sprintf("ALTER TABLE %s CHANGE `media_id` `media_id` INT(10) NOT NULL DEFAULT 0;", $linkTable);
+            try {
+                $linkAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
                 $this->setResult('db', array(
                     'status' => false,

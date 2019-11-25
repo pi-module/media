@@ -46,12 +46,12 @@ CREATE TABLE `{test}`
 # Link table
 CREATE TABLE `{link}`
 (
-    `id`          INT         NOT NULL AUTO_INCREMENT,
-    `module`      VARCHAR(20) NOT NULL,
-    `object_name` VARCHAR(50) NOT NULL,
-    `object_id`   INT         NOT NULL,
-    `field`       VARCHAR(50) NOT NULL,
-    `media_id`    INT         NOT NULL,
+    `id`          INT(10)     NOT NULL AUTO_INCREMENT,
+    `module`      VARCHAR(20) NOT NULL DEFAULT '',
+    `object_name` VARCHAR(50) NOT NULL DEFAULT '',
+    `object_id`   INT(10)     NOT NULL DEFAULT 0,
+    `field`       VARCHAR(50) NOT NULL DEFAULT '',
+    `media_id`    INT(10)     NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     KEY (`media_id`)
 );
