@@ -372,6 +372,14 @@ PHP;
                 $form->setData($post);
                 if ($form->isValid()) {
 
+                    // ToDo : its Temporary fix, database field must be update
+                    if (!isset($post['geoloc_latitude']) || empty($post['geoloc_latitude'])) {
+                        $post['geoloc_latitude'] = null;
+                    }
+                    if (!isset($post['geoloc_longitude']) || empty($post['geoloc_longitude'])) {
+                        $post['geoloc_longitude'] = null;
+                    }
+
                     $formIsValid = true;
                     // upload image
                     $file = $this->request->getFiles();
@@ -386,6 +394,7 @@ PHP;
                         $title = str_replace(array('-','_','.'), ' ', $title);
 
                         // Set params
+                        $params = [];
                         $params['filename'] = $file['file']['name'];
                         $params['title'] = $title;
                         $params['type'] = 'image';
@@ -455,7 +464,6 @@ PHP;
                         if ($uid = Pi::user()->getId()) {
                             $media->updated_by = $uid;
                         }
-
                         $media->save();
 
                         return array(
