@@ -3,7 +3,9 @@ $this->backbone();
 $this->css($this->assetModule('script/admin.css'));
 $this->css($this->assetModule('css/media.css'));
 $isUserSection = Pi::engine()->section() != 'admin';
+$this->headTitle(__('My Medias'));
 ?>
+
 <div class="clearfix row user-section-wrapper">
     <?php if($isUserSection) : ?>
         <div class="col-md-3">

@@ -644,7 +644,7 @@ class Doc extends AbstractApi
      * @return array|bool
      */
     public function getGalleryLinkData($value, $width = null, $height = null, $quality = null, $sortBySeason = false, $additionalImagesToAdd = array(), $module = 'media', $cropMode = false){
-        if($value){
+        if($value || preg_match('#,#', $additionalImagesToAdd)){
             $ids = explode(',', $value);
 
             if($additionalImagesToAdd){

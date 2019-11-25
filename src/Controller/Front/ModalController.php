@@ -437,11 +437,14 @@ PHP;
                             $newFinalPath = $destination . $finalSlug;
                         }
 
-                        $data['filename'] = $finalSlug;
+                        $post['filename'] = $finalSlug;
+                        $post['path'] = $relativeDestination;
+
+                        Pi::service('file')->mkdir($destination);
 
                         rename(
-                            Pi::path($oldFinalPath),
-                            Pi::path($newFinalPath)
+                            $oldFinalPath,
+                            $newFinalPath
                         );
                     }
 
