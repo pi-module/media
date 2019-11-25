@@ -235,8 +235,7 @@ var initDataTable = function(){
 var loadList  = function(){
     var inputName = $('#addMediaModal').attr('data-input-name');
     var inputCurrent = $('[name="'+ inputName +'"]').val();
-
-    if(inputCurrent){
+    if(inputCurrent && inputCurrent != 0){
         $.ajax({
             url: currentSelectedMediaUrl + "?ids=" + inputCurrent,
             cache: false,
@@ -245,7 +244,6 @@ var loadList  = function(){
             data.forEach(function(media){
                 addMediaToModal(media);
             });
-
             initDataTable();
         });
     } else {
