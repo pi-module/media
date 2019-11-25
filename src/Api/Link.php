@@ -118,7 +118,7 @@ class Link extends AbstractApi
 
                         foreach($values as $value){
                             $data['field'] = $mediaLink;
-                            $data['media_id'] = $value;
+                            $data['media_id'] = intval($value);
 
                             $newLinks[] = $data;
                         }
