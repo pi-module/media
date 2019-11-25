@@ -249,6 +249,20 @@ SQL;
                 return false;
             }
         }
+
+        if (version_compare($moduleVersion, '1.1.1', '<')) {
+            $sql = sprintf("ALTER TABLE %s CHANGE `featured` `featured` TINYINT(4) NOT NULL DEFAULT '0';", $docTable);
+            try {
+                $docAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+        }
             
         return true;
     }
