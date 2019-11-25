@@ -1,5 +1,5 @@
 # Doc table
-CREATE TABLE `p494_media_doc`
+CREATE TABLE `{doc}`
 (
     `id`               INT(10) UNSIGNED    NOT NULL AUTO_INCREMENT,
     `path`             VARCHAR(255)        NOT NULL DEFAULT '',
@@ -34,7 +34,7 @@ CREATE TABLE `p494_media_doc`
 );
 
 # Test table
-CREATE TABLE `p494_media_test`
+CREATE TABLE `{test}`
 (
     `id`                INT          NOT NULL AUTO_INCREMENT,
     `title`             VARCHAR(255) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE `p494_media_test`
 );
 
 # Link table
-CREATE TABLE `p494_media_link`
+CREATE TABLE `{link}`
 (
     `id`          INT         NOT NULL AUTO_INCREMENT,
     `module`      VARCHAR(20) NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE `p494_media_link`
 );
 
 # Extended meta for docs
-CREATE TABLE `p494_media_meta`
+CREATE TABLE `{meta}`
 (
     `id`    INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     `doc`   INT(10) UNSIGNED NOT NULL DEFAULT 0,
@@ -68,7 +68,7 @@ CREATE TABLE `p494_media_meta`
 );
 
 # Application table, for module management only
-CREATE TABLE `p494_media_application`
+CREATE TABLE `{application}`
 (
     `id`     INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     `appkey` VARCHAR(64)               DEFAULT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE `p494_media_application`
     UNIQUE KEY `appkey` (`appkey`)
 );
 
-CREATE TABLE `p494_media_asset`
+CREATE TABLE `{asset}`
 (
     `id`     INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     `doc`    INT(10) UNSIGNED NOT NULL DEFAULT 0,
