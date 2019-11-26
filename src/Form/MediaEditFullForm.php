@@ -48,20 +48,6 @@ class MediaEditFullForm extends MediaEditForm
         ));
 
         $this->add(array(
-            'name'       => 'geoloc_latitude',
-            'options'    => array(
-                'label'     => __('GPS Latitude'),
-            ),
-        ));
-
-        $this->add(array(
-            'name'       => 'geoloc_longitude',
-            'options'    => array(
-                'label'     => __('GPS Longitude'),
-            ),
-        ));
-
-        $this->add(array(
             'name'       => 'featured',
             'type'      => 'checkbox',
             'options'    => array(

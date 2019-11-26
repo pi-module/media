@@ -46,8 +46,6 @@ class Doc extends Model
         'updated_by',
         'license_type',
         'copyright',
-        'geoloc_latitude',
-        'geoloc_longitude',
         'cropping',
         'featured',
     );

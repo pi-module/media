@@ -371,15 +371,6 @@ PHP;
 
                 $form->setData($post);
                 if ($form->isValid()) {
-
-                    // ToDo : its Temporary fix, database field must be update
-                    if (!isset($post['geoloc_latitude']) || empty($post['geoloc_latitude'])) {
-                        $post['geoloc_latitude'] = null;
-                    }
-                    if (!isset($post['geoloc_longitude']) || empty($post['geoloc_longitude'])) {
-                        $post['geoloc_longitude'] = null;
-                    }
-
                     $formIsValid = true;
                     // upload image
                     $file = $this->request->getFiles();

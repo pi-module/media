@@ -83,7 +83,7 @@ SQL;
         if (version_compare($moduleVersion, '1.0.5', '<')) {
 
             $sql =<<<SQL
-ALTER TABLE %s ADD `season` TINYINT NULL AFTER `count`, ADD `updated_by` INT NULL AFTER `season`, ADD `license_type` VARCHAR(255) NULL AFTER `updated_by`, ADD `copyright` VARCHAR(255) NULL AFTER `license_type`, ADD `geoloc_latitude` FLOAT NULL AFTER `copyright`, ADD `geoloc_longitude` FLOAT NULL AFTER `geoloc_latitude`, ADD `cropping` TEXT NULL AFTER `geoloc_longitude`, ADD `featured` TINYINT NOT NULL AFTER `cropping`;
+ALTER TABLE %s ADD `season` TINYINT NULL AFTER `count`, ADD `updated_by` INT NULL AFTER `season`, ADD `license_type` VARCHAR(255) NULL AFTER `updated_by`, ADD `copyright` VARCHAR(255) NULL AFTER `license_type`, ADD `cropping` TEXT NULL AFTER `geoloc_longitude`, ADD `featured` TINYINT NOT NULL AFTER `cropping`;
 SQL;
 
             $sql = sprintf($sql, $docTable);
@@ -334,6 +334,37 @@ SQL;
                 ));
                 return false;
             }
+        }
+
+        if (version_compare($moduleVersion, '1.1.3', '<')) {
+
+            $sql = sprintf("ALTER TABLE %s DROP `geoloc_longitude`;", $docTable);
+            try {
+                $docAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+
+
+            $sql = sprintf("ALTER TABLE %s DROP `geoloc_longitude`;", $docTable);
+            try {
+                $docAdapter->query($sql, 'execute');
+            } catch (\Exception $exception) {
+                $this->setResult('db', array(
+                    'status' => false,
+                    'message' => 'Table alter query failed: '
+                        . $exception->getMessage(),
+                ));
+                return false;
+            }
+
+
+            // ALTER TABLE `p494_media_doc` DROP `geoloc_longitude
         }
             
         return true;

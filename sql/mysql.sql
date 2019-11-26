@@ -19,8 +19,6 @@ CREATE TABLE `{doc}`
     `updated_by`       INT(11)                      DEFAULT NULL,
     `license_type`     VARCHAR(255)                 DEFAULT NULL,
     `copyright`        VARCHAR(255)                 DEFAULT NULL,
-    `geoloc_latitude`  FLOAT                        DEFAULT NULL,
-    `geoloc_longitude` FLOAT                        DEFAULT NULL,
     `cropping`         TEXT,
     `featured`         TINYINT(4)          NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
@@ -75,17 +73,4 @@ CREATE TABLE `{application}`
     `title`  VARCHAR(255)     NOT NULL DEFAULT '',
     PRIMARY KEY (`id`),
     UNIQUE KEY `appkey` (`appkey`)
-);
-
-CREATE TABLE `{asset}`
-(
-    `id`     INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `doc`    INT(10) UNSIGNED NOT NULL DEFAULT 0,
-    `item`   INT(10) UNSIGNED NOT NULL DEFAULT 0,
-    `part`   VARCHAR(64)      NOT NULL DEFAULT '',
-    `module` VARCHAR(64)      NOT NULL DEFAULT '',
-    PRIMARY KEY (`id`),
-    KEY `doc_item` (`doc`, `item`, `part`, `module`),
-    KEY `item_part` (`item`, `part`, `module`),
-    KEY `doc` (`doc`)
 );
