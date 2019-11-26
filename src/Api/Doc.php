@@ -661,9 +661,7 @@ class Doc extends AbstractApi
                 $model = Pi::model('doc', $this->module);
                 $select = $model->select();
 
-                $select->where(array(
-                    new In('id', $ids),
-                ));
+                $select->where(array(new In('id', $ids)));
 
                 $manualSortExpression = new Expression('FIELD (id, '.implode(',', $ids).')');
 
@@ -762,20 +760,24 @@ class Doc extends AbstractApi
             $id = array_shift($ids);
 
             $media = Pi::model('doc', $this->module)->find($id);
-            $data = $media->toArray();
-            $data['urls'] = array();
+            if ($media) {
+                $data = $media->toArray();
+                $data['urls'] = array();
 
-            $data['urls']['original'] = (string) Pi::api('resize', 'media')->resize($media);
+                $data['urls']['original'] = (string) Pi::api('resize', 'media')->resize($media);
 
-            foreach($sizes as $size){
-                $size = (int) $size;
-                $data['urls'][$size] = (string) Pi::api('resize', 'media')->resize($media)->thumb($size, floor($size * 1.5))->quality($quality);
+                foreach($sizes as $size){
+                    $size = (int) $size;
+                    $data['urls'][$size] = (string) Pi::api('resize', 'media')->resize($media)->thumb($size, floor($size * 1.5))->quality($quality);
+                }
+
+                $pictureView = new \Zend\View\Model\ViewModel;
+                $pictureView->setTemplate('media:front/partial/picture-tag');
+                $pictureView->setVariable('data', $data);
+                $pictureHtml = Pi::service('view')->render($pictureView);
+            } else {
+                $pictureHtml = '';
             }
-
-            $pictureView = new \Zend\View\Model\ViewModel;
-            $pictureView->setTemplate('media:front/partial/picture-tag');
-            $pictureView->setVariable('data', $data);
-            $pictureHtml = Pi::service('view')->render($pictureView);
 
             return $pictureHtml;
         }
