@@ -21,6 +21,8 @@ CREATE TABLE `{doc}`
     `copyright`    VARCHAR(255)                 DEFAULT NULL,
     `cropping`     TEXT,
     `featured`     TINYINT(4)          NOT NULL DEFAULT '0',
+    `latitude`     VARCHAR(16)         NOT NULL DEFAULT '',
+    `longitude`    VARCHAR(16)         NOT NULL DEFAULT '',
     PRIMARY KEY (`id`),
     KEY `active` (`active`),
     KEY `uid` (`uid`),
