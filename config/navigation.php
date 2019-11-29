@@ -25,6 +25,9 @@ return [
                 'route'      => 'admin',
                 'controller' => 'list',
                 'action'     => 'index',
+                'params'     => [
+                    'all' => 1,
+                ],
                 'permission' => [
                     'resource' => 'list',
                 ],
