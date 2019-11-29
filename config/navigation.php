@@ -31,10 +31,31 @@ return [
 
                 'pages' => [
                     'all'    => [
-                        'label'      => _t('All'),
+                        'label'      => _t('All resources'),
                         'route'      => 'admin',
                         'controller' => 'list',
                         'action'     => 'index',
+                        'params'     => [
+                            'all' => 1,
+                        ],
+                    ],
+                    'delete' => [
+                        'label'      => _t('Deleted resources'),
+                        'route'      => 'admin',
+                        'controller' => 'list',
+                        'action'     => 'index',
+                        'params'     => [
+                            'delete' => 1,
+                        ],
+                    ],
+                    'orphan' => [
+                        'label'      => _t('Orphan resources'),
+                        'route'      => 'admin',
+                        'controller' => 'list',
+                        'action'     => 'index',
+                        'params'     => [
+                            'orphan' => 1,
+                        ],
                     ],
                     'edit'   => [
                         'label'      => _t('Edit'),

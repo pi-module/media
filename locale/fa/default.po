@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: media\n"
-"POT-Creation-Date: 2019-11-25 13:14+0330\n"
-"PO-Revision-Date: 2019-11-25 13:17+0330\n"
+"POT-Creation-Date: 2019-11-29 13:24+0330\n"
+"PO-Revision-Date: 2019-11-29 13:24+0330\n"
 "Last-Translator: Taiwen Jiang <taiwenjiang@tsinghua.org.cn>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.2.3\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -88,14 +88,14 @@ msgstr "نام فایل نمی تواند خالی باشد"
 msgid "Cannot save media data"
 msgstr "ناتوان در زخیره اطلاعات تصویر"
 
-#: src/Controller/Front/ModalController.php:168
+#: src/Controller/Front/ModalController.php:176
 msgid ""
 "This media can't be deleted as it is already used by current or another item."
 msgstr ""
 "این تصویر ار نمی تواند حذف کرد زیاد توسط این مطلب یا یک مطلب دیگر استفاده "
 "شده است."
 
-#: src/Controller/Front/ModalController.php:570
+#: src/Controller/Front/ModalController.php:577
 msgid "Media uploaded successfully"
 msgstr "تصویر با موفقیت بارگزاری شد"
 
@@ -104,7 +104,7 @@ msgid "Application Title"
 msgstr "عنوان برنامه"
 
 #: src/Form/AppEditForm.php:61 src/Form/MediaEditForm.php:154
-#: src/Form/MediaEditFullForm.php:75 template/front/list-index.phtml:31
+#: src/Form/MediaEditFullForm.php:61 template/front/list-index.phtml:31
 msgid "Submit"
 msgstr "ارسال"
 
@@ -381,15 +381,7 @@ msgstr "نام فایل"
 msgid "User ID"
 msgstr "شناسه کاربر"
 
-#: src/Form/MediaEditFullForm.php:53
-msgid "GPS Latitude"
-msgstr "عرض جغرافیایی(Latitude)"
-
-#: src/Form/MediaEditFullForm.php:60
-msgid "GPS Longitude"
-msgstr "طول جغرافیایی(Longitude)"
-
-#: src/Form/MediaEditFullForm.php:68
+#: src/Form/MediaEditFullForm.php:54
 msgid "Featured"
 msgstr "ویژگی ها"
 
@@ -420,7 +412,7 @@ msgstr ""
 "شما میتوانید یک تصویر جدید اینجا درج کنید و در تمام بخش ها از آن استفاده کنید"
 
 #: template/front/list-attach.phtml:44 template/front/list-index.phtml:44
-#: template/front/list-index.phtml:105 template/front/modal-formlist.phtml:24
+#: template/front/list-index.phtml:105
 msgid "Delete"
 msgstr "حذف"
 
@@ -500,6 +492,10 @@ msgstr "این تصویر قبلا استفاده شده است !"
 msgid "Complete"
 msgstr "تکمیل"
 
+#: template/front/modal-formlist.phtml:24
+msgid "Unlink"
+msgstr "حذف"
+
 #: template/front/modal-formlist.phtml:41
 msgid "You have to complete file informations before submit"
 msgstr "شما باید اطلاعات تصویر را قبل از ارسال تکمیل کنید"
@@ -508,11 +504,14 @@ msgstr "شما باید اطلاعات تصویر را قبل از ارسال ت
 msgid "Notice : min width has been reached"
 msgstr "توجه : به حداقل حجم ممکن رسیده اید"
 
+#~ msgid "GPS Latitude"
+#~ msgstr "عرض جغرافیایی(Latitude)"
+
+#~ msgid "GPS Longitude"
+#~ msgstr "طول جغرافیایی(Longitude)"
+
 #~ msgid "Missing user id"
 #~ msgstr "شناسه کاربر تنظیم نشده است"
-
-#~ msgid "Unlink"
-#~ msgstr "حذف"
 
 #~ msgid "Active"
 #~ msgstr "فعال"
