@@ -338,7 +338,7 @@ SQL;
 
         if (version_compare($moduleVersion, '1.1.3', '<')) {
 
-            $sql = sprintf("ALTER TABLE %s DROP `geoloc_longitude`;", $docTable);
+            $sql = sprintf("ALTER TABLE %s DROP `geoloc_latitude`;", $docTable);
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
@@ -362,11 +362,8 @@ SQL;
                 ));
                 return false;
             }
-
-
-            // ALTER TABLE `p494_media_doc` DROP `geoloc_longitude
         }
-            
+
         return true;
     }
 }

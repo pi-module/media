@@ -21,7 +21,7 @@ use Zend\Stdlib\ResponseInterface as Response;
 
 /**
  * Modal controller
- * 
+ *
  * @author Frédéric TISSOT <contact@espritdev.fr>
  */
 class ModalController extends ActionController
@@ -65,22 +65,30 @@ class ModalController extends ActionController
         $where = array();
 
         if(Pi::engine()->section() == 'admin'){
+            // Get admin roles
+            $adminRoles = Pi::registry('role')->read('admin');
+
+            // Set model
             $roleModel = Pi::model('user_role');
+
+            // select users
             $select = $roleModel->select();
-            $select->where(array('role' => 'admin'));
+            $select->where(array('role' => array_keys($adminRoles)));
             $roleRowset = $roleModel->selectWith($select);
 
+            // Set user list
             $adminRoles = array();
             foreach($roleRowset as $role){
                 $adminRoles[] = $role->uid;
             }
 
+            // Set selected user
             if($showUIDMedia){
                 $adminRoles[] = $showUIDMedia;
             }
 
+            // Set ware
             $where['uid'] = $adminRoles;
-
         } else {
             $where['uid'] = Pi::user()->getId();
         }
