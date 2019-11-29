@@ -17,7 +17,7 @@ return [
     'meta'       => [
         'title'       => _a('Media'),
         'description' => _a('Module for media resources and APIs.'),
-        'version'     => '1.1.10',
+        'version'     => '1.2.0',
         'license'     => 'New BSD',
         'logo'        => 'image/logo.png',
         'readme'      => 'README.md',
