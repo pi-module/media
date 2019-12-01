@@ -45,13 +45,10 @@ var refreshFormList = function(formList){
         url: formlistUrl + "?ids=" + inputValues,
         cache: false,
         beforeSend : function(){
-            console.log(formList);
             var html = jQuery('.ajax-spinner-prototype').html();
-            console.log(html);
             formList.html(html);
         }
     }).done(function( html ) {
-        console.log('done');
         formList.html( html );
 
         formList.parents('.form-group').find('.col-sm-5').removeClass('col-sm-5').addClass('col-sm-9');
