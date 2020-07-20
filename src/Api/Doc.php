@@ -17,8 +17,8 @@ use Pi;
 use Pi\Application\Api\AbstractApi;
 use Pi\File\Transfer\Upload;
 use Pi\Filter;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\Predicate\In;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Predicate\In;
 
 class Doc extends AbstractApi
 {
@@ -486,7 +486,7 @@ class Doc extends AbstractApi
 
         $linkModel = Pi::model('link', $this->module);
 
-        $select->join(array('link' => $linkModel->getTable()), $model->getTable() . '.id = link.media_id', array('using_count' => new \Zend\Db\Sql\Expression('COUNT(DISTINCT object_id)')), \Zend\Db\Sql\Select::JOIN_LEFT);
+        $select->join(array('link' => $linkModel->getTable()), $model->getTable() . '.id = link.media_id', array('using_count' => new \Laminas\Db\Sql\Expression('COUNT(DISTINCT object_id)')), \Laminas\Db\Sql\Select::JOIN_LEFT);
         $select->group($model->getTable() . '.id');
 
         if($orphanOnly){
@@ -500,10 +500,10 @@ class Doc extends AbstractApi
             $keywordBoolean = '+' . trim(implode(' +', $keywordArray));
 
             $select->where(
-                new \Zend\Db\Sql\Predicate\Expression("MATCH(".$model->getTable() . ".title, ".$model->getTable() . ".description, ".$model->getTable() . ".filename) AGAINST (? IN BOOLEAN MODE) OR ".$model->getTable() . ".title LIKE ? OR ".$model->getTable() . ".description LIKE ? OR ".$model->getTable() . ".filename LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%', '%' . $keyword . '%')
+                new \Laminas\Db\Sql\Predicate\Expression("MATCH(".$model->getTable() . ".title, ".$model->getTable() . ".description, ".$model->getTable() . ".filename) AGAINST (? IN BOOLEAN MODE) OR ".$model->getTable() . ".title LIKE ? OR ".$model->getTable() . ".description LIKE ? OR ".$model->getTable() . ".filename LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%', '%' . $keyword . '%')
             );
             $select->columns(array_merge($select->getRawState($select::COLUMNS), array(
-                new \Zend\Db\Sql\Expression("((MATCH(".$model->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$model->getTable() . ".description) AGAINST (?) * 1) + (MATCH(".$model->getTable() . ".filename) AGAINST (?) * 1)) AS score", array($keyword, $keyword, $keyword)),
+                new \Laminas\Db\Sql\Expression("((MATCH(".$model->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$model->getTable() . ".description) AGAINST (?) * 1) + (MATCH(".$model->getTable() . ".filename) AGAINST (?) * 1)) AS score", array($keyword, $keyword, $keyword)),
             )));
             $select->order('score DESC, time_created DESC');
         } else {
@@ -771,7 +771,7 @@ class Doc extends AbstractApi
                     $data['urls'][$size] = (string) Pi::api('resize', 'media')->resize($media)->thumb($size, floor($size * 1.5))->quality($quality);
                 }
 
-                $pictureView = new \Zend\View\Model\ViewModel;
+                $pictureView = new \Laminas\View\Model\ViewModel;
                 $pictureView->setTemplate('media:front/partial/picture-tag');
                 $pictureView->setVariable('data', $data);
                 $pictureHtml = Pi::service('view')->render($pictureView);
@@ -815,7 +815,7 @@ class Doc extends AbstractApi
         $invalidFields = array();
 
         foreach($form->getElements() as $element){
-            /* @var $element \Zend\Form\Element */
+            /* @var $element \Laminas\Form\Element */
 
             if($element->getName() == 'id') continue;
 

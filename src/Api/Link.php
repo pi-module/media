@@ -56,7 +56,7 @@ class Link extends AbstractApi
      * Get links by object
      *
      * @param array $params
-     * @return \Zend\Db\ResultSet\ResultSetInterface
+     * @return \Laminas\Db\ResultSet\ResultSetInterface
      */
     public function getlistByObject($params)
     {
