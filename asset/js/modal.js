@@ -45,13 +45,10 @@ var refreshFormList = function(formList){
         url: formlistUrl + "?ids=" + inputValues,
         cache: false,
         beforeSend : function(){
-            console.log(formList);
             var html = jQuery('.ajax-spinner-prototype').html();
-            console.log(html);
             formList.html(html);
         }
     }).done(function( html ) {
-        console.log('done');
         formList.html( html );
 
         formList.parents('.form-group').find('.col-sm-5').removeClass('col-sm-5').addClass('col-sm-9');
@@ -235,8 +232,7 @@ var initDataTable = function(){
 var loadList  = function(){
     var inputName = $('#addMediaModal').attr('data-input-name');
     var inputCurrent = $('[name="'+ inputName +'"]').val();
-
-    if(inputCurrent){
+    if(inputCurrent && inputCurrent != 0){
         $.ajax({
             url: currentSelectedMediaUrl + "?ids=" + inputCurrent,
             cache: false,
@@ -245,7 +241,6 @@ var loadList  = function(){
             data.forEach(function(media){
                 addMediaToModal(media);
             });
-
             initDataTable();
         });
     } else {
