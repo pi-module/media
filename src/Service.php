@@ -35,7 +35,8 @@ class Service
      */
     public static function getMediaFile($meta)
     {
-        $config = Pi::service('config')->load(Install::CONFIG_FILE);
+        die('Please update codes !');
+        /* $config = Pi::service('config')->load(Install::CONFIG_FILE);
         
         // Get filename
         $namePattern = $config['upload']['source_hash'];
@@ -59,6 +60,6 @@ class Service
         return array(
             'filename'  => $filename,
             'path'      => $target,
-        );
+        ); */
     }
 }

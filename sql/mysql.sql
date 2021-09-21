@@ -33,16 +33,6 @@ CREATE TABLE `{doc}`
     FULLTEXT KEY `search_description_idx` (`title`, `description`)
 );
 
-# Test table
-CREATE TABLE `{test}`
-(
-    `id`                INT          NOT NULL AUTO_INCREMENT,
-    `title`             VARCHAR(255) NOT NULL,
-    `main_image`        INT          NULL,
-    `additional_images` VARCHAR(255) NULL,
-    PRIMARY KEY (`id`)
-);
-
 # Link table
 CREATE TABLE `{link}`
 (

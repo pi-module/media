@@ -23,8 +23,5 @@ return [
         'stats'       => [
             'title' => _t('Statistics access'),
         ],
-        'test'        => [
-            'test' => _t('Test'),
-        ],
     ],
 ];

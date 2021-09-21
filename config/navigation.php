@@ -125,15 +125,6 @@ return [
                     'resource' => 'test',
                 ],
             ],
-            'tools'       => [
-                'label'      => _t('Tools'),
-                'route'      => 'admin',
-                'controller' => 'tools',
-                'action'     => 'index',
-                'permission' => [
-                    'resource' => 'tools',
-                ],
-            ],
         ],
     ],
 ];
