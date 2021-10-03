@@ -10,6 +10,7 @@
 /**
  * @author Hossein Azizabadi <azizabadi@faragostaresh.com>
  */
+
 namespace Module\Media\Form\Element;
 
 use Pi;
@@ -22,12 +23,12 @@ class ImageCrop extends LaminasImage
      */
     public function getAttributes()
     {
-        $this->Attributes = array(
-            'id' => 'imageview_0',
-            'class' => 'imageview img-thumbnail item-img',
-            'src' => $this->attributes['src'],
+        $this->Attributes = [
+            'id'       => 'imageview_0',
+            'class'    => 'imageview img-thumbnail item-img',
+            'src'      => $this->attributes['src'],
             'data-rel' => 'cropping',
-        );
+        ];
         return $this->Attributes;
     }
 }

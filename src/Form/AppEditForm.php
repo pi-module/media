@@ -14,53 +14,53 @@ use Pi\Form\Form as BaseForm;
 
 /**
  * Class for initializing form of edit application page
- * 
+ *
  * @author Zongshu Lin <lin40553024@163.com>
- */ 
+ */
 class AppEditForm extends BaseForm
 {
     /**
-     * Initalizing form 
+     * Initalizing form
      */
     public function init()
     {
-        $this->add(array(
+        $this->add([
             'name'       => 'title',
-            'options'    => array(
-                'label'     => __('Application Title'),
-            ),
-            'attributes' => array(
-                'type'      => 'text',
-            ),
-        ));
+            'options'    => [
+                'label' => __('Application Title'),
+            ],
+            'attributes' => [
+                'type' => 'text',
+            ],
+        ]);
 
-        $this->add(array(
-            'name'       => 'security',
-            'type'       => 'csrf',
-        ));
+        $this->add([
+            'name' => 'security',
+            'type' => 'csrf',
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name'       => 'id',
-            'attributes' => array(
-                'id'        => 'id',
-                'type'      => 'hidden',
-            ),
-        ));
+            'attributes' => [
+                'id'   => 'id',
+                'type' => 'hidden',
+            ],
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name'       => 'appkey',
-            'attributes' => array(
-                'id'        => 'appkey',
-                'type'      => 'hidden',
-            ),
-        ));
+            'attributes' => [
+                'id'   => 'appkey',
+                'type' => 'hidden',
+            ],
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name'       => 'submit',
-            'attributes' => array(               
-                'value'     => __('Submit'),
-            ),
+            'attributes' => [
+                'value' => __('Submit'),
+            ],
             'type'       => 'submit',
-        ));
+        ]);
     }
 }

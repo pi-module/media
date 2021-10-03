@@ -14,7 +14,7 @@ use Pi\Application\Model\Model;
 
 /**
  * Model class for Link
- * 
+ *
  * @author Frédéric TISSOT <contact@espritdev.fr>
  */
 class Link extends Model
@@ -22,12 +22,12 @@ class Link extends Model
     /**
      * {@inheritDoc}
      */
-    protected $columns = array(
+    protected $columns = [
         'id',
         'module',
         'object_name',
         'object_id',
         'field',
         'media_id',
-    );
+    ];
 }

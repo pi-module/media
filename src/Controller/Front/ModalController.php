@@ -32,7 +32,7 @@ class ModalController extends ActionController
     {
         header("X-Robots-Tag: noindex, nofollow", true);
 
-        if(!Pi::user()->getId()){
+        if (!Pi::user()->getId()) {
             return $this->redirect()->toRoute('home');
         }
 
@@ -44,27 +44,27 @@ class ModalController extends ActionController
      */
     public function listAction()
     {
-        $draw = $this->params('draw');
-        $length = $this->params('length');
-        $start = $this->params('start');
-        $keyword = $this->params('search');
-        $uploadCount = $this->params('uploadCount');
-        $showUIDMedia = $this->params('show_uid_media');
+        $draw                  = $this->params('draw');
+        $length                = $this->params('length');
+        $start                 = $this->params('start');
+        $keyword               = $this->params('search');
+        $uploadCount           = $this->params('uploadCount');
+        $showUIDMedia          = $this->params('show_uid_media');
         $showCheckedItemsFirst = $this->params('show_checked_items_first');
 
-        if(isset($keyword['value'])){
-            $keyword = $keyword['value'];
+        if (isset($keyword['value'])) {
+            $keyword = _escape($keyword['value']);
         } else {
             $keyword = null;
         }
 
-        if(Pi::service()->hasService('log')){
+        if (Pi::service()->hasService('log')) {
             Pi::service()->getService('log')->mute(true);
         }
 
-        $where = array();
+        $where = [];
 
-        if(Pi::engine()->section() == 'admin'){
+        if (Pi::engine()->section() == 'admin') {
             // Get admin roles
             $adminRoles = Pi::registry('role')->read('admin');
 
@@ -73,17 +73,17 @@ class ModalController extends ActionController
 
             // select users
             $select = $roleModel->select();
-            $select->where(array('role' => array_keys($adminRoles)));
+            $select->where(['role' => array_keys($adminRoles)]);
             $roleRowset = $roleModel->selectWith($select);
 
             // Set user list
-            $adminRoles = array();
-            foreach($roleRowset as $role){
+            $adminRoles = [];
+            foreach ($roleRowset as $role) {
                 $adminRoles[] = $role->uid;
             }
 
             // Set selected user
-            if($showUIDMedia){
+            if ($showUIDMedia) {
                 $adminRoles[] = $showUIDMedia;
             }
 
@@ -96,24 +96,24 @@ class ModalController extends ActionController
         $where['time_deleted'] = 0;
 
         $mediaModel = Pi::model('doc', $this->getModule());
-        $linkModel = Pi::model('link', $this->getModule());
+        $linkModel  = Pi::model('link', $this->getModule());
 
         $select = $mediaModel->select();
         $select->where($where);
         $select->order('time_created DESC');
 
-        if($keyword && trim($keyword)){
+        if ($keyword && trim($keyword)) {
 
-            $keyword = trim($keyword);
-            $keywordArray = explode(' ', $keyword);
+            $keyword        = trim($keyword);
+            $keywordArray   = explode(' ', $keyword);
             $keywordBoolean = '+' . trim(implode(' +', $keywordArray));
 
             $select->where(
-                new \Laminas\Db\Sql\Predicate\Expression("MATCH(".$mediaModel->getTable() . ".title, ".$mediaModel->getTable() . ".description) AGAINST (? IN BOOLEAN MODE) OR ".$mediaModel->getTable() . ".title LIKE ? OR ".$mediaModel->getTable() . ".description LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%')
+                new \Laminas\Db\Sql\Predicate\Expression("MATCH(" . $mediaModel->getTable() . ".title, " . $mediaModel->getTable() . ".description) AGAINST (? IN BOOLEAN MODE) OR " . $mediaModel->getTable() . ".title LIKE ? OR " . $mediaModel->getTable() . ".description LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%')
             );
-            $select->columns(array_merge($select->getRawState($select::COLUMNS), array(
-                new \Laminas\Db\Sql\Expression("((MATCH(".$mediaModel->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$mediaModel->getTable() . ".description) AGAINST (?) * 1)) AS score", array($keyword, $keyword)),
-            )));
+            $select->columns(array_merge($select->getRawState($select::COLUMNS), [
+                new \Laminas\Db\Sql\Expression("((MATCH(" . $mediaModel->getTable() . ".title) AGAINST (?) * 2) + (MATCH(" . $mediaModel->getTable() . ".description) AGAINST (?) * 1)) AS score", [$keyword, $keyword]),
+            ]));
             $select->order('score DESC, time_created DESC');
         } else {
             $select->order('time_created DESC');
@@ -125,29 +125,29 @@ class ModalController extends ActionController
         $select = $mediaModel->select();
         $select->where($where);
         $select->offset($start);
-        $select->join(array('link' => $linkModel->getTable()), $mediaModel->getTable() . ".id = link.media_id", array(), \Laminas\Db\Sql\Select::JOIN_LEFT);
+        $select->join(['link' => $linkModel->getTable()], $mediaModel->getTable() . ".id = link.media_id", [], \Laminas\Db\Sql\Select::JOIN_LEFT);
         $select->group($mediaModel->getTable() . ".id");
 
-        $select->columns(array_merge($select->getRawState($select::COLUMNS), array(
+        $select->columns(array_merge($select->getRawState($select::COLUMNS), [
             new \Laminas\Db\Sql\Expression('COUNT(DISTINCT link.id) as nb_links'),
-        )));
+        ]));
 
-        if($keyword && trim($keyword)){
+        if ($keyword && trim($keyword)) {
 
-            $keyword = trim($keyword);
-            $keywordArray = explode(' ', $keyword);
+            $keyword        = trim($keyword);
+            $keywordArray   = explode(' ', $keyword);
             $keywordBoolean = '+' . trim(implode(' +', $keywordArray));
 
             $select->where(
-                new \Laminas\Db\Sql\Predicate\Expression("MATCH(".$mediaModel->getTable() . ".title, ".$mediaModel->getTable() . ".description) AGAINST (? IN BOOLEAN MODE) OR ".$mediaModel->getTable() . ".title LIKE ? OR ".$mediaModel->getTable() . ".description LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%')
+                new \Laminas\Db\Sql\Predicate\Expression("MATCH(" . $mediaModel->getTable() . ".title, " . $mediaModel->getTable() . ".description) AGAINST (? IN BOOLEAN MODE) OR " . $mediaModel->getTable() . ".title LIKE ? OR " . $mediaModel->getTable() . ".description LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%')
             );
-            $select->columns(array_merge($select->getRawState($select::COLUMNS), array(
-                new \Laminas\Db\Sql\Expression("((MATCH(".$mediaModel->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$mediaModel->getTable() . ".description) AGAINST (?) * 1)) AS score", array($keyword, $keyword)),
-            )));
+            $select->columns(array_merge($select->getRawState($select::COLUMNS), [
+                new \Laminas\Db\Sql\Expression("((MATCH(" . $mediaModel->getTable() . ".title) AGAINST (?) * 2) + (MATCH(" . $mediaModel->getTable() . ".description) AGAINST (?) * 1)) AS score", [$keyword, $keyword]),
+            ]));
             $select->order('score DESC, time_created DESC');
         } else {
-            if($showCheckedItemsFirst){
-                $sortExpression = new Expression('FIELD ('.$mediaModel->getTable().'.id, '. $showCheckedItemsFirst .') DESC');
+            if ($showCheckedItemsFirst) {
+                $sortExpression = new Expression('FIELD (' . $mediaModel->getTable() . '.id, ' . $showCheckedItemsFirst . ') DESC');
                 $select->order($sortExpression);
             }
             $select->order('time_created DESC');
@@ -158,23 +158,23 @@ class ModalController extends ActionController
 
         $section = Pi::engine()->section() == 'admin' ? 'admin' : 'default';
 
-        $data = array();
-        foreach($resultset as $media) {
+        $data = [];
+        foreach ($resultset as $media) {
 
             $removeBtn = '';
 
             if (!$media->time_deleted) {
-                $removeUrl = $this->url($section, array(
-                    'controller'    => 'modal',
-                    'action'        => 'delete',
-                    'id'            => $media->id,
-                ));
+                $removeUrl = $this->url($section, [
+                    'controller' => 'modal',
+                    'action'     => 'delete',
+                    'id'         => $media->id,
+                ]);
 
                 $disabled = '';
 
-                if($media->nb_links > 0){
+                if ($media->nb_links > 0) {
                     $alertMsg = __("This media can't be deleted as it is already used by current or another item.");
-                    $disabled = 'disabled="disabled" data-toggle="tooltip" title="'.$alertMsg.'"';
+                    $disabled = 'disabled="disabled" data-toggle="tooltip" title="' . $alertMsg . '"';
                 }
 
                 $removeBtn = <<<PHP
@@ -187,16 +187,16 @@ PHP;
                 $seasonOptions = $mediaEditForm->get('season')->getOptions();
 
                 $buttons = '';
-                foreach ($seasonOptions['value_options'] as $value => $label){
-                    $class = $media->season == $value ? 'btn-primary' : 'btn-secondary';
-                    $buttons .= '<button type="button" data-id="'.$value.'" class="btn btn-primary ' . $class . '">'.$label.'</button>';
+                foreach ($seasonOptions['value_options'] as $value => $label) {
+                    $class   = $media->season == $value ? 'btn-primary' : 'btn-secondary';
+                    $buttons .= '<button type="button" data-id="' . $value . '" class="btn btn-primary ' . $class . '">' . $label . '</button>';
                 }
 
-                $mediaFormActionUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
-                    'module' => 'media',
+                $mediaFormActionUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', [
+                    'module'     => 'media',
                     'controller' => 'modal',
-                    'action' => 'mediaformSeason',
-                ));
+                    'action'     => 'mediaformSeason',
+                ]);
 
                 $seasonBtn = <<<PHP
 <div class="btn-group season-switch" role="group" aria-label="Extra-small button group" data-url="{$mediaFormActionUrl}" data-id="{$media->id}">
@@ -205,49 +205,49 @@ PHP;
 PHP;
             }
 
-            $img = (string) Pi::api('resize','media')->resize($media)->thumbcrop(100, 100);
+            $img = (string)Pi::api('resize', 'media')->resize($media)->thumbcrop(100, 100);
 
-            $data[] = array(
-                'DT_RowAttr' => array(
-                    'data-media-id' => $media['id'],
-                    'data-media-img' => $img,
+            $data[] = [
+                'DT_RowAttr' => [
+                    'data-media-id'     => $media['id'],
+                    'data-media-img'    => $img,
                     'data-media-season' => $media['season'],
-                ),
-                'checked' => '<span class="fas fa-check"></span>',
-                'img' => "<img src='" . $img . "' class='media-modal-thumb' />",
-                'title' => $media->title,
-                'date' => _date($media->time_created),
-                'season' => $seasonBtn,
-                'removeBtn' => $removeBtn,
-            );
+                ],
+                'checked'    => '<span class="fas fa-check"></span>',
+                'img'        => "<img src='" . $img . "' class='media-modal-thumb' />",
+                'title'      => $media->title,
+                'date'       => _date($media->time_created),
+                'season'     => $seasonBtn,
+                'removeBtn'  => $removeBtn,
+            ];
         }
 
-        $uploadedMedia = array();
-        $i = 0;
-        foreach($resultsetFull as $media) {
+        $uploadedMedia = [];
+        $i             = 0;
+        foreach ($resultsetFull as $media) {
             $i++;
             /**
              * Reach upload count, full media list useless
              */
-            if($i > $uploadCount){
+            if ($i > $uploadCount) {
                 break;
             }
 
-            $img = (string) Pi::api('resize','media')->resize($media)->thumbcrop(100, 100);
-            $uploadedMedia[] = array(
-                'id' => (int) $media['id'],
-                'img' => $img,
+            $img             = (string)Pi::api('resize', 'media')->resize($media)->thumbcrop(100, 100);
+            $uploadedMedia[] = [
+                'id'     => (int)$media['id'],
+                'img'    => $img,
                 'season' => $media['season'],
-            );
+            ];
         }
 
-        $output = array(
-            "draw" => (int) $draw,
-            "recordsTotal" => (int) $resultsetFull->count(),
-            "recordsFiltered" => (int) $resultsetFull->count(),
-            "data" => $data,
-            'uploadedMedia' => $uploadedMedia,
-        );
+        $output = [
+            "draw"            => (int)$draw,
+            "recordsTotal"    => (int)$resultsetFull->count(),
+            "recordsFiltered" => (int)$resultsetFull->count(),
+            "data"            => $data,
+            'uploadedMedia'   => $uploadedMedia,
+        ];
 
         return $output;
     }
@@ -259,11 +259,11 @@ PHP;
     {
         $ids = $this->params('ids');
 
-        if(Pi::service()->hasService('log')){
+        if (Pi::service()->hasService('log')) {
             Pi::service()->getService('log')->mute(true);
         }
 
-        if(!$ids){
+        if (!$ids) {
             return $this->redirect()->toRoute('home');
         }
 
@@ -271,19 +271,19 @@ PHP;
          * Get current media list with current order
          */
         $mediaModel = Pi::model('doc', 'media');
-        $where = array(
-            new In($mediaModel->getTable().'.id', explode(',', $ids)),
-        );
-        $order = array(new Expression('FIELD ('.$mediaModel->getTable().'.id, '. $ids .')'));
-        $resultset = Pi::api('doc', $this->getModule())->getList($where, 0, 0, $order);
+        $where      = [
+            new In($mediaModel->getTable() . '.id', explode(',', $ids)),
+        ];
+        $order      = [new Expression('FIELD (' . $mediaModel->getTable() . '.id, ' . $ids . ')')];
+        $resultset  = Pi::api('doc', $this->getModule())->getList($where, 0, 0, $order);
 
-        $data = array();
-        foreach($resultset as $media) {
-            $data[] = array(
-                'id' => $media['id'],
-                'img' => (string) Pi::api('resize','media')->resize($media)->thumbcrop(100, 100),
+        $data = [];
+        foreach ($resultset as $media) {
+            $data[] = [
+                'id'     => $media['id'],
+                'img'    => (string)Pi::api('resize', 'media')->resize($media)->thumbcrop(100, 100),
                 'season' => $media['season'],
-            );
+            ];
         }
 
         return $data;
@@ -294,7 +294,7 @@ PHP;
      */
     public function formlistAction()
     {
-        if(Pi::service()->hasService('log')){
+        if (Pi::service()->hasService('log')) {
             Pi::service()->getService('log')->mute(true);
         }
 
@@ -302,22 +302,22 @@ PHP;
 
         $mediaModel = Pi::model('doc', 'media');
 
-        $where = array(
-          new In($mediaModel->getTable().'.id', explode(',', $ids)),
-        );
+        $where = [
+            new In($mediaModel->getTable() . '.id', explode(',', $ids)),
+        ];
 
 
-        $order = array(new Expression('FIELD ('.$mediaModel->getTable().'.id, '. $ids .')'));
+        $order = [new Expression('FIELD (' . $mediaModel->getTable() . '.id, ' . $ids . ')')];
 
         // Get media list
         $module = $this->getModule();
         $medias = Pi::api('doc', $module)->getList($where, 0, 0, $order);
 
         $haveToComplete = false;
-        foreach($medias as $media){
+        foreach ($medias as $media) {
             $hasInvalidFields = Pi::api('doc', 'media')->hasInvalidFields($media);
 
-            if($hasInvalidFields){
+            if ($hasInvalidFields) {
                 $haveToComplete = true;
             }
         }
@@ -327,11 +327,11 @@ PHP;
 
         $view->setLayout('layout-content');
         $view->setTemplate('../front/modal-formlist');
-        $view->assign(array(
-            'title'      => _a('Resource List'),
-            'medias'     => $medias,
-            'haveToComplete'   => $haveToComplete,
-        ));
+        $view->assign([
+            'title'          => _a('Resource List'),
+            'medias'         => $medias,
+            'haveToComplete' => $haveToComplete,
+        ]);
 
         return Pi::service('view')->render($view->getViewModel());
     }
@@ -341,31 +341,31 @@ PHP;
      */
     public function mediaformAction()
     {
-        if(Pi::service()->hasService('log')){
+        if (Pi::service()->hasService('log')) {
             Pi::service()->getService('log')->mute(true);
         }
 
-        $id = $this->params('id');
+        $id         = $this->params('id');
         $fromModule = $this->params('from_module', 'media');
 
-        if($id){
+        if ($id) {
             // Get media list
             $module = $this->getModule();
-            $media = Pi::model('doc', $module)->find($id);
+            $media  = Pi::model('doc', $module)->find($id);
 
             // Front user can't delete media from others
-            if(Pi::engine()->section() != 'admin' && $media->uid != Pi::user()->getId()){
+            if (Pi::engine()->section() != 'admin' && $media->uid != Pi::user()->getId()) {
                 die('Not allowed');
             }
 
-            if(Pi::engine()->section() == 'admin'){
-                $form = new MediaEditFullForm('media', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)));
+            if (Pi::engine()->section() == 'admin') {
+                $form = new MediaEditFullForm('media', ['thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)]);
             } else {
-                $form = new MediaEditForm('media', array('thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)));
+                $form = new MediaEditForm('media', ['thumbUrl' => Pi::api('doc', 'media')->getUrl($media->id)]);
             }
 
 
-            $form->setAttribute('action', $this->url('', array('action' => 'mediaform')) . '?id=' . $id);
+            $form->setAttribute('action', $this->url('', ['action' => 'mediaform']) . '?id=' . $id);
 
             $form->setData($media->toArray());
             $form->setInputFilter(new MediaEditFilter());
@@ -390,63 +390,63 @@ PHP;
                         }
 
                         $title = preg_replace('#(.*)\.(.*)#', '$1', $file['file']['name']);
-                        $title = str_replace(array('-','_','.'), ' ', $title);
+                        $title = str_replace(['-', '_', '.'], ' ', $title);
 
                         // Set params
-                        $params = [];
+                        $params             = [];
                         $params['filename'] = $file['file']['name'];
-                        $params['title'] = $title;
-                        $params['type'] = 'image';
-                        $params['active'] = 1;
-                        $params['module'] = 'media';
-                        $params['uid'] = Pi::user()->getId();
-                        $params['ip'] = Pi::user()->getIp();
+                        $params['title']    = $title;
+                        $params['type']     = 'image';
+                        $params['active']   = 1;
+                        $params['module']   = 'media';
+                        $params['uid']      = Pi::user()->getId();
+                        $params['ip']       = Pi::user()->getIp();
 
                         // Upload media
                         $response = Pi::api('doc', 'media')->upload($params, $id, $fromModule);
 
 
-                        if(!isset($response['path']) || !$response['path']){
+                        if (!isset($response['path']) || !$response['path']) {
                             $formIsValid = false;
 
                             $view->setVariable('message', implode('<br />', $response['upload_errors']));
                         } else {
-                            $post['path'] = $response['path'];
+                            $post['path']     = $response['path'];
                             $post['filename'] = $response['filename'];
                         }
-                    } else if($post['filename'] && $post['filename'] != $media->filename){
+                    } else if ($post['filename'] && $post['filename'] != $media->filename) {
 
-                        $filter = new Pi\Filter\Urlizer;
-                        $options    = Pi::service('media')->getOption('local', 'options');
+                        $filter  = new Pi\Filter\Urlizer;
+                        $options = Pi::service('media')->getOption('local', 'options');
 
                         // get old path
-                        $slug = $filter($media->filename, '-', true);
-                        $firstChars = str_split(substr($slug, 0, 3));
+                        $slug                = $filter($media->filename, '-', true);
+                        $firstChars          = str_split(substr($slug, 0, 3));
                         $relativeDestination = '/original/' . implode('/', $firstChars) . '/';
-                        $rootPath   = $options['root_path'];
-                        $destination = $rootPath . $relativeDestination;
-                        $oldFinalPath = $destination . $slug;
+                        $rootPath            = $options['root_path'];
+                        $destination         = $rootPath . $relativeDestination;
+                        $oldFinalPath        = $destination . $slug;
 
 
-                        $slug = $filter($post['filename'], '-', true);
-                        $firstChars = str_split(substr($slug, 0, 3));
+                        $slug                = $filter($post['filename'], '-', true);
+                        $firstChars          = str_split(substr($slug, 0, 3));
                         $relativeDestination = '/original/' . implode('/', $firstChars) . '/';
-                        $rootPath   = $options['root_path'];
-                        $destination = $rootPath . $relativeDestination;
-                        $newFinalPath = $destination . $slug;
-                        $finalSlug = $slug;
+                        $rootPath            = $options['root_path'];
+                        $destination         = $rootPath . $relativeDestination;
+                        $newFinalPath        = $destination . $slug;
+                        $finalSlug           = $slug;
 
                         $filenameBase = pathinfo($slug, PATHINFO_FILENAME);
-                        $filenameExt = pathinfo($slug, PATHINFO_EXTENSION);
+                        $filenameExt  = pathinfo($slug, PATHINFO_EXTENSION);
 
                         $i = 1;
-                        while(is_file($newFinalPath)){
-                            $finalSlug = $filenameBase . '-'. $i++ . '.' . $filenameExt;
+                        while (is_file($newFinalPath)) {
+                            $finalSlug    = $filenameBase . '-' . $i++ . '.' . $filenameExt;
                             $newFinalPath = $destination . $finalSlug;
                         }
 
                         $post['filename'] = $finalSlug;
-                        $post['path'] = $relativeDestination;
+                        $post['path']     = $relativeDestination;
 
                         Pi::service('file')->mkdir($destination);
 
@@ -456,7 +456,7 @@ PHP;
                         );
                     }
 
-                    if($formIsValid){
+                    if ($formIsValid) {
                         $media->assign($post);
                         $media->time_updated = time();
 
@@ -465,12 +465,12 @@ PHP;
                         }
                         $media->save();
 
-                        return array(
-                            'status' => 1,
+                        return [
+                            'status'  => 1,
                             'content' => null,
-                            'url' => (string) Pi::api('resize','media')->resizeFormList($media),
-                            'season' => $media->season,
-                        );
+                            'url'     => (string)Pi::api('resize', 'media')->resizeFormList($media),
+                            'season'  => $media->season,
+                        ];
                     }
                 }
             }
@@ -478,10 +478,10 @@ PHP;
             $view->setTemplate('front/partial/modal-media-form');
             $view->setVariable('form', $form);
 
-            return array(
-                'status' => 0,
+            return [
+                'status'  => 0,
                 'content' => Pi::service('view')->render($view),
-            );
+            ];
         }
 
         return false;
@@ -492,25 +492,25 @@ PHP;
      */
     public function mediaformSeasonAction()
     {
-        if(Pi::service()->hasService('log')){
+        if (Pi::service()->hasService('log')) {
             Pi::service()->getService('log')->mute(true);
         }
 
-        $id = $this->params('id');
+        $id     = $this->params('id');
         $season = $this->params('season');
 
-        if($id){
+        if ($id) {
             // Get media list
             $module = $this->getModule();
-            $media = Pi::model('doc', $module)->find($id);
+            $media  = Pi::model('doc', $module)->find($id);
 
             // Front user can't delete media from others
-            if(Pi::engine()->section() != 'admin' && $media->uid != Pi::user()->getId()){
+            if (Pi::engine()->section() != 'admin' && $media->uid != Pi::user()->getId()) {
                 die('Not allowed');
             }
 
             if ($media && $media->id) {
-                $media->season = $season;
+                $media->season       = $season;
                 $media->time_updated = time();
 
                 if ($uid = Pi::user()->getId()) {
@@ -531,13 +531,13 @@ PHP;
     {
         $uid = Pi::user()->getId();
 
-        if($uid){
+        if ($uid) {
             // Get file type
             $file = $this->request->getFiles();
 
             // Get main module
             $from = $this->params('from');
-            if(isset($from) && !empty($from)) {
+            if (isset($from) && !empty($from)) {
                 $params['module'] = $from;
             } else {
                 $params['module'] = $this->getModule();
@@ -548,28 +548,27 @@ PHP;
             }
 
             $title = preg_replace('#(.*)\.(.*)#', '$1', $file['file']['name']);
-            $title = str_replace(array('-','_','.'), ' ', $title);
+            $title = str_replace(['-', '_', '.'], ' ', $title);
 
             // Set params
             $params['filename'] = $file['file']['name'];
-            $params['title'] = $title;
-            $params['type'] = 'image';
-            $params['active'] = 1;
-            $params['module'] = $this->getModule();
-            $params['uid'] = Pi::user()->getId();
-            $params['ip'] = Pi::user()->getIp();
+            $params['title']    = $title;
+            $params['type']     = 'image';
+            $params['active']   = 1;
+            $params['module']   = $this->getModule();
+            $params['uid']      = Pi::user()->getId();
+            $params['ip']       = Pi::user()->getIp();
 
             $fromModule = $this->params('from_module', 'media');
 
             // Upload media
             $response = Pi::api('doc', 'media')->upload($params, null, $fromModule);
 
-
             // Check
             if (!isset($response['id']) || !$response['id']) {
                 http_response_code(500);
 
-                foreach($response['upload_errors'] as &$value){
+                foreach ($response['upload_errors'] as &$value) {
                     $value = '<li>' . $value . '</li>';
                 }
                 $response = '<ul>' . implode('', $response['upload_errors']) . '</ul>';
@@ -592,32 +591,32 @@ PHP;
      */
     public function deleteAction()
     {
-        $id     = $this->params('id', 0);
-        $ids    = array_filter(explode(',', $id));
+        $id  = $this->params('id', 0);
+        $ids = array_filter(explode(',', $id));
 
         if (empty($ids)) {
             throw new \Exception(_a('Invalid media ID'));
         }
 
-        $where = array('id' => $ids);
+        $where = ['id' => $ids];
 
         // Front user can't delete media from others
-        if(Pi::engine()->section() != 'admin'){
+        if (Pi::engine()->section() != 'admin') {
             $where['uid'] = Pi::user()->getId();
         }
 
         // Mark media as deleted
         $this->getModel('doc')->update(
-            array('time_deleted' => time()),
+            ['time_deleted' => time()],
             $where
         );
 
         return $this->redirect()->toRoute(
             '',
-            array(
+            [
                 'controller' => 'modal',
                 'action'     => 'list',
-            )
+            ]
         );
     }
 
@@ -629,8 +628,8 @@ PHP;
      */
     public function undeleteAction()
     {
-        $id     = $this->params('id', 0);
-        $ids    = array_filter(explode(',', $id));
+        $id  = $this->params('id', 0);
+        $ids = array_filter(explode(',', $id));
 
         if (empty($ids)) {
             throw new \Exception(_a('Invalid media ID'));
@@ -638,17 +637,17 @@ PHP;
 
         // Mark media as deleted
         $this->getModel('doc')->update(
-            array('time_deleted' => null),
-            array('id' => $ids)
+            ['time_deleted' => null],
+            ['id' => $ids]
         );
 
         // Go to list page or original page
         return $this->redirect()->toRoute(
             '',
-            array(
+            [
                 'controller' => 'modal',
                 'action'     => 'list',
-            )
+            ]
         );
     }
 }

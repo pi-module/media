@@ -15,7 +15,7 @@ use Pi\File\Transfer\Download;
 
 /**
  * Modal controller
- * 
+ *
  * @author Frédéric TISSOT <contact@espritdev.fr>
  */
 class ModalController extends \Module\Media\Controller\Front\ModalController

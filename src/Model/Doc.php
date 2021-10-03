@@ -27,7 +27,7 @@ class Doc extends Model
     /**
      * {@inheritDoc}
      */
-    protected $columns = array(
+    protected $columns = [
         'id',
         'path',
         'filename',
@@ -50,12 +50,12 @@ class Doc extends Model
         'featured',
         'latitude',
         'longitude',
-    );
+    ];
 
     /**
      * {@inheritDoc}
      */
-    protected $encodeColumns = array(
-        'attributes'     => true,
-    );
+    protected $encodeColumns = [
+        'attributes' => true,
+    ];
 }

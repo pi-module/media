@@ -49,7 +49,7 @@ class Link extends AbstractApi
         $row = $this->model()->createRow($data);
         $row->save();
 
-        return (int) $row->id;
+        return (int)$row->id;
     }
 
     /**
@@ -67,10 +67,10 @@ class Link extends AbstractApi
 
         return $result;
     }
-    
+
     /**
      * Remove links by object
-     * 
+     *
      * @param array $params
      * @return bool
      */
@@ -85,39 +85,40 @@ class Link extends AbstractApi
      * Update links from doc to objects
      * @param \Pi\Db\RowGateway\RowGateway $object
      */
-    public function updateLinks($object){
+    public function updateLinks($object)
+    {
 
         $model = $object->getModel();
 
-        if(!empty($object->id) && $mediaLinks = $model->getMediaLinks()){
+        if (!empty($object->id) && $mediaLinks = $model->getMediaLinks()) {
             $tableWithoutPrefix = str_replace(Pi::db()->getTablePrefix(), '', $model->getTable());
 
             preg_match('#^([^_]*)_(.*)#', $tableWithoutPrefix, $matches);
 
-            if(isset($matches[1], $matches[2])){
-                $newLinks = array();
+            if (isset($matches[1], $matches[2])) {
+                $newLinks = [];
 
-                $module = $matches[1];
+                $module      = $matches[1];
                 $object_name = $matches[2];
-                $object_id = $object->id;
+                $object_id   = $object->id;
 
-                $data = array(
-                    'module' => $module,
+                $data = [
+                    'module'      => $module,
                     'object_name' => $object_name,
-                    'object_id' => $object_id,
-                );
+                    'object_id'   => $object_id,
+                ];
 
                 $currentLinks = $this->getlistByObject($data)->toArray();
-                foreach($currentLinks as $key => $currentLink){
+                foreach ($currentLinks as $key => $currentLink) {
                     unset($currentLinks[$key]['id']);
                 }
 
-                foreach($mediaLinks as $mediaLink){
-                    if(isset($object->$mediaLink)){
+                foreach ($mediaLinks as $mediaLink) {
+                    if (isset($object->$mediaLink)) {
                         $values = explode(',', $object->$mediaLink);
 
-                        foreach($values as $value){
-                            $data['field'] = $mediaLink;
+                        foreach ($values as $value) {
+                            $data['field']    = $mediaLink;
                             $data['media_id'] = intval($value);
 
                             $newLinks[] = $data;
@@ -126,23 +127,23 @@ class Link extends AbstractApi
                 }
 
                 $linksToDelete = $currentLinks;
-                $linksToAdd = array();
+                $linksToAdd    = [];
 
-                foreach($newLinks as $newLink){
-                    if(!in_array($newLink, $currentLinks)){
+                foreach ($newLinks as $newLink) {
+                    if (!in_array($newLink, $currentLinks)) {
                         $linksToAdd[] = $newLink;
-                    }else{
+                    } else {
                         $key = array_search($newLink, $linksToDelete);
 
                         unset($linksToDelete[$key]);
                     }
                 }
 
-                foreach($linksToDelete as $linkToDelete){
+                foreach ($linksToDelete as $linkToDelete) {
                     $this->deleteByObject($linkToDelete);
                 }
 
-                foreach($linksToAdd as $linkToAdd){
+                foreach ($linksToAdd as $linkToAdd) {
                     $this->add($linkToAdd);
                 }
             }
@@ -153,25 +154,26 @@ class Link extends AbstractApi
      * Remove links from doc to objects
      * @param \Pi\Db\RowGateway\RowGateway $object
      */
-    public function removeLinks($object){
+    public function removeLinks($object)
+    {
 
         $model = $object->getModel();
 
-        if(!empty($object->id) && $mediaLinks = $model->getMediaLinks()){
+        if (!empty($object->id) && $mediaLinks = $model->getMediaLinks()) {
             $tableWithoutPrefix = str_replace(Pi::db()->getTablePrefix(), '', $model->getTable());
 
             preg_match('#^([^_]*)_(.*)#', $tableWithoutPrefix, $matches);
 
-            if(isset($matches[1], $matches[2])){
-                $module = $matches[1];
+            if (isset($matches[1], $matches[2])) {
+                $module      = $matches[1];
                 $object_name = $matches[2];
-                $object_id = $object->id;
+                $object_id   = $object->id;
 
-                $data = array(
-                    'module' => $module,
+                $data = [
+                    'module'      => $module,
                     'object_name' => $object_name,
-                    'object_id' => $object_id,
-                );
+                    'object_id'   => $object_id,
+                ];
 
                 $this->deleteByObject($data);
             }

@@ -10,6 +10,7 @@
 /**
  * @author Frédéric TISSOT
  */
+
 namespace Module\Media\Controller\Front;
 
 use Pi;
@@ -19,21 +20,22 @@ class CronController extends ActionController
 {
     public function cleanSoftDeletedMediaAction()
     {
-        $options    = Pi::service('media')->getOption('local', 'options');
-        $rootPath   = $options['root_path'];
+        die('Activate this option at your own risk !');
+        /* $options  = Pi::service('media')->getOption('local', 'options');
+        $rootPath = $options['root_path'];
 
         $mediaModel = Pi::model('doc', 'media');
-        $select = $mediaModel->select();
+        $select     = $mediaModel->select();
         $select->where('time_deleted > 0');
 
         $mediaCollection = Pi::model('doc', 'media')->selectWith($select);
 
         $removedMedia = array();
 
-        foreach($mediaCollection as $mediaEntity){
+        foreach ($mediaCollection as $mediaEntity) {
             $fullPath = $rootPath . $mediaEntity->path . $mediaEntity->filename;
 
-            if(is_file($fullPath)){
+            if (is_file($fullPath)) {
                 unlink($fullPath);
             }
 
@@ -47,6 +49,6 @@ class CronController extends ActionController
             'message' => "Ok",
             'removedMediaCount' => count($removedMedia),
             'removedMediaPaths' => $removedMedia,
-        );
+        ); */
     }
 }

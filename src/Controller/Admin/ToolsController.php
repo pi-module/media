@@ -16,39 +16,39 @@ use Pi;
 
 /**
  * Test controller
- * 
+ *
  * @author Frédéric TISSOT <contact@espritdev.fr>
  */
 class ToolsController extends ActionController
 {
     /**
      * List all media
-     * 
+     *
      * @return ViewModel
      */
     public function indexAction()
     {
-        $this->view()->assign(array(
-            'title'      => _a('Tools'),
-        ));
+        $this->view()->assign([
+            'title' => _a('Tools'),
+        ]);
     }
 
     public function fillDescriptionAction()
     {
         $mediaModel = Pi::model('doc', 'media');
-        $select = $mediaModel->select();
+        $select     = $mediaModel->select();
 
-        $select->where(array(
+        $select->where([
             new \Laminas\Db\Sql\Predicate\Like('description', ''),
             new \Laminas\Db\Sql\Predicate\NotLike('filename', ''),
-        ));
+        ]);
 
         $mediaCollection = Pi::model('doc', 'media')->selectWith($select);
 
-        if($mediaCollection->count()){
-            foreach($mediaCollection as $mediaEntity){
+        if ($mediaCollection->count()) {
+            foreach ($mediaCollection as $mediaEntity) {
 
-                if($mediaEntity->title){
+                if ($mediaEntity->title) {
                     $mediaEntity->description = ucfirst($mediaEntity->title);
                 } else {
                     preg_match('#(.*)\.(.*)$#', $mediaEntity->filename, $matches);
@@ -66,25 +66,26 @@ class ToolsController extends ActionController
             $messenger->addMessage(__('Description are filled yet'));
         }
 
-        $this->redirect()->toRoute(null, array('action' => 'index'));
+        $this->redirect()->toRoute(null, ['action' => 'index']);
     }
 
-    public function removeOrphanedAction(){
+    public function removeOrphanedAction()
+    {
 
         $mediaModel = Pi::model('doc', 'media');
-        $linkModel = Pi::model('link', 'media');
-        $select = $mediaModel->select();
-        $select->join(array('link' => $linkModel->getTable()), "link.media_id = " . $mediaModel->getTable() . '.id', array());
+        $linkModel  = Pi::model('link', 'media');
+        $select     = $mediaModel->select();
+        $select->join(['link' => $linkModel->getTable()], "link.media_id = " . $mediaModel->getTable() . '.id', []);
 
         $mediaCollection = Pi::model('doc', 'media')->selectWith($select);
 
-        $activeMediaPath = array();
-        foreach($mediaCollection as $mediaEntity){
+        $activeMediaPath = [];
+        foreach ($mediaCollection as $mediaEntity) {
             $activeMediaPath[] = $mediaEntity->path . $mediaEntity->filename;
         }
 
-        $options    = Pi::service('media')->getOption('local', 'options');
-        $rootPath   = $options['root_path'];
+        $options  = Pi::service('media')->getOption('local', 'options');
+        $rootPath = $options['root_path'];
 
         $hasRemove = 0;
 
@@ -96,7 +97,7 @@ class ToolsController extends ActionController
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir));
 
         foreach ($iterator as $file) {
-            if ($file->isDir()){
+            if ($file->isDir()) {
                 continue;
             }
             $filepath = str_replace($rootPath, '', $file->getPathname());
@@ -108,7 +109,7 @@ class ToolsController extends ActionController
             $filepath = implode('/', $exploded);
             $filepath = str_replace('processed', 'original', $filepath);
 
-            if(!in_array($filepath, $activeMediaPath)){
+            if (!in_array($filepath, $activeMediaPath)) {
                 unlink($file->getPathname());
                 $hasRemove++;
             }
@@ -116,32 +117,32 @@ class ToolsController extends ActionController
 
         $messenger = $this->plugin('flashMessenger');
 
-        if($hasRemove){
+        if ($hasRemove) {
             $messenger->addSuccessMessage($hasRemove . __('Orphaned media have been removed'));
         } else {
             $messenger->addMessage(__('There is no orphaned media currently'));
         }
 
-        $this->redirect()->toRoute(null, array('action' => 'index'));
+        $this->redirect()->toRoute(null, ['action' => 'index']);
     }
 
     public function cleanSoftDeletedMediaAction()
     {
-        $options    = Pi::service('media')->getOption('local', 'options');
-        $rootPath   = $options['root_path'];
+        $options  = Pi::service('media')->getOption('local', 'options');
+        $rootPath = $options['root_path'];
 
         $mediaModel = Pi::model('doc', 'media');
-        $select = $mediaModel->select();
+        $select     = $mediaModel->select();
         $select->where('time_deleted > 0');
 
         $mediaCollection = Pi::model('doc', 'media')->selectWith($select);
 
-        $removedMedia = array();
+        $removedMedia = [];
 
-        foreach($mediaCollection as $mediaEntity){
+        foreach ($mediaCollection as $mediaEntity) {
             $fullPath = $rootPath . $mediaEntity->path . $mediaEntity->filename;
 
-            if(is_file($fullPath)){
+            if (is_file($fullPath)) {
                 unlink($fullPath);
             }
 
@@ -151,12 +152,12 @@ class ToolsController extends ActionController
 
         $messenger = $this->plugin('flashMessenger');
 
-        if($removedMedia){
+        if ($removedMedia) {
             $messenger->addSuccessMessage(__('Soft-deleted media have been hard removed'));
         } else {
             $messenger->addMessage(__('There is no soft-deleted media currently'));
         }
 
-        $this->redirect()->toRoute(null, array('action' => 'index'));
+        $this->redirect()->toRoute(null, ['action' => 'index']);
     }
 }

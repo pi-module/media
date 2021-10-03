@@ -20,57 +20,57 @@ use Laminas\InputFilter\InputFilter;
 class MediaEditFilter extends InputFilter
 {
     /**
-     * Initializing validator and filter 
+     * Initializing validator and filter
      */
     public function __construct()
     {
         $module = Pi::service('module')->current();
         $config = Pi::service('registry')->config->read($module);
 
-        $this->add(array(
+        $this->add([
             'name'     => 'title',
             'required' => true,
-            'filters'  => array(
-                array(
+            'filters'  => [
+                [
                     'name' => 'StringTrim',
-                ),
-            ),
-        ));
+                ],
+            ],
+        ]);
 
         if ($config['form_description']) {
-            $this->add(array(
-                'name' => 'description',
+            $this->add([
+                'name'     => 'description',
                 'required' => false,
-                'filters' => array(
-                    array(
+                'filters'  => [
+                    [
                         'name' => 'StringTrim',
-                    ),
-                ),
-            ));
+                    ],
+                ],
+            ]);
         }
 
         if ($config['form_license_type'] && isset($config['license_values']) && !empty($config['license_values'])) {
-            $this->add(array(
-                'name' => 'license_type',
+            $this->add([
+                'name'     => 'license_type',
                 'required' => false,
-            ));
+            ]);
         }
 
-        $this->add(array(
+        $this->add([
             'name'     => 'season',
             'required' => false,
-        ));
+        ]);
 
-        if($config['form_copyright']) {
-            $this->add(array(
-                'name' => 'copyright',
+        if ($config['form_copyright']) {
+            $this->add([
+                'name'     => 'copyright',
                 'required' => false,
-            ));
+            ]);
         }
 
-        $this->add(array(
+        $this->add([
             'name'     => 'id',
             'required' => true,
-        ));
+        ]);
     }
 }

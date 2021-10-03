@@ -10,6 +10,7 @@
 /**
  * @author Hossein Azizabadi <azizabadi@faragostaresh.com>
  */
+
 namespace Module\Media\Installer\Action;
 
 use Pi;
@@ -25,7 +26,7 @@ class Update extends BasicUpdate
     protected function attachDefaultListeners()
     {
         $events = $this->events;
-        $events->attach('update.pre', array($this, 'updateSchema'));
+        $events->attach('update.pre', [$this, 'updateSchema']);
         parent::attachDefaultListeners();
 
         return $this;
@@ -39,23 +40,23 @@ class Update extends BasicUpdate
         $moduleVersion = $e->getParam('version');
 
         // Set doc model
-        $docModel = Pi::model('doc', $this->module);
-        $docTable = $docModel->getTable();
+        $docModel   = Pi::model('doc', $this->module);
+        $docTable   = $docModel->getTable();
         $docAdapter = $docModel->getAdapter();
 
         // Set link model
-        $linkModel = Pi::model('link', $this->module);
-        $linkTable = $linkModel->getTable();
+        $linkModel   = Pi::model('link', $this->module);
+        $linkTable   = $linkModel->getTable();
         $linkAdapter = $linkModel->getAdapter();
 
         // Set test model
-        $testModel = Pi::model('test', $this->module);
-        $testTable = $testModel->getTable();
+        $testModel   = Pi::model('test', $this->module);
+        $testTable   = $testModel->getTable();
         $testAdapter = $testModel->getAdapter();
 
         if (version_compare($moduleVersion, '1.0.4', '<')) {
 
-            $sql =<<<SQL
+            $sql = <<<SQL
 ALTER TABLE %s
   DROP `url`,
   DROP `path`,
@@ -71,18 +72,18 @@ SQL;
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
         }
 
         if (version_compare($moduleVersion, '1.0.5', '<')) {
 
-            $sql =<<<SQL
+            $sql = <<<SQL
 ALTER TABLE %s ADD `season` TINYINT NULL AFTER `count`, ADD `updated_by` INT NULL AFTER `season`, ADD `license_type` VARCHAR(255) NULL AFTER `updated_by`, ADD `copyright` VARCHAR(255) NULL AFTER `license_type`, ADD `cropping` TEXT NULL AFTER `geoloc_longitude`, ADD `featured` TINYINT NOT NULL AFTER `cropping`;
 SQL;
 
@@ -90,18 +91,18 @@ SQL;
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
         }
 
         if (version_compare($moduleVersion, '1.0.6', '<')) {
 
-            $sql =<<<SQL
+            $sql = <<<SQL
 CREATE TABLE %s ( `id` INT NOT NULL AUTO_INCREMENT , `title` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`));
 SQL;
 
@@ -109,18 +110,18 @@ SQL;
             try {
                 $testAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table create query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
         }
 
         if (version_compare($moduleVersion, '1.0.7', '<')) {
 
-            $sql =<<<SQL
+            $sql = <<<SQL
 ALTER TABLE %s ADD `main_image` INT NULL AFTER `title`, ADD `additional_images` VARCHAR(255) NULL AFTER `main_image`;
 SQL;
 
@@ -128,18 +129,18 @@ SQL;
             try {
                 $testAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table create query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
         }
 
         if (version_compare($moduleVersion, '1.0.8', '<')) {
 
-            $sql =<<<SQL
+            $sql = <<<SQL
 CREATE TABLE %s (
     `id` INT NOT NULL AUTO_INCREMENT ,
     `module` VARCHAR(20) NOT NULL ,
@@ -155,18 +156,18 @@ SQL;
             try {
                 $linkAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table create query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
         }
 
         if (version_compare($moduleVersion, '1.0.9', '<')) {
 
-            $sql =<<<SQL
+            $sql = <<<SQL
 ALTER TABLE %s ADD INDEX( `media_id`);
 SQL;
 
@@ -174,11 +175,11 @@ SQL;
             try {
                 $linkAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
         }
@@ -188,11 +189,11 @@ SQL;
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
 
@@ -201,11 +202,11 @@ SQL;
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
 
@@ -214,11 +215,11 @@ SQL;
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
         }
@@ -228,11 +229,11 @@ SQL;
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
 
@@ -241,11 +242,11 @@ SQL;
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
         }
@@ -255,11 +256,11 @@ SQL;
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
 
@@ -267,11 +268,11 @@ SQL;
             try {
                 $linkAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
 
@@ -279,11 +280,11 @@ SQL;
             try {
                 $linkAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
 
@@ -291,11 +292,11 @@ SQL;
             try {
                 $linkAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
 
@@ -303,11 +304,11 @@ SQL;
             try {
                 $linkAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
 
@@ -315,11 +316,11 @@ SQL;
             try {
                 $linkAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
 
@@ -327,11 +328,11 @@ SQL;
             try {
                 $linkAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
         }
@@ -342,11 +343,11 @@ SQL;
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
 
@@ -355,11 +356,11 @@ SQL;
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
         }
@@ -370,11 +371,11 @@ SQL;
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
 
@@ -383,11 +384,11 @@ SQL;
             try {
                 $docAdapter->query($sql, 'execute');
             } catch (\Exception $exception) {
-                $this->setResult('db', array(
-                    'status' => false,
+                $this->setResult('db', [
+                    'status'  => false,
                     'message' => 'Table alter query failed: '
                         . $exception->getMessage(),
-                ));
+                ]);
                 return false;
             }
         }

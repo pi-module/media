@@ -25,10 +25,10 @@ class IndexController extends ActionController
      */
     public function indexAction()
     {
-        return $this->redirect()->toRoute('', array(
+        return $this->redirect()->toRoute('', [
             'controller' => 'list',
             'action'     => 'index',
-            'all' => 1,
-        ));
+            'all'        => 1,
+        ]);
     }
 }

@@ -20,28 +20,28 @@ use Laminas\InputFilter\InputFilter;
 class AppEditFilter extends InputFilter
 {
     /**
-     * Initializing validator and filter 
+     * Initializing validator and filter
      */
     public function __construct()
     {
-        $this->add(array(
+        $this->add([
             'name'     => 'title',
             'required' => true,
-            'filters'  => array(
-                array(
+            'filters'  => [
+                [
                     'name' => 'StringTrim',
-                ),
-            ),
-        ));
+                ],
+            ],
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name'     => 'id',
             'required' => false,
-        ));
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name'     => 'appkey',
             'required' => true,
-        ));
+        ]);
     }
 }

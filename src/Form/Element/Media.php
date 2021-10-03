@@ -10,6 +10,7 @@
 /**
  * @author Hossein Azizabadi <azizabadi@faragostaresh.com>
  */
+
 namespace Module\Media\Form\Element;
 
 use Pi;
@@ -22,19 +23,19 @@ class Media extends \Laminas\Form\Element\Text
     public function getAttributes()
     {
         $fromModule = $this->getOption('module') ?: 'media';
-        $fromUid = $this->getOption('uid') ?: null;
+        $fromUid    = $this->getOption('uid') ?: null;
 
         // Load language
-        Pi::service('i18n')->load(array('module/media', 'default'));
+        Pi::service('i18n')->load(['module/media', 'default']);
 
-        $modalTitle = __("Media gallery");
+        $modalTitle   = __("Media gallery");
         $saveBtnTitle = __("Add selected media");
 
         $jQueryHelper = Pi::service('view')->gethelper('jQuery');
         $jQueryHelper();
 
         $assetHelper = Pi::service('view')->gethelper('assetModule');
-        $jsHelper = Pi::service('view')->gethelper('js');
+        $jsHelper    = Pi::service('view')->gethelper('js');
         $jsHelper($assetHelper('js/dropzone.js', 'media'));
         $jsHelper($assetHelper('js/jquery-ui.custom.min.js', 'media'));
         $jsHelper($assetHelper('js/jquery.dataTables.min.js', 'media'));
@@ -49,8 +50,8 @@ class Media extends \Laminas\Form\Element\Text
         $cssHelper($assetHelper('css/dataTables.bootstrap4.min.css', 'media'));
         $cssHelper($assetHelper('css/media.css', 'media'));
 
-        $max = Pi::service('module')->config('max_size', 'media');
-        $uploadMaxSize = floor($max / 1024) * 1024 . __(' kb');
+        $max             = Pi::service('module')->config('max_size', 'media');
+        $uploadMaxSize   = floor($max / 1024) * 1024 . __(' kb');
         $uploadMaxSizeMb = floor(Pi::service('module')->config('max_size', 'media') / 1024);
 
         $imageMinW = Pi::config(
@@ -72,89 +73,89 @@ class Media extends \Laminas\Form\Element\Text
         $uploadMinDimensions = $imageMinW . ' x ' . $imageMinH . " px";
         $uploadMaxDimensions = Pi::service('module')->config('image_maxw', 'media') . ' x ' . Pi::service('module')->config('image_maxh', 'media') . " px";
 
-        $uploadUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
-            'module' => 'media',
+        $uploadUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', [
+            'module'     => 'media',
             'controller' => 'modal',
-            'action' => 'upload',
-        ));
+            'action'     => 'upload',
+        ]);
 
         $uploadUrl .= '?from_module=' . $fromModule;
 
-        $listUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
-            'module' => 'media',
+        $listUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', [
+            'module'     => 'media',
             'controller' => 'modal',
-            'action' => 'list',
-        ));
+            'action'     => 'list',
+        ]);
 
-        $currentSelectedMediaUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
-            'module' => 'media',
+        $currentSelectedMediaUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', [
+            'module'     => 'media',
             'controller' => 'modal',
-            'action' => 'currentSelectedMedia',
-        ));
+            'action'     => 'currentSelectedMedia',
+        ]);
 
-        $formlistUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
-            'module' => 'media',
+        $formlistUrl = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', [
+            'module'     => 'media',
             'controller' => 'modal',
-            'action' => 'formlist',
-        ));
+            'action'     => 'formlist',
+        ]);
 
-        $mediaFormAction = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', array(
-            'module' => 'media',
+        $mediaFormAction = Pi::service('url')->assemble(Pi::engine()->section() == 'admin' ? 'admin' : 'default', [
+            'module'     => 'media',
             'controller' => 'modal',
-            'action' => 'mediaform',
-        ));
+            'action'     => 'mediaform',
+        ]);
 
         $maxGalleryImages = Pi::service('module')->config('freemium_max_gallery_images', $fromModule);
-        $freemiumMsg = Pi::service('module')->config('freemium_alert_msg', $fromModule);
+        $freemiumMsg      = Pi::service('module')->config('freemium_alert_msg', $fromModule);
 
 
-        $closeTitle = __("Close");
-        $confirmTitle = __("Confirm");
-        $freemiumAlertTitle = __("Alert Freemium account limitations");
-        $seasonAlertTitle = __("Alert season duplicates");
-        $seasonAlertMsg = __("Alert season duplicates : you must have online one picture of each season only");
+        $closeTitle               = __("Close");
+        $confirmTitle             = __("Confirm");
+        $freemiumAlertTitle       = __("Alert Freemium account limitations");
+        $seasonAlertTitle         = __("Alert season duplicates");
+        $seasonAlertMsg           = __("Alert season duplicates : you must have online one picture of each season only");
         $confirmDeleteHeaderTitle = __("Delete media");
         $confirmDeleteActionTitle = __("Do you confirm you want to delete this media ? In case you delete it inadvertently, you can active it back in your My Media submenu");
 
-        $maxAlertTitle = __("Max media alert");
-        $errorAlertTitle = __("Error during upload");
+        $maxAlertTitle    = __("Max media alert");
+        $errorAlertTitle  = __("Error during upload");
         $errorAlertBefore = __("Oops ! You reached the limits set for files : please modify your file(s) !");
-        $errorAlertAfter = __("Unfortunately we do not have the infrastructure of the giants of the internet, and therefore we have server limitations for uploading large files. Conversely, we need files of good size so that they display correctly on all types of screens/devices.");
+        $errorAlertAfter  = __("Unfortunately we do not have the infrastructure of the giants of the internet, and therefore we have server limitations for uploading large files. Conversely, we need files of good size so that they display correctly on all types of screens/devices.");
 
         $maxAlertMsg = __("Max media alert : you have reach maximum of picture for this field");
 
-        $checkedMediaTitle = __("Your selection (you can unlink each media)");
-        $formModalTitle = __("Edit");
-        $formModalSaveBtn = __("Save");
+        $checkedMediaTitle  = __("Your selection (you can unlink each media)");
+        $formModalTitle     = __("Edit");
+        $formModalSaveBtn   = __("Save");
         $formModalCancelBtn = __("Cancel");
 
         $colThumbnail = __("Thumbnail");
-        $colTitle = __("Title");
-        $colDate = __("Date");
-        $colSeason = __("Season");
-        $sProcessing = __("Loading in progress");
-        $sSearch = __("Search&nbsp;:");
+        $colTitle     = __("Title");
+        $colDate      = __("Date");
+        $colSeason    = __("Season");
+        $sProcessing  = __("Loading in progress");
+        $sSearch      = __("Search&nbsp;:");
 
-        $sLengthMenu = __("Show _MENU_ elements");
-        $sInfo = __("Show elements _START_ to _END_ on _TOTAL_ elements");
-        $sInfoEmpty = __("Show elements 0 to 0 on 0 element");
-        $sInfoFiltered = __("(filtered from _MAX_ elements)");
+        $sLengthMenu     = __("Show _MENU_ elements");
+        $sInfo           = __("Show elements _START_ to _END_ on _TOTAL_ elements");
+        $sInfoEmpty      = __("Show elements 0 to 0 on 0 element");
+        $sInfoFiltered   = __("(filtered from _MAX_ elements)");
         $sLoadingRecords = __("Loading in progress...");
-        $sZeroRecords = __("No element to display");
-        $sEmptyTable = __("No data available in the table");
-        $sFirst = __("First");
-        $sPrevious = __("Previous");
-        $sNext = __("Next");
-        $sLast = __("Last");
+        $sZeroRecords    = __("No element to display");
+        $sEmptyTable     = __("No data available in the table");
+        $sFirst          = __("First");
+        $sPrevious       = __("Previous");
+        $sNext           = __("Next");
+        $sLast           = __("Last");
 
-        $uploadMsg = sprintf(__("Drop files here to upload new files<br /><span class='badge badge-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMinDimensions);
+        $uploadMsg      = sprintf(__("Drop files here to upload new files<br /><span class='badge badge-warning'>Max Size = %s and min dimensions = %s</span><br />(or select existing files below)"), $uploadMaxSize, $uploadMinDimensions);
         $dictFileTooBig = __("File size is to high ({{filesize}}kb). Max : {{maxFilesize}}kb");
 
 
-        $customFilters = '<div><label for="show_checked_items_first"><input type="checkbox" name="show_checked_items_first" id="show_checked_items_first" value="1" /> '.__("Show checked items first").'</label>';
+        $customFilters = '<div><label for="show_checked_items_first"><input type="checkbox" name="show_checked_items_first" id="show_checked_items_first" value="1" /> ' . __("Show checked items first") . '</label>';
 
-        if(Pi::engine()->section() == 'admin' && $fromUid){
-            $customFilters .= '&nbsp;&nbsp;&nbsp;<label for="show_uid_media"><input type="checkbox" name="show_uid_media" id="show_uid_media" value="'.$fromUid.'" /> '.__("Show Item UID media").'</label>';
+        if (Pi::engine()->section() == 'admin' && $fromUid) {
+            $customFilters .= '&nbsp;&nbsp;&nbsp;<label for="show_uid_media"><input type="checkbox" name="show_uid_media" id="show_uid_media" value="' . $fromUid . '" /> ' . __("Show Item UID media") . '</label>';
         }
 
         $customFilters .= '</div>';
@@ -337,37 +338,37 @@ $('body').on('hidden.bs.modal', function () {
 </script>
 HTML;
 
-        $addLabel = __("Choose or add new media file");
-        $name = $this->getName();
+        $addLabel       = __("Choose or add new media file");
+        $name           = $this->getName();
         $isMediaGallery = $this->getOption('media_gallery') ? 1 : 0;
-        $isFreemium = $this->getOption('is_freemium') ? 1 : 0;
+        $isFreemium     = $this->getOption('is_freemium') ? 1 : 0;
 
 //        echo $isFreemium; die();
 
-        $isMediaSeason = ($this->getOption('media_season') && !$isFreemium) ? 1 : 0;
+        $isMediaSeason            = ($this->getOption('media_season') && !$isFreemium) ? 1 : 0;
         $isMediaSeasonRecommended = $this->getOption('media_season_recommended') ? 1 : 0;
-        $canConnectLists = $this->getOption('can_connect_lists') ? 1 : 0;
+        $canConnectLists          = $this->getOption('can_connect_lists') ? 1 : 0;
 
         $isMediaSeasonRecommendedMsg = $isMediaSeason ? __("We recommend you to fill 4 pictures for all seasons") : '';
 
-        if($isMediaSeason){
+        if ($isMediaSeason) {
             $isMediaGallery = 1;
         }
 
-        $noMediaLabel = __('No media for now...');
-        $loader = $assetHelper('image/spinner.gif', 'media');
-        $maxGalleryImagesMsg = '';
+        $noMediaLabel              = __('No media for now...');
+        $loader                    = $assetHelper('image/spinner.gif', 'media');
+        $maxGalleryImagesMsg       = '';
         $maxGalleryImagesConstrain = '';
 
-        if(!$isMediaGallery){
+        if (!$isMediaGallery) {
             $maxGalleryImagesConstrain = '';
-            $maxGalleryImagesMsg = __('1 picture only');
-        } elseif($isMediaSeason){
+            $maxGalleryImagesMsg       = __('1 picture only');
+        } elseif ($isMediaSeason) {
             $maxGalleryImagesConstrain = 4;
-            $maxGalleryImagesMsg = __('1 picture per season only = 4 pictures');
-        } else if($isFreemium && $maxGalleryImages > 0){
+            $maxGalleryImagesMsg       = __('1 picture per season only = 4 pictures');
+        } else if ($isFreemium && $maxGalleryImages > 0) {
             $maxGalleryImagesConstrain = $maxGalleryImages;
-            $maxGalleryImagesMsg = ($isFreemium && $maxGalleryImages > 0) ? sprintf(__('Max %s pictures'), $maxGalleryImages) : '';
+            $maxGalleryImagesMsg       = ($isFreemium && $maxGalleryImages > 0) ? sprintf(__('Max %s pictures'), $maxGalleryImages) : '';
         }
 
         $description = <<<HTML
@@ -396,7 +397,7 @@ HTML;
 </div>
 HTML;
 
-        if(!isset($GLOBALS['isMediaModalLoaded'])){
+        if (!isset($GLOBALS['isMediaModalLoaded'])) {
             $GLOBALS['isMediaModalLoaded'] = true;
 
             $cropView = new \Laminas\View\Model\ViewModel;
@@ -411,8 +412,8 @@ HTML;
             $view->getHelper('footScript')->addHtml($cropHtml);
         }
 
-        $this->attributes['id'] = 'media_input_' . $this->getName();
-        $this->attributes['class'] = 'media-input d-none';
+        $this->attributes['id']          = 'media_input_' . $this->getName();
+        $this->attributes['class']       = 'media-input d-none';
         $this->attributes['description'] = $description;
 
         return $this->attributes;

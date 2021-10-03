@@ -14,146 +14,145 @@ use Pi\Form\Form as BaseForm;
 
 /**
  * Class for initializing form of edit media page
- * 
+ *
  * @author Zongshu Lin <lin40553024@163.com>
- */ 
+ */
 class MediaEditForm extends BaseForm
 {
-    public function __construct($name = null, $option = array())
+    public function __construct($name = null, $option = [])
     {
-        $module = Pi::service('module')->current();
-        $this->config = Pi::service('registry')->config->read($module);
+        $module         = Pi::service('module')->current();
+        $this->config   = Pi::service('registry')->config->read($module);
         $this->thumbUrl = (isset($option['thumbUrl'])) ? $option['thumbUrl'] : '';
         parent::__construct($name);
     }
 
     /**
-     * Initalizing form 
+     * Initalizing form
      */
     public function init()
     {
 
         $this->setAttribute("enctype", "multipart/form-data");
 
-        $this->add(array(
+        $this->add([
             'name'       => 'title',
-            'options'    => array(
-                'label'     => __('Title'),
-            ),
-            'attributes' => array(
-                'type'      => 'text',
+            'options'    => [
+                'label' => __('Title'),
+            ],
+            'attributes' => [
+                'type'     => 'text',
                 'required' => true,
-            ),
-        ));
+            ],
+        ]);
 
         if ($this->config['form_description']) {
-            $this->add(array(
-                'name' => 'description',
-                'options' => array(
+            $this->add([
+                'name'       => 'description',
+                'options'    => [
                     'label' => __('Description'),
-                ),
-                'attributes' => array(
-                    'type' => 'textarea',
-                    'cols' => 10,
-                    'rows' => 5,
+                ],
+                'attributes' => [
+                    'type'     => 'textarea',
+                    'cols'     => 10,
+                    'rows'     => 5,
                     'required' => false,
-                ),
-            ));
+                ],
+            ]);
         }
 
-        $this->add(array(
-            'name' => 'file',
-            'options' => array(
+        $this->add([
+            'name'       => 'file',
+            'options'    => [
                 'label' => __($this->thumbUrl ? "Change file" : "File"),
-            ),
-            'attributes' => array(
+            ],
+            'attributes' => [
                 'type' => 'file',
-            ),
-        ));
+            ],
+        ]);
 
         if ($this->thumbUrl) {
-            $this->add(array(
-                'name' => 'imageview',
-                'type' => 'Module\Media\Form\Element\ImageCrop', // Laminas\Form\Element\Image
-                'options' => array(
+            $this->add([
+                'name'       => 'imageview',
+                'type'       => 'Module\Media\Form\Element\ImageCrop', // Laminas\Form\Element\Image
+                'options'    => [
                     'label' => __('Uploaded image'),
-                ),
-                'attributes' => array(
+                ],
+                'attributes' => [
                     'src' => $this->thumbUrl,
-                ),
-            ));
+                ],
+            ]);
 
-            $this->add(array(
-                'name' => 'cropping',
-                'type' => 'hidden',
-                'options' => array(
+            $this->add([
+                'name'    => 'cropping',
+                'type'    => 'hidden',
+                'options' => [
                     'label' => __('Cropping data'),
-                ),
-            ));
+                ],
+            ]);
         }
 
-        $this->add(array(
-            'name'       => 'season',
-            'type'       => 'select',
-            'options'    => array(
-                'label'     => __('Season'),
-                'value_options' => array(
+        $this->add([
+            'name'    => 'season',
+            'type'    => 'select',
+            'options' => [
+                'label'         => __('Season'),
+                'value_options' => [
                     '' => __('No season'),
-                    4 => __('Spring'),
-                    1 => __('Summer'),
-                    3 => __('Autumn'),
-                    2 => __('Winter'),
-                ),
-            ),
-        ));
+                    4  => __('Spring'),
+                    1  => __('Summer'),
+                    3  => __('Autumn'),
+                    2  => __('Winter'),
+                ],
+            ],
+        ]);
 
 
-
-        if($this->config['form_license_type'] && isset($this->config['license_values']) && !empty($this->config['license_values'])){
+        if ($this->config['form_license_type'] && isset($this->config['license_values']) && !empty($this->config['license_values'])) {
 
             $licenseValues = explode('|', $this->config['license_values']);
 
-            $values = array(
+            $values = [
                 '' => __('Choose a license type'),
-            );
+            ];
 
-            foreach($licenseValues as $licenseValue){
+            foreach ($licenseValues as $licenseValue) {
                 $values[] = $licenseValue;
             }
 
-            $this->add(array(
-                'name'       => 'license_type',
-                'type'       => 'select',
-                'options'    => array(
-                    'label'     => __('Licence type'),
+            $this->add([
+                'name'    => 'license_type',
+                'type'    => 'select',
+                'options' => [
+                    'label'         => __('Licence type'),
                     'value_options' => $values,
-                ),
-            ));
+                ],
+            ]);
         }
 
         if ($this->config['form_copyright']) {
-            $this->add(array(
-                'name' => 'copyright',
-                'options' => array(
+            $this->add([
+                'name'    => 'copyright',
+                'options' => [
                     'label' => __('Copyright'),
-                ),
-            ));
+                ],
+            ]);
         }
 
-        $this->add(array(
+        $this->add([
             'name'       => 'id',
-            'attributes' => array(
-                'id'        => 'id',
-                'type'      => 'hidden',
-            ),
-        ));
+            'attributes' => [
+                'id'   => 'id',
+                'type' => 'hidden',
+            ],
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name'       => 'submit',
-            'attributes' => array(               
-                'value'     => __('Submit'),
-            ),
+            'attributes' => [
+                'value' => __('Submit'),
+            ],
             'type'       => 'submit',
-        ));
+        ]);
     }
 }

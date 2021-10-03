@@ -52,8 +52,8 @@ class Doc extends AbstractApi
     protected function canonize(array $data)
     {
         if (!isset($data['attributes'])) {
-            $attributes = array();
-            $columns = $this->model()->getColumns();
+            $attributes = [];
+            $columns    = $this->model()->getColumns();
             foreach (array_keys($data) as $key) {
                 if (!in_array($key, $columns)) {
                     $attributes[$key] = $data[$key];
@@ -76,8 +76,8 @@ class Doc extends AbstractApi
      */
     public function addApplication(array $data)
     {
-        $model  = $this->model('application');
-        $row    = $model->find($data['appkey'], 'appkey');
+        $model = $this->model('application');
+        $row   = $model->find($data['appkey'], 'appkey');
         if (!$row) {
             $row = $model->createRow($data);
         } else {
@@ -85,7 +85,7 @@ class Doc extends AbstractApi
         }
         $row->save();
 
-        return (int) $row->id;
+        return (int)$row->id;
     }
 
     /**
@@ -103,13 +103,13 @@ class Doc extends AbstractApi
         }
         $row = $this->model()->createRow($data);
 
-        try{
+        try {
             $row->save();
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
 //            echo $e->getMessage();
         }
 
-        return (int) $row->id;
+        return (int)$row->id;
     }
 
     /**
@@ -117,7 +117,7 @@ class Doc extends AbstractApi
      *
      * @TODO not completed
      *
-     * @param array  $params
+     * @param array $params
      * @param string $method
      *
      * @return int doc id
@@ -127,15 +127,15 @@ class Doc extends AbstractApi
         @ignore_user_abort(true);
         @set_time_limit(0);
 
-        $options    = Pi::service('media')->getOption('local', 'options');
-        $rootPath   = $options['root_path'];
+        $options  = Pi::service('media')->getOption('local', 'options');
+        $rootPath = $options['root_path'];
 
         if (extension_loaded('intl') && !normalizer_is_normalized($params['filename'])) {
             $params['filename'] = normalizer_normalize($params['filename']);
         }
 
         $filter = new Filter\Urlizer;
-        $slug = $filter($params['filename'], '-', true);
+        $slug   = $filter($params['filename'], '-', true);
 
         $firstChars = str_split(substr($slug, 0, 3));
 
@@ -147,11 +147,11 @@ class Doc extends AbstractApi
         $finalSlug = $slug;
 
         $filenameBase = pathinfo($slug, PATHINFO_FILENAME);
-        $filenameExt = pathinfo($slug, PATHINFO_EXTENSION);
+        $filenameExt  = pathinfo($slug, PATHINFO_EXTENSION);
 
         $i = 1;
-        while(is_file($finalPath)){
-            $finalSlug = $filenameBase . '-'. $i++ . '.' . $filenameExt;
+        while (is_file($finalPath)) {
+            $finalSlug = $filenameBase . '-' . $i++ . '.' . $filenameExt;
             $finalPath = $destination . $finalSlug;
         }
 
@@ -161,11 +161,11 @@ class Doc extends AbstractApi
 
         $success = false;
 
-        $uploader = new Upload(array(
-            'destination'   => $destination,
-            'rename'        => $finalSlug,
-        ));
-        $maxSize = Pi::config(
+        $uploader = new Upload([
+            'destination' => $destination,
+            'rename'      => $finalSlug,
+        ]);
+        $maxSize  = Pi::config(
             'max_size',
             $this->module
         );
@@ -178,7 +178,7 @@ class Doc extends AbstractApi
             $this->module
         );
 
-        if($extensions && $extArray = explode(',', $extensions)){
+        if ($extensions && $extArray = explode(',', $extensions)) {
             $uploader->setExtension($extArray);
         }
 
@@ -198,10 +198,10 @@ class Doc extends AbstractApi
             'media'
         );
 
-        $imageSizeControl = array();
+        $imageSizeControl = [];
 
-        if($imageMinW && $imageMinH){
-            $imageSizeControl['minwidth'] = $imageMinW;
+        if ($imageMinW && $imageMinH) {
+            $imageSizeControl['minwidth']  = $imageMinW;
             $imageSizeControl['minheight'] = $imageMinH;
         }
 
@@ -215,16 +215,16 @@ class Doc extends AbstractApi
             'media'
         );
 
-        if($imageMaxW && $imageMaxH){
-            $imageSizeControl['maxwidth'] = $imageMaxW;
+        if ($imageMaxW && $imageMaxH) {
+            $imageSizeControl['maxwidth']  = $imageMaxW;
             $imageSizeControl['maxheight'] = $imageMaxH;
         }
 
-        if($imageSizeControl){
+        if ($imageSizeControl) {
             $uploader->setImageSize($imageSizeControl);
         }
 
-        if(!empty($params['filekey'])){
+        if (!empty($params['filekey'])) {
             $result = $uploader->isValid($params['filekey']);
         } else {
             $result = $uploader->isValid();
@@ -232,7 +232,7 @@ class Doc extends AbstractApi
 
 
         if ($result) {
-            if(!empty($params['filekey'])){
+            if (!empty($params['filekey'])) {
                 $uploader->receive($params['filekey']);
             } else {
                 $uploader->receive();
@@ -244,7 +244,7 @@ class Doc extends AbstractApi
             }
             // Fetch file attributes
             $fileinfoList = $uploader->getFileInfo();
-            $fileinfo = current($fileinfoList);
+            $fileinfo     = current($fileinfoList);
             if (!isset($params['mimetype'])) {
                 $params['mimetype'] = mime_content_type($fileinfo['tmp_name']);
             }
@@ -255,21 +255,21 @@ class Doc extends AbstractApi
         }
 
         if ($success) {
-            $params['path'] = $relativeDestination;
+            $params['path']     = $relativeDestination;
             $params['filename'] = $finalSlug;
-            $params['id'] = $currentId ?: $this->add($params);
-            $result = $params;
+            $params['id']       = $currentId ?: $this->add($params);
+            $result             = $params;
         } else {
             $params['upload_errors'] = $uploader->getMessages();
-            $result = $params;
+            $result                  = $params;
         }
 
         return $result;
     }
-    
+
     /**
      * Update doc
-     * 
+     *
      * @param int $id
      * @param array $data
      * @return bool
@@ -287,18 +287,18 @@ class Doc extends AbstractApi
             }
 
             if (isset($data['active']) && $data['active'] != $row->active) {
-                if($data['active'] == 2){
+                if ($data['active'] == 2) {
                     $data['time_deleted'] = time();
                 }
 
-                if($data['active'] != 2){
+                if ($data['active'] != 2) {
                     $data['time_deleted'] = '';
                 }
             }
 
             $row->assign($data);
 
-            if($uid = Pi::user()->getId()){
+            if ($uid = Pi::user()->getId()) {
                 $row->updated_by = $uid;
             }
 
@@ -309,10 +309,10 @@ class Doc extends AbstractApi
 
         return false;
     }
-    
+
     /**
      * Active media
-     * 
+     *
      * @param int $id
      * @param bool $flag
      *
@@ -320,35 +320,35 @@ class Doc extends AbstractApi
      */
     public function activate($id, $flag = true)
     {
-        $result = $this->update($id, array('active' => $flag ? 1 : 0));
+        $result = $this->update($id, ['active' => $flag ? 1 : 0]);
 
         return $result;
     }
 
     /**
      * Get media attributes
-     * 
+     *
      * @param int|int[] $id
      * @param string|string[] $attribute
      * @return mixed
      */
-    public function get($id, $attribute = array())
+    public function get($id, $attribute = [])
     {
         $model  = $this->model();
-        $select = $model->select()->where(array('id' => $id));
+        $select = $model->select()->where(['id' => $id]);
         if ($attribute) {
-            $columns = (array) $attribute;
-            $columns = array_merge($columns, array('id'));
+            $columns = (array)$attribute;
+            $columns = array_merge($columns, ['id']);
             $select->columns($columns);
         }
         $rowset = $model->selectWith($select);
-        $result = array();
+        $result = [];
         foreach ($rowset as $row) {
             if ($attribute && is_scalar($attribute)) {
                 $result[$row->id] = $row->$attribute;
             } else {
                 $result[$row->id] = $row->toArray();
-                if (!in_array('id', (array) $attribute)) {
+                if (!in_array('id', (array)$attribute)) {
                     unset($result[$row->id]['id']);
                 }
             }
@@ -357,38 +357,38 @@ class Doc extends AbstractApi
             if (isset($result[$id])) {
                 $result = $result[$id];
             } else {
-                $result = array();
+                $result = [];
             }
         }
 
         return $result;
     }
-    
+
     /**
      * Get attributes of media resources
-     * 
+     *
      * @param int[] $ids
      * @param string|string[] $attribute
      * @return array
      */
-    public function mget($ids, $attribute = array())
+    public function mget($ids, $attribute = [])
     {
         $result = $this->get($ids, $attribute);
 
         return $result;
     }
-    
+
     /**
      * Get doc statistics
-     * 
+     *
      * @param int|int[] $id
      * @return int|array
      */
     public function getStats($id)
     {
         $model  = $this->model('doc');
-        $rowset = $model->select(array('id' => $id));
-        $result = array();
+        $rowset = $model->select(['id' => $id]);
+        $result = [];
         foreach ($rowset as $row) {
             $result[$row->id] = $row->count;
         }
@@ -396,16 +396,16 @@ class Doc extends AbstractApi
             if (isset($result[$id])) {
                 $result = $result[$id];
             } else {
-                $result = array();
+                $result = [];
             }
         }
 
         return $result;
     }
-    
+
     /**
      * Get statistics of docs
-     * 
+     *
      * @param int[] $ids
      * @return array
      */
@@ -415,32 +415,33 @@ class Doc extends AbstractApi
 
         return $result;
     }
-    
+
     /**
      * Get file IDs by given condition
      *
-     * @param array  $condition
-     * @param int    $limit
-     * @param int    $offset
+     * @param array $condition
+     * @param int $limit
+     * @param int $offset
      * @param string|array $order
      *
      * @return int[]
      */
     public function getIds(
         array $condition,
-        $limit  = 0,
-        $offset = 0,
-        $order  = ''
-    ) {
+              $limit = 0,
+              $offset = 0,
+              $order = ''
+    )
+    {
         $result = $this->getList(
             $condition,
             $limit,
             $offset,
             $order,
-            array('id')
+            ['id']
         );
         array_walk($result, function ($data, $key) use (&$result) {
-            $result[$key] = (int) $data['id'];
+            $result[$key] = (int)$data['id'];
         });
 
         return $result;
@@ -460,14 +461,15 @@ class Doc extends AbstractApi
      */
     public function getList(
         array $condition,
-        $limit  = 0,
-        $offset = 0,
-        $order  = '',
-        array $attr = array(),
-        $keyword = null,
-        $orphanOnly = false
-    ) {
-        if(isset($condition['keyword'])){
+              $limit = 0,
+              $offset = 0,
+              $order = '',
+        array $attr = [],
+              $keyword = null,
+              $orphanOnly = false
+    )
+    {
+        if (isset($condition['keyword'])) {
             unset($condition['keyword']);
         }
 
@@ -486,25 +488,25 @@ class Doc extends AbstractApi
 
         $linkModel = Pi::model('link', $this->module);
 
-        $select->join(array('link' => $linkModel->getTable()), $model->getTable() . '.id = link.media_id', array('using_count' => new \Laminas\Db\Sql\Expression('COUNT(DISTINCT object_id)')), \Laminas\Db\Sql\Select::JOIN_LEFT);
+        $select->join(['link' => $linkModel->getTable()], $model->getTable() . '.id = link.media_id', ['using_count' => new \Laminas\Db\Sql\Expression('COUNT(DISTINCT object_id)')], \Laminas\Db\Sql\Select::JOIN_LEFT);
         $select->group($model->getTable() . '.id');
 
-        if($orphanOnly){
+        if ($orphanOnly) {
             $select->where('link.id IS NULL');
         }
 
-        if($keyword && trim($keyword)){
+        if ($keyword && trim($keyword)) {
 
-            $keyword = trim($keyword);
-            $keywordArray = explode(' ', $keyword);
+            $keyword        = trim($keyword);
+            $keywordArray   = explode(' ', $keyword);
             $keywordBoolean = '+' . trim(implode(' +', $keywordArray));
 
             $select->where(
-                new \Laminas\Db\Sql\Predicate\Expression("MATCH(".$model->getTable() . ".title, ".$model->getTable() . ".description, ".$model->getTable() . ".filename) AGAINST (? IN BOOLEAN MODE) OR ".$model->getTable() . ".title LIKE ? OR ".$model->getTable() . ".description LIKE ? OR ".$model->getTable() . ".filename LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%', '%' . $keyword . '%')
+                new \Laminas\Db\Sql\Predicate\Expression("MATCH(" . $model->getTable() . ".title, " . $model->getTable() . ".description, " . $model->getTable() . ".filename) AGAINST (? IN BOOLEAN MODE) OR " . $model->getTable() . ".title LIKE ? OR " . $model->getTable() . ".description LIKE ? OR " . $model->getTable() . ".filename LIKE ?", $keywordBoolean, '%' . $keyword . '%', '%' . $keyword . '%', '%' . $keyword . '%')
             );
-            $select->columns(array_merge($select->getRawState($select::COLUMNS), array(
-                new \Laminas\Db\Sql\Expression("((MATCH(".$model->getTable() . ".title) AGAINST (?) * 2) + (MATCH(".$model->getTable() . ".description) AGAINST (?) * 1) + (MATCH(".$model->getTable() . ".filename) AGAINST (?) * 1)) AS score", array($keyword, $keyword, $keyword)),
-            )));
+            $select->columns(array_merge($select->getRawState($select::COLUMNS), [
+                new \Laminas\Db\Sql\Expression("((MATCH(" . $model->getTable() . ".title) AGAINST (?) * 2) + (MATCH(" . $model->getTable() . ".description) AGAINST (?) * 1) + (MATCH(" . $model->getTable() . ".filename) AGAINST (?) * 1)) AS score", [$keyword, $keyword, $keyword]),
+            ]));
             $select->order('score DESC, time_created DESC');
         } else {
             if ($order) {
@@ -513,39 +515,39 @@ class Doc extends AbstractApi
         }
 
         $rowset = $model->selectWith($select);
-        $result = array();
+        $result = [];
         foreach ($rowset as $row) {
             $result[$row->id] = $row->toArray();
         }
 
         return $result;
     }
-    
+
     /**
      * Get media count by condition
-     * 
+     *
      * @param array $condition
      * @return int
      */
-    public function getCount(array $condition = array())
+    public function getCount(array $condition = [])
     {
         $result = $this->model()->count($condition);
-        
+
         return $result;
     }
-    
+
     /**
      * Get media url
-     * 
+     *
      * @param int|int[] $id
      * @return string|array
      */
     public function getUrl($id)
     {
-        $path = $this->get($id, 'path');
+        $path     = $this->get($id, 'path');
         $filename = $this->get($id, 'filename');
 
-        return Pi::url('upload/media' .$path . $filename);
+        return Pi::url('upload/media' . $path . $filename);
     }
 
     /**
@@ -557,38 +559,38 @@ class Doc extends AbstractApi
      */
     public function download($id)
     {
-        $url = Pi::service('url')->assemble('default', array(
+        $url = Pi::service('url')->assemble('default', [
             'module'     => $this->module,
             'controller' => 'download',
             'action'     => 'index',
-            'id'         => implode(',', (array) $id),
-        ));
+            'id'         => implode(',', (array)$id),
+        ]);
 
         header(sprintf('location: %s', $url));
     }
-    
+
     /**
      * Delete docs
-     * 
+     *
      * @param int|int[] $ids
      * @return bool
      */
     public function delete($ids)
     {
         $result = $this->model()->update(
-            array('time_deleted' => time(), 'active' => 0),
-            array('id' => $ids)
+            ['time_deleted' => time(), 'active' => 0],
+            ['id' => $ids]
         );
 
         return $result;
     }
-    
+
     /**
      * Transfer filesize
-     * 
-     * @param string  $value
-     * @param bool    $direction
-     * @return string|int 
+     *
+     * @param string $value
+     * @param bool $direction
+     * @return string|int
      */
     protected function transferSize($value, $direction = true)
     {
@@ -600,35 +602,36 @@ class Doc extends AbstractApi
      * @param $value
      * @return array|bool
      */
-    public function getSingleLinkData($value, $width = null, $height = null, $quality = null, $module = 'media'){
+    public function getSingleLinkData($value, $width = null, $height = null, $quality = null, $module = 'media')
+    {
         $ids = explode(',', $value);
 
-        if($ids){
+        if ($ids) {
             /**
              * helper get first entry (if field is seasonable, then first entry would be the current season (on submit item action, or manual trigger from BO does an automatic sort)
              */
-            $id = array_shift($ids);
+            $id    = array_shift($ids);
             $media = Pi::model('doc', $this->module)->find($id);
 
-            if(!$media){
+            if (!$media) {
                 return null;
             }
 
-            $data = $media->toArray();
-            $data['url'] = (string) Pi::api('resize', 'media')->resize($media);
+            $data        = $media->toArray();
+            $data['url'] = (string)Pi::api('resize', 'media')->resize($media);
 
-            if($width && $height){
-                $data['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbcrop($width, $height)->quality($quality);
-            } else if($width && is_string($width)){
-                $data['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbcrop($width)->quality($quality);
+            if ($width && $height) {
+                $data['resized_url'] = (string)Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbcrop($width, $height)->quality($quality);
+            } else if ($width && is_string($width)) {
+                $data['resized_url'] = (string)Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbcrop($width)->quality($quality);
             }
 
-            if(!$data['copyright']){
-                $config = Pi::service('registry')->config->read('media');
+            if (!$data['copyright']) {
+                $config            = Pi::service('registry')->config->read('media');
                 $data['copyright'] = $config['image_default_copyright'];
             }
 
-            if($data['copyright'] && !preg_match('#©#', $data['copyright'])){
+            if ($data['copyright'] && !preg_match('#©#', $data['copyright'])) {
                 $data['copyright'] = '© ' . $data['copyright'];
             }
 
@@ -643,11 +646,12 @@ class Doc extends AbstractApi
      * @param $value
      * @return array|bool
      */
-    public function getGalleryLinkData($value, $width = null, $height = null, $quality = null, $sortBySeason = false, $additionalImagesToAdd = array(), $module = 'media', $cropMode = false){
-        if($value || preg_match('#,#', $additionalImagesToAdd)){
+    public function getGalleryLinkData($value, $width = null, $height = null, $quality = null, $sortBySeason = false, $additionalImagesToAdd = [], $module = 'media', $cropMode = false)
+    {
+        if ($value || preg_match('#,#', $additionalImagesToAdd)) {
             $ids = explode(',', $value);
 
-            if($additionalImagesToAdd){
+            if ($additionalImagesToAdd) {
                 $additionalIds = explode(',', $additionalImagesToAdd);
                 array_shift($additionalIds);
 
@@ -657,65 +661,65 @@ class Doc extends AbstractApi
             $ids = array_filter($ids);
             $ids = array_unique($ids);
 
-            if($ids){
-                $model = Pi::model('doc', $this->module);
+            if ($ids) {
+                $model  = Pi::model('doc', $this->module);
                 $select = $model->select();
 
-                $select->where(array(new In('id', $ids)));
+                $select->where([new In('id', $ids)]);
 
-                $manualSortExpression = new Expression('FIELD (id, '.implode(',', $ids).')');
+                $manualSortExpression = new Expression('FIELD (id, ' . implode(',', $ids) . ')');
 
-                if($sortBySeason){
+                if ($sortBySeason) {
                     // no tags, then season, then manual order
                     $orderSeason = $this->getOrderSeason();
-                    $select->order(array(
+                    $select->order([
                         new Expression('season IS NOT NULL'),
-                        new Expression('FIELD (season, '.$orderSeason.')'),
-                        $manualSortExpression
-                    ));
+                        new Expression('FIELD (season, ' . $orderSeason . ')'),
+                        $manualSortExpression,
+                    ]);
                 } else {
-                    $select->order(array($manualSortExpression));
+                    $select->order([$manualSortExpression]);
                 }
 
                 $mediaCollection = Pi::model('doc', $this->module)->selectWith($select);
 
-                $mediaArray = array();
-                foreach($mediaCollection as $media){
-                    $dataToInject = $media->toArray();
-                    $dataToInject['url'] = (string) Pi::api('resize', 'media')->resize($media);
+                $mediaArray = [];
+                foreach ($mediaCollection as $media) {
+                    $dataToInject        = $media->toArray();
+                    $dataToInject['url'] = (string)Pi::api('resize', 'media')->resize($media);
 
-                    if($width && $height){
-                        if($cropMode){
-                            $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($width, $height)->quality($quality);
+                    if ($width && $height) {
+                        if ($cropMode) {
+                            $dataToInject['resized_url'] = (string)Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($width, $height)->quality($quality);
                         } else {
-                            $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width, $height)->quality($quality);
+                            $dataToInject['resized_url'] = (string)Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width, $height)->quality($quality);
                         }
-                    } else if($width){
+                    } else if ($width) {
 
-                        if(is_array($width)){
-                            foreach($width as $w){
-                                if($cropMode){
-                                    $h = round($w * 2 / 3);
-                                    $dataToInject['resized_url'][$w] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($w,$h)->quality($quality);
+                        if (is_array($width)) {
+                            foreach ($width as $w) {
+                                if ($cropMode) {
+                                    $h                               = round($w * 2 / 3);
+                                    $dataToInject['resized_url'][$w] = (string)Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($w, $h)->quality($quality);
                                 } else {
-                                    $dataToInject['resized_url'][$w] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($w,$w)->quality($quality);
+                                    $dataToInject['resized_url'][$w] = (string)Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($w, $w)->quality($quality);
                                 }
                             }
                         } else {
-                            if($cropMode){
-                                $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($width)->quality($quality);
+                            if ($cropMode) {
+                                $dataToInject['resized_url'] = (string)Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumbCrop($width)->quality($quality);
                             } else {
-                                $dataToInject['resized_url'] = (string) Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
+                                $dataToInject['resized_url'] = (string)Pi::api('resize', 'media')->resize($media)->setConfigModule($module)->thumb($width)->quality($quality);
                             }
                         }
                     }
 
-                    if(!$dataToInject['copyright']){
-                        $config = Pi::service('registry')->config->read('media');
+                    if (!$dataToInject['copyright']) {
+                        $config                    = Pi::service('registry')->config->read('media');
                         $dataToInject['copyright'] = $config['image_default_copyright'];
                     }
 
-                    if($dataToInject['copyright'] && !preg_match('#©#', $dataToInject['copyright'])){
+                    if ($dataToInject['copyright'] && !preg_match('#©#', $dataToInject['copyright'])) {
                         $dataToInject['copyright'] = '© ' . $dataToInject['copyright'];
                     }
 
@@ -726,17 +730,18 @@ class Doc extends AbstractApi
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
      * Resize by media values
      */
-    public function getSingleLinkUrl($value, $quality = null){
+    public function getSingleLinkUrl($value, $quality = null)
+    {
 
         $ids = explode(',', $value);
 
-        if($ids){
+        if ($ids) {
             /**
              * helper get first entry (if field is seasonable, then first entry would be the current season (on submit item action, or manual trigger from BO does an automatic sort)
              */
@@ -748,11 +753,12 @@ class Doc extends AbstractApi
         return Pi::api('resize', 'media')->resize(null)->quality($quality);
     }
 
-    public function getSingleLinkPictureTag($value, $sizes = array(320,768,1200,2000), $quality = null){
+    public function getSingleLinkPictureTag($value, $sizes = [320, 768, 1200, 2000], $quality = null)
+    {
 
         $ids = explode(',', $value);
 
-        if($ids){
+        if ($ids) {
 
             /**
              * helper get first entry (if field is seasonable, then first entry would be the current season (on submit item action, or manual trigger from BO does an automatic sort)
@@ -761,14 +767,14 @@ class Doc extends AbstractApi
 
             $media = Pi::model('doc', $this->module)->find($id);
             if ($media) {
-                $data = $media->toArray();
-                $data['urls'] = array();
+                $data         = $media->toArray();
+                $data['urls'] = [];
 
-                $data['urls']['original'] = (string) Pi::api('resize', 'media')->resize($media);
+                $data['urls']['original'] = (string)Pi::api('resize', 'media')->resize($media);
 
-                foreach($sizes as $size){
-                    $size = (int) $size;
-                    $data['urls'][$size] = (string) Pi::api('resize', 'media')->resize($media)->thumb($size, floor($size * 1.5))->quality($quality);
+                foreach ($sizes as $size) {
+                    $size                = (int)$size;
+                    $data['urls'][$size] = (string)Pi::api('resize', 'media')->resize($media)->thumb($size, floor($size * 1.5))->quality($quality);
                 }
 
                 $pictureView = new \Laminas\View\Model\ViewModel;
@@ -788,8 +794,9 @@ class Doc extends AbstractApi
     /**
      * @param \Pi\Db\RowGateway\RowGateway $media
      */
-    public function removeImageCache($media){
-        if(!empty($media->id)){
+    public function removeImageCache($media)
+    {
+        if (!empty($media->id)) {
             $path = 'upload/media' . $media->path . $media->filename;
             $path = str_replace('upload/media/original', '', $path);
 
@@ -805,24 +812,25 @@ class Doc extends AbstractApi
      * @param $media
      * @return array
      */
-    public function getInvalidFields($media){
+    public function getInvalidFields($media)
+    {
         $form = new MediaEditForm('media');
         $form->setInputFilter(new MediaEditFilter());
 
         $form->setData($media);
         $form->isValid();
 
-        $invalidFields = array();
+        $invalidFields = [];
 
-        foreach($form->getElements() as $element){
+        foreach ($form->getElements() as $element) {
             /* @var $element \Laminas\Form\Element */
 
-            if($element->getName() == 'id') continue;
+            if ($element->getName() == 'id') continue;
 
             $filter = $form->getInputFilter()->get($element->getName());
 
 
-            if(!$filter->isValid()){
+            if (!$filter->isValid()) {
                 $invalidFields[] = $element->getName();
             }
         }
@@ -830,19 +838,22 @@ class Doc extends AbstractApi
         return $invalidFields;
     }
 
-    public function hasInvalidFields($media){
+    public function hasInvalidFields($media)
+    {
 
-        return (bool) $this->getInvalidFields($media);
+        return (bool)$this->getInvalidFields($media);
     }
 
-    public function getSlugFilename($filename){
+    public function getSlugFilename($filename)
+    {
         $filter = new Filter\Urlizer;
-        $slug = $filter($filename, '-', true);
+        $slug   = $filter($filename, '-', true);
 
         return $slug;
     }
 
-    public function getMediaPath($filename){
+    public function getMediaPath($filename)
+    {
         $slug = $this->getSlugFilename($filename);
 
         $firstChars = str_split(substr($slug, 0, 3));
@@ -859,31 +870,32 @@ class Doc extends AbstractApi
      * @param $originalImagePath
      * @return mixed
      */
-    public function insertMedia($mediaData, $originalImagePath){
-        $options    = Pi::service('media')->getOption('local', 'options');
-        $rootPath   = $options['root_path'];
+    public function insertMedia($mediaData, $originalImagePath)
+    {
+        $options  = Pi::service('media')->getOption('local', 'options');
+        $rootPath = $options['root_path'];
 
-        if(is_file($originalImagePath)){
+        if (is_file($originalImagePath)) {
             $baseFilename = basename($originalImagePath);
 
             $path = Pi::api('doc', 'media')->getMediaPath($baseFilename);
             $slug = Pi::api('doc', 'media')->getSlugFilename($baseFilename);
 
             $mediaData['mimetype'] = mime_content_type($originalImagePath);
-            $mediaData['path'] = $path;
+            $mediaData['path']     = $path;
             $mediaData['filename'] = $slug;
 
             $destination = $rootPath . $path . $slug;
 
             Pi::service('file')->mkdir($rootPath . $path);
 
-            if(!is_file($destination)){
+            if (!is_file($destination)) {
                 @copy($originalImagePath, $destination);
             }
 
-            $mediaEntity = Pi::model('doc', 'media')->select(array('filename' => $slug))->current();
+            $mediaEntity = Pi::model('doc', 'media')->select(['filename' => $slug])->current();
 
-            if(!$mediaEntity || !$mediaEntity->id){
+            if (!$mediaEntity || !$mediaEntity->id) {
                 $mediaEntity = Pi::model('doc', 'media')->createRow($mediaData);
                 $mediaEntity->save();
             }
@@ -902,35 +914,36 @@ class Doc extends AbstractApi
      * @param null $forceCurrentDate
      * @return null|string
      */
-    public function getOrderSeason($forceCurrentDate = null){
+    public function getOrderSeason($forceCurrentDate = null)
+    {
 
-        if($forceCurrentDate){
+        if ($forceCurrentDate) {
             $currentDate = date('m/d', $forceCurrentDate);
         } else {
             $currentDate = date('m/d');
         }
 
-        $seasonDates = array(
+        $seasonDates = [
             1 => Pi::config('season_summer_at', 'guide'),
             2 => Pi::config('season_winter_at', 'guide'),
             3 => Pi::config('season_autumn_at', 'guide'),
             4 => Pi::config('season_spring_at', 'guide'),
-        );
+        ];
 
         asort($seasonDates);
         end($seasonDates);
         $currentSeason = key($seasonDates);
         reset($seasonDates);
 
-        foreach($seasonDates as $season => $seasonDate){
-            if($currentDate >= $seasonDate){
+        foreach ($seasonDates as $season => $seasonDate) {
+            if ($currentDate >= $seasonDate) {
                 $currentSeason = $season;
             }
         }
 
         $orderSeason = null;
 
-        switch($currentSeason){
+        switch ($currentSeason) {
             case 1:
                 $orderSeason = '1,4,3,2';
                 break;
@@ -950,15 +963,16 @@ class Doc extends AbstractApi
         return $orderSeason;
     }
 
-    public function getRatio(){
+    public function getRatio()
+    {
         // default ratio
-        $ratio = 3/2;
+        $ratio = 3 / 2;
 
         /**
          * Get custom ratio
          */
         $config = Pi::service('registry')->config->read('media');
-        if($config['image_ratio_w'] && $config['image_ratio_h']){
+        if ($config['image_ratio_w'] && $config['image_ratio_h']) {
             $ratio = $config['image_ratio_w'] / $config['image_ratio_h'];
         }
 

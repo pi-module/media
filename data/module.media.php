@@ -1,4 +1,6 @@
 <?php
+// ToDo: check it used or not
+die;
 return array(
     'upload'    => array(
         'path'  => function($data) {
